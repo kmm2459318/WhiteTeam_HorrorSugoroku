@@ -5,11 +5,12 @@ public class FlashlightController : MonoBehaviour
 {
     [Header("懐中電灯設定")]
     public Light flashlight; // 懐中電灯のライト
-    public float maxBattery = 100f; // 最大電池残量
-    public float batteryDrainRate = 1f; // 電池が減る速度（毎秒）
+    private float maxBattery = 100f; // 最大電池残量
+    private float batteryDrainRate = 10f; // 電池が減る速度（毎秒）
 
     [Header("UI設定")]
     public Slider batterySlider; // 残量ゲージ用のスライダー
+    public Button batteryButton; // 電池回復用のボタン   // 仮
 
     private float currentBattery;
 
@@ -17,6 +18,12 @@ public class FlashlightController : MonoBehaviour
     {
         currentBattery = maxBattery; // 初期化
         UpdateBatteryUI();
+
+        if (batteryButton != null)
+        {
+            // ボタンにクリックイベントを登録
+            batteryButton.onClick.AddListener(() => AddBattery(10f));   // バッテリーの回復量 仮に10に設定
+        }
     }
 
     void Update()
