@@ -7,6 +7,10 @@ public class PlayerSaikoro : MonoBehaviour
     int sai = 1;
     bool saikorotyu = false;
     bool idoutyu = false;
+    bool PN = false;
+    bool PW = false;
+    bool PE = false;
+    bool PS = false;
     float delta = 0;
     int ii = 0;
     int nn = 0;
@@ -32,6 +36,16 @@ public class PlayerSaikoro : MonoBehaviour
 
     void Update()
     {
+        PN = PNorth.GetComponent<PlayerNSEWCheck>().masuCheck;
+        PW = PWest.GetComponent<PlayerNSEWCheck>().masuCheck;
+        PE = PEast.GetComponent<PlayerNSEWCheck>().masuCheck;
+        PS = PSouth.GetComponent<PlayerNSEWCheck>().masuCheck;
+
+        if (PN == true)
+        {
+            Debug.Log("NNN");
+        }
+
         Vector3 Pos = Player.transform.position;
         //サイコロ表示
         switch (Psaikoro)
@@ -95,7 +109,7 @@ public class PlayerSaikoro : MonoBehaviour
         //移動処理
         if (idoutyu == true)
         {
-            if (Input.GetKeyDown(KeyCode.W))
+            if (Input.GetKeyDown(KeyCode.W) && PN == true)
             {
                 Pos.z += 2.0f;
                 Player.transform.position = Pos;
