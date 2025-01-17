@@ -18,6 +18,10 @@ public class PlayerSaikoro : MonoBehaviour
     public Sprite s6;
     public GameObject saikoro;
     public GameObject Player;
+    public GameObject PNorth;
+    public GameObject PWest;
+    public GameObject PEast;
+    public GameObject PSouth;
     Image image;
 
     void Start()
