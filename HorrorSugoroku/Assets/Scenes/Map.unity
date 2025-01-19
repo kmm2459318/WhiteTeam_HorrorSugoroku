@@ -238,6 +238,7 @@ GameObject:
   - component: {fileID: 6530373}
   - component: {fileID: 6530372}
   - component: {fileID: 6530371}
+  - component: {fileID: 6530374}
   - component: {fileID: 6530370}
   m_Layer: 0
   m_Name: Cube
@@ -462,6 +463,19 @@ Transform:
   m_Children: []
   m_Father: {fileID: 2033021798}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &6530374
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6530369}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: be09e6e834c73cf45949ac4e256e91ba, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cellEffect: Normal
 --- !u!1 &285541001
 GameObject:
   m_ObjectHideFlags: 0
@@ -473,6 +487,7 @@ GameObject:
   - component: {fileID: 285541005}
   - component: {fileID: 285541004}
   - component: {fileID: 285541003}
+  - component: {fileID: 285541006}
   - component: {fileID: 285541002}
   m_Layer: 0
   m_Name: Capsule
@@ -572,6 +587,19 @@ Transform:
   m_Children: []
   m_Father: {fileID: 2033021798}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &285541006
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 285541001}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: be09e6e834c73cf45949ac4e256e91ba, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cellEffect: Blockl
 --- !u!1 &592338999
 GameObject:
   m_ObjectHideFlags: 0
@@ -9376,6 +9404,7 @@ GameObject:
   - component: {fileID: 1690229068}
   - component: {fileID: 1690229067}
   - component: {fileID: 1690229066}
+  - component: {fileID: 1690229069}
   - component: {fileID: 1690229065}
   m_Layer: 0
   m_Name: Sphere
@@ -9473,6 +9502,19 @@ Transform:
   m_Children: []
   m_Father: {fileID: 2033021798}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1690229069
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1690229064}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: be09e6e834c73cf45949ac4e256e91ba, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cellEffect: Event
 --- !u!1 &2033021797
 GameObject:
   m_ObjectHideFlags: 0
