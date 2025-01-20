@@ -21,8 +21,8 @@ public class PlayerNSEWCheck : MonoBehaviour
             masuCheck = true;
             Debug.Log("OK");
         }
-        masuCheck = true;
-        Debug.Log("OK");
+        //masuCheck = true;
+        //Debug.Log("OK");
     }
     void OnTriggerExit(Collider collision)
     {
@@ -31,7 +31,7 @@ public class PlayerNSEWCheck : MonoBehaviour
             masuCheck = false;
             Debug.Log("no");
         }
-        masuCheck = false;
-        Debug.Log("no");
+        //masuCheck = false;
+        //Debug.Log("no");
     }
 }

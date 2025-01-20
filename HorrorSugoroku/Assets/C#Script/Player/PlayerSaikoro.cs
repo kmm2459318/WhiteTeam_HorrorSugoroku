@@ -1,18 +1,46 @@
 ﻿using UnityEngine;
+using UnityEngine.UI;
 
 public class PlayerSaikoro : MonoBehaviour
 {
     private EnemySaikoro targetScript; // コマンドを受け取るEnemySaikoro
     private int sai = 1; // ランダムなサイコロの値
     private bool saikorotyu = false; // サイコロを振っているか
+    private bool idoutyu = false;
     private float delta = 0; // 時間の計測
     private int ii = 0; // 繰り返し回数
+    private int detame = 0; //出た値（ストッパー）
+    private bool PN = false; // プレイヤーの東西南北
+    private bool PW = false;
+    private bool PE = false;
+    private bool PS = false;
+    //private int lastActiom[6] = { }; // 前の行動の記録【北：１、西：２、東：３、南：４】
+    public Sprite s1;
+    public Sprite s2;
+    public Sprite s3;
+    public Sprite s4;
+    public Sprite s5;
+    public Sprite s6;
+    public GameObject saikoro;
+    public GameObject Player;
+    public GameObject PNorth;
+    public GameObject PWest;
+    public GameObject PEast;
+    public GameObject PSouth;
+    Image image;
 
-    [System.Obsolete]
     void Start()
     {
         // プレイヤーシーンがロードされる際に、EnemySaikoroを探して参照を保持
         targetScript = FindObjectOfType<EnemySaikoro>();
+
+        
+        
+
+        // サイコロのImageを保持
+        image = saikoro.GetComponent<Image>();
+
+        saikoro.SetActive(false);
 
         // Enemyがシーンに存在しない場合、エラーメッセージを出力
         if (targetScript == null)
@@ -23,7 +51,31 @@ public class PlayerSaikoro : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.A) || saikorotyu)
+        Vector3 Pos = Player.transform.position;
+        PN = PNorth.GetComponent<PlayerNSEWCheck>().masuCheck;
+        PW = PWest.GetComponent<PlayerNSEWCheck>().masuCheck;
+        PE = PEast.GetComponent<PlayerNSEWCheck>().masuCheck;
+        PS = PSouth.GetComponent<PlayerNSEWCheck>().masuCheck;
+
+        //サイコロ表示
+        switch (sai)
+        {
+            case 1:
+                image.sprite = s1; break;
+            case 2:
+                image.sprite = s2; break;
+            case 3:
+                image.sprite = s3; break;
+            case 4:
+                image.sprite = s4; break;
+            case 5:
+                image.sprite = s5; break;
+            case 6:
+                image.sprite = s6; break;
+        }
+
+        //サイコロ振る
+        if (Input.GetKeyDown(KeyCode.E) || saikorotyu)
         {
             saikorotyu = true;
             this.delta += Time.deltaTime;
@@ -35,28 +87,74 @@ public class PlayerSaikoro : MonoBehaviour
                 if (ii < 7)
                 {
                     sai = Random.Range(1, 7);
-                    //Debug.Log("Player rolling: " + sai);
+                    saikoro.SetActive(true);
+                    Debug.Log("Player rolling: " + sai);
                     ii++;
                 }
                 else
                 {
+                    sai = Random.Range(1, 7);
+                    detame = sai;
                     Debug.Log("Player rolled: " + sai);
 
                     // プレイヤーのサイコロの結果に応じてEnemyのサイコロ範囲を決定
                     if (sai <= 3)
                     {
                         // プレイヤーが1〜3を出した場合、Enemyは4〜6を出す
-                        targetScript.RollEnemyDice(4, 6);
+                        //targetScript.RollEnemyDice(4, 6);
                     }
                     else
                     {
                         // プレイヤーが4〜6を出した場合、Enemyは1〜3を出す
-                        targetScript.RollEnemyDice(1, 3);
+                        //targetScript.RollEnemyDice(1, 3);
                     }
 
                     ii = 0;
                     saikorotyu = false;
+                    idoutyu = true;
                 }
+            }
+        }
+
+        //移動処理　lastAction表→【北：１、西：２、東：３、南：４】
+        if (idoutyu == true)
+        {
+            if (Input.GetKeyDown(KeyCode.W) && PN )
+            {
+                Pos.z += 2.0f;
+                Player.transform.position = Pos;
+                sai--;
+                //lastActiom[6] = {[detame - sai] = 1};
+                //Debug.Log(lastActiom[6]);
+            }
+            if (Input.GetKeyDown(KeyCode.A) && PW)
+            {
+                Pos.x -= 2.0f;
+                Player.transform.position = Pos;
+                sai--;
+                //lastActiom[6] = {[detame - sai] = 1};
+                //Debug.Log(lastActiom[6]);
+            }
+            if (Input.GetKeyDown(KeyCode.S) && PS)
+            {
+                Pos.z -= 2.0f;
+                Player.transform.position = Pos;
+                sai--;
+                //lastActiom[6] = { [detame - sai] = 4};
+                //Debug.Log(lastActiom[6]);
+            }
+            if (Input.GetKeyDown(KeyCode.D) && PE)
+            {
+                Pos.x += 2.0f;
+                Player.transform.position = Pos;
+                sai--;
+                //lastActiom[6] = {[detame - sai] = 1};
+                //Debug.Log(lastActiom[6]);
+            }
+            if (sai < 1)
+            {
+                idoutyu = false;
+                saikoro.SetActive(false);
             }
         }
     }
