@@ -29,6 +29,7 @@ public class PlayerSaikoro : MonoBehaviour
     public GameObject PSouth;
     Image image;
 
+    [System.Obsolete]
     void Start()
     {
         // プレイヤーシーンがロードされる際に、EnemySaikoroを探して参照を保持
@@ -98,16 +99,7 @@ public class PlayerSaikoro : MonoBehaviour
                     Debug.Log("Player rolled: " + sai);
 
                     // プレイヤーのサイコロの結果に応じてEnemyのサイコロ範囲を決定
-                    if (sai <= 3)
-                    {
-                        // プレイヤーが1〜3を出した場合、Enemyは4〜6を出す
-                        //targetScript.RollEnemyDice(4, 6);
-                    }
-                    else
-                    {
-                        // プレイヤーが4〜6を出した場合、Enemyは1〜3を出す
-                        //targetScript.RollEnemyDice(1, 3);
-                    }
+                    targetScript.RollEnemyDice(sai);
 
                     ii = 0;
                     saikorotyu = false;

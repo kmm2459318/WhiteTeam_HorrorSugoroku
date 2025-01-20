@@ -5,6 +5,7 @@ public class TurnManager : MonoBehaviour
 {
     public TMP_Text turnText; // TextMeshPro用のターン数表示
     private int currentTurn = 1; // 現在のターン番号
+    public PlayerSaikoro PlayerSaikoro;
 
     // 次のターンに進む処理
     public void NextTurn()
@@ -18,7 +19,7 @@ public class TurnManager : MonoBehaviour
     {
         if (turnText != null)
         {
-            turnText.text = "ターン: " + currentTurn; // テキストにターン数を表示
+            turnText.text = "" + currentTurn; // テキストにターン数を表示
         }
     }
 

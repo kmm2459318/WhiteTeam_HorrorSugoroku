@@ -1,20 +1,35 @@
-using UnityEngine;
+﻿using UnityEngine;
 
 public class EnemySaikoro : MonoBehaviour
 {
+    int min;
+    int max;
     void Start()
     {
-        // �V�[�����ׂ��ŃI�u�W�F�N�g��ێ����邽�߁ADestroy���Ȃ�
+        // シーンを跨いでオブジェクトを保持するため、Destroyしない
         DontDestroyOnLoad(gameObject);
     }
 
-    public void RollEnemyDice(int min, int max)
+    public void RollEnemyDice(int sai)
     {
-        // Enemy�̃T�C�R����U��͈͂��w�肵�ĐU��
+        // プレイヤーのサイコロの結果に応じてEnemyのサイコロ範囲を決定
+        if (sai <= 3)
+        {
+            // プレイヤーが1〜3を出した場合、Enemyは1〜3を出す
+            min = 1;
+            max = 3;
+        }
+        else
+        {
+            // プレイヤーが4〜6を出した場合、Enemyは4〜6を出す
+            min = 4;
+            max = 6;
+        }
+        // Enemyのサイコロを振る範囲を指定して振る
         int enemyRoll = Random.Range(min, max + 1);
         Debug.Log("Enemy rolled: " + enemyRoll);
 
-        // �T�C�R���̒l�ɉ���������
+        // サイコロの値に応じた処理
         if (enemyRoll == 6)
         {
             Debug.Log("Enemy is lucky! They rolled a 6!");
