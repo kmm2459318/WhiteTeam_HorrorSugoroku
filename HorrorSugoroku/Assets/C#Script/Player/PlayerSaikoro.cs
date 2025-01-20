@@ -8,6 +8,7 @@ public class PlayerSaikoro : MonoBehaviour
     private float delta = 0; // 時間の計測
     private int ii = 0; // 繰り返し回数
 
+    [System.Obsolete]
     void Start()
     {
         // プレイヤーシーンがロードされる際に、EnemySaikoroを探して参照を保持
@@ -34,7 +35,7 @@ public class PlayerSaikoro : MonoBehaviour
                 if (ii < 7)
                 {
                     sai = Random.Range(1, 7);
-                    Debug.Log("Player rolling: " + sai);
+                    //Debug.Log("Player rolling: " + sai);
                     ii++;
                 }
                 else
