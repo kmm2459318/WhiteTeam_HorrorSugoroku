@@ -7,9 +7,11 @@ public class FlashlightController : MonoBehaviour
     public Light flashlight; // 懐中電灯のライト
     private float maxBattery = 100f; // 最大電池残量
     private float batteryDrainRate = 10f; // 電池が減る速度（毎秒）
+    private float maxRange = 22f; // ライトの最大Range
+    private float minRange = 0f;  // ライトの最小Range
 
     [Header("UI設定")]
-    public Slider batterySlider; // 残量ゲージ用のスライダー
+    public Image batteryImage; // 残量ゲージ用のImage
     public Button batteryButton; // 電池回復用のボタン   // 仮
 
     private float currentBattery;
@@ -39,6 +41,11 @@ public class FlashlightController : MonoBehaviour
             {
                 flashlight.enabled = false;
             }
+            else
+            {
+                // 電池残量に応じてライトのRangeを更新
+                UpdateFlashlightRange();
+            }
 
             UpdateBatteryUI();
         }
@@ -54,6 +61,7 @@ public class FlashlightController : MonoBehaviour
         if (currentBattery > 0)
         {
             flashlight.enabled = true;
+            UpdateFlashlightRange();
         }
 
         UpdateBatteryUI();
@@ -61,9 +69,17 @@ public class FlashlightController : MonoBehaviour
 
     private void UpdateBatteryUI()
     {
-        if (batterySlider != null)
+        if (batteryImage != null)
         {
-            batterySlider.value = currentBattery / maxBattery;
+            // 塗りつぶし割合を設定
+            batteryImage.fillAmount = currentBattery / maxBattery;
         }
+    }
+
+    private void UpdateFlashlightRange()
+    {
+        // 電池残量の割合を計算してRangeを設定
+        float range = Mathf.Lerp(minRange, maxRange, currentBattery / maxBattery);
+        flashlight.range = range;
     }
 }
