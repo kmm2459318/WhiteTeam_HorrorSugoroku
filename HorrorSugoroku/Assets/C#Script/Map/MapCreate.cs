@@ -5,6 +5,10 @@ public class MapCreator : MonoBehaviour
     public GameObject BlocklTile;
     public GameObject NormalTile;
     public GameObject EventTile;
+    public GameObject ItemTile;
+    public GameObject DirecTile;
+    public GameObject DebuffTile;
+    public GameObject BatteryTile;
 
     private int[,] MapData =
     {
@@ -42,6 +46,18 @@ public class MapCreator : MonoBehaviour
                         break;
                     case 2:
                         tilePrefab = EventTile;
+                        break;
+                    case 3:
+                        tilePrefab = ItemTile;
+                        break;
+                    case 4:
+                        tilePrefab = DirecTile;
+                        break;
+                    case 5:
+                        tilePrefab = DebuffTile;
+                        break;
+                    case 6:
+                        tilePrefab = BatteryTile;
                         break;
 
                 }
