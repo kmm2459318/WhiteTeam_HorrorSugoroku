@@ -6,7 +6,7 @@ public class FlashlightController : MonoBehaviour
     [Header("懐中電灯設定")]
     public Light flashlight; // 懐中電灯のライト
     private float maxBattery = 100f; // 最大電池残量
-    private float batteryDrainRate = 10f; // 電池が減る速度（毎秒）
+    private float batteryDrainPerTurn = 20f; // 1ターンあたりの消費量
     private float maxRange = 22f; // ライトの最大Range
     private float minRange = 0f;  // ライトの最小Range
 
@@ -28,27 +28,25 @@ public class FlashlightController : MonoBehaviour
         }
     }
 
-    void Update()
+    // ターンが進んだときに呼び出される
+    public void OnTurnAdvanced()
     {
-        if (currentBattery > 0)
+        // 電池を消費する
+        currentBattery -= batteryDrainPerTurn;
+        currentBattery = Mathf.Clamp(currentBattery, 0, maxBattery);
+
+        // 残量がなくなったらライトを消す
+        if (currentBattery <= 0)
         {
-            // 電池を消費する
-            currentBattery -= batteryDrainRate * Time.deltaTime;
-            currentBattery = Mathf.Clamp(currentBattery, 0, maxBattery);
-
-            // 残量がなくなったらライトを消す
-            if (currentBattery <= 0)
-            {
-                flashlight.enabled = false;
-            }
-            else
-            {
-                // 電池残量に応じてライトのRangeを更新
-                UpdateFlashlightRange();
-            }
-
-            UpdateBatteryUI();
+            flashlight.enabled = false;
         }
+        else
+        {
+            // 電池残量に応じてライトのRangeを更新
+            UpdateFlashlightRange();
+        }
+
+        UpdateBatteryUI();
     }
 
     public void AddBattery(float amount)
