@@ -5,8 +5,10 @@ using System.Collections;
 public class PlayerSaikoro : MonoBehaviour
 {
     public GameManager gameManager; // GameManagerへの参照
-    private int sai = 1;
-    private bool saikorotyu = false;
+    int movesum;
+    private EnemySaikoro targetScript; // コマンドを受け取るEnemySaikoro
+    private int sai = 1; // ランダムなサイコロの値
+    private bool saikorotyu = false; // サイコロを振っているか
     private bool idoutyu = false;
     private int detame = 0;
     private bool PN = false;
@@ -30,6 +32,22 @@ public class PlayerSaikoro : MonoBehaviour
     [System.Obsolete]
     void Start()
     {
+        // プレイヤーシーンがロードされる際に、EnemySaikoroを探して参照を保持
+        targetScript = FindObjectOfType<EnemySaikoro>();
+
+        PlayerPrefs.SetInt("move", 0);
+        
+
+        // サイコロのImageを保持
+        image = saikoro.GetComponent<Image>();
+
+        saikoro.SetActive(false);
+
+        // Enemyがシーンに存在しない場合、エラーメッセージを出力
+        if (targetScript == null)
+        {
+            Debug.Log("Enemyが無いよ");
+        }
         if (saikoro != null)
         {
             image = saikoro.GetComponent<Image>();
@@ -61,6 +79,36 @@ public class PlayerSaikoro : MonoBehaviour
         {
             saikorotyu = true;
             StartCoroutine(RollDice());
+            this.delta += Time.deltaTime;
+
+            if (this.delta > 0.1f)
+            {
+                this.delta = 0f;
+
+                if (ii < 7)
+                {
+                    sai = Random.Range(1, 7);
+                    saikoro.SetActive(true);
+                    Debug.Log("Player rolling: " + sai);
+                    ii++;
+                }
+                else
+                {
+                    sai = Random.Range(1, 7);
+                    detame = sai;
+                    Debug.Log("Player rolled: " + sai);
+
+                    // プレイヤーのサイコロの結果に応じてEnemyのサイコロ範囲を決定
+                    targetScript.RollEnemyDice(sai);
+
+                    movesum += sai;
+                    PlayerPrefs.SetInt("move", movesum);
+
+                    ii = 0;
+                    saikorotyu = false;
+                    idoutyu = true;
+                }
+            }
         }
 
         if (idoutyu)
