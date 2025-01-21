@@ -1,9 +1,11 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
+using System.Collections;
 using SmoothigTransform;
 
 public class PlayerSaikoro : MonoBehaviour
 {
+    public GameManager gameManager; // GameManagerへの参照
     [SerializeField] SmoothTransform player;
     private EnemySaikoro targetScript; // コマンドを受け取るEnemySaikoro
     private int sai = 1; // ランダムなサイコロの値
@@ -35,6 +37,7 @@ public class PlayerSaikoro : MonoBehaviour
     Vector3 Rot;
     Image image;
 
+    int movesum;
     [System.Obsolete]
     void Start()
     {
@@ -49,12 +52,31 @@ public class PlayerSaikoro : MonoBehaviour
         // Enemyがシーンに存在しない場合、エラーメッセージを出力
         if (targetScript == null)
         {
-            Debug.LogError("EnemySaikoro not found in the scene.");
+            Debug.Log("Enemyが無いよ");
+        }
+        if (saikoro != null)
+        {
+            image = saikoro.GetComponent<Image>();
+            saikoro.SetActive(false);
+        }
+        else
+        {
+            Debug.LogError("Saikoro GameObject is not assigned in the Inspector.");
+        }
+
+        if (gameManager == null)
+        {
+            gameManager = FindObjectOfType<GameManager>();
+            if (gameManager == null)
+            {
+                Debug.LogError("GameManager is not assigned and could not be found in the scene.");
+            }
         }
     }
 
     void Update()
     {
+        if (!gameManager.IsPlayerTurn())
         Pos = Player.transform.position;
         Rot = Player.transform.eulerAngles;
         PN = PNorth.GetComponent<PlayerNSEWCheck>().masuCheck;
@@ -102,7 +124,7 @@ public class PlayerSaikoro : MonoBehaviour
                     Debug.Log("Player rolled: " + sai);
 
                     // プレイヤーのサイコロの結果に応じてEnemyのサイコロ範囲を決定
-                    targetScript.RollEnemyDice(sai);
+                    targetScript.RollEnemyDice();
 
                     ii = 0;
                     saikorotyu = false;
@@ -123,6 +145,7 @@ public class PlayerSaikoro : MonoBehaviour
             {
                 idoutyu = false;
                 saikoro.SetActive(false);
+                gameManager.NextTurn();
             }
         }
 
@@ -210,5 +233,41 @@ public class PlayerSaikoro : MonoBehaviour
         {
             sai++;
         }
+    }
+
+    private IEnumerator RollDice()
+    {
+        saikoro.SetActive(true);
+        for (int i = 0; i < 10; i++) // 10回ランダムに目を表示
+        {
+            sai = Random.Range(1, 7);
+            switch (sai)
+            {
+                case 1:
+                    image.sprite = s1; break;
+                case 2:
+                    image.sprite = s2; break;
+                case 3:
+                    image.sprite = s3; break;
+                case 4:
+                    image.sprite = s4; break;
+                case 5:
+                    image.sprite = s5; break;
+                case 6:
+                    image.sprite = s6; break;
+            }
+            yield return new WaitForSeconds(0.1f); // 0.1秒ごとに目を変更
+        }
+
+        detame = sai;
+        Debug.Log("Player rolled: " + sai);
+
+        saikorotyu = false;
+        idoutyu = true;
+    }
+
+    public void StartRolling()
+    {
+        // このメソッドは空にしておくか、必要に応じて他の処理を追加します
     }
 }
