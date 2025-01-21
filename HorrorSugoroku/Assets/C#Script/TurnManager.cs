@@ -30,5 +30,6 @@ public class TurnManager : MonoBehaviour
     private void Start()
     {
         UpdateTurnText();  // ‰Šúƒ^[ƒ“•\¦
+        PlayerPrefs.SetInt("Turn", 0);
     }
 }

@@ -3,6 +3,7 @@ using UnityEngine.UI;
 
 public class PlayerSaikoro : MonoBehaviour
 {
+    int movesum;
     private EnemySaikoro targetScript; // コマンドを受け取るEnemySaikoro
     private int sai = 1; // ランダムなサイコロの値
     private bool saikorotyu = false; // サイコロを振っているか
@@ -35,7 +36,7 @@ public class PlayerSaikoro : MonoBehaviour
         // プレイヤーシーンがロードされる際に、EnemySaikoroを探して参照を保持
         targetScript = FindObjectOfType<EnemySaikoro>();
 
-        
+        PlayerPrefs.SetInt("move", 0);
         
 
         // サイコロのImageを保持
@@ -100,6 +101,9 @@ public class PlayerSaikoro : MonoBehaviour
 
                     // プレイヤーのサイコロの結果に応じてEnemyのサイコロ範囲を決定
                     targetScript.RollEnemyDice(sai);
+
+                    movesum += sai;
+                    PlayerPrefs.SetInt("move", movesum);
 
                     ii = 0;
                     saikorotyu = false;
