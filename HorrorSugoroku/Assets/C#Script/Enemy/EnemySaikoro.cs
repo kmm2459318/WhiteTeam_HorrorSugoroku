@@ -1,46 +1,89 @@
 ﻿using UnityEngine;
+using System.Collections;
+using UnityEngine.UI;
 
 public class EnemySaikoro : MonoBehaviour
 {
-    int min;
-    int max;
+    public GameObject enemy;
+    public GameObject player;
+    public GameObject saikoro; // サイコロのゲームオブジェクト
+    public Sprite s1;
+    public Sprite s2;
+    public Sprite s3;
+    public Sprite s4;
+    public Sprite s5;
+    public Sprite s6;
+    private Image image;
+    private int steps; // サイコロの目の数
+
     void Start()
     {
-        // シーンを跨いでオブジェクトを保持するため、Destroyしない
         DontDestroyOnLoad(gameObject);
+        if (saikoro != null)
+        {
+            image = saikoro.GetComponent<Image>();
+            saikoro.SetActive(false);
+        }
+        else
+        {
+            Debug.LogError("Saikoro GameObject is not assigned in the Inspector.");
+        }
     }
 
-    public void RollEnemyDice(int sai)
+    void Update()
     {
-        // プレイヤーのサイコロの結果に応じてEnemyのサイコロ範囲を決定
-        if (sai <= 3)
+        if (FindObjectOfType<GameManager>().IsPlayerTurn())
         {
-            // プレイヤーが1〜3を出した場合、Enemyは1〜3を出す
-            min = 1;
-            max = 3;
+            return;
         }
-        else
-        {
-            // プレイヤーが4〜6を出した場合、Enemyは4〜6を出す
-            min = 4;
-            max = 6;
-        }
-        // Enemyのサイコロを振る範囲を指定して振る
-        int enemyRoll = Random.Range(min, max + 1);
-        Debug.Log("Enemy rolled: " + enemyRoll);
+    }
 
-        // サイコロの値に応じた処理
-        if (enemyRoll == 6)
+    public void RollEnemyDice()
+    {
+        steps = Random.Range(1, 7);
+        Debug.Log("Enemy rolled: " + steps);
+
+        if (saikoro != null)
         {
-            Debug.Log("Enemy is lucky! They rolled a 6!");
+            saikoro.SetActive(true);
+            switch (steps)
+            {
+                case 1:
+                    image.sprite = s1; break;
+                case 2:
+                    image.sprite = s2; break;
+                case 3:
+                    image.sprite = s3; break;
+                case 4:
+                    image.sprite = s4; break;
+                case 5:
+                    image.sprite = s5; break;
+                case 6:
+                    image.sprite = s6; break;
+            }
         }
-        else if (enemyRoll <= 3)
+
+        StartCoroutine(MoveTowardsPlayer());
+    }
+
+    private IEnumerator MoveTowardsPlayer()
+    {
+        while (steps > 0)
         {
-            Debug.Log("Enemy rolled a low number: " + enemyRoll + ". They are cautious.");
+            Vector3 direction = (player.transform.position - enemy.transform.position).normalized;
+            enemy.transform.position += direction * 2.0f; // 2.0f単位で移動
+            steps--;
+            Debug.Log("Enemy moved towards player. Steps remaining: " + steps);
+            yield return new WaitForSeconds(0.5f); // 移動の間隔を待つ
         }
-        else
-        {
-            Debug.Log("Enemy rolled: " + enemyRoll + ". They proceed with caution.");
-        }
+        saikoro.SetActive(false); // サイコロを非表示にする
+        FindObjectOfType<GameManager>().NextTurn(); // 次のターンに進む
+    }
+
+    public IEnumerator EnemyTurn()
+    {
+        RollEnemyDice();
+        yield return new WaitForSeconds(2); // サイコロを振る時間を待つ
+        // MoveTowardsPlayerはRollEnemyDice内で呼び出されるため、ここでは不要
     }
 }

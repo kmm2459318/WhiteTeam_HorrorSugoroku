@@ -3,18 +3,17 @@ using UnityEngine.UI;
 
 public class PlayerSaikoro : MonoBehaviour
 {
-    private EnemySaikoro targetScript; // コマンドを受け取るEnemySaikoro
-    private int sai = 1; // ランダムなサイコロの値
-    private bool saikorotyu = false; // サイコロを振っているか
+    public GameManager gameManager; // GameManagerへの参照
+    private int sai = 1;
+    private bool saikorotyu = false;
     private bool idoutyu = false;
-    private float delta = 0; // 時間の計測
-    private int ii = 0; // 繰り返し回数
-    private int detame = 0; //出た値（ストッパー）
-    private bool PN = false; // プレイヤーの東西南北
+    private float delta = 0;
+    private int ii = 0;
+    private int detame = 0;
+    private bool PN = false;
     private bool PW = false;
     private bool PE = false;
     private bool PS = false;
-    //private int lastActiom[6] = { }; // 前の行動の記録【北：１、西：２、東：３、南：４】
     public Sprite s1;
     public Sprite s2;
     public Sprite s3;
@@ -27,58 +26,47 @@ public class PlayerSaikoro : MonoBehaviour
     public GameObject PWest;
     public GameObject PEast;
     public GameObject PSouth;
-    Image image;
+    private Image image;
 
     [System.Obsolete]
     void Start()
     {
-        // プレイヤーシーンがロードされる際に、EnemySaikoroを探して参照を保持
-        targetScript = FindObjectOfType<EnemySaikoro>();
-
-        
-        
-
-        // サイコロのImageを保持
-        image = saikoro.GetComponent<Image>();
-
-        saikoro.SetActive(false);
-
-        // Enemyがシーンに存在しない場合、エラーメッセージを出力
-        if (targetScript == null)
+        if (saikoro != null)
         {
-            Debug.LogError("EnemySaikoro not found in the scene.");
+            image = saikoro.GetComponent<Image>();
+            saikoro.SetActive(false);
+        }
+        else
+        {
+            Debug.LogError("Saikoro GameObject is not assigned in the Inspector.");
+        }
+
+        if (gameManager == null)
+        {
+            gameManager = FindObjectOfType<GameManager>();
+            if (gameManager == null)
+            {
+                Debug.LogError("GameManager is not assigned and could not be found in the scene.");
+            }
         }
     }
 
     void Update()
     {
-        Vector3 Pos = Player.transform.position;
-        PN = PNorth.GetComponent<PlayerNSEWCheck>().masuCheck;
-        PW = PWest.GetComponent<PlayerNSEWCheck>().masuCheck;
-        PE = PEast.GetComponent<PlayerNSEWCheck>().masuCheck;
-        PS = PSouth.GetComponent<PlayerNSEWCheck>().masuCheck;
-
-        //サイコロ表示
-        switch (sai)
+        if (!gameManager.IsPlayerTurn())
         {
-            case 1:
-                image.sprite = s1; break;
-            case 2:
-                image.sprite = s2; break;
-            case 3:
-                image.sprite = s3; break;
-            case 4:
-                image.sprite = s4; break;
-            case 5:
-                image.sprite = s5; break;
-            case 6:
-                image.sprite = s6; break;
+            return;
         }
 
-        //サイコロ振る
-        if (Input.GetKeyDown(KeyCode.E) || saikorotyu)
+        if (Input.GetKeyDown(KeyCode.E) && !saikorotyu)
         {
             saikorotyu = true;
+            this.delta = 0f;
+            ii = 0;
+        }
+
+        if (saikorotyu)
+        {
             this.delta += Time.deltaTime;
 
             if (this.delta > 0.1f)
@@ -97,10 +85,6 @@ public class PlayerSaikoro : MonoBehaviour
                     sai = Random.Range(1, 7);
                     detame = sai;
                     Debug.Log("Player rolled: " + sai);
-
-                    // プレイヤーのサイコロの結果に応じてEnemyのサイコロ範囲を決定
-                    targetScript.RollEnemyDice(sai);
-
                     ii = 0;
                     saikorotyu = false;
                     idoutyu = true;
@@ -108,46 +92,65 @@ public class PlayerSaikoro : MonoBehaviour
             }
         }
 
-        //移動処理　lastAction表→【北：１、西：２、東：３、南：４】
-        if (idoutyu == true)
+        if (idoutyu)
         {
-            if (Input.GetKeyDown(KeyCode.W) && PN )
+            Vector3 Pos = Player.transform.position;
+            PN = PNorth.GetComponent<PlayerNSEWCheck>().masuCheck;
+            PW = PWest.GetComponent<PlayerNSEWCheck>().masuCheck;
+            PE = PEast.GetComponent<PlayerNSEWCheck>().masuCheck;
+            PS = PSouth.GetComponent<PlayerNSEWCheck>().masuCheck;
+
+            switch (sai)
+            {
+                case 1:
+                    image.sprite = s1; break;
+                case 2:
+                    image.sprite = s2; break;
+                case 3:
+                    image.sprite = s3; break;
+                case 4:
+                    image.sprite = s4; break;
+                case 5:
+                    image.sprite = s5; break;
+                case 6:
+                    image.sprite = s6; break;
+            }
+
+            if (Input.GetKeyDown(KeyCode.W) && PN)
             {
                 Pos.z += 2.0f;
                 Player.transform.position = Pos;
                 sai--;
-                //lastActiom[6] = {[detame - sai] = 1};
-                //Debug.Log(lastActiom[6]);
             }
             if (Input.GetKeyDown(KeyCode.A) && PW)
             {
                 Pos.x -= 2.0f;
                 Player.transform.position = Pos;
                 sai--;
-                //lastActiom[6] = {[detame - sai] = 1};
-                //Debug.Log(lastActiom[6]);
             }
             if (Input.GetKeyDown(KeyCode.S) && PS)
             {
                 Pos.z -= 2.0f;
                 Player.transform.position = Pos;
                 sai--;
-                //lastActiom[6] = { [detame - sai] = 4};
-                //Debug.Log(lastActiom[6]);
             }
             if (Input.GetKeyDown(KeyCode.D) && PE)
             {
                 Pos.x += 2.0f;
                 Player.transform.position = Pos;
                 sai--;
-                //lastActiom[6] = {[detame - sai] = 1};
-                //Debug.Log(lastActiom[6]);
             }
             if (sai < 1)
             {
                 idoutyu = false;
                 saikoro.SetActive(false);
+                gameManager.NextTurn();
             }
         }
+    }
+
+    public void StartRolling()
+    {
+        saikorotyu = true;
     }
 }
