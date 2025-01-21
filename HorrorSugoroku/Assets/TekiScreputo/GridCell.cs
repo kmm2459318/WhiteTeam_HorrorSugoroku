@@ -1,11 +1,24 @@
 using UnityEngine;
 
-public class Event : MonoBehaviour
+public class GridCell : MonoBehaviour
 {
     public string cellEffect = "Normal"; // マス目の効果（例: Normal, Bonus, Penalty）
 
-    public void ActivateEffect()
+    void OnTriggerEnter(Collider other)
     {
+
+        // タグが"Player"のオブジェクトのみ反応
+        if (other.CompareTag("Player"))
+        {
+            Debug.Log($"{name} にプレイヤーが到達しました。マスの種類：{cellEffect}");
+
+            ExecuteEvent();
+        }
+        Debug.Log("ExecuteEven ");
+    }
+    public void ExecuteEvent()
+    {
+       
         // マス目の効果を発動
         switch (cellEffect)
         {
@@ -31,26 +44,8 @@ public class Event : MonoBehaviour
                 Debug.Log($"{name}: 通常マス - 効果なし。");
                 break;
         }
+       
     }
-    void OnTriggerEnter(Collider other)
-    {
-        // タグが"Player"のオブジェクトのみ反応
-        if (other.CompareTag("Player"))
-        {
-            Debug.Log($"{name} にプレイヤーが到達しました");
-
-          
-        }
-    }
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+    
+   
 }
