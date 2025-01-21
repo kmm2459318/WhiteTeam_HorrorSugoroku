@@ -1,36 +1,44 @@
 using UnityEngine;
-using TMPro;  // TextMeshPro —p
+using TMPro;  // TextMeshPro ï¿½p
 
 public class TurnManager : MonoBehaviour
 {
-    public TMP_Text turnText;  // TextMeshPro —p‚Ìƒ^[ƒ“”•\¦
-    private int currentTurn = 1;  // Œ»İ‚Ìƒ^[ƒ“”Ô†
+    public TMP_Text turnText;  // TextMeshPro ï¿½pï¿½Ìƒ^ï¿½[ï¿½ï¿½ï¿½ï¿½ï¿½\ï¿½ï¿½
+    private int currentTurn = 1;  // ï¿½ï¿½ï¿½İ‚Ìƒ^ï¿½[ï¿½ï¿½ï¿½Ôï¿½
 
-    public PlayerSaikoro playerSaikoro;  // ƒvƒŒƒCƒ„[‚ÌƒTƒCƒRƒŠÇ—iŸ‚Ìƒ^[ƒ“‚Éi‚Şˆ—j
+    public PlayerSaikoro playerSaikoro;  // ï¿½vï¿½ï¿½ï¿½Cï¿½ï¿½ï¿½[ï¿½ÌƒTï¿½Cï¿½Rï¿½ï¿½ï¿½Ç—ï¿½ï¿½iï¿½ï¿½ï¿½Ìƒ^ï¿½[ï¿½ï¿½ï¿½Éiï¿½Şï¿½ï¿½ï¿½ï¿½j
 
-    // Ÿ‚Ìƒ^[ƒ“‚Éi‚Şˆ—
+    public FlashlightController flashlightController; // ï¿½ï¿½ï¿½ï¿½ï¿½dï¿½ï¿½ï¿½Rï¿½ï¿½ï¿½gï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½Qï¿½ï¿½
+
+    // ï¿½ï¿½ï¿½Ìƒ^ï¿½[ï¿½ï¿½ï¿½Éiï¿½Şï¿½ï¿½ï¿½
     public void NextTurn()
     {
-        currentTurn++;  // ƒ^[ƒ“‚ği‚ß‚é
+        currentTurn++;  // ï¿½^ï¿½[ï¿½ï¿½ï¿½ï¿½iï¿½ß‚ï¿½
         PlayerPrefs.SetInt("Turn", currentTurn);
-        UpdateTurnText();  // UI‚ÌƒeƒLƒXƒg‚ğXV‚·‚é
+        UpdateTurnText();  // UIï¿½Ìƒeï¿½Lï¿½Xï¿½gï¿½ï¿½ï¿½Xï¿½Vï¿½ï¿½ï¿½ï¿½
         playerSaikoro.DiceRoll();
+        // ï¿½ï¿½ï¿½ï¿½ï¿½dï¿½ï¿½ï¿½Ìƒ^ï¿½[ï¿½ï¿½ï¿½iï¿½sï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä‚Ñoï¿½ï¿½
+        if (flashlightController != null)
+        {
+            flashlightController.OnTurnAdvanced();
+        }
+
     }
 
 
-    // ƒ^[ƒ“•\¦‚ğXV‚·‚éƒƒ\ƒbƒh
+    // ï¿½^ï¿½[ï¿½ï¿½ï¿½\ï¿½ï¿½ï¿½ï¿½ï¿½Xï¿½Vï¿½ï¿½ï¿½éƒï¿½\ï¿½bï¿½h
     private void UpdateTurnText()
     {
         if (turnText != null)
         {
-            turnText.text = "Turn: " + currentTurn;  // ƒeƒLƒXƒg‚Éƒ^[ƒ“”Ô†‚ğ•\¦
+            turnText.text = "Turn: " + currentTurn;  // ï¿½eï¿½Lï¿½Xï¿½gï¿½Éƒ^ï¿½[ï¿½ï¿½ï¿½Ôï¿½ï¿½ï¿½\ï¿½ï¿½
         }
     }
 
-    // ƒQ[ƒ€ŠJn‚É‰Šú‰»
+    // ï¿½Qï¿½[ï¿½ï¿½ï¿½Jï¿½nï¿½ï¿½ï¿½Éï¿½ï¿½ï¿½ï¿½ï¿½
     private void Start()
     {
-        UpdateTurnText();  // ‰Šúƒ^[ƒ“•\¦
+        UpdateTurnText();  // ï¿½ï¿½ï¿½ï¿½ï¿½^ï¿½[ï¿½ï¿½ï¿½\ï¿½ï¿½
         PlayerPrefs.SetInt("Turn", 0);
     }
 }
