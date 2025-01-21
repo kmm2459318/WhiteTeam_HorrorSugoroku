@@ -8,12 +8,20 @@ public class TurnManager : MonoBehaviour
 
     public PlayerSaikoro playerSaikoro;  // プレイヤーのサイコロ管理（次のターンに進む処理）
 
+    public FlashlightController flashlightController; // 懐中電灯コントローラーを参照
+
     // 次のターンに進む処理
     public void NextTurn()
     {
         currentTurn++;  // ターンを進める
         PlayerPrefs.SetInt("Turn", currentTurn);
         UpdateTurnText();  // UIのテキストを更新する
+        // 懐中電灯のターン進行処理を呼び出し
+        if (flashlightController != null)
+        {
+            flashlightController.OnTurnAdvanced();
+        }
+
     }
 
 
