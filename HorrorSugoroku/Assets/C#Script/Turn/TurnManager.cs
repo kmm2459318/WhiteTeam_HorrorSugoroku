@@ -14,6 +14,7 @@ public class TurnManager : MonoBehaviour
         currentTurn++;  // ターンを進める
         PlayerPrefs.SetInt("Turn", currentTurn);
         UpdateTurnText();  // UIのテキストを更新する
+        playerSaikoro.DiceRoll();
     }
 
 
