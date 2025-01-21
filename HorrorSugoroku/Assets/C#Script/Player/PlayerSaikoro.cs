@@ -124,7 +124,7 @@ public class PlayerSaikoro : MonoBehaviour
                     Debug.Log("Player rolled: " + sai);
 
                     // プレイヤーのサイコロの結果に応じてEnemyのサイコロ範囲を決定
-                    targetScript.RollEnemyDice(sai);
+                    targetScript.RollEnemyDice();
 
                     ii = 0;
                     saikorotyu = false;
