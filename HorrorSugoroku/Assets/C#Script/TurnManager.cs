@@ -10,8 +10,12 @@ public class TurnManager : MonoBehaviour
     // 次のターンに進む処理
     public void NextTurn()
     {
-        currentTurn++; // ターンを進める
-        UpdateTurnText(); // UIのテキストを更新
+        if (!PlayerSaikoro.idoutyu && !PlayerSaikoro.saikorotyu)
+        {
+            currentTurn++; // ターンを進める
+            UpdateTurnText(); // UIのテキストを更新
+            PlayerSaikoro.DiceRoll();
+        }
     }
 
     // ターン表示を更新するメソッド

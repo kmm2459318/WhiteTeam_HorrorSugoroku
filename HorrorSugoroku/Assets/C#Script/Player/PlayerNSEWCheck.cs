@@ -14,24 +14,25 @@ public class PlayerNSEWCheck : MonoBehaviour
         
     }
 
-    void OnTriggerEnter(Collider collision)
-    {
-        if (collision.gameObject.tag == "masu")
-        {
-            masuCheck = true;
-            //Debug.Log("OK");
-        }
-        //masuCheck = true;
-        //Debug.Log("OK");
-    }
     void OnTriggerExit(Collider collision)
     {
         if (collision.gameObject.tag == "masu")
         {
             masuCheck = false;
-            //Debug.Log("no");
+            Debug.Log("no");
         }
         //masuCheck = false;
         //Debug.Log("no");
     }
+    void OnTriggerEnter(Collider collision)
+    {
+        if (collision.gameObject.tag == "masu")
+        {
+            masuCheck = true;
+            Debug.Log("OK");
+        }
+        //masuCheck = true;
+        //Debug.Log("OK");
+    }
+  
 }

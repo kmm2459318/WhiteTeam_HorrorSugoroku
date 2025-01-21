@@ -245,7 +245,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &91693707
 Transform:
   m_ObjectHideFlags: 0
@@ -999,6 +999,7 @@ GameObject:
   - component: {fileID: 322889141}
   - component: {fileID: 322889140}
   - component: {fileID: 322889139}
+  - component: {fileID: 322889143}
   m_Layer: 0
   m_Name: PlayerC
   m_TagString: Untagged
@@ -1015,7 +1016,7 @@ Transform:
   m_GameObject: {fileID: 322889137}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 1.14, z: 0}
+  m_LocalPosition: {x: 0, y: 2, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -1131,6 +1132,19 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 322889137}
   m_Mesh: {fileID: 10206, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &322889143
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 322889137}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6f8f347780edeec4aa9fa757f5a7f0d1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  TargetRotation: {x: 0, y: 0, z: 0, w: 0}
 --- !u!1 &378521254
 GameObject:
   m_ObjectHideFlags: 0
@@ -1700,7 +1714,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &570558299
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2458,6 +2472,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2bebd4cfa5ad5b24cb53d68abbe63d6c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  player: {fileID: 322889143}
+  saikorotyu: 0
+  idoutyu: 0
   s1: {fileID: 21300000, guid: cbdcaedc33beb714ebc73f0fc34415cd, type: 3}
   s2: {fileID: 21300000, guid: f5beac8a9752d884b958781c8fb75b7e, type: 3}
   s3: {fileID: 21300000, guid: ee5f49f796f7d59468eb89bd13c59d33, type: 3}
@@ -2467,9 +2484,6 @@ MonoBehaviour:
   saikoro: {fileID: 2054292001}
   Player: {fileID: 322889137}
   PNorth: {fileID: 1839562356}
-  PWest: {fileID: 91693706}
-  PEast: {fileID: 1945768738}
-  PSouth: {fileID: 570558298}
 --- !u!114 &1120792097
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4198,9 +4212,9 @@ Transform:
   m_GameObject: {fileID: 1839562356}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: -0.28999996, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
+  m_LocalPosition: {x: 0, y: -1.71, z: 1.5}
+  m_LocalScale: {x: 0.25, y: 0.25, z: 0.25}
+  m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 322889138}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -4255,7 +4269,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1945768739
 Transform:
   m_ObjectHideFlags: 0

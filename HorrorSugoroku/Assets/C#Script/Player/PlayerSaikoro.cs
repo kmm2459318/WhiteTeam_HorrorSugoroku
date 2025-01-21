@@ -1,12 +1,14 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
+using SmoothigTransform;
 
 public class PlayerSaikoro : MonoBehaviour
 {
+    [SerializeField] SmoothTransform player;
     private EnemySaikoro targetScript; // コマンドを受け取るEnemySaikoro
     private int sai = 1; // ランダムなサイコロの値
-    private bool saikorotyu = false; // サイコロを振っているか
-    private bool idoutyu = false;
+    public bool saikorotyu = false; // サイコロを振っているか
+    public bool idoutyu = false;
     private float delta = 0; // 時間の計測
     private int ii = 0; // 繰り返し回数
     private int detame = 0; //出た値（ストッパー）
@@ -15,6 +17,8 @@ public class PlayerSaikoro : MonoBehaviour
     private bool PE = false;
     private bool PS = false;
     private int[] lastAction = new int[7]; // 前の行動の記録【北：１、西：２、東：３、南：４】
+    private int mesen = 1; //目線【北：１、西：２、東：３、南：４】
+    private float Pkakudo = 0; //プレイヤーのＹ軸角度
     public Sprite s1;
     public Sprite s2;
     public Sprite s3;
@@ -24,10 +28,11 @@ public class PlayerSaikoro : MonoBehaviour
     public GameObject saikoro;
     public GameObject Player;
     public GameObject PNorth;
-    public GameObject PWest;
-    public GameObject PEast;
-    public GameObject PSouth;
+    //public GameObject PWest;
+    //public GameObject PEast;
+    //public GameObject PSouth;
     Vector3 Pos;
+    Vector3 Rot;
     Image image;
 
     [System.Obsolete]
@@ -51,10 +56,11 @@ public class PlayerSaikoro : MonoBehaviour
     void Update()
     {
         Pos = Player.transform.position;
+        Rot = Player.transform.eulerAngles;
         PN = PNorth.GetComponent<PlayerNSEWCheck>().masuCheck;
-        PW = PWest.GetComponent<PlayerNSEWCheck>().masuCheck;
-        PE = PEast.GetComponent<PlayerNSEWCheck>().masuCheck;
-        PS = PSouth.GetComponent<PlayerNSEWCheck>().masuCheck;
+        //PW = PWest.GetComponent<PlayerNSEWCheck>().masuCheck;
+        //PE = PEast.GetComponent<PlayerNSEWCheck>().masuCheck;
+        //PS = PSouth.GetComponent<PlayerNSEWCheck>().masuCheck;
 
         //サイコロ表示
         switch (sai)
@@ -74,16 +80,15 @@ public class PlayerSaikoro : MonoBehaviour
         }
 
         //サイコロ振る
-        if ((Input.GetKeyDown(KeyCode.E) || saikorotyu) && !idoutyu)
+        if (!idoutyu && saikorotyu)
         {
-            saikorotyu = true;
             this.delta += Time.deltaTime;
 
             if (this.delta > 0.1f)
             {
                 this.delta = 0f;
 
-                if (ii < 7)
+                if (ii < 7)                 
                 {
                     sai = Random.Range(1, 7);
                     saikoro.SetActive(true);
@@ -94,7 +99,7 @@ public class PlayerSaikoro : MonoBehaviour
                 {
                     sai = Random.Range(1, 7);
                     detame = sai;
-                    //Debug.Log("Player rolled: " + sai);
+                    Debug.Log("Player rolled: " + sai);
 
                     // プレイヤーのサイコロの結果に応じてEnemyのサイコロ範囲を決定
                     targetScript.RollEnemyDice(sai);
@@ -104,6 +109,7 @@ public class PlayerSaikoro : MonoBehaviour
                     idoutyu = true;
                 }
             }
+            
         }
 
         //移動処理　【北：１、西：２、東：３、南：４】
@@ -111,47 +117,7 @@ public class PlayerSaikoro : MonoBehaviour
         {
             if (Input.GetKeyDown(KeyCode.W) && PN)
             {
-                if (lastAction[detame - sai] == 4)
-                {
-                    idou(1, true);
-                }
-                else
-                {
-                    idou(1, false);
-                }
-            }
-            if (Input.GetKeyDown(KeyCode.A) && PW)
-            {
-                if (lastAction[detame - sai] == 3)
-                {
-                    idou(2, true);
-                }
-                else
-                {
-                    idou(2, false);
-                }
-            }
-            if (Input.GetKeyDown(KeyCode.S) && PS)
-            {
-                if (lastAction[detame - sai] == 1)
-                {
-                    idou(4, true);
-                }
-                else
-                {
-                    idou(4, false);
-                }
-            }
-            if (Input.GetKeyDown(KeyCode.D) && PE)
-            {
-                if (lastAction[detame - sai] == 2)
-                {
-                    idou(3, true);
-                }
-                else
-                {
-                    idou(3, false);
-                }
+                FrontBack(mesen);
             }
             if (sai < 1)
             {
@@ -159,8 +125,70 @@ public class PlayerSaikoro : MonoBehaviour
                 saikoro.SetActive(false);
             }
         }
+
+        //プレイヤー角度【北：１、西：２、東：３、南：４】
+        if (Input.GetKeyDown(KeyCode.A))
+        {
+            player.TargetRotation *= Quaternion.Euler(0, -90, 0);
+            switch (mesen)
+            {
+                case 1: mesen = 2; break;
+                case 2: mesen = 4; break;
+                case 3: mesen = 1; break;
+                case 4: mesen = 3; break;
+            }
+        }
+        if (Input.GetKeyDown(KeyCode.S))
+        {
+            player.TargetRotation *= Quaternion.Euler(0, 180, 0);
+            switch (mesen)
+            {
+                case 1: mesen = 4; break;
+                case 2: mesen = 3; break;
+                case 3: mesen = 2; break;
+                case 4: mesen = 1; break;
+            }
+        }
+        if (Input.GetKeyDown(KeyCode.D))
+        {
+            player.TargetRotation *= Quaternion.Euler(0, 90, 0);
+            switch (mesen)
+            {
+                case 1: mesen = 3; break;
+                case 2: mesen = 1; break;
+                case 3: mesen = 4; break;
+                case 4: mesen = 2; break;
+            }
+        }
     }
 
+    public void DiceRoll()
+    {
+        saikorotyu = true;
+    }
+
+    void FrontBack(int n)
+    {
+        int m = 0;
+        switch(n)
+        {
+            case 1: m = 4; break;
+            case 2: m = 3; break;
+            case 3: m = 2; break;
+            case 4: m = 1; break;
+        }
+
+        if (lastAction[detame - sai] == m)
+        {
+            idou(mesen, true);
+        }
+        else
+        {
+            idou(mesen, false);
+        }
+    }
+
+    //移動
     void idou(int n, bool back)
     {
         switch (n)
