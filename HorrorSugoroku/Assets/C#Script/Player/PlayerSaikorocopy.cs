@@ -4,9 +4,9 @@ using UnityEngine.UI;
 public class PlayerSaikorocopy : MonoBehaviour
 {
     private EnemySaikoro targetScript;
-    private int sai = 1;
+    public int sai = 1;
     private bool saikorotyu = false;
-    private bool idoutyu = false;
+    public bool idoutyu = false;
     private float delta = 0;
     private int ii = 0;
     private int detame = 0;
@@ -30,17 +30,18 @@ public class PlayerSaikorocopy : MonoBehaviour
     Image image;
 
     private float moveSpeed = 5f;
-    private float rotationSpeed = 5f; // 回転スピード
+    private float rotationSpeed = 10f; // 回転スピード
     private Vector3 targetPosition;
     private bool isMoving = false;
     private Quaternion targetRotation; // 目標の回転
     private bool isRotating = false;
     private Vector3 currentForward = Vector3.forward; // 現在の正面方向
 
-    [System.Obsolete]
+    private Vector3 originalForward = Vector3.forward; // 初期方向を保存
+
     void Start()
     {
-        targetScript = FindObjectOfType<EnemySaikoro>();
+        targetScript = FindFirstObjectByType<EnemySaikoro>(); // 修正
         image = saikoro.GetComponent<Image>();
         saikoro.SetActive(false);
         targetPosition = Player.transform.position;
@@ -60,6 +61,7 @@ public class PlayerSaikorocopy : MonoBehaviour
         PE = PEast.GetComponent<PlayerNSEWCheck>().masuCheck;
         PS = PSouth.GetComponent<PlayerNSEWCheck>().masuCheck;
 
+        // サイコロの絵を変更
         switch (sai)
         {
             case 1: image.sprite = s1; break;
@@ -101,31 +103,69 @@ public class PlayerSaikorocopy : MonoBehaviour
 
         if (idoutyu && !isMoving && !isRotating)
         {
-            HandleRotation();
+         // HandleRotation();
             HandleMovement();
         }
 
         SmoothMovement();
         SmoothRotation();
-    }
 
+        // S キーで後ろを向く処理
+        if (Input.GetKeyDown(KeyCode.S))
+        {
+            RotatePlayer(180); // 後ろを向く
+        }
+        else if (Input.GetKeyUp(KeyCode.S))
+        {
+            // 元の向きに戻す処理
+            currentForward = originalForward; // 初期方向に戻す
+            targetRotation = Quaternion.LookRotation(currentForward);
+            isRotating = true;
+        }
+
+        if (Input.GetKeyDown(KeyCode.A)) // 左回転
+        {
+            RotatePlayer(-90);
+        }
+        else if (Input.GetKeyDown(KeyCode.D)) // 右回転
+        {
+            RotatePlayer(90);
+        }
+    }
+    /*
     private void HandleRotation()
     {
-        if (Input.GetKeyDown(KeyCode.A))
+        if (Input.GetKeyDown(KeyCode.A)) // 左回転
         {
-            RotatePlayer(-90); // 左回転
+            RotatePlayer(-90);
         }
-        else if (Input.GetKeyDown(KeyCode.D))
+        else if (Input.GetKeyDown(KeyCode.D)) // 右回転
         {
-            RotatePlayer(90); // 右回転
+            RotatePlayer(90);
         }
     }
+    */
 
     private void HandleMovement()
     {
-        if (Input.GetKeyDown(KeyCode.W) && PN)
+        if (Input.GetKeyDown(KeyCode.W))
         {
-            SetMoveTarget(currentForward);
+            if (PN) // 北に移動可能
+            {
+                SetMoveTarget(currentForward); // 現在の進行方向に進む
+            }
+            else if (PE) // 東に移動可能
+            {
+                SetMoveTarget(Vector3.right); // 東方向に進む
+            }
+            else if (PS) // 南に移動可能
+            {
+                SetMoveTarget(-currentForward); // 南方向に進む
+            }
+            else if (PW) // 西に移動可能
+            {
+                SetMoveTarget(-Vector3.right); // 西方向に進む
+            }
         }
     }
 
