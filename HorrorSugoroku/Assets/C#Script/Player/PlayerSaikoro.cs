@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
+using System.Collections;
 
 public class PlayerSaikoro : MonoBehaviour
 {
@@ -7,8 +8,6 @@ public class PlayerSaikoro : MonoBehaviour
     private int sai = 1;
     private bool saikorotyu = false;
     private bool idoutyu = false;
-    private float delta = 0;
-    private int ii = 0;
     private int detame = 0;
     private bool PN = false;
     private bool PW = false;
@@ -58,38 +57,10 @@ public class PlayerSaikoro : MonoBehaviour
             return;
         }
 
-        if (Input.GetKeyDown(KeyCode.E) && !saikorotyu)
+        if (Input.GetKeyDown(KeyCode.E) && !saikorotyu && !idoutyu)
         {
             saikorotyu = true;
-            this.delta = 0f;
-            ii = 0;
-        }
-
-        if (saikorotyu)
-        {
-            this.delta += Time.deltaTime;
-
-            if (this.delta > 0.1f)
-            {
-                this.delta = 0f;
-
-                if (ii < 7)
-                {
-                    sai = Random.Range(1, 7);
-                    saikoro.SetActive(true);
-                    Debug.Log("Player rolling: " + sai);
-                    ii++;
-                }
-                else
-                {
-                    sai = Random.Range(1, 7);
-                    detame = sai;
-                    Debug.Log("Player rolled: " + sai);
-                    ii = 0;
-                    saikorotyu = false;
-                    idoutyu = true;
-                }
-            }
+            StartCoroutine(RollDice());
         }
 
         if (idoutyu)
@@ -100,6 +71,45 @@ public class PlayerSaikoro : MonoBehaviour
             PE = PEast.GetComponent<PlayerNSEWCheck>().masuCheck;
             PS = PSouth.GetComponent<PlayerNSEWCheck>().masuCheck;
 
+            if (Input.GetKeyDown(KeyCode.W) && PN)
+            {
+                Pos.z += 2.0f; // 北方向に2.0f移動
+                Player.transform.position = Pos;
+                sai--;
+            }
+            if (Input.GetKeyDown(KeyCode.A) && PW)
+            {
+                Pos.x -= 2.0f; // 西方向に2.0f移動
+                Player.transform.position = Pos;
+                sai--;
+            }
+            if (Input.GetKeyDown(KeyCode.S) && PS)
+            {
+                Pos.z -= 2.0f; // 南方向に2.0f移動
+                Player.transform.position = Pos;
+                sai--;
+            }
+            if (Input.GetKeyDown(KeyCode.D) && PE)
+            {
+                Pos.x += 2.0f; // 東方向に2.0f移動
+                Player.transform.position = Pos;
+                sai--;
+            }
+            if (sai < 1)
+            {
+                idoutyu = false;
+                saikoro.SetActive(false);
+                gameManager.NextTurn();
+            }
+        }
+    }
+
+    private IEnumerator RollDice()
+    {
+        saikoro.SetActive(true);
+        for (int i = 0; i < 10; i++) // 10回ランダムに目を表示
+        {
+            sai = Random.Range(1, 7);
             switch (sai)
             {
                 case 1:
@@ -115,42 +125,18 @@ public class PlayerSaikoro : MonoBehaviour
                 case 6:
                     image.sprite = s6; break;
             }
-
-            if (Input.GetKeyDown(KeyCode.W) && PN)
-            {
-                Pos.z += 2.0f;
-                Player.transform.position = Pos;
-                sai--;
-            }
-            if (Input.GetKeyDown(KeyCode.A) && PW)
-            {
-                Pos.x -= 2.0f;
-                Player.transform.position = Pos;
-                sai--;
-            }
-            if (Input.GetKeyDown(KeyCode.S) && PS)
-            {
-                Pos.z -= 2.0f;
-                Player.transform.position = Pos;
-                sai--;
-            }
-            if (Input.GetKeyDown(KeyCode.D) && PE)
-            {
-                Pos.x += 2.0f;
-                Player.transform.position = Pos;
-                sai--;
-            }
-            if (sai < 1)
-            {
-                idoutyu = false;
-                saikoro.SetActive(false);
-                gameManager.NextTurn();
-            }
+            yield return new WaitForSeconds(0.1f); // 0.1秒ごとに目を変更
         }
+
+        detame = sai;
+        Debug.Log("Player rolled: " + sai);
+
+        saikorotyu = false;
+        idoutyu = true;
     }
 
     public void StartRolling()
     {
-        saikorotyu = true;
+        // このメソッドは空にしておくか、必要に応じて他の処理を追加します
     }
 }

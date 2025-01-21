@@ -38,14 +38,12 @@ public class EnemySaikoro : MonoBehaviour
         }
     }
 
-    public void RollEnemyDice()
+    public IEnumerator RollEnemyDice()
     {
-        steps = Random.Range(1, 7);
-        Debug.Log("Enemy rolled: " + steps);
-
-        if (saikoro != null)
+        saikoro.SetActive(true);
+        for (int i = 0; i < 10; i++) // 10回ランダムに目を表示
         {
-            saikoro.SetActive(true);
+            steps = Random.Range(1, 7);
             switch (steps)
             {
                 case 1:
@@ -61,13 +59,16 @@ public class EnemySaikoro : MonoBehaviour
                 case 6:
                     image.sprite = s6; break;
             }
+            yield return new WaitForSeconds(0.1f); // 0.1秒ごとに目を変更
         }
 
+        Debug.Log("Enemy rolled: " + steps);
         StartCoroutine(MoveTowardsPlayer());
     }
 
     private IEnumerator MoveTowardsPlayer()
     {
+        int initialSteps = steps; // 初期のステップ数を保存
         while (steps > 0)
         {
             Vector3 direction = (player.transform.position - enemy.transform.position).normalized;
@@ -77,13 +78,15 @@ public class EnemySaikoro : MonoBehaviour
             yield return new WaitForSeconds(0.5f); // 移動の間隔を待つ
         }
         saikoro.SetActive(false); // サイコロを非表示にする
+
+        // エネミーの進んだ数をデバッグログに表示
+        Debug.Log("Enemy moved a total of " + initialSteps + " steps.");
+
         FindObjectOfType<GameManager>().NextTurn(); // 次のターンに進む
     }
 
     public IEnumerator EnemyTurn()
     {
-        RollEnemyDice();
-        yield return new WaitForSeconds(2); // サイコロを振る時間を待つ
-        // MoveTowardsPlayerはRollEnemyDice内で呼び出されるため、ここでは不要
+        yield return StartCoroutine(RollEnemyDice());
     }
 }
