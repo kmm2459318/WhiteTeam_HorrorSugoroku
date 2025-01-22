@@ -392,6 +392,7 @@ GameObject:
   - component: {fileID: 208705649}
   - component: {fileID: 208705648}
   - component: {fileID: 208705647}
+  - component: {fileID: 208705651}
   m_Layer: 0
   m_Name: PlayerC
   m_TagString: Untagged
@@ -524,6 +525,19 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 208705645}
   m_Mesh: {fileID: 10206, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &208705651
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 208705645}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6f8f347780edeec4aa9fa757f5a7f0d1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  TargetRotation: {x: 0, y: 0, z: 0, w: 0}
 --- !u!1 &237178544
 GameObject:
   m_ObjectHideFlags: 0
@@ -1785,6 +1799,24 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+<<<<<<< HEAD
+=======
+--- !u!114 &1019959476
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1019959475}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cb8c52495e3716c42bc4d81ea77509d5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  turnText: {fileID: 1902294679}
+  playerSaikoro: {fileID: 1875105515}
+  flashlightController: {fileID: 0}
+>>>>>>> 08e419103db4ba2c24d9b5dc49f026b4eceddc88
 --- !u!4 &1019959477
 Transform:
   m_ObjectHideFlags: 0
@@ -3822,6 +3854,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gameManager: {fileID: 1019959478}
+  player: {fileID: 208705651}
+  saikorotyu: 0
+  idoutyu: 0
   s1: {fileID: 21300000, guid: cbdcaedc33beb714ebc73f0fc34415cd, type: 3}
   s2: {fileID: 21300000, guid: f5beac8a9752d884b958781c8fb75b7e, type: 3}
   s3: {fileID: 21300000, guid: ee5f49f796f7d59468eb89bd13c59d33, type: 3}
@@ -3831,9 +3866,6 @@ MonoBehaviour:
   saikoro: {fileID: 1491952255}
   Player: {fileID: 208705645}
   PNorth: {fileID: 603731820}
-  PWest: {fileID: 1647150409}
-  PEast: {fileID: 1571721485}
-  PSouth: {fileID: 985063256}
 --- !u!4 &1875105517
 Transform:
   m_ObjectHideFlags: 0
@@ -4760,6 +4792,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   mouseSensitivity: 400
   playerBody: {fileID: 208705646}
+  xRotation: 0
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
