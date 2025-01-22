@@ -34,6 +34,7 @@ public class PlayerSaikoro : MonoBehaviour
     //public GameObject PEast;
     //public GameObject PSouth;
     Vector3 Pos;
+    Vector3 Rotation;
     Vector3 Rot;
     Image image;
 
@@ -214,18 +215,22 @@ public class PlayerSaikoro : MonoBehaviour
     //移動
     void idou(int n, bool back)
     {
+        // 現在のPlayerのY軸の値を保持
+        Pos = Player.transform.position; 
+
         switch (n)
         {
-            case 1: Pos.z += 2.0f; break;
-            case 2: Pos.x -= 2.0f; break;
-            case 3: Pos.x += 2.0f; break;
-            case 4: Pos.z -= 2.0f; break;
+            case 1: Pos.z += 2.0f; break; // 北に移動
+            case 2: Pos.x -= 2.0f; break; // 西に移動
+            case 3: Pos.x += 2.0f; break; // 東に移動
+            case 4: Pos.z -= 2.0f; break; // 南に移動
         }
-        Player.transform.position = Pos; //移動
+
+        Player.transform.position = Pos; // 移動
 
         if (!back)
         {
-            lastAction[detame - sai + 1] = n; //来た方向記憶
+            lastAction[detame - sai + 1] = n; // 来た方向を記憶
             Debug.Log(detame - sai + 1 + ":" + lastAction[detame - sai + 1]);
             sai--;
         }
@@ -234,6 +239,7 @@ public class PlayerSaikoro : MonoBehaviour
             sai++;
         }
     }
+
 
     private IEnumerator RollDice()
     {
