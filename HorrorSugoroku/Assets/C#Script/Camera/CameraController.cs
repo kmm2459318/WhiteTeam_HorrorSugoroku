@@ -3,7 +3,7 @@ using UnityEngine;
 public class CameraController : MonoBehaviour
 {
     public Transform playerBody;  // プレイヤーの本体
-    private float mouseSensitivity = 150f;  // マウス感度
+    public float mouseSensitivity = 150f;  // マウス感度
     private float upperLookLimit = 90f;  // 上方向の回転制限
     private float lowerLookLimit = -90f;  // 下方向の回転制限
 
@@ -34,15 +34,9 @@ public class CameraController : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.LeftAlt) || Input.GetKeyDown(KeyCode.RightAlt))
         {
-            Cursor.lockState = CursorLockMode.None;
-            Cursor.visible = true;
-            isMouseLocked = false; // 視点操作を無効化
-        }
-        else if (Input.GetKeyUp(KeyCode.LeftAlt) || Input.GetKeyUp(KeyCode.RightAlt))
-        {
-            Cursor.lockState = CursorLockMode.Locked;
-            Cursor.visible = false;
-            isMouseLocked = true; // 視点操作を有効化
+            isMouseLocked = !isMouseLocked;
+            Cursor.lockState = isMouseLocked ? CursorLockMode.Locked : CursorLockMode.None;
+            Cursor.visible = !isMouseLocked;
         }
     }
 
@@ -51,11 +45,13 @@ public class CameraController : MonoBehaviour
     /// </summary>
     private void HandleMouseLook()
     {
+        float mouseX = Input.GetAxis("Mouse X") * mouseSensitivity * Time.deltaTime;
         float mouseY = Input.GetAxis("Mouse Y") * mouseSensitivity * Time.deltaTime;
 
         xRotation -= mouseY;
         xRotation = Mathf.Clamp(xRotation, lowerLookLimit, upperLookLimit);
 
         transform.localRotation = Quaternion.Euler(xRotation, 0f, 0f);  // 上下回転
+        playerBody.Rotate(Vector3.up * mouseX);  // 左右回転
     }
 }
