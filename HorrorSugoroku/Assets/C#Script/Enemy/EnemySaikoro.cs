@@ -59,10 +59,12 @@ public class EnemySaikoro : MonoBehaviour
                     image.sprite = s6; break;
             }
             yield return new WaitForSeconds(0.1f); // 0.1秒ごとに目を変更
+            
         }
 
         Debug.Log("Enemy rolled: " + steps);
         StartCoroutine(MoveTowardsPlayer());
+      
     }
 
     private IEnumerator MoveTowardsPlayer()
