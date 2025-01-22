@@ -18,7 +18,6 @@ public class EnemySaikoro : MonoBehaviour
 
     void Start()
     {
-        DontDestroyOnLoad(gameObject);
         if (saikoro != null)
         {
             image = saikoro.GetComponent<Image>();
