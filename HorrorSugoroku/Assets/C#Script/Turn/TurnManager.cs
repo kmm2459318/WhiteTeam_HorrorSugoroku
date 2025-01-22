@@ -4,7 +4,7 @@ using TMPro;  // TextMeshPro �p
 public class TurnManager : MonoBehaviour
 {
     public TMP_Text turnText;  // TextMeshPro �p�̃^�[�����\��
-    private int currentTurn = 1;  // ���݂̃^�[���ԍ�
+    private int currentTurn = 0;  // ���݂̃^�[���ԍ�
 
     public PlayerSaikoro playerSaikoro;  // �v���C���[�̃T�C�R���Ǘ��i���̃^�[���ɐi�ޏ����j
 
