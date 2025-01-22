@@ -6,7 +6,6 @@ public class GameManager : MonoBehaviour
 {
     public TMP_Text turnText; // TextMeshPro用のターン数表示
     public TMP_Text turnIndicatorText; // 新しいターン表示用のテキスト
-    private int currentTurn = 1; // 現在のターン番号
     private bool isPlayerTurn = true; // プレイヤーのターンかどうかを示すフラグ
 
     public PlayerSaikoro playerSaikoro;
@@ -20,7 +19,6 @@ public class GameManager : MonoBehaviour
 
     public void NextTurn()
     {
-        currentTurn++; // ターンを進める
         isPlayerTurn = !isPlayerTurn; // ターンを切り替える
         UpdateTurnText(); // UIのテキストを更新
 
@@ -36,10 +34,6 @@ public class GameManager : MonoBehaviour
 
     private void UpdateTurnText()
     {
-        if (turnText != null)
-        {
-            turnText.text = "Turn: " + currentTurn; // ターン数を表示
-        }
 
         if (turnIndicatorText != null)
         {

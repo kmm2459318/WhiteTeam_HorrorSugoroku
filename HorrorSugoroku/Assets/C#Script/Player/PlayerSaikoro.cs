@@ -36,6 +36,7 @@ public class PlayerSaikoro : MonoBehaviour
     Vector3 Pos;
     Vector3 Rotation;
     Vector3 Rot;
+    int i;
     Image image;
 
     int movesum;
@@ -73,6 +74,7 @@ public class PlayerSaikoro : MonoBehaviour
                 Debug.LogError("GameManager is not assigned and could not be found in the scene.");
             }
         }
+        PlayerPrefs.SetInt("move", 0);
     }
 
     void Update()
@@ -127,6 +129,8 @@ public class PlayerSaikoro : MonoBehaviour
                     // プレイヤーのサイコロの結果に応じてEnemyのサイコロ範囲を決定
                     targetScript.RollEnemyDice();
 
+                    i += sai;
+                    PlayerPrefs.SetInt("move", i);
                     ii = 0;
                     saikorotyu = false;
                     idoutyu = true;
@@ -276,4 +280,5 @@ public class PlayerSaikoro : MonoBehaviour
     {
         // このメソッドは空にしておくか、必要に応じて他の処理を追加します
     }
+
 }
