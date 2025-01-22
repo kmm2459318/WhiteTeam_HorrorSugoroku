@@ -1,91 +1,47 @@
 using System.Collections;
 using UnityEngine;
-using UnityEngine.EventSystems;
+using System.Collections.Generic;
 
 public class PlayerMover : MonoBehaviour
 {
-    public int remainingSteps = 10;   // 初期の歩数
-    public float moveSpeed = 5f;     // 移動速度
+    public  PlayerSaikoro playerSaikoro; // 監視対象のスクリプト
+   public GridCell gridCell;
+    private bool lastState = false; // 前回の状態
 
-    private bool isMoving = false;   // 移動中かどうか
-    public delegate void OnStepsDepleted(); // 歩数が0になったときのイベント
-    public event OnStepsDepleted StepsDepletedEvent; // イベントハンドラー
-    public GridCell gridCell;
     void Start()
     {
-        // 歩数が0になったときに発動するイベントを登録
-        StepsDepletedEvent += OnStepsDepletedAction;
+        // スクリプトがアサインされていない場合、自動的に取得
+        if (playerSaikoro == null)
+        {
+            playerSaikoro = GetComponent<PlayerSaikoro>();
+        }
     }
+
     void Update()
     {
-        // キーボード入力でプレイヤーを移動
-        if (!isMoving && remainingSteps > 0)
+        if (playerSaikoro == null)
         {
-            if (Input.GetKey(KeyCode.UpArrow))
-                StartCoroutine(Move(Vector3.forward));
-            if (Input.GetKey(KeyCode.DownArrow))
-                StartCoroutine(Move(Vector3.back));
-            if (Input.GetKey(KeyCode.LeftArrow))
-                StartCoroutine(Move(Vector3.left));
-            if (Input.GetKey(KeyCode.RightArrow))
-                StartCoroutine(Move(Vector3.right));
+            Debug.LogError("TargetScriptが設定されていません。");
+            return;
         }
+
+        // 状態の変化を監視
+        if (lastState && !playerSaikoro.idoutyu)
+        {
+            Debug.Log("TargetScriptのidoutyuがfalseになりました！");
+            PlayerMoverExecuteEvent();
+        }
+        // 状態を更新
+        lastState = playerSaikoro.idoutyu;
     }
 
-    private IEnumerator Move(Vector3 direction)
+    private void PlayerMoverExecuteEvent()
     {
-        isMoving = true;
+        // 必要な処理を記述
 
-        Vector3 startPosition = transform.position;
-        Vector3 targetPosition = startPosition + direction;
-
-        float time = 0;
-
-        while (time < 1f)
-        {
-            time += Time.deltaTime * moveSpeed;
-            transform.position = Vector3.Lerp(startPosition, targetPosition, time);
-            yield return null;
-        }
-
-        transform.position = targetPosition;
-
-        remainingSteps--; // 歩数を減少
-        Debug.Log($"残り歩数: {remainingSteps}");
-
-        // 歩数が0になった場合にイベントを発動
-        if (remainingSteps <= 0)
-        {
-            StepsDepletedEvent?.Invoke();
-        }
-
-        isMoving = false;
-    }
-    private void OnTriggerEnter(Collider other)
-    {
-        // タグが"マス"の場合に歩数を減らす
-        if (other.CompareTag("masu"))
-        {
-            remainingSteps--;
-
-            Debug.Log($"残り歩数: {remainingSteps}");
-
-            // 歩数が0になったら処理を停止または終了
-            if (remainingSteps <= 0)
-            {
-                Debug.Log("歩数が0になりました。");
-                // 必要に応じて移動停止や他の処理を実行
-            }
-        }
-    }
-
-    // 歩数が0になったときのイベントアクション
-    private void OnStepsDepletedAction()
-    {
-        Debug.Log("歩数が0になりました！イベントを発動します。");
         gridCell.ExecuteEvent();
     }
-     
+
 } // 必要なイベント処理をここに追加
     // 例: ゲームの終了、プレイヤーの停止など
 
