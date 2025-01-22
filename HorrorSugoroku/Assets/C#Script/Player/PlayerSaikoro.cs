@@ -34,6 +34,7 @@ public class PlayerSaikoro : MonoBehaviour
     //public GameObject PEast;
     //public GameObject PSouth;
     Vector3 Pos;
+    Vector3 Rotation;
     Vector3 Rot;
     Image image;
 
@@ -215,7 +216,7 @@ public class PlayerSaikoro : MonoBehaviour
     void idou(int n, bool back)
     {
         // 現在のPlayerのY軸の値を保持
-        Pos = Player.transform.position;
+        Pos = Player.transform.position; 
 
         switch (n)
         {

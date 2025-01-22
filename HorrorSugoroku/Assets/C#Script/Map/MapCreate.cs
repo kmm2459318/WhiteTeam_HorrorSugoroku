@@ -2,7 +2,6 @@ using UnityEngine;
 
 public class MapCreator : MonoBehaviour
 {
-    public GameObject BlocklTile;
     public GameObject NormalTile;
     public GameObject EventTile;
     public GameObject ItemTile;
@@ -39,7 +38,6 @@ public class MapCreator : MonoBehaviour
                 switch (MapData[y, x])
                 {
                     case 0:
-                        tilePrefab = BlocklTile;
                         break;
                     case 1:
                         tilePrefab = NormalTile;
