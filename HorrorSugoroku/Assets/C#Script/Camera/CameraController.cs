@@ -4,7 +4,7 @@ public class CameraController : MonoBehaviour
 {
     public Transform playerBody;  // プレイヤーの本体
     private float mouseSensitivity = 150f;  // マウス感度
-    private float sensitivityMultiplier = 2.0f;  // 感度倍率
+    private float sensitivityMultiplier = 1.0f;  // 感度倍率
     private float upperLookLimit = 90f;  // 上方向の回転制限
     private float lowerLookLimit = -90f;  // 下方向の回転制限
 
