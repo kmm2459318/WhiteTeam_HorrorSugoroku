@@ -1,7 +1,5 @@
 ﻿using UnityEngine;
-using UnityEngine.UI;
 using System.Collections;
-using SmoothigTransform;
 
 public class EnemySaikoro : MonoBehaviour
 {
@@ -18,7 +16,6 @@ public class EnemySaikoro : MonoBehaviour
     public Sprite s5;
     public Sprite s6;
     private int steps; // サイコロの目の数
-    Image image;
 
     void Start()
     {
@@ -30,9 +27,6 @@ public class EnemySaikoro : MonoBehaviour
         {
             Debug.LogError("Saikoro GameObject is not assigned in the Inspector.");
         }
-
-        // サイコロのImageを保持
-        image = saikoro.GetComponent<Image>();
     }
 
     void Update()
@@ -40,22 +34,6 @@ public class EnemySaikoro : MonoBehaviour
         if (FindObjectOfType<GameManager>().IsPlayerTurn())
         {
             return;
-        }
-
-        switch (steps)
-        {
-            case 1:
-                image.sprite = s1; break;
-            case 2:
-                image.sprite = s2; break;
-            case 3:
-                image.sprite = s3; break;
-            case 4:
-                image.sprite = s4; break;
-            case 5:
-                image.sprite = s5; break;
-            case 6:
-                image.sprite = s6; break;
         }
     }
 
@@ -66,15 +44,6 @@ public class EnemySaikoro : MonoBehaviour
         {
             steps = Random.Range(1, 7);
             yield return new WaitForSeconds(0.1f); // 0.1秒ごとに目を変更
-        }
-
-        if (steps <= 3)
-        {
-            enemySmooth.PosFact = 0.9f;
-        }
-        else
-        {
-            enemySmooth.PosFact = 0.2f;
         }
 
         Debug.Log("Enemy rolled: " + steps);

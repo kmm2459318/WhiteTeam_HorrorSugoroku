@@ -6,7 +6,6 @@ using SmoothigTransform;
 public class PlayerSaikoro : MonoBehaviour
 {
     public GameManager gameManager; // GameManagerへの参照
-    public TurnManager turnManager; // TurnManagerへの参照
     [SerializeField] SmoothTransform player;
     private EnemySaikoro targetScript; // コマンドを受け取るEnemySaikoro
     private int sai = 1; // ランダムなサイコロの値
@@ -101,13 +100,8 @@ public class PlayerSaikoro : MonoBehaviour
                 image.sprite = s6; break;
         }
 
-        if (Input.GetKeyDown(KeyCode.E))
-        {
-            turnManager.NextTurn();
-        }
-
         //サイコロ振る
-        if (saikorotyu)
+        if (!idoutyu && saikorotyu)
         {
             this.saikoroTime += Time.deltaTime;
 
