@@ -4,9 +4,9 @@ public class CameraController : MonoBehaviour
 {
     public Transform playerBody;  // プレイヤーの本体
     private float mouseSensitivity = 150f;  // マウス感度
-    private float sensitivityMultiplier = 2.0f;  // 感度倍率
-    private float upperLookLimit = 90f;  // 上方向の回転制限
-    private float lowerLookLimit = -90f;  // 下方向の回転制限
+    private float sensitivityMultiplier = 1.0f;  // 感度倍率
+    private float upperLookLimit =45f;  // 上方向の回転制限
+    private float lowerLookLimit = -45f;  // 下方向の回転制限
 
     private float xRotation = 0f;  // カメラの現在の上下回転
     private float yRotation = 0f;  // カメラの現在の左右回転
@@ -97,6 +97,8 @@ public class CameraController : MonoBehaviour
         // 上下回転は制限
         xRotation -= mouseY;
         xRotation = Mathf.Clamp(xRotation, lowerLookLimit, upperLookLimit);
+        yRotation = Mathf.Clamp(yRotation, lowerLookLimit, upperLookLimit);
+
 
         // 上下回転の反映
         transform.localRotation = Quaternion.Euler(xRotation, yRotation, 0f);  // 上下回転

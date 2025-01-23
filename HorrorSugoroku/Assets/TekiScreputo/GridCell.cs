@@ -34,7 +34,7 @@ public class GridCell : MonoBehaviour
             case "Item":
                 Debug.Log($"{name}:アイテムを獲得！");
                 break;
-            case " Direc":
+            case "Dires":
                 Debug.Log($"{name}:演出発動！");
                 break;
             case "Debuff":
@@ -50,7 +50,6 @@ public class GridCell : MonoBehaviour
           
         }
 
-        Debug.Log("ExecuteEvent");
          
     }
    
