@@ -18,9 +18,6 @@ public class PlayerSaikoro : MonoBehaviour
     private int ii = 0; // 繰り返し回数
     private int detame = 0; //出た値（ストッパー）
     private bool PN = false; // プレイヤーの東西南北
-    private bool PW = false;
-    private bool PE = false;
-    private bool PS = false;
     private int[] lastAction = new int[7]; // 前の行動の記録【北：１、西：２、東：３、南：４】
     private int mesen = 1; //目線【北：１、西：２、東：３、南：４】
     private float Pkakudo = 0; //プレイヤーのＹ軸角度
@@ -33,9 +30,6 @@ public class PlayerSaikoro : MonoBehaviour
     public GameObject saikoro;
     public GameObject Player;
     public GameObject PNorth;
-    //public GameObject PWest;
-    //public GameObject PEast;
-    //public GameObject PSouth;
     Vector3 Pos;
     Vector3 Rotation;
     Vector3 Rot;
@@ -166,7 +160,6 @@ public class PlayerSaikoro : MonoBehaviour
             if (sai < 1)
             {
                 idoutyu = false;
-                turnManager.turnStay = false;
                 saikoro.SetActive(false);
                 gameManager.NextTurn();
             }
