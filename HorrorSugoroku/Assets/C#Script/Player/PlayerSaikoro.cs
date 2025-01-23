@@ -11,7 +11,9 @@ public class PlayerSaikoro : MonoBehaviour
     private int sai = 1; // ランダムなサイコロの値
     public bool saikorotyu = false; // サイコロを振っているか
     public bool idoutyu = false;
-    private float delta = 0; // 時間の計測
+    private bool magarityu = false;
+    private float saikoroTime = 0; // サイコロの時間の計測
+    private float magariTime = 0; // 曲がりの時間の計測
     private int ii = 0; // 繰り返し回数
     private int detame = 0; //出た値（ストッパー）
     private bool PN = false; // プレイヤーの東西南北
@@ -36,6 +38,7 @@ public class PlayerSaikoro : MonoBehaviour
     Vector3 Pos;
     Vector3 Rotation;
     Vector3 Rot;
+    int i;
     Image image;
 
     int movesum;
@@ -73,6 +76,7 @@ public class PlayerSaikoro : MonoBehaviour
                 Debug.LogError("GameManager is not assigned and could not be found in the scene.");
             }
         }
+        PlayerPrefs.SetInt("move", 0);
     }
 
     void Update()
@@ -105,11 +109,11 @@ public class PlayerSaikoro : MonoBehaviour
         //サイコロ振る
         if (!idoutyu && saikorotyu)
         {
-            this.delta += Time.deltaTime;
+            this.saikoroTime += Time.deltaTime;
 
-            if (this.delta > 0.1f)
+            if (this.saikoroTime > 0.1f)
             {
-                this.delta = 0f;
+                this.saikoroTime = 0f;
 
                 if (ii < 7)                 
                 {
@@ -127,9 +131,20 @@ public class PlayerSaikoro : MonoBehaviour
                     // プレイヤーのサイコロの結果に応じてEnemyのサイコロ範囲を決定
                     targetScript.RollEnemyDice();
 
+                    i += sai;
+                    PlayerPrefs.SetInt("move", i);
                     ii = 0;
                     saikorotyu = false;
                     idoutyu = true;
+
+                    if(sai >= 1 && sai <= 3)
+                    {
+                        player.PosFact = 0.9f;
+                    }
+                    else
+                    {
+                        player.PosFact = 0.2f;
+                    }
                 }
             }
             
@@ -151,8 +166,9 @@ public class PlayerSaikoro : MonoBehaviour
         }
 
         //プレイヤー角度【北：１、西：２、東：３、南：４】
-        if (Input.GetKeyDown(KeyCode.A))
+        if (Input.GetKeyDown(KeyCode.A) && !magarityu)
         {
+            magarityu = true;
             player.TargetRotation *= Quaternion.Euler(0, -90, 0);
             switch (mesen)
             {
@@ -162,8 +178,9 @@ public class PlayerSaikoro : MonoBehaviour
                 case 4: mesen = 3; break;
             }
         }
-        if (Input.GetKeyDown(KeyCode.S))
+        if (Input.GetKeyDown(KeyCode.S) && !magarityu)
         {
+            magarityu = true;
             player.TargetRotation *= Quaternion.Euler(0, 180, 0);
             switch (mesen)
             {
@@ -173,8 +190,9 @@ public class PlayerSaikoro : MonoBehaviour
                 case 4: mesen = 1; break;
             }
         }
-        if (Input.GetKeyDown(KeyCode.D))
+        if (Input.GetKeyDown(KeyCode.D) && !magarityu)
         {
+            magarityu = true;
             player.TargetRotation *= Quaternion.Euler(0, 90, 0);
             switch (mesen)
             {
@@ -182,6 +200,24 @@ public class PlayerSaikoro : MonoBehaviour
                 case 2: mesen = 1; break;
                 case 3: mesen = 4; break;
                 case 4: mesen = 2; break;
+            }
+        }
+
+        //曲がり中判定
+        if (magarityu)
+        {
+            PNorth.GetComponent<PlayerNSEWCheck>().masuCheck = false;
+            PNorth.SetActive(false);
+            //Debug.Log("曲がり中");
+
+            this.magariTime += Time.deltaTime;
+
+            if (this.magariTime > 0.6f)
+            {
+                this.magariTime = 0f;
+                //Debug.Log("曲がり尾張");
+                magarityu = false;
+                PNorth.SetActive(true);
             }
         }
     }
@@ -220,10 +256,10 @@ public class PlayerSaikoro : MonoBehaviour
 
         switch (n)
         {
-            case 1: Pos.z += 2.0f; break; // 北に移動
-            case 2: Pos.x -= 2.0f; break; // 西に移動
-            case 3: Pos.x += 2.0f; break; // 東に移動
-            case 4: Pos.z -= 2.0f; break; // 南に移動
+            case 1: player.TargetPosition.z += 2.0f; break; // 北に移動
+            case 2: player.TargetPosition.x -= 2.0f; break; // 西に移動
+            case 3: player.TargetPosition.x += 2.0f; break; // 東に移動
+            case 4: player.TargetPosition.z -= 2.0f; break; // 南に移動
         }
 
         Player.transform.position = Pos; // 移動
@@ -276,4 +312,5 @@ public class PlayerSaikoro : MonoBehaviour
     {
         // このメソッドは空にしておくか、必要に応じて他の処理を追加します
     }
+
 }
