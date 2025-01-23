@@ -1464,6 +1464,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gameManager: {fileID: 1110011795}
+  turnManager: {fileID: 1110011796}
   player: {fileID: 156927496}
   saikorotyu: 0
   idoutyu: 0
@@ -2032,6 +2033,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 2857912280779571572, guid: aec8767de25427940bc22c2663185c13, type: 3}
       insertIndex: -1
       addedObject: {fileID: 712312918}
+    - targetCorrespondingSourceObject: {fileID: 2857912280779571572, guid: aec8767de25427940bc22c2663185c13, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 712312923}
   m_SourcePrefab: {fileID: 100100000, guid: aec8767de25427940bc22c2663185c13, type: 3}
 --- !u!1 &712312917 stripped
 GameObject:
@@ -2065,6 +2069,20 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!114 &712312923
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 712312917}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6f8f347780edeec4aa9fa757f5a7f0d1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  TargetPosition: {x: 0, y: 0, z: 0}
+  TargetRotation: {x: 0, y: 0, z: 0, w: 0}
 --- !u!1 &739239916
 GameObject:
   m_ObjectHideFlags: 0
@@ -2161,18 +2179,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d0e91c2b68d5ef147844c27f3add5231, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  enemySmooth: {fileID: 712312923}
   enemy: {fileID: 712312917}
   player: {fileID: 81100622}
   saikoro: {fileID: 535978325}
   wallLayer:
     serializedVersion: 2
     m_Bits: 128
-  s1: {fileID: 21300000, guid: cbdcaedc33beb714ebc73f0fc34415cd, type: 3}
-  s2: {fileID: 21300000, guid: f5beac8a9752d884b958781c8fb75b7e, type: 3}
-  s3: {fileID: 21300000, guid: ee5f49f796f7d59468eb89bd13c59d33, type: 3}
-  s4: {fileID: 21300000, guid: e6b5bc09bbeceb648a0f3df8d3f6b9e4, type: 3}
-  s5: {fileID: 21300000, guid: 46133e1eeeb23334a800496f39e8d8fa, type: 3}
-  s6: {fileID: 21300000, guid: ab6a051d444f975488a562543f4b3a2b, type: 3}
+  s1: {fileID: 21300000, guid: 824ececc4e06af74d82a69ccc765b6cb, type: 3}
+  s2: {fileID: 21300000, guid: f3fb44dde111a454da5b4bafedd6bb13, type: 3}
+  s3: {fileID: 21300000, guid: 81804253d626fe3438bcccac310e8446, type: 3}
+  s4: {fileID: 21300000, guid: 50437870a4b98394192e58fef821667f, type: 3}
+  s5: {fileID: 21300000, guid: 69e71bfa4f3005a4fa438b394fcdf55b, type: 3}
+  s6: {fileID: 21300000, guid: be466869eecccfe44848b1f269b2951e, type: 3}
 --- !u!4 &792535862
 Transform:
   m_ObjectHideFlags: 0
@@ -2829,6 +2848,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   turnText: {fileID: 1682456887}
+  turnStay: 0
   playerSaikoro: {fileID: 401785385}
   flashlightController: {fileID: 161767039}
 --- !u!4 &1110011797
