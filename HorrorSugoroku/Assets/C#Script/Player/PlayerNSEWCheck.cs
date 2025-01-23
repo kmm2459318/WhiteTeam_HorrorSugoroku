@@ -19,7 +19,7 @@ public class PlayerNSEWCheck : MonoBehaviour
         if (collision.gameObject.tag == "masu")
         {
             masuCheck = false;
-            //Debug.Log("前進不可");
+            Debug.Log("前進不可");
         }
         //masuCheck = false;
         //Debug.Log("no");
@@ -29,7 +29,7 @@ public class PlayerNSEWCheck : MonoBehaviour
         if (collision.gameObject.tag == "masu")
         {
             masuCheck = true;
-            //Debug.Log("前進可能");
+            Debug.Log("前進可能");
         }
         //masuCheck = true;
         //Debug.Log("OK");

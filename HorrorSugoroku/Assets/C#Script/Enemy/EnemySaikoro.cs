@@ -1,11 +1,8 @@
 ﻿using UnityEngine;
-using UnityEngine.UI;
 using System.Collections;
-using SmoothigTransform;
 
 public class EnemySaikoro : MonoBehaviour
 {
-    [SerializeField] SmoothTransform enemySmooth;
     public GameObject enemy;
     public GameObject player;
     public GameObject saikoro; // サイコロのゲームオブジェクト
@@ -17,7 +14,6 @@ public class EnemySaikoro : MonoBehaviour
     public Sprite s5;
     public Sprite s6;
     private int steps; // サイコロの目の数
-    Image image;
 
     void Start()
     {
@@ -29,9 +25,6 @@ public class EnemySaikoro : MonoBehaviour
         {
             Debug.LogError("Saikoro GameObject is not assigned in the Inspector.");
         }
-
-        // サイコロのImageを保持
-        image = saikoro.GetComponent<Image>();
     }
 
     void Update()
@@ -39,22 +32,6 @@ public class EnemySaikoro : MonoBehaviour
         if (FindObjectOfType<GameManager>().IsPlayerTurn())
         {
             return;
-        }
-
-        switch (steps)
-        {
-            case 1:
-                image.sprite = s1; break;
-            case 2:
-                image.sprite = s2; break;
-            case 3:
-                image.sprite = s3; break;
-            case 4:
-                image.sprite = s4; break;
-            case 5:
-                image.sprite = s5; break;
-            case 6:
-                image.sprite = s6; break;
         }
     }
 
@@ -65,15 +42,6 @@ public class EnemySaikoro : MonoBehaviour
         {
             steps = Random.Range(1, 7);
             yield return new WaitForSeconds(0.1f); // 0.1秒ごとに目を変更
-        }
-
-        if (steps <= 3)
-        {
-            enemySmooth.PosFact = 0.9f;
-        }
-        else
-        {
-            enemySmooth.PosFact = 0.2f;
         }
 
         Debug.Log("Enemy rolled: " + steps);
@@ -88,8 +56,7 @@ public class EnemySaikoro : MonoBehaviour
             Vector3 direction = (player.transform.position - enemy.transform.position).normalized;
             direction = GetValidDirection(direction); // 壁を避ける方向を計算
 
-            enemySmooth.TargetPosition += direction * 1.0f; // 2.0f単位で移動
-            Debug.Log(direction);
+            enemy.transform.position += direction * 1.0f; // 2.0f単位で移動
             steps--;
             Debug.Log("Enemy moved towards player. Steps remaining: " + steps);
             yield return new WaitForSeconds(0.5f); // 移動の間隔を待つ
