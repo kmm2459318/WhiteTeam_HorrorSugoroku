@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 public class SceneChanger3D : MonoBehaviour
 {
-    [SerializeField] private string enemyObjectName = "Enemy"; // 敵オブジェクトの名前
+    [SerializeField] private GameObject enemy; // 敵オブジェクトの名前
     [SerializeField] private Image cutInImage; // カットイン画像
     [SerializeField] private float cutInDuration = 2.0f; // カットインの表示時間（秒）
 
@@ -13,7 +13,7 @@ public class SceneChanger3D : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
-        if (!isGameOver && collision.gameObject.name == enemyObjectName)
+        if (!isGameOver && collision.gameObject == enemy)
         {
             StartCoroutine(ShowCutInAndGoToGameover()); // コルーチンを開始
         }
@@ -21,7 +21,7 @@ public class SceneChanger3D : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (!isGameOver && other.gameObject.name == enemyObjectName)
+        if (!isGameOver && other.gameObject == enemy)
         {
             StartCoroutine(ShowCutInAndGoToGameover()); // コルーチンを開始
         }
