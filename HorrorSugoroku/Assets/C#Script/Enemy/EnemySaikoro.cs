@@ -3,6 +3,8 @@ using System.Collections;
 
 public class EnemySaikoro : MonoBehaviour
 {
+    [SerializeField] SmoothTransform enemySmooth;
+    public TurnManager turnManager; // TurnManagerへの参照
     public GameObject enemy;
     public GameObject player;
     public GameObject saikoro; // サイコロのゲームオブジェクト
@@ -56,12 +58,13 @@ public class EnemySaikoro : MonoBehaviour
             Vector3 direction = (player.transform.position - enemy.transform.position).normalized;
             direction = GetValidDirection(direction); // 壁を避ける方向を計算
 
-            enemy.transform.position += direction * 1.0f; // 2.0f単位で移動
+            enemySmooth.TargetPosition += direction * 1.0f; // 2.0f単位で移動
             steps--;
             Debug.Log("Enemy moved towards player. Steps remaining: " + steps);
             yield return new WaitForSeconds(0.5f); // 移動の間隔を待つ
         }
         saikoro.SetActive(false); // サイコロを非表示にする
+        turnManager.turnStay = false;
 
         Debug.Log("Enemy moved a total of " + initialSteps + " steps.");
         FindObjectOfType<GameManager>().NextTurn(); // 次のターンに進む
