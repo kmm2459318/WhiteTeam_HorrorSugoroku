@@ -22,6 +22,7 @@ namespace SmoothigTransform
         public void Start()
         {
             TargetPosition = transform.localPosition;
+            //TargetScale = transform.localScale;
             TargetRotation = transform.localRotation;
         }
 
@@ -30,6 +31,7 @@ namespace SmoothigTransform
         /// </summary>
         public void Update()
         {
+            //transform.localScale = Vector3.Lerp(transform.localScale, TargetScale, t);
             // 補間係数を計算（Time.deltaTimeを使いフレームに依存しないように）
             var p = 1 - Mathf.Pow(0.1f, Time.deltaTime / PosFact); // 位置補間用
             var r = 1 - Mathf.Pow(0.1f, Time.deltaTime / RotFact); // 回転補間用
