@@ -50,7 +50,6 @@ public class GridCell : MonoBehaviour
           
         }
 
-        Debug.Log("ExecuteEvent");
          
     }
    

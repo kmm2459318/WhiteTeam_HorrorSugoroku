@@ -783,7 +783,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: be09e6e834c73cf45949ac4e256e91ba, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cellEffect: Normal
+  cellEffect: Debuff
 --- !u!135 &275406999
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -1027,7 +1027,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: be09e6e834c73cf45949ac4e256e91ba, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cellEffect: Normal
+  cellEffect: Battery
 --- !u!135 &479751079
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -1615,6 +1615,7 @@ GameObject:
   - component: {fileID: 803088824}
   - component: {fileID: 803088822}
   - component: {fileID: 803088823}
+  - component: {fileID: 803088828}
   m_Layer: 0
   m_Name: PlayerC
   m_TagString: Untagged
@@ -1773,6 +1774,19 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 803088820}
   m_Mesh: {fileID: 10206, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &803088828
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 803088820}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5cb7ad12be5f09149be3e0ed77ee9ef0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerSaikoro: {fileID: 768680508}
 --- !u!1 &827527781
 GameObject:
   m_ObjectHideFlags: 0
@@ -3223,7 +3237,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: be09e6e834c73cf45949ac4e256e91ba, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cellEffect: Normal
+  cellEffect: Event
 --- !u!135 &1395979002
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -3346,7 +3360,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: be09e6e834c73cf45949ac4e256e91ba, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cellEffect: Normal
+  cellEffect: Item
 --- !u!135 &1485892329
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -3469,7 +3483,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: be09e6e834c73cf45949ac4e256e91ba, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cellEffect: Normal
+  cellEffect: Dires
 --- !u!135 &1561581664
 SphereCollider:
   m_ObjectHideFlags: 0
