@@ -5,6 +5,7 @@ public class TurnManager : MonoBehaviour
 {
     public TMP_Text turnText;  // TextMeshPro �p�̃^�[�����\��
     private int currentTurn = 0;  // ���݂̃^�[���ԍ�
+    public bool turnStay = false;
 
     public PlayerSaikoro playerSaikoro;  // �v���C���[�̃T�C�R���Ǘ��i���̃^�[���ɐi�ޏ����j
 
@@ -13,16 +14,19 @@ public class TurnManager : MonoBehaviour
     // ���̃^�[���ɐi�ޏ���
     public void NextTurn()
     {
-        currentTurn++;  // �^�[����i�߂�
-        PlayerPrefs.SetInt("Turn", currentTurn);
-        UpdateTurnText();  // UI�̃e�L�X�g���X�V����
-        playerSaikoro.DiceRoll();
-        // �����d���̃^�[���i�s�������Ăяo��
-        if (flashlightController != null)
+        if (!turnStay)
         {
-            flashlightController.OnTurnAdvanced();
+            turnStay = true;
+            currentTurn++;  // �^�[����i�߂�
+            PlayerPrefs.SetInt("Turn", currentTurn);
+            UpdateTurnText();  // UI�̃e�L�X�g���X�V����
+            playerSaikoro.DiceRoll();
+            // �����d���̃^�[���i�s�������Ăяo��
+            if (flashlightController != null)
+            {
+                flashlightController.OnTurnAdvanced();
+            }
         }
-
     }
 
 
