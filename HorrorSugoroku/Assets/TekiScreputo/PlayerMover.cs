@@ -1,16 +1,15 @@
-using System.Collections;
 using UnityEngine;
-using System.Collections.Generic;
+using System.Collections;
 
 public class PlayerMover : MonoBehaviour
 {
-    public  PlayerSaikoro playerSaikoro; // 監視対象のスクリプト
-   public GridCell gridCell;
-    private bool lastState = false; // 前回の状態
+    public PlayerSaikoro playerSaikoro; // サイコロスクリプト
+    private GridCell currentCell;       // プレイヤーが移動完了したセル
+    private bool wasMoving = false;     // 前回の移動状態
 
     void Start()
     {
-        // スクリプトがアサインされていない場合、自動的に取得
+        // 必要なスクリプトを自動取得
         if (playerSaikoro == null)
         {
             playerSaikoro = GetComponent<PlayerSaikoro>();
@@ -19,30 +18,41 @@ public class PlayerMover : MonoBehaviour
 
     void Update()
     {
-        if (playerSaikoro == null)
+        // プレイヤーの移動が完了したタイミングを監視
+        if (wasMoving && !playerSaikoro.idoutyu)
         {
-            Debug.LogError("TargetScriptが設定されていません。");
-            return;
+            StartCoroutine(TriggerCurrentCellEventWithDelay(1.0f));
         }
 
-        // 状態の変化を監視
-        if (lastState && !playerSaikoro.idoutyu)
-        {
-            Debug.Log("TargetScriptのidoutyuがfalseになりました！");
-            PlayerMoverExecuteEvent();
-        }
         // 状態を更新
-        lastState = playerSaikoro.idoutyu;
+        wasMoving = playerSaikoro.idoutyu;
     }
 
-    private void PlayerMoverExecuteEvent()
+    private void OnTriggerEnter(Collider other)
     {
-        // 必要な処理を記述
-
-        gridCell.ExecuteEvent();
+        // プレイヤーが通過したセルを記録
+        GridCell cell = other.GetComponent<GridCell>();
+        if (cell != null)
+        {
+            currentCell = cell;
+            Debug.Log($"プレイヤーが {cell.name} に到達しました。");
+        }
     }
 
-} // 必要なイベント処理をここに追加
-    // 例: ゲームの終了、プレイヤーの停止など
+    private IEnumerator TriggerCurrentCellEventWithDelay(float delay)
+    {
+        // 遅延を待機
+        yield return new WaitForSeconds(delay);
 
-
+        // イベントを発火
+        if (currentCell != null)
+        {
+            Debug.Log($"1秒後にイベント発動: {currentCell.name}");
+            currentCell.ExecuteEvent();
+        }
+        else
+        {
+            Debug.LogWarning("現在のセルが設定されていません。");
+        }
+    }
+}
