@@ -14,6 +14,7 @@ public class EnemySaikoro : MonoBehaviour
     public Sprite s5;
     public Sprite s6;
     private int steps; // サイコロの目の数
+    private Animator animator; // アニメーター
 
     void Start()
     {
@@ -25,6 +26,8 @@ public class EnemySaikoro : MonoBehaviour
         {
             Debug.LogError("Saikoro GameObject is not assigned in the Inspector.");
         }
+
+        animator = enemy.GetComponent<Animator>(); // アニメーターの取得
     }
 
     void Update()
@@ -51,16 +54,20 @@ public class EnemySaikoro : MonoBehaviour
     private IEnumerator MoveTowardsPlayer()
     {
         int initialSteps = steps; // 初期のステップ数を保存
+        animator.SetBool("isRunning", true); // 移動開始時にアニメーションを再生
+
         while (steps > 0)
         {
             Vector3 direction = (player.transform.position - enemy.transform.position).normalized;
             direction = GetValidDirection(direction); // 壁を避ける方向を計算
 
-            enemy.transform.position += direction * 1.0f; // 2.0f単位で移動
+            enemy.transform.position += direction * 1.0f; // 1.0f単位で移動
             steps--;
             Debug.Log("Enemy moved towards player. Steps remaining: " + steps);
             yield return new WaitForSeconds(0.5f); // 移動の間隔を待つ
         }
+
+        animator.SetBool("isRunning", false); // 移動終了時にアニメーションを停止
         saikoro.SetActive(false); // サイコロを非表示にする
 
         Debug.Log("Enemy moved a total of " + initialSteps + " steps.");
