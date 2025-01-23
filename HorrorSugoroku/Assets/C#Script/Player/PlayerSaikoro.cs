@@ -43,6 +43,11 @@ public class PlayerSaikoro : MonoBehaviour
     Image image;
 
     int movesum;
+
+    // AudioSource and AudioClip variables for dice roll sound
+    private AudioSource audioSource; // AudioSource to play sound
+    public AudioClip diceRollSound; // The sound to play when the dice rolls
+
     [System.Obsolete]
     void Start()
     {
@@ -77,13 +82,26 @@ public class PlayerSaikoro : MonoBehaviour
                 Debug.LogError("GameManager is not assigned and could not be found in the scene.");
             }
         }
+
         PlayerPrefs.SetInt("move", 0);
+
+        // Get the AudioSource component and ensure the dice roll sound is assigned
+        audioSource = GetComponent<AudioSource>();
+        if (audioSource == null)
+        {
+            Debug.LogError("AudioSource component is missing on the PlayerSaikoro GameObject.");
+        }
+
+        if (diceRollSound == null)
+        {
+            Debug.LogError("DiceRollSound AudioClip is not assigned.");
+        }
     }
 
     void Update()
     {
         if (!gameManager.IsPlayerTurn())
-        Pos = Player.transform.position;
+            Pos = Player.transform.position;
         Rot = Player.transform.eulerAngles;
         PN = PNorth.GetComponent<PlayerNSEWCheck>().masuCheck;
         //PW = PWest.GetComponent<PlayerNSEWCheck>().masuCheck;
@@ -121,11 +139,12 @@ public class PlayerSaikoro : MonoBehaviour
             {
                 this.saikoroTime = 0f;
 
-                if (ii < 7)                 
+                if (ii < 7)
                 {
                     sai = Random.Range(1, 7);
                     saikoro.SetActive(true);
-                    //Debug.Log("Player rolling: " + sai);
+                    // Play dice roll sound
+                    PlayDiceRollSound();
                     ii++;
                 }
                 else
@@ -143,7 +162,7 @@ public class PlayerSaikoro : MonoBehaviour
                     saikorotyu = false;
                     idoutyu = true;
 
-                    if(sai >= 1 && sai <= 3)
+                    if (sai >= 1 && sai <= 3)
                     {
                         player.PosFact = 0.9f;
                     }
@@ -153,7 +172,7 @@ public class PlayerSaikoro : MonoBehaviour
                     }
                 }
             }
-            
+
         }
 
         //移動処理　【北：１、西：２、東：３、南：４】
@@ -234,10 +253,23 @@ public class PlayerSaikoro : MonoBehaviour
         saikorotyu = true;
     }
 
+    // 音を再生するメソッド
+    private void PlayDiceRollSound()
+    {
+        if (audioSource != null && diceRollSound != null)
+        {
+            audioSource.PlayOneShot(diceRollSound);
+        }
+        else
+        {
+            Debug.LogWarning("AudioSource or DiceRollSound is not set.");
+        }
+    }
+
     void FrontBack(int n)
     {
         int m = 0;
-        switch(n)
+        switch (n)
         {
             case 1: m = 4; break;
             case 2: m = 3; break;
@@ -259,7 +291,7 @@ public class PlayerSaikoro : MonoBehaviour
     void idou(int n, bool back)
     {
         // 現在のPlayerのY軸の値を保持
-        Pos = Player.transform.position; 
+        Pos = Player.transform.position;
 
         switch (n)
         {
