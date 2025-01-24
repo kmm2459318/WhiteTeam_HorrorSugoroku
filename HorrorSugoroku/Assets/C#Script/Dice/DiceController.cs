@@ -4,16 +4,15 @@ public class DiceController : MonoBehaviour
 {
     private Rigidbody rb;
     private bool isHeld = false;
-    private Vector3 initialMousePosition;
     private bool isStopped = false;
-    private float timeSinceThrown = 0f; // 投げた後の時間を記録
-    private bool hasBeenThrown = false; // サイコロが投げられたかどうか
+    private bool hasBeenThrown = false;
+    private Vector3 initialMousePosition;
+    private float timeSinceThrown = 0f;
 
-    // さいころの面となる空のオブジェクト
-    [SerializeField] private Transform[] faces;
-
-    // 停止判定を行う猶予時間（秒）
-    [SerializeField] private float stopCheckDelay = 1f;
+    [SerializeField] private Transform[] faces; // サイコロの面の空オブジェクト
+    [SerializeField] private float stopCheckDelay = 1f; // 停止判定の猶予時間
+    [SerializeField] private float stopThreshold = 0.05f; // 停止判定の速度閾値
+    [SerializeField] private float throwForceMultiplier = 2f; // 投げる力の調整
 
     void Start()
     {
@@ -22,8 +21,8 @@ public class DiceController : MonoBehaviour
 
     void Update()
     {
-        // 左クリックでつかむ処理
-        if (Input.GetMouseButtonDown(0))
+        // 左クリックでサイコロをつかむ
+        if (Input.GetMouseButtonDown(0) && !hasBeenThrown)
         {
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
             if (Physics.Raycast(ray, out RaycastHit hit))
@@ -31,69 +30,73 @@ public class DiceController : MonoBehaviour
                 if (hit.collider.gameObject == gameObject)
                 {
                     isHeld = true;
-                    isStopped = false; // 判定を無効化
-                    hasBeenThrown = false; // 投げていない状態にリセット
+                    isStopped = false;
+                    hasBeenThrown = false;
                     initialMousePosition = Input.mousePosition;
                     rb.isKinematic = true; // 物理挙動を停止
                 }
             }
         }
 
-        // 左クリックを離したときに投げる処理
+        // 左クリックを離してサイコロを投げる
         if (Input.GetMouseButtonUp(0) && isHeld)
         {
             isHeld = false;
-            hasBeenThrown = true; // 投げた状態にする
-            timeSinceThrown = 0f; // 猶予時間のカウントを開始
-            rb.isKinematic = false;
+            hasBeenThrown = true;
+            isStopped = false;
+            timeSinceThrown = 0f;
 
-            // マウスの動きを力として加える
+            rb.isKinematic = false; // 物理挙動を再開
+
+            // マウス移動量から力を計算
             Vector3 mouseDelta = Input.mousePosition - initialMousePosition;
-            rb.AddForce(new Vector3(mouseDelta.x, 200, mouseDelta.y) * 5f);
-            rb.AddTorque(Random.insideUnitSphere * 1000f); // ランダムな回転力を付与
+            Vector3 throwForce = new Vector3(mouseDelta.x, 100, mouseDelta.y) * throwForceMultiplier;
+            rb.AddForce(throwForce);
+            rb.AddTorque(Random.insideUnitSphere * 500f); // ランダムな回転力
         }
 
-        // つかんでいる間の動作
+        // サイコロをつかんでいる間
         if (isHeld)
         {
-            // マウス位置に追従させる
+            // マウス位置に追従
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
             if (Physics.Raycast(ray, out RaycastHit hit))
             {
                 Vector3 targetPosition = hit.point;
-                targetPosition.y = Mathf.Min(targetPosition.y, 5); // Y座標を最大5に制限
+                targetPosition.y = Mathf.Min(targetPosition.y, 5); // Y座標の上限を5に制限
                 transform.position = targetPosition;
             }
 
-            // 回転させる
-            float rotationSpeed = 1000f;
+            // ランダム回転
+            float rotationSpeed = 300f;
             transform.Rotate(Random.Range(-rotationSpeed, rotationSpeed) * Time.deltaTime,
                              Random.Range(-rotationSpeed, rotationSpeed) * Time.deltaTime,
                              Random.Range(-rotationSpeed, rotationSpeed) * Time.deltaTime);
         }
 
-        // 投げた後の時間を計測
+        // 投げた後の停止判定
         if (hasBeenThrown)
         {
             timeSinceThrown += Time.deltaTime;
-        }
 
-        // 停止を判定して出た目を表示（つかんでいない & 猶予時間経過後に判定）
-        if (!isHeld && hasBeenThrown && timeSinceThrown >= stopCheckDelay && !isStopped)
-        {
-            if (rb.linearVelocity.magnitude < 0.1f && rb.angularVelocity.magnitude < 0.1f)
+            if (timeSinceThrown >= stopCheckDelay && !isStopped)
             {
-                isStopped = true; // 一度だけ判定する
-                int result = GetTopFace();
-                if (result != -1)
+                // サイコロが停止しているか確認
+                if (rb.linearVelocity.magnitude < stopThreshold && rb.angularVelocity.magnitude < stopThreshold)
                 {
-                    Debug.Log($"出た目: {result}");
+                    isStopped = true;
+                    int result = GetTopFace();
+                    if (result != -1)
+                    {
+                        Debug.Log($"出た目: {result}");
+                        ResetDiceState(); // 判定後に状態をリセット
+                    }
                 }
             }
         }
     }
 
-    // 一番Y座標が高い面を判定
+    // 一番Y座標が高い面を取得
     private int GetTopFace()
     {
         if (faces == null || faces.Length == 0) return -1;
@@ -115,7 +118,15 @@ public class DiceController : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
-        // 衝突時に停止判定をリセット（念のため）
+        // 衝突時はまだ停止していないとみなす
+        isStopped = false;
+    }
+
+    // サイコロの状態をリセット
+    private void ResetDiceState()
+    {
+        hasBeenThrown = false;
+        isHeld = false;
         isStopped = false;
     }
 }
