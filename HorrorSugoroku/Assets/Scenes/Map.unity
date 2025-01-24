@@ -180,7 +180,8 @@ MonoBehaviour:
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_fontSharedMaterials: []
+  m_fontSharedMaterials:
+  - {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
   m_fontColor32:
@@ -1222,6 +1223,71 @@ Light:
   m_LightUnit: 1
   m_LuxAtDistance: 1
   m_EnableSpotReflector: 1
+--- !u!1001 &732813879
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 916393699}
+    m_Modifications:
+    - target: {fileID: 8625609145277694527, guid: e4e2d7ec9597f3f4f8c4547f23ca6538, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 8625609145277694527, guid: e4e2d7ec9597f3f4f8c4547f23ca6538, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -0.6465225
+      objectReference: {fileID: 0}
+    - target: {fileID: 8625609145277694527, guid: e4e2d7ec9597f3f4f8c4547f23ca6538, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0.76740384
+      objectReference: {fileID: 0}
+    - target: {fileID: 8625609145277694527, guid: e4e2d7ec9597f3f4f8c4547f23ca6538, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.9848078
+      objectReference: {fileID: 0}
+    - target: {fileID: 8625609145277694527, guid: e4e2d7ec9597f3f4f8c4547f23ca6538, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0.17364816
+      objectReference: {fileID: 0}
+    - target: {fileID: 8625609145277694527, guid: e4e2d7ec9597f3f4f8c4547f23ca6538, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8625609145277694527, guid: e4e2d7ec9597f3f4f8c4547f23ca6538, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8625609145277694527, guid: e4e2d7ec9597f3f4f8c4547f23ca6538, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8625609145277694527, guid: e4e2d7ec9597f3f4f8c4547f23ca6538, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8625609145277694527, guid: e4e2d7ec9597f3f4f8c4547f23ca6538, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9007060156471777413, guid: e4e2d7ec9597f3f4f8c4547f23ca6538, type: 3}
+      propertyPath: m_Name
+      value: Flashlight
+      objectReference: {fileID: 0}
+    - target: {fileID: 9067541579640885550, guid: e4e2d7ec9597f3f4f8c4547f23ca6538, type: 3}
+      propertyPath: batteryImage
+      value: 
+      objectReference: {fileID: 2121682021}
+    - target: {fileID: 9067541579640885550, guid: e4e2d7ec9597f3f4f8c4547f23ca6538, type: 3}
+      propertyPath: batteryButton
+      value: 
+      objectReference: {fileID: 581172944}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: e4e2d7ec9597f3f4f8c4547f23ca6538, type: 3}
 --- !u!1 &774594191
 GameObject:
   m_ObjectHideFlags: 0
@@ -1545,7 +1611,7 @@ MonoBehaviour:
   turnText: {fileID: 1299087180}
   turnStay: 0
   playerSaikoro: {fileID: 790406210}
-  flashlightController: {fileID: 1106427795}
+  flashlightController: {fileID: 1269736883}
 --- !u!114 &868826441
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1731,7 +1797,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 1106427794}
+  - {fileID: 1269736882}
   m_Father: {fileID: 1693921105}
   m_LocalEulerAnglesHint: {x: 20, y: 0, z: 0}
 --- !u!114 &916393700
@@ -1958,91 +2024,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1565053122}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1001 &1106427793
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    serializedVersion: 3
-    m_TransformParent: {fileID: 916393699}
-    m_Modifications:
-    - target: {fileID: 80831040081499408, guid: 06133c8692359a547a1eacb507f1c861, type: 3}
-      propertyPath: m_Intensity
-      value: 50
-      objectReference: {fileID: 0}
-    - target: {fileID: 8625609145277694527, guid: 06133c8692359a547a1eacb507f1c861, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 0.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 8625609145277694527, guid: 06133c8692359a547a1eacb507f1c861, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: -0.6465225
-      objectReference: {fileID: 0}
-    - target: {fileID: 8625609145277694527, guid: 06133c8692359a547a1eacb507f1c861, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0.76740384
-      objectReference: {fileID: 0}
-    - target: {fileID: 8625609145277694527, guid: 06133c8692359a547a1eacb507f1c861, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 0.9848078
-      objectReference: {fileID: 0}
-    - target: {fileID: 8625609145277694527, guid: 06133c8692359a547a1eacb507f1c861, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: -0.17364816
-      objectReference: {fileID: 0}
-    - target: {fileID: 8625609145277694527, guid: 06133c8692359a547a1eacb507f1c861, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8625609145277694527, guid: 06133c8692359a547a1eacb507f1c861, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8625609145277694527, guid: 06133c8692359a547a1eacb507f1c861, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8625609145277694527, guid: 06133c8692359a547a1eacb507f1c861, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8625609145277694527, guid: 06133c8692359a547a1eacb507f1c861, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 9007060156471777413, guid: 06133c8692359a547a1eacb507f1c861, type: 3}
-      propertyPath: m_Name
-      value: Flashlight
-      objectReference: {fileID: 0}
-    - target: {fileID: 9067541579640885550, guid: 06133c8692359a547a1eacb507f1c861, type: 3}
-      propertyPath: batteryImage
-      value: 
-      objectReference: {fileID: 2121682021}
-    - target: {fileID: 9067541579640885550, guid: 06133c8692359a547a1eacb507f1c861, type: 3}
-      propertyPath: batteryButton
-      value: 
-      objectReference: {fileID: 581172944}
-    m_RemovedComponents: []
-    m_RemovedGameObjects: []
-    m_AddedGameObjects: []
-    m_AddedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: 06133c8692359a547a1eacb507f1c861, type: 3}
---- !u!4 &1106427794 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 8625609145277694527, guid: 06133c8692359a547a1eacb507f1c861, type: 3}
-  m_PrefabInstance: {fileID: 1106427793}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &1106427795 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 9067541579640885550, guid: 06133c8692359a547a1eacb507f1c861, type: 3}
-  m_PrefabInstance: {fileID: 1106427793}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d56cadda7c63af049871dd2b26652c2d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &1142184737
 GameObject:
   m_ObjectHideFlags: 0
@@ -2726,6 +2707,22 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1258482258}
   m_CullTransparentMesh: 1
+--- !u!4 &1269736882 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 8625609145277694527, guid: e4e2d7ec9597f3f4f8c4547f23ca6538, type: 3}
+  m_PrefabInstance: {fileID: 732813879}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1269736883 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 9067541579640885550, guid: e4e2d7ec9597f3f4f8c4547f23ca6538, type: 3}
+  m_PrefabInstance: {fileID: 732813879}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d56cadda7c63af049871dd2b26652c2d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1270106363
 GameObject:
   m_ObjectHideFlags: 0
@@ -2889,7 +2886,8 @@ MonoBehaviour:
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_fontSharedMaterials: []
+  m_fontSharedMaterials:
+  - {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
   m_fontColor32:
@@ -3545,7 +3543,8 @@ MonoBehaviour:
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_fontSharedMaterials: []
+  m_fontSharedMaterials:
+  - {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
   m_fontColor32:
@@ -4154,7 +4153,8 @@ MonoBehaviour:
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_fontSharedMaterials: []
+  m_fontSharedMaterials:
+  - {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
   m_fontColor32:
@@ -4892,7 +4892,8 @@ MonoBehaviour:
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_fontSharedMaterials: []
+  m_fontSharedMaterials:
+  - {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
   m_fontColor32:
