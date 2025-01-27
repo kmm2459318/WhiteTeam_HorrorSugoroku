@@ -10,13 +10,13 @@ using UnityEditor;
 // fileName: 生成されるScriptableObjectのファイル名
 // menuName: criptableObjectを生成するメニューの名前
 // order: メニューの表示順(0なので一番上に表示される)
-[CreateAssetMenu(fileName = "Master_Item", menuName = "ScriptableObjectの生成/Master_Itemの生成", order = 0)]
+[CreateAssetMenu(fileName = "Master_Debuff", menuName = "ScriptableObjectの生成/Master_Debuffの生成", order = 0)]
 
 // シートデータを管理するScriptableObject
-public class Master_Item : ScriptableObject
+public class Master_Debuff : ScriptableObject
 {
-    public SheetDataRecord[] ItemSheet;    // シートデータのリスト名
-    [SerializeField] string ItemMasterURL;    // スプレットシートのURL
+    public SheetDataRecord[] DebuffSheet;    // シートデータのリスト名
+    [SerializeField] string DebuffMasterURL;    // スプレットシートのURL
 
 
     // スプレットシートの列に対応する変数を定義
@@ -25,39 +25,39 @@ public class Master_Item : ScriptableObject
     {
         public int ID;
         public string Name;
-        public enum Type { Player, Ghost, Map, }
-        public Type type;
-        public int DiseMin;
-        public int DiseMax;
-        public int Recovery;
-        public int Volume;
-        public int UsedTurn;
+        public int StopTurn;
+        public int BackMin;
+        public int BackMax;
+        public int DecreaseMin;
+        public int DecreaseMax;
+        public bool Curse;
+        public bool ItemGive;
 
     }
 
 #if UNITY_EDITOR
     //スプレットシートの情報をsheetDataRecordに反映させるメソッド
-    public void LoadItemData()
+    public void LoadDebuffData()
     {
         // urlからCSV形式の文字列をダウンロードする
-        using UnityWebRequest request = UnityWebRequest.Get(ItemMasterURL);
+        using UnityWebRequest request = UnityWebRequest.Get(DebuffMasterURL);
         request.SendWebRequest();
         while (request.isDone == false)
         {
             if (request.result == UnityWebRequest.Result.ConnectionError || request.result == UnityWebRequest.Result.ProtocolError)
             {
-                Debug.LogError("ItemMasterURL:" + request.error);
+                Debug.LogError("DebuffMasterURL:" + request.error);
             }
         }
 
         // ダウンロードしたCSVをデシリアライズ(SerializeFieldに入力)する
-        ItemSheet = CSVSerializer.Deserialize<SheetDataRecord>(request.downloadHandler.text);
+        DebuffSheet = CSVSerializer.Deserialize<SheetDataRecord>(request.downloadHandler.text);
 
         // データの更新が完了したら、ScriptableObjectを保存する
         EditorUtility.SetDirty(this);
         AssetDatabase.SaveAssets();
 
-        Debug.Log("Master_Itemのデータの更新を完了しました");
+        Debug.Log("Master_Debuffのデータの更新を完了しました");
     }
 #endif
 }

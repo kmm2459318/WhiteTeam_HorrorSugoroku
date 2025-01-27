@@ -211,8 +211,10 @@ GameObject:
   - component: {fileID: 1525260233}
   - component: {fileID: 1525260232}
   - component: {fileID: 1525260236}
+  - component: {fileID: 1525260238}
+  - component: {fileID: 1525260237}
   m_Layer: 0
-  m_Name: TestItem
+  m_Name: TestObject
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -314,12 +316,41 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1525260230}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 94c2d90c6f2cf8d4d9c0be724f9fd97e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Itemsheet: {fileID: 11400000, guid: c02eadbb20c1a2a4c97f2285f2d3a5b7, type: 2}
+  ItemSheet: {fileID: 11400000, guid: c02eadbb20c1a2a4c97f2285f2d3a5b7, type: 2}
+  n: 0
+--- !u!114 &1525260237
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1525260230}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 055f81fd46eed9149b91207c3e6ec60d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  DebuffSheet: {fileID: 11400000, guid: 11758338602bb3e498299fa102a3798e, type: 2}
+  n: 0
+--- !u!114 &1525260238
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1525260230}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4cd1d2e8056099747a663324aff896f0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  EventSheet: {fileID: 11400000, guid: 7d04c0f1ae56e764797cb48dde0f5469, type: 2}
+  n: 0
 --- !u!1 &1716216234
 GameObject:
   m_ObjectHideFlags: 0
