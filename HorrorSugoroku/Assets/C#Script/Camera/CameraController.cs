@@ -3,7 +3,7 @@ using UnityEngine;
 public class CameraController : MonoBehaviour
 {
     public Transform playerBody;  // プレイヤーの本体
-    private float mouseSensitivity = 150f;  // マウス感度
+    private float mouseSensitivity = 250f;  // マウス感度
     private float sensitivityMultiplier = 1.0f;  // 感度倍率
     private float upperLookLimit =45f;  // 上方向の回転制限
     private float lowerLookLimit = -45f;  // 下方向の回転制限
@@ -35,7 +35,7 @@ public class CameraController : MonoBehaviour
         }
 
         // idoutyuがtrueのとき、カメラのX, Y軸を補間で0°にリセット
-        if (FindObjectOfType<PlayerSaikoro>().idoutyu)
+        /*if (FindObjectOfType<PlayerSaikoro>().idoutyu)
         {
             // 補間でスムーズにリセット
             xRotation = Mathf.Lerp(xRotation, 0f, Time.deltaTime / smoothTime);  // X軸回転補間
@@ -46,7 +46,8 @@ public class CameraController : MonoBehaviour
             yRotation = Mathf.Lerp(yRotation, targetYRotation, Time.deltaTime / smoothTime);
         }
         else
-        {
+        {*/
+    //}
             // 通常時の回転処理
             if (isMouseLocked)
             {
@@ -59,7 +60,6 @@ public class CameraController : MonoBehaviour
                 // Y軸回転をスムーズに反映
                 transform.localRotation = Quaternion.Euler(xRotation, yRotation, 0f);
             }
-        }
     }
 
     /// <summary>
@@ -95,9 +95,9 @@ public class CameraController : MonoBehaviour
         float mouseY = Input.GetAxis("Mouse Y") * mouseSensitivity * Time.deltaTime;
 
         // 上下回転は制限
-        xRotation -= mouseY;
-        xRotation = Mathf.Clamp(xRotation, lowerLookLimit, upperLookLimit);
-        yRotation = Mathf.Clamp(yRotation, lowerLookLimit, upperLookLimit);
+        //xRotation -= mouseY;
+        //xRotation = Mathf.Clamp(xRotation, lowerLookLimit, upperLookLimit);
+        //yRotation = Mathf.Clamp(yRotation, lowerLookLimit, upperLookLimit);
 
 
         // 上下回転の反映

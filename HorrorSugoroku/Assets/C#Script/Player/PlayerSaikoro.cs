@@ -33,12 +33,13 @@ public class PlayerSaikoro : MonoBehaviour
     public GameObject saikoro;
     public GameObject Player;
     public GameObject PNorth;
-    //public GameObject PWest;
-    //public GameObject PEast;
-    //public GameObject PSouth;
+    public GameObject PWest;
+    public GameObject PEast;
+    public GameObject PSouth;
+    public GameObject Camera;
     Vector3 Pos;
     Vector3 Rotation;
-    Vector3 Rot;
+    Angle Rot;
     int i;
     Image image;
 
@@ -102,11 +103,11 @@ public class PlayerSaikoro : MonoBehaviour
     {
         if (!gameManager.IsPlayerTurn())
             Pos = Player.transform.position;
-        Rot = Player.transform.eulerAngles;
+        Rot = Camera.transform.eulerAngles;
         PN = PNorth.GetComponent<PlayerNSEWCheck>().masuCheck;
-        //PW = PWest.GetComponent<PlayerNSEWCheck>().masuCheck;
-        //PE = PEast.GetComponent<PlayerNSEWCheck>().masuCheck;
-        //PS = PSouth.GetComponent<PlayerNSEWCheck>().masuCheck;
+        PW = PWest.GetComponent<PlayerNSEWCheck>().masuCheck;
+        PE = PEast.GetComponent<PlayerNSEWCheck>().masuCheck;
+        PS = PSouth.GetComponent<PlayerNSEWCheck>().masuCheck;
 
         //サイコロ表示
         switch (sai)
@@ -178,9 +179,27 @@ public class PlayerSaikoro : MonoBehaviour
         //移動処理　【北：１、西：２、東：３、南：４】
         if (idoutyu == true)
         {
-            if (Input.GetKeyDown(KeyCode.W) && PN)
-            {
-                FrontBack(mesen);
+            if (Input.GetKeyDown(KeyCode.W)) {
+                if (PN && Rot.y >= -45f && Rot.y < 45f)
+                {
+                    FrontBack(1);
+                    Debug.Log("North");
+                }
+                else if (PW && Rot.y >= -135f && Rot.y < -45f)
+                {
+                    FrontBack(2);
+                    Debug.Log("East");
+                }
+                else if (PE && Rot.y >= 45f && Rot.y < 135f)
+                {
+                    FrontBack(3);
+                    Debug.Log("West");
+                }
+                else if (PS && (Rot.y >= 180f && Rot.y < -225f) || (Rot.y >= 135f && Rot.y < 180f))
+                {
+                    FrontBack(4);
+                    Debug.Log("South");
+                }
             }
             if (sai < 1)
             {
@@ -192,7 +211,7 @@ public class PlayerSaikoro : MonoBehaviour
         }
 
         //プレイヤー角度【北：１、西：２、東：３、南：４】
-        if (Input.GetKeyDown(KeyCode.A) && !magarityu)
+        /*if (Input.GetKeyDown(KeyCode.A) && !magarityu)
         {
             magarityu = true;
             player.TargetRotation *= Quaternion.Euler(0, -90, 0);
@@ -245,7 +264,7 @@ public class PlayerSaikoro : MonoBehaviour
                 magarityu = false;
                 PNorth.SetActive(true);
             }
-        }
+        }*/
     }
 
     public void DiceRoll()
@@ -279,11 +298,11 @@ public class PlayerSaikoro : MonoBehaviour
 
         if (lastAction[detame - sai] == m)
         {
-            idou(mesen, true);
+            idou(n, true);
         }
         else
         {
-            idou(mesen, false);
+            idou(n, false);
         }
     }
 
