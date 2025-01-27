@@ -2,16 +2,18 @@ using UnityEngine;
 
 public class TestItem : MonoBehaviour
 {
-    [SerializeField] private SheetData Itemsheet;
+    [SerializeField] private Master_Item ItemSheet;
+
+    public int n = 0; 
     void Start()
     {
-
-        Debug.Log("ID:" + Itemsheet.Itemsheet[0].ID);
-        Debug.Log("アイテム名:" + Itemsheet.Itemsheet[0].Name);
-        Debug.Log("タイプ:" + Itemsheet.Itemsheet[0].type);
-        Debug.Log("最小指定数:" + Itemsheet.Itemsheet[0].DiseMin);
-        Debug.Log("最大指定数:" + Itemsheet.Itemsheet[0].DiseMax);
-        Debug.Log("ボリューム:" + Itemsheet.Itemsheet[0].UsedTurn);
-        Debug.Log("効果が消えるまでのターン:" + Itemsheet.Itemsheet[0].UsedTurn);
+        Debug.Log("ID:" + ItemSheet.ItemSheet[n].ID);
+        Debug.Log("アイテム名:" + ItemSheet.ItemSheet[n].Name);
+        Debug.Log("タイプ:" + ItemSheet.ItemSheet[n].type);
+        Debug.Log("最小指定数:" + ItemSheet.ItemSheet[n].DiseMin);
+        Debug.Log("最大指定数:" + ItemSheet.ItemSheet[n].DiseMax);
+        Debug.Log("回復量:" + ItemSheet.ItemSheet[n].Recovery);
+        Debug.Log("ボリューム:" + ItemSheet.ItemSheet[n].Volume);
+        Debug.Log("効果が消えるまでのターン:" + ItemSheet.ItemSheet[n].UsedTurn);
     }
 }
