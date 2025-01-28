@@ -6,6 +6,7 @@ public class GridCell : MonoBehaviour
 {
    // public PlayerMover playerMover;
     public string cellEffect = "Normal"; // マス目の効果（例: Normal, Bonus, Penalty）
+    public FlashlightController flashlightController;
 
     //void OnTriggerEnter(Collider other)
     //{
@@ -39,9 +40,11 @@ public class GridCell : MonoBehaviour
                 break;
             case "Debuff":
                 Debug.Log($"{name}:デバフ効果発動！");
+                DeBuh();
                 break;
             case "Battery":
                 Debug.Log($"{name}:バッテリーを獲得！");
+                Batre();
                 break;
             default:
                 Debug.Log($"{name}: 通常マス - 効果なし。");
@@ -52,5 +55,28 @@ public class GridCell : MonoBehaviour
 
          
     }
-   
+    void DeBuh()
+    {
+        int randomEvent = Random.Range(0, 2);
+
+        if (randomEvent == 0)
+        {
+            Debug.Log("デバフイベントA：　電池のゲージが減った！");
+
+            flashlightController.OnTurnAdvanced();
+        }
+        else
+        {
+            Debug.Log("デバフイベントB：アイテムが使えなくなった");
+        }
+    }
+    void Batre()
+    {
+       
+            Debug.Log("バッテリー回復：バッテリーが回復した");
+
+            flashlightController.AddBattery(20f);
+        
+    }
+
 }
