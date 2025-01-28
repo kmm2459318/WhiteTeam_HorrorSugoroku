@@ -27,8 +27,6 @@ public class Master_Item : ScriptableObject
         public string Name;
         public enum Type { Player, Ghost, Map, }
         public Type type;
-        public int DiseMin;
-        public int DiseMax;
         public int Recovery;
         public int Volume;
         public int UsedTurn;

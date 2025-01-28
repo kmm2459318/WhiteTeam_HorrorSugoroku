@@ -25,13 +25,11 @@ public class Master_Debuff : ScriptableObject
     {
         public int ID;
         public string Name;
-        public int StopTurn;
-        public int BackMin;
-        public int BackMax;
         public int DecreaseMin;
         public int DecreaseMax;
-        public bool Curse;
         public bool ItemGive;
+        public bool UnusableItem;
+        public int UnusableItemTrun;
 
     }
 

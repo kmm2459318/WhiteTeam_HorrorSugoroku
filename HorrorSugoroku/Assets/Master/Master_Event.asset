@@ -14,66 +14,23 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   EventSheet:
   - ID: 20001
-    Name: open door
-    Choices: 0
-    Consumption: 0
-    MakeaSound: 0
-    DemonChase: 0
-    ItemUse: 0
-    ItemGet: 0
-    Itemlose: 0
+    Name: Open Door
+    NeedKey: 0
+    InNarrowRoom: 0
+    Detemination: 0
   - ID: 20002
-    Name: key open door
-    Choices: 2
-    Consumption: 0
-    MakeaSound: 0
-    DemonChase: 0
-    ItemUse: 1
-    ItemGet: 0
-    Itemlose: 1
+    Name: Key Open Door
+    NeedKey: 1
+    InNarrowRoom: 0
+    Detemination: 0
   - ID: 20003
-    Name: 'Human Dragged '
-    Choices: 0
-    Consumption: 0
-    MakeaSound: 0
-    DemonChase: 0
-    ItemUse: 0
-    ItemGet: 0
-    Itemlose: 1
+    Name: In Narrow Room
+    NeedKey: 0
+    InNarrowRoom: 1
+    Detemination: 0
   - ID: 20004
-    Name: hidden passagesr
-    Choices: 2
-    Consumption: 0
-    MakeaSound: 0
-    DemonChase: 0
-    ItemUse: 0
-    ItemGet: 1
-    Itemlose: 0
-  - ID: 20005
-    Name: plate carry
-    Choices: 2
-    Consumption: 0
-    MakeaSound: 0
-    DemonChase: 1
-    ItemUse: 1
-    ItemGet: 1
-    Itemlose: 1
-  - ID: 20006
-    Name: typewriter write
-    Choices: 2
-    Consumption: 100
-    MakeaSound: 0
-    DemonChase: 1
-    ItemUse: 0
-    ItemGet: 1
-    Itemlose: 0
-  - ID: 20007
-    Name: 'cinematograph use '
-    Choices: 2
-    Consumption: 100
-    MakeaSound: 0
-    DemonChase: 1
-    ItemUse: 1
-    ItemGet: 1
-    Itemlose: 1
+    Name: Dise Success/Failure
+    NeedKey: 0
+    InNarrowRoom: 0
+    Detemination: 1
   EventMasterURL: https://docs.google.com/spreadsheets/d/e/2PACX-1vSa7T6mSgvlPhB3vvjQjFa5OO4-Opxm6q1jtoE2GjYN8dKxRbtWRt9kZ8zW8wrtTSWBWa5fJbxeDkFI/pub?output=csv

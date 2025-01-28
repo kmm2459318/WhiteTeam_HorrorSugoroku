@@ -234,4 +234,24 @@ public class EnemySaikoro : MonoBehaviour
     {
         yield return StartCoroutine(RollEnemyDice());
     }
+
+    void LateUpdate()
+    {
+        Ray ray = new Ray(enemy.transform.position, enemy.transform.forward);
+        RaycastHit hit;
+
+        // センサー機能: Rayが何かに当たった場合にログ出力
+        if (Physics.Raycast(ray, out hit, 3f)) // 3mの範囲
+        {
+            //Debug.Log("発見");
+        }
+    }
+
+    void OnDrawGizmosSelected()
+    {
+        // センサーの範囲を赤い線で表示
+        Gizmos.color = Color.red;
+        Vector3 direction = enemy.transform.position + enemy.transform.forward * 3f;
+        Gizmos.DrawLine(enemy.transform.position, direction);
+    }
 }

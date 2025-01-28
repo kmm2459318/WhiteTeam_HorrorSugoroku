@@ -25,14 +25,9 @@ public class Master_Event : ScriptableObject
     {
         public int ID;
         public string Name;
-        public int Choices;
-        public int Consumption;
-        public int MakeaSound;
-        public bool DemonChase;
-        public bool ItemUse;
-        public bool ItemGet;
-        public bool Itemlose;
-
+        public bool NeedKey;
+        public bool InNarrowRoom;
+        public bool Detemination;
     }
 
 #if UNITY_EDITOR

@@ -11,6 +11,8 @@ public class GameManager : MonoBehaviour
     public PlayerSaikoro playerSaikoro;
     public EnemySaikoro enemySaikoro;
 
+    public bool enesai = false;
+
     private void Start()
     {
         UpdateTurnText(); // ‰Šúƒ^[ƒ“•\¦
@@ -24,10 +26,12 @@ public class GameManager : MonoBehaviour
 
         if (isPlayerTurn)
         {
+            enesai = false;
             playerSaikoro.StartRolling();
         }
         else
         {
+            enesai = true;
             StartCoroutine(enemySaikoro.EnemyTurn());
         }
     }

@@ -4,29 +4,15 @@ using UnityEngine;
 
 public class GridCell : MonoBehaviour
 {
-   // public PlayerMover playerMover;
     public string cellEffect = "Normal"; // マス目の効果（例: Normal, Bonus, Penalty）
 
-    //void OnTriggerEnter(Collider other)
-    //{
-
-    //    //タグが"Player"のオブジェクトのみ反応
-    //    if (other.CompareTag("Player"))
-    //    {
-    //        Debug.Log($"{name} にプレイヤーが到達しました。マスの種類：{cellEffect}");
-
-    //        ExecuteEvent();
-          
-    //    } 
-    //}
     public void ExecuteEvent()
     {
-       
         // マス目の効果を発動
         switch (cellEffect)
         {
             case "Event":
-                Debug.Log($"{name}: イベント発動！");
+                DisplayRandomEvent();
                 break;
             case "Blockl":
                 Debug.Log($"{name}: ペナルティ効果発動！");
@@ -42,15 +28,30 @@ public class GridCell : MonoBehaviour
                 break;
             case "Battery":
                 Debug.Log($"{name}:バッテリーを獲得！");
+                Debug.Log("バッテリーが回復しました");
                 break;
             default:
                 Debug.Log($"{name}: 通常マス - 効果なし。");
-
                 break;
-          
         }
-
-         
     }
-   
+
+    private void DisplayRandomEvent()
+    {
+        string[] eventMessages = {
+            "ドアが開きました！",
+            "クローゼットに隠れられる",
+            "急に眠気がおそってきた。"
+        };
+
+        System.Random random = new System.Random();
+        int randomIndex = random.Next(eventMessages.Length);
+
+        Debug.Log($"{name}: イベント発動！ {eventMessages[randomIndex]}");
+    }
+
+    public void LogCellArrival()
+    {
+        Debug.Log($"プレイヤーが {name} に到達しました。");
+    }
 }
