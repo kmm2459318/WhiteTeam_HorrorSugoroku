@@ -2,6 +2,7 @@
 using UnityEngine.UI;
 using System.Collections;
 using SmoothigTransform;
+using SmoothigTransform;
 
 public class EnemySaikoro : MonoBehaviour
 {
@@ -18,6 +19,11 @@ public class EnemySaikoro : MonoBehaviour
     public Sprite s6;
     private int steps; // サイコロの目の数
     Image image;
+    public Text discoveryText; // 新しいText変数を追加
+    public AudioClip discoveryBGM; // 発見時のBGM
+    public AudioClip undetectedBGM; // 未発見時のBGM
+    private AudioSource audioSource; // 音声再生用のAudioSource
+    public AudioClip footstepSound; // 足音のAudioClip
 
     void Start()
     {
@@ -32,6 +38,23 @@ public class EnemySaikoro : MonoBehaviour
 
         // サイコロのImageを保持
         image = saikoro.GetComponent<Image>();
+
+        // テキストの初期化
+        if (discoveryText != null)
+        {
+            discoveryText.text = "未発見"; // 初期状態は未発見
+        }
+        else
+        {
+            Debug.LogError("Discovery Text is not assigned in the Inspector.");
+        }
+
+        // AudioSourceの取得
+        audioSource = GetComponent<AudioSource>();
+        if (audioSource == null)
+        {
+            audioSource = gameObject.AddComponent<AudioSource>(); // AudioSourceがなければ追加
+        }
     }
 
     void Update()
@@ -41,6 +64,7 @@ public class EnemySaikoro : MonoBehaviour
             return;
         }
 
+        // サイコロの目に応じてスプライトを変更
         switch (steps)
         {
             case 1:
@@ -55,6 +79,40 @@ public class EnemySaikoro : MonoBehaviour
                 image.sprite = s5; break;
             case 6:
                 image.sprite = s6; break;
+        }
+
+        // プレイヤーが発見されたかをチェック
+        if (Vector3.Distance(enemy.transform.position, player.transform.position) < 5f)
+        {
+            if (discoveryText != null)
+            {
+                discoveryText.text = "発見！"; // プレイヤーが近い場合、「発見！」を表示
+            }
+
+            // 発見時のBGMを流す
+            if (discoveryBGM != null && audioSource.clip != discoveryBGM)
+            {
+                audioSource.Stop(); // 現在のBGMを停止
+                audioSource.clip = discoveryBGM;
+                audioSource.Play(); // 発見時のBGMを再生
+            }
+            Debug.Log("発見！");
+        }
+        else
+        {
+            if (discoveryText != null)
+            {
+                discoveryText.text = "未発見"; // プレイヤーが遠い場合、「未発見」を表示
+            }
+
+            // 未発見時のBGMを流す
+            if (undetectedBGM != null && audioSource.clip != undetectedBGM)
+            {
+                audioSource.Stop(); // 現在のBGMを停止
+                audioSource.clip = undetectedBGM;
+                audioSource.Play(); // 未発見時のBGMを再生
+            }
+            Debug.Log("未発見");
         }
     }
 
@@ -83,6 +141,15 @@ public class EnemySaikoro : MonoBehaviour
     private IEnumerator MoveTowardsPlayer()
     {
         int initialSteps = steps; // 初期のステップ数を保存
+        AudioClip currentBGM = audioSource.clip; // 現在のBGMを保存
+        bool isFootstepPlaying = false; // 足音が再生中かを判定するフラグ
+
+        // BGMを一時停止
+        if (audioSource.isPlaying)
+        {
+            audioSource.Pause(); // 現在のBGMを一時停止
+        }
+
         while (steps > 0)
         {
             Vector3 direction = (player.transform.position - enemy.transform.position).normalized;
@@ -91,9 +158,42 @@ public class EnemySaikoro : MonoBehaviour
             enemySmooth.TargetPosition += direction * 1.0f; // 2.0f単位で移動
             Debug.Log(direction);
             steps--;
+
+            // 足音が鳴っていない場合、鳴らす
+            if (footstepSound != null && !isFootstepPlaying)
+            {
+                audioSource.PlayOneShot(footstepSound); // 足音を鳴らす
+                isFootstepPlaying = true; // 足音再生フラグを立てる
+            }
+
             Debug.Log("Enemy moved towards player. Steps remaining: " + steps);
+
+            // プレイヤーが発見されたかをチェック
+            if (Vector3.Distance(enemy.transform.position, player.transform.position) < 5f)
+            {
+                if (discoveryText != null)
+                {
+                    discoveryText.text = "発見！"; // プレイヤーが近ければ「発見！」と表示
+                }
+                if (discoveryBGM != null && !audioSource.isPlaying) // 発見時のBGMを流す
+                {
+                    audioSource.clip = discoveryBGM;
+                    audioSource.Play();
+                }
+                Debug.Log("発見！");
+                break;
+            }
+
             yield return new WaitForSeconds(0.5f); // 移動の間隔を待つ
         }
+
+        // 移動が終了したら、再度BGMを再開
+        if (currentBGM != null && !audioSource.isPlaying)
+        {
+            audioSource.clip = currentBGM;
+            audioSource.Play(); // BGMを再開
+        }
+
         saikoro.SetActive(false); // サイコロを非表示にする
 
         Debug.Log("Enemy moved a total of " + initialSteps + " steps.");
