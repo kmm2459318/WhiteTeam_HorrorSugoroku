@@ -143,7 +143,7 @@ public class EnemySaikoro : MonoBehaviour
         // センサー機能: Rayが何かに当たった場合にログ出力
         if (Physics.Raycast(ray, out hit, 3f)) // 3mの範囲
         {
-            Debug.Log("発見");
+            //Debug.Log("発見");
         }
     }
 
