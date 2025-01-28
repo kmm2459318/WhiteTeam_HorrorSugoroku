@@ -4,34 +4,36 @@ using UnityEngine;
 
 public class GridCell : MonoBehaviour
 {
-    public string cellEffect = "Normal"; // ƒ}ƒX–Ú‚ÌŒø‰Êi—á: Normal, Bonus, Penaltyj
+    public string cellEffect = "Normal"; // ãƒã‚¹ç›®ã®åŠ¹æœï¼ˆä¾‹: Normal, Bonus, Penaltyï¼‰
+    public FlashlightController flashlightController;
 
     public void ExecuteEvent()
     {
-        // ƒ}ƒX–Ú‚ÌŒø‰Ê‚ğ”­“®
+        // ãƒã‚¹ç›®ã®åŠ¹æœã‚’ç™ºå‹•
         switch (cellEffect)
         {
             case "Event":
                 DisplayRandomEvent();
                 break;
             case "Blockl":
-                Debug.Log($"{name}: ƒyƒiƒ‹ƒeƒBŒø‰Ê”­“®I");
+                Debug.Log($"{name}: ãƒšãƒŠãƒ«ãƒ†ã‚£åŠ¹æœç™ºå‹•ï¼");
                 break;
             case "Item":
-                Debug.Log($"{name}:ƒAƒCƒeƒ€‚ğŠl“¾I");
+                Debug.Log($"{name}:ã‚¢ã‚¤ãƒ†ãƒ ã‚’ç²å¾—ï¼");
                 break;
             case "Dires":
-                Debug.Log($"{name}:‰‰o”­“®I");
+                Debug.Log($"{name}:æ¼”å‡ºç™ºå‹•ï¼");
                 break;
             case "Debuff":
-                Debug.Log($"{name}:ƒfƒoƒtŒø‰Ê”­“®I");
+                Debug.Log($"{name}:ãƒ‡ãƒãƒ•åŠ¹æœç™ºå‹•ï¼");
+                DeBuh();
                 break;
             case "Battery":
-                Debug.Log($"{name}:ƒoƒbƒeƒŠ[‚ğŠl“¾I");
-                Debug.Log("ƒoƒbƒeƒŠ[‚ª‰ñ•œ‚µ‚Ü‚µ‚½");
+                Debug.Log($"{name}:ãƒãƒƒãƒ†ãƒªãƒ¼ã‚’ç²å¾—ï¼");
+                Batre();
                 break;
             default:
-                Debug.Log($"{name}: ’Êíƒ}ƒX - Œø‰Ê‚È‚µB");
+                Debug.Log($"{name}: é€šå¸¸ãƒã‚¹ - åŠ¹æœãªã—ã€‚");
                 break;
         }
     }
@@ -39,19 +41,43 @@ public class GridCell : MonoBehaviour
     private void DisplayRandomEvent()
     {
         string[] eventMessages = {
-            "ƒhƒA‚ªŠJ‚«‚Ü‚µ‚½I",
-            "ƒNƒ[ƒ[ƒbƒg‚É‰B‚ê‚ç‚ê‚é",
-            "‹}‚É–°‹C‚ª‚¨‚»‚Á‚Ä‚«‚½B"
+            "ãƒ‰ã‚¢ãŒé–‹ãã¾ã—ãŸï¼",
+            "ã‚¯ãƒ­ãƒ¼ã‚¼ãƒƒãƒˆã«éš ã‚Œã‚‰ã‚Œã‚‹",
+            "æ€¥ã«çœ æ°—ãŒãŠãã£ã¦ããŸã€‚"
         };
 
         System.Random random = new System.Random();
         int randomIndex = random.Next(eventMessages.Length);
 
-        Debug.Log($"{name}: ƒCƒxƒ“ƒg”­“®I {eventMessages[randomIndex]}");
+        Debug.Log($"{name}: ã‚¤ãƒ™ãƒ³ãƒˆç™ºå‹•ï¼ {eventMessages[randomIndex]}");
     }
 
     public void LogCellArrival()
     {
-        Debug.Log($"ƒvƒŒƒCƒ„[‚ª {name} ‚É“’B‚µ‚Ü‚µ‚½B");
+        Debug.Log($"ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ãŒ {name} ã«åˆ°é”ã—ã¾ã—ãŸã€‚");
     }
+    void DeBuh()
+    {
+        int randomEvent = Random.Range(0, 2);
+
+        if (randomEvent == 0)
+        {
+            Debug.Log("ãƒ‡ãƒãƒ•ã‚¤ãƒ™ãƒ³ãƒˆAï¼šã€€é›»æ± ã®ã‚²ãƒ¼ã‚¸ãŒæ¸›ã£ãŸï¼");
+
+            flashlightController.OnTurnAdvanced();
+        }
+        else
+        {
+            Debug.Log("ãƒ‡ãƒãƒ•ã‚¤ãƒ™ãƒ³ãƒˆBï¼šã‚¢ã‚¤ãƒ†ãƒ ãŒä½¿ãˆãªããªã£ãŸ");
+        }
+    }
+    void Batre()
+    {
+       
+            Debug.Log("ãƒãƒƒãƒ†ãƒªãƒ¼å›å¾©ï¼šãƒãƒƒãƒ†ãƒªãƒ¼ãŒå›å¾©ã—ãŸ");
+
+            flashlightController.AddBattery(20f);
+        
+    }
+
 }
