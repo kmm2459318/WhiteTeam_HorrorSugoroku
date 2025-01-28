@@ -8,8 +8,28 @@ public class SceneChanger3D : MonoBehaviour
     [SerializeField] private GameObject enemy; // 敵オブジェクトの名前
     [SerializeField] private Image cutInImage; // カットイン画像
     [SerializeField] private float cutInDuration = 2.0f; // カットインの表示時間（秒）
+    [SerializeField] private AudioClip gameOverSound; // ゲームオーバー時のサウンド
+    private AudioSource audioSource; // 音声再生用のAudioSource
+
+    [SerializeField] private float volume = 1.0f; // 音量 (デフォルトは最大)
 
     private bool isGameOver = false; // 重複処理防止用フラグ
+
+    private void Start()
+    {
+        // AudioSourceの初期化
+        audioSource = GetComponent<AudioSource>();
+        if (audioSource == null)
+        {
+            audioSource = gameObject.AddComponent<AudioSource>(); // AudioSourceがアタッチされていない場合は追加
+        }
+
+        // 音量の設定
+        audioSource.volume = volume;
+
+        // 最初に音が鳴らないように、音を再生しない
+        audioSource.Stop();
+    }
 
     private void OnCollisionEnter(Collision collision)
     {
@@ -39,6 +59,13 @@ public class SceneChanger3D : MonoBehaviour
         if (cutInImage != null)
         {
             cutInImage.gameObject.SetActive(true); // 画像を表示
+        }
+
+        // ゲームオーバーサウンドを再生
+        if (gameOverSound != null && audioSource != null)
+        {
+            audioSource.clip = gameOverSound; // サウンドを設定
+            audioSource.Play(); // 音を鳴らす
         }
 
         // 指定された時間だけ待機

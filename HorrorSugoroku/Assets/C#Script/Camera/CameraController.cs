@@ -4,7 +4,7 @@ using UnityEngine.UI; // スライダーのために必要
 public class CameraController : MonoBehaviour
 {
     public Transform playerBody;  // プレイヤーの本体
-    private float mouseSensitivity = 150f;  // マウス感度
+    private float mouseSensitivity = 250f;  // マウス感度
     public Slider sensitivitySlider; // 感度倍率を設定するスライダー
     private float sensitivityMultiplier = 1.0f;  // 感度倍率
     private float upperLookLimit = 90f;  // 上方向の回転制限
@@ -46,7 +46,7 @@ public class CameraController : MonoBehaviour
         }
 
         // idoutyuがtrueのとき、カメラのX, Y軸を補間で0°にリセット
-        if (FindObjectOfType<PlayerSaikoro>().idoutyu)
+        /*if (FindObjectOfType<PlayerSaikoro>().idoutyu)
         {
             // 補間でスムーズにリセット
             xRotation = Mathf.Lerp(xRotation, 20f, Time.deltaTime / smoothTime);  // X軸回転補間
@@ -57,7 +57,8 @@ public class CameraController : MonoBehaviour
             yRotation = Mathf.Lerp(yRotation, targetYRotation, Time.deltaTime / smoothTime);
         }
         else
-        {
+        {*/
+    //}
             // 通常時の回転処理
             if (isMouseLocked)
             {
@@ -70,7 +71,6 @@ public class CameraController : MonoBehaviour
                 // Y軸回転をスムーズに反映
                 transform.localRotation = Quaternion.Euler(xRotation, yRotation, 0f);
             }
-        }
     }
 
     /// <summary>

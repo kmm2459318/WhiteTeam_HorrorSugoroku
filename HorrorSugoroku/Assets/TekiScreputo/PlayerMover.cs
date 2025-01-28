@@ -21,7 +21,11 @@ public class PlayerMover : MonoBehaviour
         // プレイヤーの移動が完了したタイミングを監視
         if (wasMoving && !playerSaikoro.idoutyu)
         {
-            StartCoroutine(TriggerCurrentCellEventWithDelay(1.0f));
+            TriggerCurrentCellEvent();
+            if (currentCell != null)
+            {
+                Debug.Log($"プレイヤーが {currentCell.name} に到達しました。");
+            }
         }
 
         // 状態を更新
@@ -35,19 +39,15 @@ public class PlayerMover : MonoBehaviour
         if (cell != null)
         {
             currentCell = cell;
-            Debug.Log($"プレイヤーが {cell.name} に到達しました。");
         }
     }
 
-    private IEnumerator TriggerCurrentCellEventWithDelay(float delay)
+    private void TriggerCurrentCellEvent()
     {
-        // 遅延を待機
-        yield return new WaitForSeconds(delay);
-
         // イベントを発火
         if (currentCell != null)
         {
-            Debug.Log($"1秒後にイベント発動: {currentCell.name}");
+            Debug.Log($"イベント発動: {currentCell.name}");
             currentCell.ExecuteEvent();
         }
         else
