@@ -4,29 +4,15 @@ using UnityEngine;
 
 public class GridCell : MonoBehaviour
 {
-   // public PlayerMover playerMover;
     public string cellEffect = "Normal"; // マス目の効果（例: Normal, Bonus, Penalty）
 
-    //void OnTriggerEnter(Collider other)
-    //{
-
-    //    //タグが"Player"のオブジェクトのみ反応
-    //    if (other.CompareTag("Player"))
-    //    {
-    //        Debug.Log($"{name} にプレイヤーが到達しました。マスの種類：{cellEffect}");
-
-    //        ExecuteEvent();
-          
-    //    } 
-    //}
     public void ExecuteEvent()
     {
-       
-        // マス目の効果を発動
         switch (cellEffect)
         {
             case "Event":
                 Debug.Log($"{name}: イベント発動！");
+                Debug.Log("ドアが開きました！"); // ドアが開いたことを示すデバッグログを追加
                 break;
             case "Blockl":
                 Debug.Log($"{name}: ペナルティ効果発動！");
@@ -45,13 +31,9 @@ public class GridCell : MonoBehaviour
                 break;
             default:
                 Debug.Log($"{name}: 通常マス - 効果なし。");
-
                 break;
-          
         }
 
         Debug.Log("ExecuteEvent");
-         
     }
-   
 }
