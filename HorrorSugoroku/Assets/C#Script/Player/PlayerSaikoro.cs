@@ -7,6 +7,8 @@ public class PlayerSaikoro : MonoBehaviour
 {
     public GameManager gameManager; // GameManagerへの参照
     public TurnManager turnManager; // TurnManagerへの参照
+    public CameraChange cameraChange;
+    public DiceController diceController;
     [SerializeField] SmoothTransform player;
     private EnemySaikoro targetScript; // コマンドを受け取るEnemySaikoro
     private int sai = 1; // ランダムなサイコロの値
@@ -37,9 +39,9 @@ public class PlayerSaikoro : MonoBehaviour
     public GameObject PEast;
     public GameObject PSouth;
     public GameObject Camera;
-    Vector3 Pos;
+    //Vector3 Pos;
     Vector3 Rotation;
-    Angle Rot;
+    Vector3 Rot;
     int i;
     Image image;
 
@@ -101,8 +103,8 @@ public class PlayerSaikoro : MonoBehaviour
 
     void Update()
     {
-        if (!gameManager.IsPlayerTurn())
-            Pos = Player.transform.position;
+        //if (!gameManager.IsPlayerTurn())
+            //Pos = Player.transform.position;
         Rot = Camera.transform.eulerAngles;
         PN = PNorth.GetComponent<PlayerNSEWCheck>().masuCheck;
         PW = PWest.GetComponent<PlayerNSEWCheck>().masuCheck;
@@ -128,13 +130,17 @@ public class PlayerSaikoro : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.E))
         {
+            if (!saikorotyu && !idoutyu && !gameManager.enesai)
+            {
+                cameraChange.Change();
+            }
             turnManager.NextTurn();
         }
 
         //サイコロ振る
         if (saikorotyu)
         {
-            this.saikoroTime += Time.deltaTime;
+            /*this.saikoroTime += Time.deltaTime;
 
             if (this.saikoroTime > 0.1f)
             {
@@ -152,40 +158,25 @@ public class PlayerSaikoro : MonoBehaviour
                 {
                     sai = Random.Range(1, 7);
                     detame = sai;
-                    Debug.Log("Player rolled: " + sai);
+                    Debug.Log("Player rolled: " + sai);*/
 
-                    // プレイヤーのサイコロの結果に応じてEnemyのサイコロ範囲を決定
-                    targetScript.RollEnemyDice();
-
-                    i += sai;
-                    PlayerPrefs.SetInt("move", i);
-                    ii = 0;
-                    saikorotyu = false;
-                    idoutyu = true;
-
-                    if (sai >= 1 && sai <= 3)
-                    {
-                        player.PosFact = 0.9f;
-                    }
-                    else
-                    {
-                        player.PosFact = 0.2f;
-                    }
-                }
-            }
+                    
+                //}
+            //}
 
         }
 
         //移動処理　【北：１、西：２、東：３、南：４】
-        if (idoutyu == true)
+        if (idoutyu)
         {
+            Debug.Log(Rot.y);
             if (Input.GetKeyDown(KeyCode.W)) {
-                if (PN && Rot.y >= -45f && Rot.y < 45f)
+                if (PN && (Rot.y >= 0f && Rot.y < 45f) || (Rot.y >= 315f && Rot.y < 360f))
                 {
                     FrontBack(1);
                     Debug.Log("North");
                 }
-                else if (PW && Rot.y >= -135f && Rot.y < -45f)
+                else if (PW && Rot.y >= 225f && Rot.y < 315f)
                 {
                     FrontBack(2);
                     Debug.Log("East");
@@ -195,7 +186,7 @@ public class PlayerSaikoro : MonoBehaviour
                     FrontBack(3);
                     Debug.Log("West");
                 }
-                else if (PS && (Rot.y >= 180f && Rot.y < -225f) || (Rot.y >= 135f && Rot.y < 180f))
+                else if (PS && Rot.y >= 135f && Rot.y < 225f)
                 {
                     FrontBack(4);
                     Debug.Log("South");
@@ -272,6 +263,32 @@ public class PlayerSaikoro : MonoBehaviour
         saikorotyu = true;
     }
 
+    public void DiceAfter(int n)
+    {
+        cameraChange.Change();
+
+        sai = n;
+        detame = sai;
+        saikoro.SetActive(true);
+        // プレイヤーのサイコロの結果に応じてEnemyのサイコロ範囲を決定
+        targetScript.RollEnemyDice();
+
+        i += sai;
+        PlayerPrefs.SetInt("move", i);
+        ii = 0;
+        saikorotyu = false;
+        idoutyu = true;
+
+        if (sai >= 1 && sai <= 3)
+        {
+            player.PosFact = 0.9f;
+        }
+        else
+        {
+            player.PosFact = 0.2f;
+        }
+    }
+
     // 音を再生するメソッド
     private void PlayDiceRollSound()
     {
@@ -310,27 +327,25 @@ public class PlayerSaikoro : MonoBehaviour
     void idou(int n, bool back)
     {
         // 現在のPlayerのY軸の値を保持
-        Pos = Player.transform.position;
+        //Pos = Player.transform.position;
 
-        switch (n)
-        {
-            case 1: player.TargetPosition.z += 2.0f; break; // 北に移動
-            case 2: player.TargetPosition.x -= 2.0f; break; // 西に移動
-            case 3: player.TargetPosition.x += 2.0f; break; // 東に移動
-            case 4: player.TargetPosition.z -= 2.0f; break; // 南に移動
-        }
+        
 
-        Player.transform.position = Pos; // 移動
+        //Player.transform.position = Pos; // 移動
 
         if (!back)
         {
+            switch (n)
+            {
+                case 1: player.TargetPosition.z += 2.0f; break; // 北に移動
+                case 2: player.TargetPosition.x -= 2.0f; break; // 西に移動
+                case 3: player.TargetPosition.x += 2.0f; break; // 東に移動
+                case 4: player.TargetPosition.z -= 2.0f; break; // 南に移動
+            }
+
             lastAction[detame - sai + 1] = n; // 来た方向を記憶
             Debug.Log(detame - sai + 1 + ":" + lastAction[detame - sai + 1]);
             sai--;
-        }
-        else
-        {
-            sai++;
         }
     }
 

@@ -1,12 +1,14 @@
 using UnityEngine;
+using UnityEngine.UI; // スライダーのために必要
 
 public class CameraController : MonoBehaviour
 {
     public Transform playerBody;  // プレイヤーの本体
     private float mouseSensitivity = 250f;  // マウス感度
+    public Slider sensitivitySlider; // 感度倍率を設定するスライダー
     private float sensitivityMultiplier = 1.0f;  // 感度倍率
-    private float upperLookLimit =45f;  // 上方向の回転制限
-    private float lowerLookLimit = -45f;  // 下方向の回転制限
+    private float upperLookLimit = 90f;  // 上方向の回転制限
+    private float lowerLookLimit = -90f;  // 下方向の回転制限
 
     private float xRotation = 0f;  // カメラの現在の上下回転
     private float yRotation = 0f;  // カメラの現在の左右回転
@@ -23,6 +25,15 @@ public class CameraController : MonoBehaviour
         // カメラを開始時にマウスをロック
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
+
+        // スライダーの初期値を設定し、リスナーを登録
+        if (sensitivitySlider != null)
+        {
+            sensitivitySlider.minValue = 0.1f;
+            sensitivitySlider.maxValue = 10.0f;
+            sensitivitySlider.value = sensitivityMultiplier;
+            sensitivitySlider.onValueChanged.AddListener(OnSensitivityChanged);
+        }
     }
 
     void Update()
@@ -38,7 +49,7 @@ public class CameraController : MonoBehaviour
         /*if (FindObjectOfType<PlayerSaikoro>().idoutyu)
         {
             // 補間でスムーズにリセット
-            xRotation = Mathf.Lerp(xRotation, 0f, Time.deltaTime / smoothTime);  // X軸回転補間
+            xRotation = Mathf.Lerp(xRotation, 20f, Time.deltaTime / smoothTime);  // X軸回転補間
             targetYRotation = Mathf.Lerp(targetYRotation, 0f, Time.deltaTime / smoothTime);  // Y軸回転補間
 
             // 補間を滑らかに適用
@@ -92,15 +103,22 @@ public class CameraController : MonoBehaviour
             return; // 視点操作を無効化
         }
 
-        float mouseY = Input.GetAxis("Mouse Y") * mouseSensitivity * Time.deltaTime;
+        float mouseY = Input.GetAxis("Mouse Y") * mouseSensitivity * sensitivityMultiplier * Time.deltaTime;
 
         // 上下回転は制限
-        //xRotation -= mouseY;
-        //xRotation = Mathf.Clamp(xRotation, lowerLookLimit, upperLookLimit);
-        //yRotation = Mathf.Clamp(yRotation, lowerLookLimit, upperLookLimit);
-
+        xRotation -= mouseY;
+        xRotation = Mathf.Clamp(xRotation, lowerLookLimit, upperLookLimit);
 
         // 上下回転の反映
         transform.localRotation = Quaternion.Euler(xRotation, yRotation, 0f);  // 上下回転
+    }
+
+    /// <summary>
+    /// スライダーの値変更時に感度倍率を更新
+    /// </summary>
+    /// <param name="value">スライダーの値</param>
+    private void OnSensitivityChanged(float value)
+    {
+        sensitivityMultiplier = value;
     }
 }

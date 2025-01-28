@@ -10,13 +10,13 @@ using UnityEditor;
 // fileName: 生成されるScriptableObjectのファイル名
 // menuName: criptableObjectを生成するメニューの名前
 // order: メニューの表示順(0なので一番上に表示される)
-[CreateAssetMenu(fileName = "SheetData", menuName = "ScriptableObjectの生成/SheetDataの生成", order = 0)]
+[CreateAssetMenu(fileName = "Master_Item", menuName = "ScriptableObjectの生成/Master_Itemの生成", order = 0)]
 
 // シートデータを管理するScriptableObject
-public class SheetData : ScriptableObject
+public class Master_Item : ScriptableObject
 {
-    public SheetDataRecord[] Itemsheet;    // シートデータのリスト名
-    [SerializeField] string url;    // スプレットシートのURL
+    public SheetDataRecord[] ItemSheet;    // シートデータのリスト名
+    [SerializeField] string ItemMasterURL;    // スプレットシートのURL
 
 
     // スプレットシートの列に対応する変数を定義
@@ -37,46 +37,27 @@ public class SheetData : ScriptableObject
 
 #if UNITY_EDITOR
     //スプレットシートの情報をsheetDataRecordに反映させるメソッド
-    public void LoadSheetData()
+    public void LoadItemData()
     {
         // urlからCSV形式の文字列をダウンロードする
-        using UnityWebRequest request = UnityWebRequest.Get(url);
+        using UnityWebRequest request = UnityWebRequest.Get(ItemMasterURL);
         request.SendWebRequest();
         while (request.isDone == false)
         {
             if (request.result == UnityWebRequest.Result.ConnectionError || request.result == UnityWebRequest.Result.ProtocolError)
             {
-                Debug.LogError(request.error);
+                Debug.LogError("ItemMasterURL:" + request.error);
             }
         }
 
         // ダウンロードしたCSVをデシリアライズ(SerializeFieldに入力)する
-        Itemsheet = CSVSerializer.Deserialize<SheetDataRecord>(request.downloadHandler.text);
+        ItemSheet = CSVSerializer.Deserialize<SheetDataRecord>(request.downloadHandler.text);
 
         // データの更新が完了したら、ScriptableObjectを保存する
         EditorUtility.SetDirty(this);
         AssetDatabase.SaveAssets();
 
-        Debug.Log(" データの更新を完了しました");
+        Debug.Log("Master_Itemのデータの更新を完了しました");
     }
 #endif
 }
-
-//SheetDataのインスペクタにLoadSheetData()を呼び出すボタンを表示するクラス
-#if UNITY_EDITOR
-[CustomEditor(typeof(SheetData))]
-public class SheetDataEditor : Editor
-{
-    public override void OnInspectorGUI()
-    {
-        // デフォルトのインスペクタを表示
-        base.OnInspectorGUI();
-
-        // データ更新ボタンを表示
-        if (GUILayout.Button("データ更新"))
-        {
-            ((SheetData)target).LoadSheetData();
-        }
-    }
-}
-#endif
