@@ -6,12 +6,10 @@ public class GameManager : MonoBehaviour
 {
     public TMP_Text turnText; // TextMeshPro用のターン数表示
     public TMP_Text turnIndicatorText; // 新しいターン表示用のテキスト
-    private bool isPlayerTurn = true; // プレイヤーのターンかどうかを示すフラグ
+    public bool isPlayerTurn = true; // プレイヤーのターンかどうかを示すフラグ
 
     public PlayerSaikoro playerSaikoro;
     public EnemySaikoro enemySaikoro;
-
-    public bool enesai = false;
 
     private void Start()
     {
@@ -26,12 +24,10 @@ public class GameManager : MonoBehaviour
 
         if (isPlayerTurn)
         {
-            enesai = false;
             playerSaikoro.StartRolling();
         }
         else
         {
-            enesai = true;
             StartCoroutine(enemySaikoro.EnemyTurn());
         }
     }
