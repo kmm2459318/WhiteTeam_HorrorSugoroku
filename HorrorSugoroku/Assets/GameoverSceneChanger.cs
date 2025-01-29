@@ -14,6 +14,7 @@ public class SceneChanger3D : MonoBehaviour
     [SerializeField] private float volume = 1.0f; // 音量 (デフォルトは最大)
 
     private bool isGameOver = false; // 重複処理防止用フラグ
+    public static bool hasSubstituteDoll = false; // 身代わり人形の使用フラグ
 
     private void Start()
     {
@@ -35,7 +36,7 @@ public class SceneChanger3D : MonoBehaviour
     {
         if (!isGameOver && collision.gameObject == enemy)
         {
-            StartCoroutine(ShowCutInAndGoToGameover()); // コルーチンを開始
+            HandleGameOver();
         }
     }
 
@@ -43,7 +44,22 @@ public class SceneChanger3D : MonoBehaviour
     {
         if (!isGameOver && other.gameObject == enemy)
         {
-            StartCoroutine(ShowCutInAndGoToGameover()); // コルーチンを開始
+            HandleGameOver();
+        }
+    }
+
+    // ゲームオーバー処理を判定するメソッド
+    private void HandleGameOver()
+    {
+        if (hasSubstituteDoll)
+        {
+            // 身代わり人形がある場合は回避
+            hasSubstituteDoll = false; // 身代わり人形を消費
+            Debug.Log("身代わり人形が発動！ゲームオーバーを回避！");
+        }
+        else
+        {
+            StartCoroutine(ShowCutInAndGoToGameover()); // ゲームオーバー処理を実行
         }
     }
 
