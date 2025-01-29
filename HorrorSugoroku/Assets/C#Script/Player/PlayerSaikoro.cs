@@ -130,11 +130,11 @@ public class PlayerSaikoro : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.E))
         {
-            if (!saikorotyu && !idoutyu && !gameManager.enesai)
+            if (!saikorotyu && !idoutyu && gameManager.isPlayerTurn)
             {
                 cameraChange.Change();
+                turnManager.NextTurn();
             }
-            turnManager.NextTurn();
         }
 
         //サイコロ振る
