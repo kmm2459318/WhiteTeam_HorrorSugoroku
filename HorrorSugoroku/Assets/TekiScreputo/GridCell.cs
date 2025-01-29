@@ -6,7 +6,21 @@ public class GridCell : MonoBehaviour
 {
     public string cellEffect = "Normal"; // マス目の効果（例: Normal, Bonus, Penalty）
     public FlashlightController flashlightController;
+    [SerializeField] private Master_Debuff DebuffSheet;
 
+
+      public int n = 0;
+    void Start()
+    {
+
+        Debug.Log("ID:" + DebuffSheet.DebuffSheet[n].ID);
+        Debug.Log("イベント名:" + DebuffSheet.DebuffSheet[n].Name);
+        Debug.Log("懐中電灯の最小ゲージ減少量:" + DebuffSheet.DebuffSheet[n].DecreaseMin);
+        Debug.Log("懐中電灯の最大ゲージ減少量:" + DebuffSheet.DebuffSheet[n].DecreaseMax);
+        Debug.Log("アイテムを付与するかの判定:" + DebuffSheet.DebuffSheet[n].ItemGive);
+        Debug.Log("アイテムが使えなくなるかの判定:" + DebuffSheet.DebuffSheet[n].ItemGive);
+        Debug.Log("アイテムが使えないターン数:" + DebuffSheet.DebuffSheet[n].ItemGive);
+    }
     public void ExecuteEvent()
     {
         // マス目の効果を発動
@@ -101,12 +115,12 @@ public class GridCell : MonoBehaviour
     }
     void DeBuh()
     {
+       
         int randomEvent = Random.Range(0, 2);
-
+       
         if (randomEvent == 0)
         {
-            Debug.Log("デバフイベントA：　電池のゲージが減った！");
-
+          
             flashlightController.OnTurnAdvanced();
         }
         else

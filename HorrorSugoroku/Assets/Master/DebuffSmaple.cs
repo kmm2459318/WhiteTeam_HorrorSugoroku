@@ -4,10 +4,11 @@ using UnityEngine;
 
 public class DebffSmaple : MonoBehaviour
 {
-   // [SerializeField] private Master_Debuff sheetData;
+    [SerializeField] private Master_Debuff Debuffsheet;
     void Start()
     {
-     //   Debug.Log(sheetData.master_Debuff[0].name);
+        Debug.Log("aaa");
+       Debug.Log(Debuffsheet.DebuffSheet[0]);
     }
 
     // Update is called once per frame
