@@ -26,6 +26,7 @@ public class MapCreator : MonoBehaviour
         {0,1,4,3,2,6,5,4,3,2,1,6,0 },
         {0,0,0,0,0,0,0,0,0,0,0,0,0 },
     };
+
     private void Start()
     {
         CreateMap();
@@ -61,11 +62,10 @@ public class MapCreator : MonoBehaviour
                     case 6:
                         tilePrefab = BatteryTile;
                         break;
-
                 }
                 if (tilePrefab != null)
                 {
-                    Instantiate(tilePrefab, new Vector3(2 * (x - 1), 0,2 * (y -1)), Quaternion.identity);
+                    Instantiate(tilePrefab, new Vector3(2 * (x - 1), 0, 2 * (y - 1)), Quaternion.identity);
                 }
             }
         }

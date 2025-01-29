@@ -41,20 +41,63 @@ public class GridCell : MonoBehaviour
     private void DisplayRandomEvent()
     {
         string[] eventMessages = {
-            "ドアが開きました！",
-            "クローゼットに隠れられる",
-            "急に眠気がおそってきた。"
-        };
+        "ドアが開きました！",
+        "クローゼットに隠れられる",
+        "急に眠気がおそってきた。"
+    };
 
         System.Random random = new System.Random();
         int randomIndex = random.Next(eventMessages.Length);
 
-        Debug.Log($"{name}: イベント発動！ {eventMessages[randomIndex]}");
+        string selectedEvent = eventMessages[randomIndex];
+        Debug.Log($"{name}: イベント発動！ {selectedEvent}");
+
+        // ランダムに選ばれたイベントに対応する処理を実行
+        ExecuteSelectedEvent(selectedEvent);
     }
+
+    private void ExecuteSelectedEvent(string eventMessage)
+    {
+        switch (eventMessage)
+        {
+            case "ドアが開きました！":
+                Debug.Log("ドアが開くイベントを実行します。");
+                OpenDoor();
+                break;
+            case "クローゼットに隠れられる":
+                SecretCloset();
+                break;
+            case "急に眠気がおそってきた。":
+              
+                break;
+            default:
+                Debug.Log("未知のイベントです。");
+                break;
+        }
+    }
+    //イベントの実行↓
+    public void OpenDoor()
+    {
+        Debug.Log("ドアが開くイベントを実行します。");
+        // ドアが開く処理をここに追加
+    }
+
+    public void SecretCloset()
+    {
+        Debug.Log("クローゼットに隠れるイベントを実行します。");
+    //クローゼットに隠れる処理をここに追加
+    }
+
+    public void SleepEvent()
+    {
+        Debug.Log("眠気イベントを実行します。");
+        //眠気の処理をここに追加
+    }
+
 
     public void LogCellArrival()
     {
-        Debug.Log($"プレイヤーが {name} に到達しました。");
+        Debug.Log($"プレイヤーが {name} に到達しました。現在の位置: {transform.position}");
     }
     void DeBuh()
     {

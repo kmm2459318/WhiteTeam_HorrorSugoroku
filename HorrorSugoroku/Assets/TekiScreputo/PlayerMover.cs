@@ -5,6 +5,7 @@ public class PlayerMover : MonoBehaviour
 {
     public PlayerSaikoro playerSaikoro; // サイコロスクリプト
     private GridCell currentCell;       // プレイヤーが移動完了したセル
+    private GridCell targetCell;        // プレイヤーが次に到達するセル
     private bool wasMoving = false;     // 前回の移動状態
 
     void Start()
@@ -21,10 +22,12 @@ public class PlayerMover : MonoBehaviour
         // プレイヤーの移動が完了したタイミングを監視
         if (wasMoving && !playerSaikoro.idoutyu)
         {
-            TriggerCurrentCellEvent();
-            if (currentCell != null)
+            // プレイヤーが完全に止まったマスでイベントを発火
+            if (targetCell != null)
             {
-                Debug.Log($"プレイヤーが {currentCell.name} に到達しました。");
+                currentCell = targetCell;
+                TriggerCurrentCellEvent();
+                targetCell = null; // イベント発火後にターゲットセルをリセット
             }
         }
 
@@ -38,7 +41,7 @@ public class PlayerMover : MonoBehaviour
         GridCell cell = other.GetComponent<GridCell>();
         if (cell != null)
         {
-            currentCell = cell;
+            targetCell = cell; // 次に到達するセルをターゲットセルとして記録
         }
     }
 

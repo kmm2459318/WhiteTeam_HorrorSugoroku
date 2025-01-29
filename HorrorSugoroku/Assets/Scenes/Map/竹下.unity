@@ -2047,6 +2047,85 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 325198647456696468, guid: f611c734ecbe63c40826850cf9d18553, type: 3}
   m_PrefabInstance: {fileID: 784702099}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &809100622
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 809100625}
+  - component: {fileID: 809100624}
+  - component: {fileID: 809100623}
+  m_Layer: 5
+  m_Name: Text (Legacy)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &809100623
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 809100622}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5f7201a12d95ffc409449d95f23cf332, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 0.19607843, g: 0.19607843, b: 0.19607843, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_FontData:
+    m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
+    m_FontSize: 14
+    m_FontStyle: 0
+    m_BestFit: 0
+    m_MinSize: 10
+    m_MaxSize: 40
+    m_Alignment: 0
+    m_AlignByGeometry: 0
+    m_RichText: 1
+    m_HorizontalOverflow: 0
+    m_VerticalOverflow: 0
+    m_LineSpacing: 1
+  m_Text: New Text
+--- !u!222 &809100624
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 809100622}
+  m_CullTransparentMesh: 1
+--- !u!224 &809100625
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 809100622}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 830291908}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 160, y: 30}
+  m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &820373239
 GameObject:
   m_ObjectHideFlags: 0
@@ -2089,7 +2168,7 @@ MonoBehaviour:
   s4: {fileID: 21300000, guid: 50437870a4b98394192e58fef821667f, type: 3}
   s5: {fileID: 21300000, guid: 69e71bfa4f3005a4fa438b394fcdf55b, type: 3}
   s6: {fileID: 21300000, guid: be466869eecccfe44848b1f269b2951e, type: 3}
-  discoveryText: {fileID: 0}
+  discoveryText: {fileID: 809100623}
   discoveryBGM: {fileID: 8300000, guid: ea525edcd04e7914a8c09ad451cd6016, type: 3}
   undetectedBGM: {fileID: 8300000, guid: 57d9261537e7dd94ea2cb733b1a312af, type: 3}
   footstepSound: {fileID: 8300000, guid: 0a8c2e93afaf12d4e98b344d6a3e2687, type: 3}
@@ -2203,6 +2282,7 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 992328027}
+  - {fileID: 809100625}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
@@ -4131,7 +4211,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: be09e6e834c73cf45949ac4e256e91ba, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cellEffect: Normal
+  cellEffect: Dires
   flashlightController: {fileID: 0}
 --- !u!135 &1189376534
 SphereCollider:
@@ -4824,7 +4904,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: be09e6e834c73cf45949ac4e256e91ba, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cellEffect: Normal
+  cellEffect: Battery
   flashlightController: {fileID: 1083528088}
 --- !u!135 &1310298883
 SphereCollider:
@@ -6961,7 +7041,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: be09e6e834c73cf45949ac4e256e91ba, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cellEffect: Normal
+  cellEffect: Debuff
   flashlightController: {fileID: 0}
 --- !u!135 &1788104937
 SphereCollider:
@@ -7116,7 +7196,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: be09e6e834c73cf45949ac4e256e91ba, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cellEffect: Normal
+  cellEffect: Event
   flashlightController: {fileID: 0}
 --- !u!135 &1847862022
 SphereCollider:
@@ -7689,7 +7769,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: be09e6e834c73cf45949ac4e256e91ba, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cellEffect: Normal
+  cellEffect: Item
   flashlightController: {fileID: 0}
 --- !u!135 &1957502277
 SphereCollider:
