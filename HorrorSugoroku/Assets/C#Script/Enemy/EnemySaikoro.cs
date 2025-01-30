@@ -27,9 +27,13 @@ public class EnemySaikoro : MonoBehaviour
     public AudioClip footstepSound; // 足音のAudioClip
     Vector3 goToPos = new Vector3(0, 0, 0);
     private int goToMass = 1;
+    Vector3 random;
+    private EnemyController enemyController;
 
     void Start()
     {
+        // 初期化コード
+        enemyController = enemy.GetComponent<EnemyController>();
         if (saikoro != null)
         {
             saikoro.SetActive(false);
@@ -182,15 +186,16 @@ public class EnemySaikoro : MonoBehaviour
         bool isFootstepPlaying = false; // 足音が再生中かを判定するフラグ
         Vector3 lastDire = new Vector3(0, 0, 0);
 
-        // BGMを一時停止
         if (audioSource.isPlaying)
         {
-            audioSource.Pause(); // 現在のBGMを一時停止
+            audioSource.Pause();
         }
 
         //int dix = Random.Range(1, 3);
         //int diz = Random.Range(1, 3);
         //random = new Vector3((dix == 1 ? Random.Range(-40, -20) : Random.Range(20, 40)), 0, (diz == 1 ? Random.Range(-40, -20) : Random.Range(20, 40)));
+
+        enemyController.SetMovement(true); // エネミーが動き始めたらisMovingをtrueに設定
 
         while (steps > 0)
         {
@@ -227,7 +232,6 @@ public class EnemySaikoro : MonoBehaviour
             } 
 
             enemySmooth.TargetPosition += direction * 1.0f; // 2.0f単位で移動
-            Debug.Log(direction);
             steps--;
 
             // 足音が鳴っていない場合、鳴らす
@@ -259,6 +263,8 @@ public class EnemySaikoro : MonoBehaviour
             lastDire = direction;
             yield return new WaitForSeconds(0.5f); // 移動の間隔を待つ
         }
+
+        enemyController.SetMovement(false); // エネミーの移動が終了したらisMovingをfalseに設定
 
         // 移動が終了したら、再度BGMを再開
         if (currentBGM != null && !audioSource.isPlaying)
