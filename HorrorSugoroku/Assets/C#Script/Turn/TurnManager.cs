@@ -9,8 +9,7 @@ public class TurnManager : MonoBehaviour
 
     public PlayerSaikoro playerSaikoro;  // �v���C���[�̃T�C�R���Ǘ��i���̃^�[���ɐi�ޏ����j
 
-    public FlashlightController flashlightController; // �����d���R���g���[���[���Q��
-
+   
     // ���̃^�[���ɐi�ޏ���
     public void NextTurn()
     {
@@ -22,10 +21,7 @@ public class TurnManager : MonoBehaviour
             UpdateTurnText();  // UI�̃e�L�X�g���X�V����
             playerSaikoro.DiceRoll();
             // �����d���̃^�[���i�s�������Ăяo��
-            if (flashlightController != null)
-            {
-                flashlightController.OnTurnAdvanced();
-            }
+           
         }
     }
 
