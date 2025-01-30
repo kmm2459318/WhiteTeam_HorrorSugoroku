@@ -169,7 +169,7 @@ public class PlayerSaikoro : MonoBehaviour
         //移動処理　【北：１、西：２、東：３、南：４】
         if (idoutyu)
         {
-            Debug.Log(Rot.y);
+          //  Debug.Log(Rot.y);
             if (Input.GetKeyDown(KeyCode.W)) {
                 if (PN && (Rot.y >= 0f && Rot.y < 45f) || (Rot.y >= 315f && Rot.y < 360f))
                 {

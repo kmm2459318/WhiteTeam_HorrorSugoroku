@@ -1,16 +1,26 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class GridCell : MonoBehaviour
 {
     public string cellEffect = "Normal"; // マス目の効果（例: Normal, Bonus, Penalty）
-     [SerializeField] private Master_Debuff DebuffSheet;
+    public FlashlightController flashlightController;
+    [SerializeField] private Master_Debuff DebuffSheet;
+    public GameObject eventPanel; // UIのパネル
+    public TextMeshProUGUI eventText; // UIのテキスト
 
     public int n = 0;
 
-    void Start()
+    public int n = 0;
+   private void Start()
     {
+        if (eventPanel != null)
+        {
+            eventPanel.SetActive(false);
+        }
         Debug.Log("ID:" + DebuffSheet.DebuffSheet[n].ID);
         Debug.Log("イベント名:" + DebuffSheet.DebuffSheet[n].Name);
         Debug.Log("懐中電灯の最小ゲージ減少量:" + DebuffSheet.DebuffSheet[n].DecreaseMin);
@@ -19,9 +29,19 @@ public class GridCell : MonoBehaviour
         Debug.Log("アイテムが使えなくなるかの判定:" + DebuffSheet.DebuffSheet[n].ItemGive);
         Debug.Log("アイテムが使えないターン数:" + DebuffSheet.DebuffSheet[n].ItemGive);
     }
+  
 
     public void ExecuteEvent()
     {
+        if (cellEffect == "Item")
+        {
+            ShowEventUI($"{name}: アイテムを獲得！");
+        }
+        else
+        {
+            Debug.Log($"{name}:{cellEffect}");
+        }
+        // マス目の効果を発動
         switch (cellEffect)
         {
             case "Event":
@@ -31,7 +51,7 @@ public class GridCell : MonoBehaviour
                 Debug.Log($"{name}: ペナルティ効果発動！");
                 break;
             case "Item":
-                Debug.Log($"{name}:アイテムを獲得！");
+               
                 break;
             case "Dires":
                 Debug.Log($"{name}:演出発動！");
@@ -48,8 +68,24 @@ public class GridCell : MonoBehaviour
                 Debug.Log($"{name}: 通常マス - 効果なし。");
                 break;
         }
+        ShowEventUI(name);
     }
 
+    void ShowEventUI(string name)
+    {
+        if (eventPanel != null && eventText != null)
+        {
+            eventPanel.SetActive(true);
+            eventText.text = name;
+        }
+    }
+    public void CloseEventUI()
+    {
+        if (eventPanel != null)
+        {
+            eventPanel.SetActive(false);
+        }
+    }
     private void DisplayRandomEvent()
     {
         string[] eventMessages = {
@@ -79,6 +115,8 @@ public class GridCell : MonoBehaviour
                 SecretCloset();
                 break;
             case "急に眠気がおそってきた。":
+                SleepEvent();
+              
                 break;
             default:
                 Debug.Log("未知のイベントです。");
