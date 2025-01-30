@@ -113,17 +113,17 @@ public class GridCell : MonoBehaviour
     void DeBuh()
     {
         int randomEvent = Random.Range(0, 2);
-       
-       
+
+
 
         if (randomEvent == 0)
         {
-            flashlightController.OnTurnAdvanced();
+            // flashlightController.OnTurnAdvanced();
         }
         else
         {
             Debug.Log("デバフイベントB：アイテムが使えなくなった");
-        
+        }
     }
 
     void Batre()
