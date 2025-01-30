@@ -5,8 +5,7 @@ using UnityEngine;
 public class GridCell : MonoBehaviour
 {
     public string cellEffect = "Normal"; // マス目の効果（例: Normal, Bonus, Penalty）
-    public FlashlightController flashlightController;
-    [SerializeField] private Master_Debuff DebuffSheet;
+     [SerializeField] private Master_Debuff DebuffSheet;
 
     public int n = 0;
 
@@ -114,6 +113,8 @@ public class GridCell : MonoBehaviour
     void DeBuh()
     {
         int randomEvent = Random.Range(0, 2);
+       
+       
 
         if (randomEvent == 0)
         {
@@ -122,12 +123,14 @@ public class GridCell : MonoBehaviour
         else
         {
             Debug.Log("デバフイベントB：アイテムが使えなくなった");
-        }
+        
     }
 
     void Batre()
     {
-        Debug.Log("バッテリー回復：バッテリーが回復した");
-        flashlightController.AddBattery(20f);
+       
+            Debug.Log("バッテリー回復：バッテリーが回復した");
+
+            
     }
 }
