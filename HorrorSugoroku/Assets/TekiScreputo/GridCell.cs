@@ -13,8 +13,6 @@ public class GridCell : MonoBehaviour
     public TextMeshProUGUI eventText; // UIのテキスト
 
     public int n = 0;
-
-    public int n = 0;
    private void Start()
     {
         if (eventPanel != null)
