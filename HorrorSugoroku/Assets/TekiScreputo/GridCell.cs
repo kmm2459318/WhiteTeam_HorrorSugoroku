@@ -12,6 +12,7 @@ public class GridCell : MonoBehaviour
     public GameObject eventPanel; // UIのパネル
     public TextMeshProUGUI eventText; // UIのテキスト
 
+    public int n = 0;
 
     public int n = 0;
    private void Start()
@@ -88,10 +89,10 @@ public class GridCell : MonoBehaviour
     private void DisplayRandomEvent()
     {
         string[] eventMessages = {
-        "ドアが開きました！",
-        "クローゼットに隠れられる",
-        "急に眠気がおそってきた。"
-    };
+            "ドアが開きました！",
+            "クローゼットに隠れられる",
+            "急に眠気がおそってきた。"
+        };
 
         System.Random random = new System.Random();
         int randomIndex = random.Next(eventMessages.Length);
@@ -99,7 +100,6 @@ public class GridCell : MonoBehaviour
         string selectedEvent = eventMessages[randomIndex];
         Debug.Log($"{name}: イベント発動！ {selectedEvent}");
 
-        // ランダムに選ばれたイベントに対応する処理を実行
         ExecuteSelectedEvent(selectedEvent);
     }
 
@@ -123,7 +123,7 @@ public class GridCell : MonoBehaviour
                 break;
         }
     }
-    //イベントの実行↓
+
     public void OpenDoor()
     {
         Debug.Log("ドアが開くイベントを実行します。");
@@ -133,42 +133,42 @@ public class GridCell : MonoBehaviour
     public void SecretCloset()
     {
         Debug.Log("クローゼットに隠れるイベントを実行します。");
-    //クローゼットに隠れる処理をここに追加
+        // クローゼットに隠れる処理をここに追加
+        SceneChanger3D.hasSubstituteDoll = true; // 使用判定をトゥルーに設定
     }
 
     public void SleepEvent()
     {
         Debug.Log("眠気イベントを実行します。");
-        //眠気の処理をここに追加
+        // 眠気の処理をここに追加
     }
-
 
     public void LogCellArrival()
     {
         Debug.Log($"プレイヤーが {name} に到達しました。現在の位置: {transform.position}");
     }
+
     void DeBuh()
     {
-       
         int randomEvent = Random.Range(0, 2);
        
+       
+
         if (randomEvent == 0)
         {
-          
             flashlightController.OnTurnAdvanced();
         }
         else
         {
             Debug.Log("デバフイベントB：アイテムが使えなくなった");
-        }
+        
     }
+
     void Batre()
     {
        
             Debug.Log("バッテリー回復：バッテリーが回復した");
 
-            flashlightController.AddBattery(20f);
-        
+            
     }
-
 }
