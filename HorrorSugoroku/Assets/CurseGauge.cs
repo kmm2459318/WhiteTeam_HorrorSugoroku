@@ -1,38 +1,99 @@
-using UnityEngine;
+ï»¿using UnityEngine;
 using UnityEngine.UI;
 
-public class CurseGauge : MonoBehaviour
+public class CurseSlider : MonoBehaviour
 {
-    public Slider curseSlider;  // ƒXƒ‰ƒCƒ_[iô‚¢ƒQ[ƒWj
-    public float maxCurse = 300f;  // ô‚¢ƒQ[ƒW‚ÌÅ‘å’l
-    public float curseIncrement = 5f;  // ˆêƒ^[ƒ“‚²‚Æ‚Ì‘‰Á’l
-    private float currentCurse = 0f;  // Œ»İ‚Ìô‚¢ƒQ[ƒW
-    private float turnsPassed = 0f;  // Œo‰ßƒ^[ƒ“”
+    [SerializeField] Slider DashGage;
+    [SerializeField] SceneChanger3D sceneChanger; // SceneChanger3D ã¸ã®å‚ç…§ã‚’è¿½åŠ 
+    [SerializeField] GameObject CardCanvas; // CardCanvasã‚’å‚ç…§
+    [SerializeField] Button showButton; // ãƒœã‚¿ãƒ³1: CardCanvasã‚’è¡¨ç¤º
+    [SerializeField] Button hideButton; // ãƒœã‚¿ãƒ³2: CardCanvasã‚’éè¡¨ç¤º
+    [SerializeField] Button extraButton; // ãƒœã‚¿ãƒ³3: è¿½åŠ ã®ã‚¢ã‚¯ã‚·ãƒ§ãƒ³ç”¨ãƒœã‚¿ãƒ³
+
+    public float maxDashPoint = 300; // æœ€å¤§å€¤
+    public float dashIncreasePerTurn = 5; // 1ã‚¿ãƒ¼ãƒ³ã”ã¨ã®å¢—åŠ é‡
+
+    float dashPoint = 0; // åˆæœŸå€¤ã‚’0ã«è¨­å®š
+    float currentVelocity = 0;
+
+    void Start()
+    {
+        DashGage.maxValue = maxDashPoint;
+        DashGage.value = dashPoint; // ã‚¹ãƒ©ã‚¤ãƒ€ãƒ¼ã®åˆæœŸå€¤ã‚’0ã«è¨­å®š
+
+        // CardCanvasã¯éè¡¨ç¤ºã«ã—ãªã„ï¼ˆé–‹å§‹æ™‚ã«è¡¨ç¤ºã•ã‚Œã‚‹ã‚ˆã†ã«ï¼‰
+        // ã‚‚ã—åˆæœŸçŠ¶æ…‹ã§éè¡¨ç¤ºã«ã—ãŸã„å ´åˆã¯ã€ã‚¤ãƒ³ã‚¹ãƒšã‚¯ã‚¿ãƒ¼ã§è¨­å®šã—ã¦ãã ã•ã„ã€‚
+
+        // å„ãƒœã‚¿ãƒ³ã®ã‚¯ãƒªãƒƒã‚¯ã‚¤ãƒ™ãƒ³ãƒˆã«ãƒ¡ã‚½ãƒƒãƒ‰ã‚’ç™»éŒ²
+        if (showButton != null)
+        {
+            showButton.onClick.AddListener(ShowCardCanvas);
+        }
+        if (hideButton != null)
+        {
+            hideButton.onClick.AddListener(HideCardCanvas);
+        }
+        if (extraButton != null)
+        {
+            extraButton.onClick.AddListener(ExtraButtonAction);
+        }
+    }
 
     void Update()
     {
-        // ƒQ[ƒ€‚Ìƒ^[ƒ“‚ªŒo‰ß‚·‚é‚²‚Æ‚Éô‚¢ƒQ[ƒW‚ğ‘‰Á‚³‚¹‚éˆ—
-        turnsPassed += Time.deltaTime; // ƒ^[ƒ“”‚ğŠÔŒo‰ß‚ÅƒJƒEƒ“ƒgi1•b‚²‚Æj
+        DashGage.value = dashPoint; // ã‚²ãƒ¼ã‚¸ã®å€¤ã‚’æ›´æ–°
 
-        // 1•b‚ªŒo‰ß‚µ‚½‚çƒ^[ƒ“‚Æ‚µ‚ÄƒJƒEƒ“ƒg‚µAƒQ[ƒW‚ğ‘‰Á
-        if (turnsPassed >= 1f)  // 1ƒ^[ƒ“i1•bj
+        // ã‚²ãƒ¼ã‚¸ãŒãƒãƒƒã‚¯ã‚¹ã«ãªã£ãŸå ´åˆã«ã‚²ãƒ¼ãƒ ã‚ªãƒ¼ãƒãƒ¼å‡¦ç†ã‚’å‘¼ã³å‡ºã™
+        if (dashPoint >= maxDashPoint)
         {
-            turnsPassed = 0f;  // ƒ^[ƒ“‚ÌƒJƒEƒ“ƒgƒŠƒZƒbƒg
-            IncreaseCurse();  // ô‚¢ƒQ[ƒW‚ğ‘‰Á
+            if (sceneChanger != null)
+            {
+                sceneChanger.HandleGameOver();
+            }
         }
-
-        // ƒXƒ‰ƒCƒ_[‚Ì’l‚ğXV
-        curseSlider.value = currentCurse;
     }
 
-    void IncreaseCurse()
+    // ã‚¿ãƒ¼ãƒ³çµŒéæ™‚ã«ã‚²ãƒ¼ã‚¸ã‚’å¢—ã‚„ã™
+    public void IncreaseDashPointPerTurn()
     {
-        // ô‚¢ƒQ[ƒW‚ğ‘‰ÁiÅ‘å’l‚ğ’´‚¦‚È‚¢‚æ‚¤‚É§ŒÀj
-        currentCurse += curseIncrement;
-        if (currentCurse > maxCurse)
+        dashPoint = Mathf.Min(dashPoint + dashIncreasePerTurn, maxDashPoint);
+        DashGage.value = dashPoint; // å¤‰æ›´å¾Œã™ãã«é©ç”¨
+
+        // ã‚²ãƒ¼ã‚¸ãŒ20ã®å€æ•°ã«é”ã—ãŸå ´åˆã«CardCanvasã‚’è¡¨ç¤º
+        if ((int)(dashPoint / 20) > (int)((dashPoint - dashIncreasePerTurn) / 20))
         {
-            currentCurse = maxCurse;
-            // Å‘å’l‚É’B‚µ‚½‚Æ‚«‚Ìˆ—iƒvƒŒƒCƒ„[‚Éˆ«‰e‹¿‚ğ—^‚¦‚é‚È‚Çj
+            ShowCardCanvas();
         }
+
+        Debug.Log($"[CurseSlider] Dash Point Increased: {dashPoint}/{maxDashPoint}");
+    }
+
+    // CardCanvasã‚’è¡¨ç¤ºã™ã‚‹
+    public void ShowCardCanvas()
+    {
+        if (CardCanvas != null)
+        {
+            CardCanvas.SetActive(true);
+        }
+    }
+
+    // CardCanvasã‚’éè¡¨ç¤ºã«ã™ã‚‹
+    // æ­£è§£ï¼špublic ä¿®é£¾å­ã‚’ä»˜ã‘ã‚‹
+    public void HideCardCanvas()
+    {
+        if (CardCanvas != null)
+        {
+            CardCanvas.SetActive(false);
+        }
+    }
+
+    // è¿½åŠ ã®ãƒœã‚¿ãƒ³ã‚¢ã‚¯ã‚·ãƒ§ãƒ³ï¼ˆä¾‹: ã‚·ãƒ¼ãƒ³é·ç§»ãªã©ï¼‰
+    public void ExtraButtonAction()
+    {
+        // ã“ã“ã§è¿½åŠ ã®å‡¦ç†ã‚’è¡Œã†
+        Debug.Log("Extra Button Clicked!");
+
+        // ä¾‹ãˆã°ã€ã‚·ãƒ¼ãƒ³é·ç§»ã™ã‚‹å ´åˆ
+        // UnityEngine.SceneManagement.SceneManager.LoadScene("NextSceneName");
     }
 }
