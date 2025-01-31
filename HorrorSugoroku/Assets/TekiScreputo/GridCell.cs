@@ -75,6 +75,7 @@ public class GridCell : MonoBehaviour
         {
             eventPanel.SetActive(true);
             eventText.text = name;
+            Time.timeScale = 0;
         }
     }
     public void CloseEventUI()
@@ -82,6 +83,7 @@ public class GridCell : MonoBehaviour
         if (eventPanel != null)
         {
             eventPanel.SetActive(false);
+            Time.timeScale = 1;
         }
     }
     private void DisplayRandomEvent()
