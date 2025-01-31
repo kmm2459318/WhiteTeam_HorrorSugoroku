@@ -2,7 +2,6 @@
 using UnityEngine.UI;
 using System.Collections;
 using SmoothigTransform;
-using SmoothigTransform;
 
 public class EnemySaikoro : MonoBehaviour
 {
@@ -27,11 +26,22 @@ public class EnemySaikoro : MonoBehaviour
     public AudioClip footstepSound; // 足音のAudioClip
     Vector3 random;
     private EnemyController enemyController;
+    private GameManager gameManager; // GameManagerの参照
+    private EnemyLookAtPlayer enemyLookAtPlayer; // EnemyLookAtPlayerの参照
+
 
     void Start()
     {
         // 初期化コード
         enemyController = enemy.GetComponent<EnemyController>();
+        gameManager = FindObjectOfType<GameManager>(); // GameManagerの参照を取得
+        enemyLookAtPlayer = enemy.GetComponent<EnemyLookAtPlayer>(); // EnemyLookAtPlayerの参照を取得
+
+        if (enemyLookAtPlayer == null)
+        {
+            Debug.LogError("EnemyLookAtPlayer component is not assigned or found on the enemy object.");
+        }
+
         if (saikoro != null)
         {
             saikoro.SetActive(false);
@@ -61,10 +71,9 @@ public class EnemySaikoro : MonoBehaviour
             audioSource = gameObject.AddComponent<AudioSource>(); // AudioSourceがなければ追加
         }
     }
-
     void Update()
     {
-        if (FindObjectOfType<GameManager>().IsPlayerTurn())
+        if (gameManager.IsPlayerTurn())
         {
             return;
         }
@@ -102,6 +111,8 @@ public class EnemySaikoro : MonoBehaviour
                 audioSource.Play(); // 発見時のBGMを再生
             }
             discovery = true;
+            enemyLookAtPlayer.SetDiscovery(true); // エネミーの体をプレイヤーの方向に向ける
+
             Debug.Log("発見！");
         }
         else
@@ -119,9 +130,12 @@ public class EnemySaikoro : MonoBehaviour
                 audioSource.Play(); // 未発見時のBGMを再生
             }
             discovery = false;
+            enemyLookAtPlayer.SetDiscovery(false); // エネミーの体をプレイヤーの方向に向けない
+
             Debug.Log("未発見");
         }
     }
+
 
     public IEnumerator RollEnemyDice()
     {
@@ -186,6 +200,9 @@ public class EnemySaikoro : MonoBehaviour
                 isFootstepPlaying = true; // 足音再生フラグを立てる
             }
 
+            // エネミーの移動方向を設定
+            enemyLookAtPlayer.SetMoveDirection(direction);
+
             Debug.Log("Enemy moved towards player. Steps remaining: " + steps);
 
             // プレイヤーが発見されたかをチェック
@@ -222,15 +239,14 @@ public class EnemySaikoro : MonoBehaviour
         Debug.Log("Enemy moved a total of " + initialSteps + " steps.");
         FindObjectOfType<GameManager>().NextTurn(); // 次のターンに進む
     }
-
     private Vector3 GetValidDirection(Vector3 targetDirection)
     {
         Vector3[] directions = new Vector3[]
         {
-            new Vector3(2.0f, 0, 0),   // 東
-            new Vector3(-2.0f, 0, 0),  // 西
-            new Vector3(0, 0, 2.0f),   // 北
-            new Vector3(0, 0, -2.0f)   // 南
+        new Vector3(2.0f, 0, 0),   // 東
+        new Vector3(-2.0f, 0, 0),  // 西
+        new Vector3(0, 0, 2.0f),   // 北
+        new Vector3(0, 0, -2.0f)   // 南
         };
 
         Vector3 bestDirection = Vector3.zero;
@@ -289,4 +305,5 @@ public class EnemySaikoro : MonoBehaviour
         Vector3 direction = enemy.transform.position + enemy.transform.forward * 3f;
         Gizmos.DrawLine(enemy.transform.position, direction);
     }
+
 }
