@@ -1,44 +1,55 @@
 using UnityEngine;
-using TMPro;  // TextMeshPro �p
+using TMPro;
 
 public class TurnManager : MonoBehaviour
 {
-    public TMP_Text turnText;  // TextMeshPro �p�̃^�[�����\��
-    private int currentTurn = 0;  // ���݂̃^�[���ԍ�
+    public TMP_Text turnText;
+    private int currentTurn = 0;
     public bool turnStay = false;
 
-    public PlayerSaikoro playerSaikoro;  // �v���C���[�̃T�C�R���Ǘ��i���̃^�[���ɐi�ޏ����j
+    public PlayerSaikoro playerSaikoro;
+    public CurseSlider curseSlider; 
 
-   
+    public FlashlightController flashlightController; // �����d���R���g���[���[���Q��
+
     // ���̃^�[���ɐi�ޏ���
     public void NextTurn()
     {
         if (!turnStay)
         {
             turnStay = true;
-            currentTurn++;  // �^�[����i�߂�
+            currentTurn++;
             PlayerPrefs.SetInt("Turn", currentTurn);
-            UpdateTurnText();  // UI�̃e�L�X�g���X�V����
+            UpdateTurnText();
             playerSaikoro.DiceRoll();
             // �����d���̃^�[���i�s�������Ăяo��
-           
+            if (flashlightController != null)
+            {
+                flashlightController.OnTurnAdvanced();
+            }
+            if (curseSlider != null)
+            {
+                curseSlider.IncreaseDashPointPerTurn();
+                Debug.Log("[TurnManager] IncreaseDashPointPerTurn() called.");
+            }
+            else
+            {
+                Debug.LogError("[TurnManager] CurseSlider is not assigned!");
+            }
         }
     }
 
-
-    // �^�[���\�����X�V���郁�\�b�h
     private void UpdateTurnText()
     {
         if (turnText != null)
         {
-            turnText.text = "Turn: " + currentTurn;  // �e�L�X�g�Ƀ^�[���ԍ���\��
+            turnText.text = "Turn: " + currentTurn;
         }
     }
 
-    // �Q�[���J�n���ɏ�����
     private void Start()
     {
-        UpdateTurnText();  // �����^�[���\��
+        UpdateTurnText();
         PlayerPrefs.SetInt("Turn", 0);
     }
 }

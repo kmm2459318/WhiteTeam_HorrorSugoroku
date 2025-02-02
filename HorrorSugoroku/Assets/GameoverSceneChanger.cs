@@ -7,7 +7,7 @@ public class SceneChanger3D : MonoBehaviour
 {
     [SerializeField] private GameObject enemy; // 敵オブジェクトの名前
     [SerializeField] private Image cutInImage; // カットイン画像
-    [SerializeField] private float cutInDuration = 1.0f; // カットインの表示時間（秒）
+    [SerializeField] private float cutInDuration = 2.0f; // カットインの表示時間（秒）
     [SerializeField] private AudioClip gameOverSound; // ゲームオーバー時のサウンド
     private AudioSource audioSource; // 音声再生用のAudioSource
 
@@ -49,7 +49,7 @@ public class SceneChanger3D : MonoBehaviour
     }
 
     // ゲームオーバー処理を判定するメソッド
-    private void HandleGameOver()
+    public void HandleGameOver()
     {
         if (hasSubstituteDoll)
         {
