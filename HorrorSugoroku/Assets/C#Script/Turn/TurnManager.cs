@@ -8,9 +8,9 @@ public class TurnManager : MonoBehaviour
     public bool turnStay = false;
 
     public PlayerSaikoro playerSaikoro;
-    public CurseSlider curseSlider; 
+    public CurseSlider curseSlider; // これなんですか？
 
-    public FlashlightController flashlightController; // �����d���R���g���[���[���Q��
+    public FlashlightController flashlightController; // これなんですか？
 
     // ���̃^�[���ɐi�ޏ���
     public void NextTurn()
