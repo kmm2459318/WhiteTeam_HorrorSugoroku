@@ -49,7 +49,7 @@ public class SceneChanger3D : MonoBehaviour
     }
 
     // ゲームオーバー処理を判定するメソッド
-    private void HandleGameOver()
+    public void HandleGameOver()
     {
         if (hasSubstituteDoll)
         {
