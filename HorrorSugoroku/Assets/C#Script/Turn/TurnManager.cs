@@ -10,6 +10,9 @@ public class TurnManager : MonoBehaviour
     public PlayerSaikoro playerSaikoro;
     public CurseSlider curseSlider; 
 
+    public FlashlightController flashlightController; // �����d���R���g���[���[���Q��
+
+    // ���̃^�[���ɐi�ޏ���
     public void NextTurn()
     {
         if (!turnStay)
@@ -19,7 +22,11 @@ public class TurnManager : MonoBehaviour
             PlayerPrefs.SetInt("Turn", currentTurn);
             UpdateTurnText();
             playerSaikoro.DiceRoll();
-
+            // �����d���̃^�[���i�s�������Ăяo��
+            if (flashlightController != null)
+            {
+                flashlightController.OnTurnAdvanced();
+            }
             if (curseSlider != null)
             {
                 curseSlider.IncreaseDashPointPerTurn();
