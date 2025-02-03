@@ -8,13 +8,10 @@ public class TurnManager : MonoBehaviour
     public bool turnStay = false;
 
     public PlayerSaikoro playerSaikoro;
-    public CurseSlider curseSlider;
-    public FlashlightController flashlightController;
+    public CurseSlider curseSlider; // 呪いゲージ管理
+    public FlashlightController flashlightController; // フラッシュライト管理
 
-    public GameObject currentEnemy; // 現在のエネミーオブジェクト
-    public GameObject newEnemyPrefab; // 新しいエネミーのプレハブ
-
-    // ���̃^�[���ɐi�ޏ���
+    // 次のターンへ進む処理
     public void NextTurn()
     {
         if (!turnStay)
@@ -23,12 +20,17 @@ public class TurnManager : MonoBehaviour
             currentTurn++;
             PlayerPrefs.SetInt("Turn", currentTurn);
             UpdateTurnText();
+
+            // サイコロを振る
             playerSaikoro.DiceRoll();
-            // �����d���̃^�[���i�s�������Ăяo��
+
+            // フラッシュライトのターン進行処理
             if (flashlightController != null)
             {
                 flashlightController.OnTurnAdvanced();
             }
+
+            // 呪いゲージ増加
             if (curseSlider != null)
             {
                 curseSlider.IncreaseDashPointPerTurn();
@@ -39,14 +41,14 @@ public class TurnManager : MonoBehaviour
                 Debug.LogError("[TurnManager] CurseSlider is not assigned!");
             }
 
-            // ターンが6に達したらエネミーのモデルを変更
-            if (currentTurn == 6)
-            {
-                ChangeEnemyModel();
-            }
+            // すべてのターン処理が終了した後にカードキャンバスを表示
+            ShowCardCanvasAfterTurn();
+
+            turnStay = false; // ターン処理が完了したことを示す
         }
     }
 
+    // ターン数のUIを更新
     private void UpdateTurnText()
     {
         if (turnText != null)
@@ -55,25 +57,20 @@ public class TurnManager : MonoBehaviour
         }
     }
 
+    // 初期化処理
     private void Start()
     {
         UpdateTurnText();
         PlayerPrefs.SetInt("Turn", 0);
     }
 
-    private void ChangeEnemyModel()
+    // **ターンの最後にCardCanvasを表示するメソッド**
+    private void ShowCardCanvasAfterTurn()
     {
-        if (currentEnemy != null && newEnemyPrefab != null)
+        if (curseSlider != null)
         {
-            Vector3 enemyPosition = currentEnemy.transform.position;
-            Quaternion enemyRotation = currentEnemy.transform.rotation;
-            Destroy(currentEnemy);
-            currentEnemy = Instantiate(newEnemyPrefab, enemyPosition, enemyRotation);
-            Debug.Log("[TurnManager] Enemy model changed to new model.");
-        }
-        else
-        {
-            Debug.LogError("[TurnManager] Current enemy or new enemy prefab is not assigned!");
+            curseSlider.ShowCardCanvas();
+            Debug.Log("[TurnManager] CardCanvas is now displayed.");
         }
     }
 }

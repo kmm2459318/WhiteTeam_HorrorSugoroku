@@ -164,6 +164,7 @@ public class EnemySaikoro : MonoBehaviour
         int initialSteps = steps;
         AudioClip currentBGM = audioSource.clip;
         bool isFootstepPlaying = false;
+        Vector3 lastDire = new Vector3(0, 0, 0);
 
         if (audioSource.isPlaying)
         {
@@ -188,6 +189,27 @@ public class EnemySaikoro : MonoBehaviour
             {
                 direction = (random - enemy.transform.position);
                 direction = GetValidDirection(direction);
+            }
+
+            if (direction != lastDire)
+            {
+                if (direction == new Vector3(0, 0, 2.0f))
+                {
+                    enemySmooth.TargetRotation = Quaternion.Euler(0, 90, 0);
+                }
+                else if (direction == new Vector3(0, 0, -2.0f))
+                {
+                    enemySmooth.TargetRotation = Quaternion.Euler(0, -90, 0);
+                }
+                else if (direction == new Vector3(2.0f, 0, 0))
+                {
+                    enemySmooth.TargetRotation = Quaternion.Euler(0, 180, 0);
+                }
+                else if (direction == new Vector3(-2.0f, 0, 0))
+                {
+                    enemySmooth.TargetRotation = Quaternion.Euler(0, 0, 0);
+                }
+                yield return new WaitForSeconds(0.5f);
             }
 
             enemySmooth.TargetPosition += direction * 1.0f; // 2.0f単位で移動
@@ -221,7 +243,7 @@ public class EnemySaikoro : MonoBehaviour
                 Debug.Log("発見！");
                 break;
             }
-
+            lastDire = direction;
             yield return new WaitForSeconds(0.5f); // 移動の間隔を待つ
         }
 
