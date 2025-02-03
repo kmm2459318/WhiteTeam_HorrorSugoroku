@@ -2,25 +2,23 @@ using UnityEngine;
 
 public class EnemyLookAtPlayer : MonoBehaviour
 {
-    public GameObject player;
-    public Transform front;
-    public Transform back;
-    public Transform right;
-    public Transform left;
     public LayerMask wallLayer; // 壁のレイヤー
     private bool discovery = false;
     private Vector3 moveDirection;
     private float directionChangeCooldown = 1.0f; // 方向変更のクールダウン時間
     private float lastDirectionChangeTime;
+    private Animator animator; // アニメーターの参照
+
+    void Start()
+    {
+        animator = GetComponent<Animator>(); // アニメーターコンポーネントを取得
+    }
 
     void Update()
     {
         if (discovery)
         {
-            // プレイヤーの方向に向く
-            Vector3 directionToPlayer = (player.transform.position - transform.position).normalized;
-            Quaternion lookRotation = Quaternion.LookRotation(new Vector3(directionToPlayer.x, 0, directionToPlayer.z));
-            transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, Time.deltaTime * 5f);
+            // プレイヤーの方向に向く（削除）
         }
         else
         {
@@ -29,28 +27,14 @@ public class EnemyLookAtPlayer : MonoBehaviour
             {
                 Quaternion lookRotation = Quaternion.LookRotation(new Vector3(moveDirection.x, 0, moveDirection.z));
                 transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, Time.deltaTime * 5f);
+                animator.SetBool("isRunning", true); // Runアニメーションを再生
             }
-
-            // 壁に当たった場合に方向を修正
-            bool frontHit = Physics.CheckSphere(front.position, 0.5f, wallLayer);
-            bool rightHit = Physics.CheckSphere(right.position, 0.5f, wallLayer);
-            bool leftHit = Physics.CheckSphere(left.position, 0.5f, wallLayer);
-
-            if (Time.time > lastDirectionChangeTime + directionChangeCooldown)
+            else
             {
-                if (frontHit)
-                {
-                    moveDirection = -moveDirection; // 方向を反転
-                    lastDirectionChangeTime = Time.time;
-                    Debug.Log("Wall detected at front, changing direction to: " + moveDirection);
-                }
-                else if (!rightHit || !leftHit)
-                {
-                    moveDirection = -moveDirection; // 方向を反転
-                    lastDirectionChangeTime = Time.time;
-                    Debug.Log("Wall detected at right or left, changing direction to: " + moveDirection);
-                }
+                animator.SetBool("isRunning", false); // Runアニメーションを停止
             }
+
+            // 壁に当たった場合に方向を修正（削除）
         }
     }
 
