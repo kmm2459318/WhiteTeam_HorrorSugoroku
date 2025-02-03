@@ -43,6 +43,7 @@ public class GridCell : MonoBehaviour
                 break;
             case "Battery":
                 Debug.Log($"{name}:バッテリーを獲得！");
+                Batre();
                 break;
             default:
                 Debug.Log($"{name}: 通常マス - 効果なし。");
@@ -124,4 +125,9 @@ public class GridCell : MonoBehaviour
         }
     }
 
+    void Batre()
+    {
+        Debug.Log("バッテリー回復：バッテリーが回復した");
+        flashlightController.AddBattery(20f);
+    }
 }
