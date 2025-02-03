@@ -15,14 +15,14 @@ public class EnemyLookAtPlayer : MonoBehaviour
 
     void Update()
     {
-        if (discovery)
-        {
+        //if (discovery)
+        //{
             // ÉvÉåÉCÉÑÅ[ÇÃï˚å¸Ç…å¸Ç≠
-            Vector3 directionToPlayer = (player.transform.position - transform.position).normalized;
-            Quaternion lookRotation = Quaternion.LookRotation(new Vector3(directionToPlayer.x, 0, directionToPlayer.z));
-            transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, Time.deltaTime * 5f);
-        }
-        else
+            //Vector3 directionToPlayer = (player.transform.position - transform.position).normalized;
+            //Quaternion lookRotation = Quaternion.LookRotation(new Vector3(directionToPlayer.x, 0, directionToPlayer.z));
+            //.rotation = Quaternion.Slerp(transform.rotation, lookRotation, Time.deltaTime * 5f);
+        //}
+        /*else
         {
             // à⁄ìÆï˚å¸Ç…å¸Ç≠
             if (moveDirection != Vector3.zero)
@@ -51,7 +51,7 @@ public class EnemyLookAtPlayer : MonoBehaviour
                     Debug.Log("Wall detected at right or left, changing direction to: " + moveDirection);
                 }
             }
-        }
+        }*/
     }
 
     public void SetDiscovery(bool isDiscovered)
