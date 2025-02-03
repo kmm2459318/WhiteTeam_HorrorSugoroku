@@ -19,6 +19,7 @@ public class EnemySaikoro : MonoBehaviour
     private int steps; // サイコロの目の数
     private bool discovery = false;
     Image image;
+    public Text discoveryText; // 新しいText変数を追加
     public AudioClip discoveryBGM; // 発見時のBGM
     public AudioClip undetectedBGM; // 未発見時のBGM
     private AudioSource audioSource; // 音声再生用のAudioSource
@@ -52,7 +53,16 @@ public class EnemySaikoro : MonoBehaviour
 
         // サイコロのImageを保持
         image = saikoro.GetComponent<Image>();
-        
+
+        // テキストの初期化
+        if (discoveryText != null)
+        {
+            discoveryText.text = "未発見"; // 初期状態は未発見
+        }
+        else
+        {
+            Debug.LogError("Discovery Text is not assigned in the Inspector.");
+        }
 
         // AudioSourceの取得
         audioSource = GetComponent<AudioSource>();
@@ -88,6 +98,10 @@ public class EnemySaikoro : MonoBehaviour
         // プレイヤーが発見されたかをチェック
         if (Vector3.Distance(enemy.transform.position, player.transform.position) < 5f)
         {
+            if (discoveryText != null)
+            {
+                discoveryText.text = "発見！"; // プレイヤーが近い場合、「発見！」を表示
+            }
 
             // 発見時のBGMを流す
             if (discoveryBGM != null && audioSource.clip != discoveryBGM)
@@ -103,6 +117,11 @@ public class EnemySaikoro : MonoBehaviour
         }
         else
         {
+            if (discoveryText != null)
+            {
+                discoveryText.text = "未発見"; // プレイヤーが遠い場合、「未発見」を表示
+            }
+
             // 未発見時のBGMを流す
             if (undetectedBGM != null && audioSource.clip != undetectedBGM)
             {
@@ -211,6 +230,10 @@ public class EnemySaikoro : MonoBehaviour
             // プレイヤーが発見されたかをチェック
             if (Vector3.Distance(enemy.transform.position, player.transform.position) < 5f)
             {
+                if (discoveryText != null)
+                {
+                    discoveryText.text = "発見！"; // プレイヤーが近ければ「発見！」と表示
+                }
                 if (discoveryBGM != null && !audioSource.isPlaying) // 発見時のBGMを流す
                 {
                     audioSource.clip = discoveryBGM;
