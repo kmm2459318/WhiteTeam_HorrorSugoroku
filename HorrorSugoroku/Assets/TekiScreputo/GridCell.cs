@@ -1,17 +1,31 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class GridCell : MonoBehaviour
 {
     public string cellEffect = "Normal"; // マス目の効果（例: Normal, Bonus, Penalty）
     public FlashlightController flashlightController;
     [SerializeField] private Master_Debuff DebuffSheet;
+    public GameObject eventPanel; // UIのパネル
+    public TextMeshProUGUI eventText; // UIのテキスト
+    public Button closeButton; // UIを閉じるボタン
 
     public int n = 0;
 
     void Start()
     {
+        if (eventPanel != null)
+        {
+            eventPanel.SetActive(false);
+        }
+
+        if (closeButton != null)
+        {
+            closeButton.onClick.AddListener(CloseEventUI);
+        }
         Debug.Log("ID:" + DebuffSheet.DebuffSheet[n].ID);
         Debug.Log("イベント名:" + DebuffSheet.DebuffSheet[n].Name);
         Debug.Log("懐中電灯の最小ゲージ減少量:" + DebuffSheet.DebuffSheet[n].DecreaseMin);
@@ -26,6 +40,7 @@ public class GridCell : MonoBehaviour
         switch (cellEffect)
         {
             case "Event":
+                
                 DisplayRandomEvent();
                 break;
             case "Blockl":
@@ -49,7 +64,29 @@ public class GridCell : MonoBehaviour
                 break;
         }
     }
+    void ShowEventUI(string message, float   delay = 1.0f)
+    {
+        StartCoroutine(DelayedShowEventUI(message,  delay));
+    }
+    IEnumerator DelayedShowEventUI(string message,float delay)
+    {
+        yield return new WaitForSeconds(delay);
+        if (eventPanel != null && eventText != null)
+        {
+            eventText.text = message;
+            eventPanel.SetActive(true);
+            Time.timeScale = 0; // **ゲームを停止**
+        }
+    }
 
+    void CloseEventUI()
+    {
+        if (eventPanel != null)
+        {
+            eventPanel.SetActive(false);
+            Time.timeScale = 1; // **ゲームを再開**
+        }
+    }
     private void DisplayRandomEvent()
     {
         string[] eventMessages = {
@@ -73,18 +110,26 @@ public class GridCell : MonoBehaviour
         {
             case "ドアが開きました！":
                 Debug.Log("ドアが開くイベントを実行します。");
+                ShowEventUI("The door opened"); // UIに表示
                 OpenDoor();
                 break;
             case "クローゼットに隠れられる":
+                Debug.Log("クローゼットに隠れるイベントを実行します。");
+                ShowEventUI("クローゼットに隠れられる"); // UIに表示
                 SecretCloset();
                 break;
             case "急に眠気がおそってきた。":
+                Debug.Log("眠気イベントを実行します。");
+                ShowEventUI("急に眠気がおそってきた。"); // UIに表示
+                SleepEvent();
                 break;
             default:
                 Debug.Log("未知のイベントです。");
+                ShowEventUI("未知のイベント"); // UIに表示
                 break;
         }
     }
+  
 
     public void OpenDoor()
     {
