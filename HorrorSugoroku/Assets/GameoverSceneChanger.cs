@@ -2,10 +2,11 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using System.Collections.Generic;
 
 public class SceneChanger3D : MonoBehaviour
 {
-    [SerializeField] private GameObject enemy; // 敵オブジェクトの名前
+    [SerializeField] private List<GameObject> enemies; // 敵オブジェクトのリスト
     [SerializeField] private Image cutInImage; // カットイン画像
     [SerializeField] private float cutInDuration = 2.0f; // カットインの表示時間（秒）
     [SerializeField] private AudioClip gameOverSound; // ゲームオーバー時のサウンド
@@ -34,7 +35,7 @@ public class SceneChanger3D : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
-        if (!isGameOver && collision.gameObject == enemy)
+        if (!isGameOver && enemies.Contains(collision.gameObject))
         {
             HandleGameOver();
         }
@@ -42,7 +43,7 @@ public class SceneChanger3D : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (!isGameOver && other.gameObject == enemy)
+        if (!isGameOver && enemies.Contains(other.gameObject))
         {
             HandleGameOver();
         }
