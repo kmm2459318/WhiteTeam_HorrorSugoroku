@@ -196,6 +196,7 @@ public class PlayerSaikoro : MonoBehaviour
             {
                 idoutyu = false;
                 turnManager.turnStay = false;
+                turnManager.TurnCurse();
                 saikoro.SetActive(false);
                 gameManager.NextTurn();
             }

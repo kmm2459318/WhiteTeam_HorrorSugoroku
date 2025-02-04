@@ -257,7 +257,6 @@ MonoBehaviour:
   isPlayerTurn: 1
   playerSaikoro: {fileID: 1133866381}
   enemySaikoro: {fileID: 1966390290}
-  mapPiece: 0
 --- !u!114 &58862861
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -333,7 +332,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 97749673}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2f10681084a93034aaf8a4ad248ccca6, type: 3}
+  m_Script: {fileID: 11500000, guid: 1bf7e898933f1a44a8778c65d8d5a025, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   DashGage: {fileID: 1017399264}
@@ -344,6 +343,8 @@ MonoBehaviour:
   extraButton: {fileID: 324052334}
   maxDashPoint: 300
   dashIncreasePerTurn: 10
+  gameManager: {fileID: 0}
+  turnManager: {fileID: 0}
 --- !u!224 &97749675
 RectTransform:
   m_ObjectHideFlags: 0
@@ -3895,6 +3896,9 @@ MonoBehaviour:
   cellEffect: Event
   flashlightController: {fileID: 0}
   DebuffSheet: {fileID: 11400000, guid: 11758338602bb3e498299fa102a3798e, type: 2}
+  eventPanel: {fileID: 0}
+  eventText: {fileID: 0}
+  closeButton: {fileID: 0}
   n: 0
 --- !u!135 &953858561
 SphereCollider:
@@ -5568,6 +5572,9 @@ MonoBehaviour:
   cellEffect: Item
   flashlightController: {fileID: 0}
   DebuffSheet: {fileID: 11400000, guid: 11758338602bb3e498299fa102a3798e, type: 2}
+  eventPanel: {fileID: 0}
+  eventText: {fileID: 0}
+  closeButton: {fileID: 0}
   n: 0
 --- !u!135 &1133205325
 SphereCollider:
@@ -6415,6 +6422,9 @@ MonoBehaviour:
   cellEffect: Debuff
   flashlightController: {fileID: 0}
   DebuffSheet: {fileID: 11400000, guid: 11758338602bb3e498299fa102a3798e, type: 2}
+  eventPanel: {fileID: 0}
+  eventText: {fileID: 0}
+  closeButton: {fileID: 0}
   n: 0
 --- !u!135 &1377281983
 SphereCollider:
@@ -7598,6 +7608,9 @@ MonoBehaviour:
   cellEffect: Dires
   flashlightController: {fileID: 0}
   DebuffSheet: {fileID: 11400000, guid: 11758338602bb3e498299fa102a3798e, type: 2}
+  eventPanel: {fileID: 0}
+  eventText: {fileID: 0}
+  closeButton: {fileID: 0}
   n: 0
 --- !u!135 &1563991278
 SphereCollider:
@@ -9043,6 +9056,9 @@ MonoBehaviour:
   cellEffect: Battery
   flashlightController: {fileID: 0}
   DebuffSheet: {fileID: 11400000, guid: 11758338602bb3e498299fa102a3798e, type: 2}
+  eventPanel: {fileID: 0}
+  eventText: {fileID: 0}
+  closeButton: {fileID: 0}
   n: 0
 --- !u!135 &1799207584
 SphereCollider:
@@ -9683,6 +9699,7 @@ MonoBehaviour:
   s4: {fileID: 21300000, guid: 50437870a4b98394192e58fef821667f, type: 3}
   s5: {fileID: 21300000, guid: 69e71bfa4f3005a4fa438b394fcdf55b, type: 3}
   s6: {fileID: 21300000, guid: be466869eecccfe44848b1f269b2951e, type: 3}
+  discoveryText: {fileID: 0}
   discoveryBGM: {fileID: 8300000, guid: ea525edcd04e7914a8c09ad451cd6016, type: 3}
   undetectedBGM: {fileID: 8300000, guid: 57d9261537e7dd94ea2cb733b1a312af, type: 3}
   footstepSound: {fileID: 8300000, guid: 0a8c2e93afaf12d4e98b344d6a3e2687, type: 3}

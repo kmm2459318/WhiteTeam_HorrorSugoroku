@@ -30,24 +30,25 @@ public class TurnManager : MonoBehaviour
                 flashlightController.OnTurnAdvanced();
             }
 
-            // 呪いゲージ増加
-            if (curseSlider != null)
-            {
-                curseSlider.IncreaseDashPointPerTurn();
-                Debug.Log("[TurnManager] IncreaseDashPointPerTurn() called.");
-            }
-            else
-            {
-                Debug.LogError("[TurnManager] CurseSlider is not assigned!");
-            }
+           
 
-            // すべてのターン処理が終了した後にカードキャンバスを表示
-            ShowCardCanvasAfterTurn();
 
-            turnStay = false; // ターン処理が完了したことを示す
         }
     }
 
+    public void TurnCurse()
+    {
+        // 呪いゲージ増加
+        if (curseSlider != null)
+        {
+            curseSlider.IncreaseDashPointPerTurn();
+            Debug.Log("[TurnManager] IncreaseDashPointPerTurn() called.");
+        }
+        else
+        {
+            Debug.LogError("[TurnManager] CurseSlider is not assigned!");
+        }
+    }
     // ターン数のUIを更新
     private void UpdateTurnText()
     {
@@ -63,14 +64,8 @@ public class TurnManager : MonoBehaviour
         UpdateTurnText();
         PlayerPrefs.SetInt("Turn", 0);
     }
-
-    // **ターンの最後にCardCanvasを表示するメソッド**
-    private void ShowCardCanvasAfterTurn()
-    {
-        if (curseSlider != null)
-        {
-            curseSlider.ShowCardCanvas();
-            Debug.Log("[TurnManager] CardCanvas is now displayed.");
-        }
-    }
+    
 }
+
+
+
