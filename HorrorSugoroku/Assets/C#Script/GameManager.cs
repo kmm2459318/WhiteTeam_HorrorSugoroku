@@ -1,12 +1,14 @@
 using UnityEngine;
 using TMPro;
 using System.Collections;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
     public TMP_Text turnText; // TextMeshPro用のターン数表示
     public TMP_Text turnIndicatorText; // 新しいターン表示用のテキスト
     public bool isPlayerTurn = true; // プレイヤーのターンかどうかを示すフラグ
+    public int mapPiece = 0;
 
     public PlayerSaikoro playerSaikoro;
     public EnemySaikoro enemySaikoro;
@@ -15,6 +17,26 @@ public class GameManager : MonoBehaviour
     {
         UpdateTurnText(); // 初期ターン表示
         playerSaikoro.StartRolling(); // プレイヤーのターンを開始
+    }
+
+    private void Update()
+    {
+        if (mapPiece >= 10)
+        {
+            Debug.Log("クリアすれ。");
+            SceneManager.LoadScene("Gameclear");
+        }
+
+        //地図のかけら仮
+        if (Input.GetKeyDown(KeyCode.R))
+        {
+            MpPlus();
+        }
+    }
+    public void MpPlus()
+    {
+        mapPiece++;
+        Debug.Log(mapPiece);
     }
 
     public void NextTurn()
