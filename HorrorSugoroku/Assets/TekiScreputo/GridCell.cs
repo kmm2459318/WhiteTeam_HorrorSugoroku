@@ -12,11 +12,16 @@ public class GridCell : MonoBehaviour
     public GameObject eventPanel; // UIのパネル
     public TextMeshProUGUI eventText; // UIのテキスト
     public Button closeButton; // UIを閉じるボタン
+    public ItemPickup item;
+    public string requiredItem = "鍵"; // 必要なアイテム
+ 
+
 
     public int n = 0;
-
+  private PlayerInventory playerInventory;
     void Start()
-    {
+    {  
+        playerInventory = FindObjectOfType<PlayerInventory>();
         if (eventPanel != null)
         {
             eventPanel.SetActive(false);
@@ -26,6 +31,7 @@ public class GridCell : MonoBehaviour
         {
             closeButton.onClick.AddListener(CloseEventUI);
         }
+     
         Debug.Log("ID:" + DebuffSheet.DebuffSheet[n].ID);
         Debug.Log("イベント名:" + DebuffSheet.DebuffSheet[n].Name);
         Debug.Log("懐中電灯の最小ゲージ減少量:" + DebuffSheet.DebuffSheet[n].DecreaseMin);
@@ -47,7 +53,11 @@ public class GridCell : MonoBehaviour
                 Debug.Log($"{name}: ペナルティ効果発動！");
                 break;
             case "Item":
-                Debug.Log($"{name}:アイテムを獲得！");
+                if (cellEffect == "Item" && playerInventory != null)
+                {
+                    Debug.Log($"{name}:アイテムを獲得！");
+                    playerInventory.AddItem("鍵"); // 鍵を追加
+                }
                 break;
             case "Dires":
                 Debug.Log($"{name}:演出発動！");
@@ -55,6 +65,9 @@ public class GridCell : MonoBehaviour
             case "Debuff":
                 Debug.Log($"{name}:デバフ効果発動！");
                 DeBuh();
+                break;
+            case "Door":
+               
                 break;
             case "Battery":
                 Debug.Log($"{name}:バッテリーを獲得！");
@@ -129,7 +142,8 @@ public class GridCell : MonoBehaviour
                 break;
         }
     }
-  
+
+ 
 
     public void OpenDoor()
     {
