@@ -17,6 +17,7 @@ public class Master_Curse : ScriptableObject
 {
     public SheetDataRecord[] CurseSheet;    // シートデータのリスト名
     [SerializeField] string CurseMasterURL;    // スプレットシートのURL
+    internal bool isCursed;
 
 
     // スプレットシートの列に対応する変数を定義
