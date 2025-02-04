@@ -9,13 +9,14 @@ public class MapCreator : MonoBehaviour
     public GameObject DirecTile;
     public GameObject DebuffTile;
     public GameObject BatteryTile;
+    public GameObject DoorTile;
 
     private int[,] MapData =
     {
         {0,0,0,0,0,0,0,0,0,0,0,0,0 },
         {0,4,5,6,1,2,3,4,5,6,1,2,0 },
         {0,2,0,0,0,0,1,0,0,0,0,3,0 },
-        {0,3,0,0,0,0,1,0,0,0,0,4,0 },
+        {0,3,0,0,0,0,1,7,1,1,0,4,0 },
         {0,2,0,0,0,0,1,0,0,0,0,5,0 },
         {0,1,0,0,0,0,1,0,0,0,0,6,0 },
         {0,6,1,1,1,1,2,1,1,1,1,1,0 },
@@ -61,6 +62,9 @@ public class MapCreator : MonoBehaviour
                         break;
                     case 6:
                         tilePrefab = BatteryTile;
+                        break;
+                    case 7:
+                        tilePrefab = DoorTile;
                         break;
                 }
                 if (tilePrefab != null)
