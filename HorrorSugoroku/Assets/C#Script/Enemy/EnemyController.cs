@@ -15,12 +15,12 @@ public class EnemyController : MonoBehaviour
         if (isMoving)
         {
             animator.SetBool("isRunning", true);
-            Debug.Log("isRunning set to true");
+            //Debug.Log("isRunning set to true");
         }
         else
         {
             animator.SetBool("isRunning", false);
-            Debug.Log("isRunning set to false");
+            //Debug.Log("isRunning set to false");
         }
     }
 

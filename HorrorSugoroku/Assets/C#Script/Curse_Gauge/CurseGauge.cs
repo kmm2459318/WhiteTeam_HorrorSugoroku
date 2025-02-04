@@ -1,21 +1,24 @@
-﻿using UnityEngine;
-using UnityEngine.UI;
+﻿using System;
+using System.Collections.Generic;
 using System.Collections;
+using UnityEngine;
+using UnityEngine.UI;
 
 public class CurseSlider : MonoBehaviour
 {
     [SerializeField] Slider DashGage;
-    [SerializeField] SceneChanger3D sceneChanger; // SceneChanger3D への参照を追加
-    [SerializeField] GameObject CardCanvas; // CardCanvasを参照
-    [SerializeField] Button showButton; // ボタン1: CardCanvasを表示
-    [SerializeField] Button hideButton; // ボタン2: CardCanvasを非表示
-    [SerializeField] Button extraButton; // ボタン3: 追加のアクション用ボタン
+    [SerializeField] SceneChanger3D sceneChanger;
+    [SerializeField] GameObject CardCanvas;
+    [SerializeField] Button showButton;
+    [SerializeField] Button hideButton;
+    [SerializeField] Button extraButton;
 
-    public float maxDashPoint = 300; // 最大値
-    public float dashIncreasePerTurn = 5; // 1ターンごとの増加量
+    [SerializeField] private Master_Curse master_Curse; // Master_Curse への参照
 
-    float dashPoint = 0; // 初期値を0に設定
-    float currentVelocity = 0;
+    public float maxDashPoint = 300;
+    public float dashIncreasePerTurn = 5; // 初期増加量
+
+    float dashPoint = 0;
 
     public GameManager gameManager;
     public TurnManager turnManager;
@@ -24,31 +27,31 @@ public class CurseSlider : MonoBehaviour
     void Start()
     {
         DashGage.maxValue = maxDashPoint;
-        DashGage.value = dashPoint; // スライダーの初期値を0に設定
+        DashGage.value = dashPoint;
 
-        // 各ボタンのクリックイベントにメソッドを登録
+        // ボタンの設定
         if (showButton != null)
         {
             showButton.onClick.AddListener(ShowCardCanvas);
         }
         if (hideButton != null)
         {
-            hideButton.onClick.AddListener(HideCardCanvas);
+            hideButton.onClick.AddListener(HideCardCanvasAndModifyDashIncrease);
         }
         if (extraButton != null)
         {
             extraButton.onClick.AddListener(ExtraButtonAction);
         }
 
-        // 初期状態でカードは非表示にしておく
         HideCardCanvas();
     }
 
     void Update()
     {
-        DashGage.value = dashPoint; // ゲージの値を更新
+        // ゲージ更新
+        DashGage.value = dashPoint;
 
-        // ゲージがマックスになった場合にゲームオーバー処理を呼び出す
+        // ゲージが最大値に達した場合にゲームオーバー処理
         if (dashPoint >= maxDashPoint)
         {
             if (sceneChanger != null)
@@ -57,54 +60,48 @@ public class CurseSlider : MonoBehaviour
             }
         }
 
-        // プレイヤーターン終了のタイミングでカードを表示させる処理
-        if (gameManager.isPlayerTurn && !saikorotyu) // プレイヤーターン中でサイコロが振られていない場合
+        // プレイヤーターン中で、サイコロが振られていない場合に次のターンへ
+        if (gameManager.isPlayerTurn && !saikorotyu)
         {
-            // 例えばキー入力でターン終了をトリガー
-            if (Input.GetKeyDown(KeyCode.E)) // Eキーで次のターン
+            if (Input.GetKeyDown(KeyCode.E))
             {
-                EndTurnWithCardDisplay(); // カード表示後、次のターンへ進む
+                EndTurnWithCardDisplay();
             }
         }
+
+        // 増加量を確認
+        //Debug.Log($"Dash Increase Per Turn: {dashIncreasePerTurn}");
     }
 
-    // ターン終了前にカードを表示させる
-    public void EndTurnWithCardDisplay()
+    private void EndTurnWithCardDisplay()
     {
-        // ターン終了処理を遅延させる
-        StartCoroutine(ShowCardCanvasBeforeEndTurn(1f)); // 1秒の遅延を加えてカードを表示
+        throw new NotImplementedException();
     }
 
-    // カードを表示するCoroutine
-    private IEnumerator ShowCardCanvasBeforeEndTurn(float delayTime)
-    {
-        // カードを表示
-        ShowCardCanvas();
-
-        // 指定した遅延時間だけ待機（カード表示後）
-        yield return new WaitForSeconds(delayTime); // ここで遅延を追加
-
-        // その後、ターン終了処理を呼び出す
-        turnManager.NextTurn(); // ターンを進める処理（ターン管理を進める）
-        gameManager.NextTurn(); // ゲーム進行管理を進める
-    }
-
-    // ゲージの値を増加させる
     public void IncreaseDashPointPerTurn()
     {
-        dashPoint = Mathf.Min(dashPoint + dashIncreasePerTurn, maxDashPoint);
-        DashGage.value = dashPoint; // 変更後すぐに適用
+        // Master_Curse の状態によって増加量を変更
+        if (master_Curse != null && master_Curse.isCursed)
+        {
+            dashIncreasePerTurn = 10;  // 呪い状態なら増加量を10に設定
+        }
+        else
+        {
+            dashIncreasePerTurn = 5;   // 通常状態なら増加量を5に設定
+        }
 
-        // ゲージが20の倍数に達した場合にCardCanvasを表示
+        dashPoint = Mathf.Min(dashPoint + dashIncreasePerTurn, maxDashPoint);
+        DashGage.value = dashPoint;
+
+        // 20の倍数に達した場合にCardCanvasを表示
         if ((int)(dashPoint / 20) > (int)((dashPoint - dashIncreasePerTurn) / 20))
         {
             ShowCardCanvas();
         }
 
-        Debug.Log($"[CurseSlider] Dash Point Increased: {dashPoint}/{maxDashPoint}");
+        Debug.Log($"[CurseSlider] Dash Point Increased: {dashPoint}/{maxDashPoint}, Increase Per Turn: {dashIncreasePerTurn}");
     }
 
-    // CardCanvasを表示する
     public void ShowCardCanvas()
     {
         if (CardCanvas != null)
@@ -113,7 +110,6 @@ public class CurseSlider : MonoBehaviour
         }
     }
 
-    // CardCanvasを非表示にする
     public void HideCardCanvas()
     {
         if (CardCanvas != null)
@@ -122,10 +118,33 @@ public class CurseSlider : MonoBehaviour
         }
     }
 
-    // 追加のボタンアクション（例: シーン遷移など）
+    // 2番目のボタンが押された時に増加量を変更
+    public void HideCardCanvasAndModifyDashIncrease()
+    {
+        if (CardCanvas != null)
+        {
+            CardCanvas.SetActive(false);
+        }
+
+        // Master_Curse の状態によって増加量を変更
+        if (master_Curse != null && master_Curse.isCursed)
+        {
+            Debug.Log("iii");
+            dashIncreasePerTurn = 10;  // 呪い状態なら増加量を10に設定
+        }
+        else
+        {
+            Debug.Log("あああ");
+            dashIncreasePerTurn = 5;   // 通常状態なら増加量を5に設定
+        }
+
+        Debug.Log(master_Curse.CurseSheet[1].TurnIncrease);
+        Debug.Log("[CurseSlider] Dash Increase Per Turn set to: " + dashIncreasePerTurn);
+    }
+
     public void ExtraButtonAction()
     {
-        // ここで追加の処理を行う
         Debug.Log("Extra Button Clicked!");
     }
 }
+
