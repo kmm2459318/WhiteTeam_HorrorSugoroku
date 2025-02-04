@@ -44,4 +44,18 @@ public class MasterDebuffEditor : Editor
         }
     }
 }
+
+[CustomEditor(typeof(Master_Curse))]
+public class MasterCurseEditor : Editor
+{
+    public override void OnInspectorGUI()
+    {
+        base.OnInspectorGUI();
+
+        if (GUILayout.Button("データ更新"))
+        {
+            ((Master_Curse)target).LoadCurseData();
+        }
+    }
+}
 #endif
