@@ -729,6 +729,9 @@ MonoBehaviour:
   cellEffect: Battery
   flashlightController: {fileID: 0}
   DebuffSheet: {fileID: 11400000, guid: 11758338602bb3e498299fa102a3798e, type: 2}
+  eventPanel: {fileID: 0}
+  eventText: {fileID: 0}
+  closeButton: {fileID: 0}
   n: 0
 --- !u!135 &308370465
 SphereCollider:
@@ -1248,6 +1251,7 @@ GameObject:
   - component: {fileID: 365331102}
   - component: {fileID: 365331101}
   - component: {fileID: 365331099}
+  - component: {fileID: 365331107}
   m_Layer: 0
   m_Name: PlayerC
   m_TagString: Player
@@ -1522,6 +1526,18 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 365331096}
   m_Mesh: {fileID: 0}
+--- !u!114 &365331107
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 365331096}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fb25a7d54f02ff245bbf018a695a07c4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &461506725
 GameObject:
   m_ObjectHideFlags: 0
@@ -2812,6 +2828,9 @@ MonoBehaviour:
   cellEffect: Event
   flashlightController: {fileID: 0}
   DebuffSheet: {fileID: 11400000, guid: 11758338602bb3e498299fa102a3798e, type: 2}
+  eventPanel: {fileID: 0}
+  eventText: {fileID: 0}
+  closeButton: {fileID: 0}
   n: 0
 --- !u!135 &674244391
 SphereCollider:
@@ -2938,6 +2957,9 @@ MonoBehaviour:
   cellEffect: Dires
   flashlightController: {fileID: 0}
   DebuffSheet: {fileID: 11400000, guid: 11758338602bb3e498299fa102a3798e, type: 2}
+  eventPanel: {fileID: 0}
+  eventText: {fileID: 0}
+  closeButton: {fileID: 0}
   n: 0
 --- !u!135 &717060495
 SphereCollider:
@@ -3591,9 +3613,9 @@ MonoBehaviour:
   turnText: {fileID: 1251645248}
   turnIndicatorText: {fileID: 1435510253}
   isPlayerTurn: 1
+  mapPiece: 0
   playerSaikoro: {fileID: 2087278726}
   enemySaikoro: {fileID: 1660067856}
-  mapPiece: 0
 --- !u!114 &840402090
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7904,9 +7926,15 @@ MonoBehaviour:
   s4: {fileID: 21300000, guid: 50437870a4b98394192e58fef821667f, type: 3}
   s5: {fileID: 21300000, guid: 69e71bfa4f3005a4fa438b394fcdf55b, type: 3}
   s6: {fileID: 21300000, guid: be466869eecccfe44848b1f269b2951e, type: 3}
+  discoveryText: {fileID: 0}
   discoveryBGM: {fileID: 8300000, guid: ea525edcd04e7914a8c09ad451cd6016, type: 3}
   undetectedBGM: {fileID: 8300000, guid: 57d9261537e7dd94ea2cb733b1a312af, type: 3}
   footstepSound: {fileID: 8300000, guid: 0a8c2e93afaf12d4e98b344d6a3e2687, type: 3}
+  playerCloseMirror: {fileID: 365331107}
+  mokushi: 3
+  idoukagen: 1
+  skill1: 0
+  skill2: 0
 --- !u!114 &1660067857
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8681,6 +8709,9 @@ MonoBehaviour:
   cellEffect: Debuff
   flashlightController: {fileID: 0}
   DebuffSheet: {fileID: 11400000, guid: 11758338602bb3e498299fa102a3798e, type: 2}
+  eventPanel: {fileID: 0}
+  eventText: {fileID: 0}
+  closeButton: {fileID: 0}
   n: 0
 --- !u!135 &1861182662
 SphereCollider:
@@ -8955,6 +8986,63 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1899152801}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!1001 &1900450238
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 6495695293600015791, guid: 79d72ea477388d94990823cfd244bc25, type: 3}
+      propertyPath: m_Name
+      value: MirrorPrefab
+      objectReference: {fileID: 0}
+    - target: {fileID: 7560406399600644963, guid: 79d72ea477388d94990823cfd244bc25, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 12
+      objectReference: {fileID: 0}
+    - target: {fileID: 7560406399600644963, guid: 79d72ea477388d94990823cfd244bc25, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.0000009536743
+      objectReference: {fileID: 0}
+    - target: {fileID: 7560406399600644963, guid: 79d72ea477388d94990823cfd244bc25, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 7560406399600644963, guid: 79d72ea477388d94990823cfd244bc25, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7560406399600644963, guid: 79d72ea477388d94990823cfd244bc25, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7560406399600644963, guid: 79d72ea477388d94990823cfd244bc25, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7560406399600644963, guid: 79d72ea477388d94990823cfd244bc25, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7560406399600644963, guid: 79d72ea477388d94990823cfd244bc25, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7560406399600644963, guid: 79d72ea477388d94990823cfd244bc25, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7560406399600644963, guid: 79d72ea477388d94990823cfd244bc25, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 79d72ea477388d94990823cfd244bc25, type: 3}
 --- !u!1001 &1911494055
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -9102,6 +9190,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8b7bc4169fc839f4fbde20ded8fd971b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  gameManager: {fileID: 0}
+  enemySaikoro: {fileID: 0}
 --- !u!54 &1911494061
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -9429,6 +9519,9 @@ MonoBehaviour:
   cellEffect: Item
   flashlightController: {fileID: 0}
   DebuffSheet: {fileID: 11400000, guid: 11758338602bb3e498299fa102a3798e, type: 2}
+  eventPanel: {fileID: 0}
+  eventText: {fileID: 0}
+  closeButton: {fileID: 0}
   n: 0
 --- !u!135 &2036824095
 SphereCollider:
@@ -9593,6 +9686,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8b7bc4169fc839f4fbde20ded8fd971b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  gameManager: {fileID: 840402089}
+  enemySaikoro: {fileID: 1660067856}
 --- !u!65 &2043269234
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -10436,14 +10531,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2f10681084a93034aaf8a4ad248ccca6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  DashGage: {fileID: 534892299}
-  sceneChanger: {fileID: 0}
-  CardCanvas: {fileID: 1634349143}
-  showButton: {fileID: 2121459247}
-  hideButton: {fileID: 1334684724}
-  extraButton: {fileID: 326824071}
-  maxDashPoint: 300
-  dashIncreasePerTurn: 10
 --- !u!224 &2144159136
 RectTransform:
   m_ObjectHideFlags: 0
@@ -10527,6 +10614,63 @@ Canvas:
   m_SortingLayerID: 0
   m_SortingOrder: 0
   m_TargetDisplay: 0
+--- !u!1001 &4074650904071089362
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 6495695293600015791, guid: 79d72ea477388d94990823cfd244bc25, type: 3}
+      propertyPath: m_Name
+      value: Mirror
+      objectReference: {fileID: 0}
+    - target: {fileID: 7560406399600644963, guid: 79d72ea477388d94990823cfd244bc25, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7560406399600644963, guid: 79d72ea477388d94990823cfd244bc25, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7560406399600644963, guid: 79d72ea477388d94990823cfd244bc25, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7560406399600644963, guid: 79d72ea477388d94990823cfd244bc25, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7560406399600644963, guid: 79d72ea477388d94990823cfd244bc25, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7560406399600644963, guid: 79d72ea477388d94990823cfd244bc25, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7560406399600644963, guid: 79d72ea477388d94990823cfd244bc25, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7560406399600644963, guid: 79d72ea477388d94990823cfd244bc25, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7560406399600644963, guid: 79d72ea477388d94990823cfd244bc25, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 180
+      objectReference: {fileID: 0}
+    - target: {fileID: 7560406399600644963, guid: 79d72ea477388d94990823cfd244bc25, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 79d72ea477388d94990823cfd244bc25, type: 3}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
@@ -10554,3 +10698,5 @@ SceneRoots:
   - {fileID: 1802862727}
   - {fileID: 1232698315}
   - {fileID: 2116772032}
+  - {fileID: 4074650904071089362}
+  - {fileID: 1900450238}
