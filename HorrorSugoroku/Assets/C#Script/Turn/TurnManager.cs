@@ -41,13 +41,23 @@ public class TurnManager : MonoBehaviour
             //    Debug.LogError("[TurnManager] CurseSlider is not assigned!");
             //}
 
-            // すべてのターン処理が終了した後にカードキャンバスを表示
-            ShowCardCanvasAfterTurn();
 
-            turnStay = false; // ターン処理が完了したことを示す
         }
     }
 
+    public void TurnCurse()
+    {
+        // 呪いゲージ増加
+        if (curseSlider != null)
+        {
+            curseSlider.IncreaseDashPointPerTurn();
+            Debug.Log("[TurnManager] IncreaseDashPointPerTurn() called.");
+        }
+        else
+        {
+            Debug.LogError("[TurnManager] CurseSlider is not assigned!");
+        }
+    }
     // ターン数のUIを更新
     private void UpdateTurnText()
     {
@@ -74,3 +84,6 @@ public class TurnManager : MonoBehaviour
         //}
     }
 }
+
+
+

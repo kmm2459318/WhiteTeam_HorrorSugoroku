@@ -29,3 +29,4 @@ public class ItemUIController : MonoBehaviour
             backObjectUI.SetActive(false);
     }
 }
+
