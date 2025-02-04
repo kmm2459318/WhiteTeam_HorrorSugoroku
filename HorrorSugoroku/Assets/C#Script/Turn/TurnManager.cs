@@ -8,7 +8,7 @@ public class TurnManager : MonoBehaviour
     public bool turnStay = false;
 
     public PlayerSaikoro playerSaikoro;
-    public CurseSlider curseSlider; // 呪いゲージ管理
+    //public CurseSlider curseSlider; // 呪いゲージ管理
     public FlashlightController flashlightController; // フラッシュライト管理
 
     // 次のターンへ進む処理
@@ -31,15 +31,15 @@ public class TurnManager : MonoBehaviour
             }
 
             // 呪いゲージ増加
-            if (curseSlider != null)
-            {
-                curseSlider.IncreaseDashPointPerTurn();
-                Debug.Log("[TurnManager] IncreaseDashPointPerTurn() called.");
-            }
-            else
-            {
-                Debug.LogError("[TurnManager] CurseSlider is not assigned!");
-            }
+            //if (curseSlider != null)
+            //{
+            //    curseSlider.IncreaseDashPointPerTurn();
+            //    Debug.Log("[TurnManager] IncreaseDashPointPerTurn() called.");
+            //}
+            //else
+            //{
+            //    Debug.LogError("[TurnManager] CurseSlider is not assigned!");
+            //}
 
             // すべてのターン処理が終了した後にカードキャンバスを表示
             ShowCardCanvasAfterTurn();
@@ -67,10 +67,10 @@ public class TurnManager : MonoBehaviour
     // **ターンの最後にCardCanvasを表示するメソッド**
     private void ShowCardCanvasAfterTurn()
     {
-        if (curseSlider != null)
-        {
-            curseSlider.ShowCardCanvas();
-            Debug.Log("[TurnManager] CardCanvas is now displayed.");
-        }
+        //if (curseSlider != null)
+        //{
+        //    curseSlider.ShowCardCanvas();
+        //    Debug.Log("[TurnManager] CardCanvas is now displayed.");
+        //}
     }
 }
