@@ -27,7 +27,7 @@ public class EnemySaikoro : MonoBehaviour
     private int goToMass = 1;
     private EnemyController enemyController;
     private GameManager gameManager; // GameManagerの参照
-    private EnemyLookAtPlayer enemyLookAtPlayer; // EnemyLookAtPlayerの参照
+    public EnemyLookAtPlayer enemyLookAtPlayer; // EnemyLookAtPlayerの参照
     public PlayerCloseMirror playerCloseMirror;
     public float mokushi = 3.0f;
     public int idoukagen = 1;
