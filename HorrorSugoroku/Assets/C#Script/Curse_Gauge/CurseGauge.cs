@@ -75,7 +75,9 @@ public class CurseSlider : MonoBehaviour
 
     private void EndTurnWithCardDisplay()
     {
-        throw new NotImplementedException();
+        // すでにターンが終了している場合は何もしない
+        if (!gameManager.isPlayerTurn) return;
+
     }
 
     public void IncreaseDashPointPerTurn()
