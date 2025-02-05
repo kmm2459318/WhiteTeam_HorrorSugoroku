@@ -11,14 +11,27 @@ public class GridCell : MonoBehaviour
     [SerializeField] private Master_Debuff DebuffSheet;
     public GameObject eventPanel; // UIのパネル
     public TextMeshProUGUI eventText; // UIのテキスト
+    public Button closeButton; // UIを閉じるボタン
+    public ItemPickup item;
+    public string requiredItem = "鍵"; // 必要なアイテム
+ 
+
 
     public int n = 0;
-   private void Start()
-    {
+  private PlayerInventory playerInventory;
+    void Start()
+    {  
+        playerInventory = FindObjectOfType<PlayerInventory>();
         if (eventPanel != null)
         {
             eventPanel.SetActive(false);
         }
+
+        if (closeButton != null)
+        {
+            closeButton.onClick.AddListener(CloseEventUI);
+        }
+     
         Debug.Log("ID:" + DebuffSheet.DebuffSheet[n].ID);
         Debug.Log("イベント名:" + DebuffSheet.DebuffSheet[n].Name);
         Debug.Log("懐中電灯の最小ゲージ減少量:" + DebuffSheet.DebuffSheet[n].DecreaseMin);
@@ -27,29 +40,24 @@ public class GridCell : MonoBehaviour
         Debug.Log("アイテムが使えなくなるかの判定:" + DebuffSheet.DebuffSheet[n].ItemGive);
         Debug.Log("アイテムが使えないターン数:" + DebuffSheet.DebuffSheet[n].ItemGive);
     }
-  
 
     public void ExecuteEvent()
     {
-        if (cellEffect == "Item")
-        {
-            ShowEventUI($"{name}: アイテムを獲得！");
-        }
-        else
-        {
-            Debug.Log($"{name}:{cellEffect}");
-        }
-        // マス目の効果を発動
         switch (cellEffect)
         {
             case "Event":
+                
                 DisplayRandomEvent();
                 break;
             case "Blockl":
                 Debug.Log($"{name}: ペナルティ効果発動！");
                 break;
             case "Item":
-               
+                if (cellEffect == "Item" && playerInventory != null)
+                {
+                    Debug.Log($"{name}:アイテムを獲得！");
+                    playerInventory.AddItem("鍵"); // 鍵を追加
+                }
                 break;
             case "Dires":
                 Debug.Log($"{name}:演出発動！");
@@ -58,30 +66,38 @@ public class GridCell : MonoBehaviour
                 Debug.Log($"{name}:デバフ効果発動！");
                 DeBuh();
                 break;
+            case "Door":
+               
+                break;
             case "Battery":
                 Debug.Log($"{name}:バッテリーを獲得！");
-                Batre();
                 break;
             default:
                 Debug.Log($"{name}: 通常マス - 効果なし。");
                 break;
         }
-        ShowEventUI(name);
     }
-
-    void ShowEventUI(string name)
+    void ShowEventUI(string message, float   delay = 1.0f)
     {
+        StartCoroutine(DelayedShowEventUI(message,  delay));
+    }
+    IEnumerator DelayedShowEventUI(string message,float delay)
+    {
+        yield return new WaitForSeconds(delay);
         if (eventPanel != null && eventText != null)
         {
+            eventText.text = message;
             eventPanel.SetActive(true);
-            eventText.text = name;
+            Time.timeScale = 0; // **ゲームを停止**
         }
     }
-    public void CloseEventUI()
+
+    void CloseEventUI()
     {
         if (eventPanel != null)
         {
             eventPanel.SetActive(false);
+            Time.timeScale = 1; // **ゲームを再開**
         }
     }
     private void DisplayRandomEvent()
@@ -107,20 +123,27 @@ public class GridCell : MonoBehaviour
         {
             case "ドアが開きました！":
                 Debug.Log("ドアが開くイベントを実行します。");
+                ShowEventUI("The door opened"); // UIに表示
                 OpenDoor();
                 break;
             case "クローゼットに隠れられる":
+                Debug.Log("クローゼットに隠れるイベントを実行します。");
+                ShowEventUI("クローゼットに隠れられる"); // UIに表示
                 SecretCloset();
                 break;
             case "急に眠気がおそってきた。":
+                Debug.Log("眠気イベントを実行します。");
+                ShowEventUI("急に眠気がおそってきた。"); // UIに表示
                 SleepEvent();
-              
                 break;
             default:
                 Debug.Log("未知のイベントです。");
+                ShowEventUI("未知のイベント"); // UIに表示
                 break;
         }
     }
+
+ 
 
     public void OpenDoor()
     {
@@ -150,11 +173,9 @@ public class GridCell : MonoBehaviour
     {
         int randomEvent = Random.Range(0, 2);
 
-
-
         if (randomEvent == 0)
         {
-            // flashlightController.OnTurnAdvanced();
+            flashlightController.OnTurnAdvanced();
         }
         else
         {
@@ -162,11 +183,4 @@ public class GridCell : MonoBehaviour
         }
     }
 
-    void Batre()
-    {
-       
-            Debug.Log("バッテリー回復：バッテリーが回復した");
-
-            
-    }
 }

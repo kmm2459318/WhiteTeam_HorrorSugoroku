@@ -2,7 +2,6 @@
 using UnityEngine.UI;
 using System.Collections;
 using SmoothigTransform;
-using SmoothigTransform;
 
 public class EnemySaikoro : MonoBehaviour
 {
@@ -20,20 +19,34 @@ public class EnemySaikoro : MonoBehaviour
     private int steps; // サイコロの目の数
     private bool discovery = false;
     Image image;
-    public Text discoveryText; // 新しいText変数を追加
+    //public Text discoveryText; // 新しいText変数を追加
     public AudioClip discoveryBGM; // 発見時のBGM
     public AudioClip undetectedBGM; // 未発見時のBGM
     private AudioSource audioSource; // 音声再生用のAudioSource
     public AudioClip footstepSound; // 足音のAudioClip
     Vector3 goToPos = new Vector3(0, 0, 0);
     private int goToMass = 1;
-    Vector3 random;
     private EnemyController enemyController;
+    private GameManager gameManager; // GameManagerの参照
+    private EnemyLookAtPlayer enemyLookAtPlayer; // EnemyLookAtPlayerの参照
+    public PlayerCloseMirror playerCloseMirror;
+    public float mokushi = 3.0f;
+    public int idoukagen = 1;
+    public bool skill1 = false;
+    public bool skill2 = false;
 
     void Start()
     {
         // 初期化コード
         enemyController = enemy.GetComponent<EnemyController>();
+        gameManager = FindObjectOfType<GameManager>(); // GameManagerの参照を取得
+        enemyLookAtPlayer = enemy.GetComponent<EnemyLookAtPlayer>(); // EnemyLookAtPlayerの参照を取得
+
+        if (enemyLookAtPlayer == null)
+        {
+            Debug.LogError("EnemyLookAtPlayer component is not assigned or found on the enemy object.");
+        }
+
         if (saikoro != null)
         {
             saikoro.SetActive(false);
@@ -47,14 +60,14 @@ public class EnemySaikoro : MonoBehaviour
         image = saikoro.GetComponent<Image>();
 
         // テキストの初期化
-        if (discoveryText != null)
-        {
-            discoveryText.text = "未発見"; // 初期状態は未発見
-        }
-        else
-        {
-            Debug.LogError("Discovery Text is not assigned in the Inspector.");
-        }
+        //if (discoveryText != null)
+        //{
+        //    discoveryText.text = "未発見"; // 初期状態は未発見
+        //}
+        //else
+        //{
+        //    Debug.LogError("Discovery Text is not assigned in the Inspector.");
+        //}
 
         // AudioSourceの取得
         audioSource = GetComponent<AudioSource>();
@@ -63,10 +76,9 @@ public class EnemySaikoro : MonoBehaviour
             audioSource = gameObject.AddComponent<AudioSource>(); // AudioSourceがなければ追加
         }
     }
-
     void Update()
     {
-        if (FindObjectOfType<GameManager>().IsPlayerTurn())
+        if (gameManager.IsPlayerTurn())
         {
             return;
         }
@@ -89,12 +101,13 @@ public class EnemySaikoro : MonoBehaviour
         }
 
         // プレイヤーが発見されたかをチェック
-        if (Vector3.Distance(enemy.transform.position, player.transform.position) < 8f)
+        if (Vector3.Distance(enemy.transform.position, player.transform.position) < mokushi)
         {
-            if (discoveryText != null)
-            {
-                discoveryText.text = "発見！"; // プレイヤーが近い場合、「発見！」を表示
-            }
+            //if (discoveryText != null)
+            //{
+            //    Debug.Log("発見！");
+            //    discoveryText.text = "発見！"; // プレイヤーが近い場合、「発見！」を表示
+            //}
 
             // 発見時のBGMを流す
             if (discoveryBGM != null && audioSource.clip != discoveryBGM)
@@ -104,14 +117,16 @@ public class EnemySaikoro : MonoBehaviour
                 audioSource.Play(); // 発見時のBGMを再生
             }
             discovery = true;
-            Debug.Log("発見！");
+            enemyLookAtPlayer.SetDiscovery(true); // エネミーの体をプレイヤーの方向に向ける
+
+            //Debug.Log("発見！");
         }
         else
         {
-            if (discoveryText != null)
-            {
-                discoveryText.text = "未発見"; // プレイヤーが遠い場合、「未発見」を表示
-            }
+            //if (discoveryText != null)
+            //{
+            //    discoveryText.text = "未発見"; // プレイヤーが遠い場合、「未発見」を表示
+            //}
 
             // 未発見時のBGMを流す
             if (undetectedBGM != null && audioSource.clip != undetectedBGM)
@@ -121,16 +136,16 @@ public class EnemySaikoro : MonoBehaviour
                 audioSource.Play(); // 未発見時のBGMを再生
             }
             discovery = false;
-            Debug.Log("未発見");
+            enemyLookAtPlayer.SetDiscovery(false); // エネミーの体をプレイヤーの方向に向けない
+
+            //Debug.Log("未発見");
         }
 
-        if ((goToPos.x + 0.1f > enemy.transform.position.x && goToPos.x - 0.1f < enemy.transform.position.x) &&
-            (goToPos.z + 0.1f > enemy.transform.position.z && goToPos.z - 0.1f < enemy.transform.position.z) || discovery)
+        if (((goToPos.x + 0.1f > enemy.transform.position.x && goToPos.x - 0.1f < enemy.transform.position.x) &&
+            (goToPos.z + 0.1f > enemy.transform.position.z && goToPos.z - 0.1f < enemy.transform.position.z)) || discovery)
         {
             GoToMassChange(goToMass);
         }
-
-        Debug.Log(goToPos);
     }
 
     void GoToMassChange(int m)
@@ -140,7 +155,6 @@ public class EnemySaikoro : MonoBehaviour
         {
             a = Random.Range(1, 6);
         } while (a == m);
-
         goToMass = a;
         switch (a)
         {
@@ -155,36 +169,57 @@ public class EnemySaikoro : MonoBehaviour
             case 5:
                 goToPos = new Vector3(10f, 0, 10f); break;
         }
+        Debug.Log(goToPos);
     }
 
     public IEnumerator RollEnemyDice()
     {
-        saikoro.SetActive(true);
-        for (int i = 0; i < 10; i++) // 10回ランダムに目を表示
+        bool speedidou = false;
+        bool mirror = false;
+        if (5 == Random.Range(1, 6) && skill1)
         {
-            steps = Random.Range(1, 7);
-            yield return new WaitForSeconds(0.1f); // 0.1秒ごとに目を変更
+            Debug.Log("ーーーーーー高速移動発動ーーーーーー");
+            speedidou = true;
+        }
+        else if (5 == Random.Range(1, 6) && skill2)
+        {
+            Debug.Log("ーーーーーーー鏡移動発動ーーーーーーー");
+            mirror = true;
+            enemySmooth.PosFact = 0f;
         }
 
-        if (steps <= 3)
+        if (!mirror)
         {
-            enemySmooth.PosFact = 0.9f;
-        }
-        else
-        {
-            enemySmooth.PosFact = 0.2f;
-        }
+            saikoro.SetActive(true);
+            for (int i = 0; i < 10; i++) // 10回ランダムに目を表示
+            {
+                steps = Random.Range(idoukagen, 7);
+                yield return new WaitForSeconds(0.1f); // 0.1秒ごとに目を変更
+            }
 
-        Debug.Log("Enemy rolled: " + steps);
-        StartCoroutine(MoveTowardsPlayer());
+            if (steps <= 3)
+            {
+                enemySmooth.PosFact = 0.9f;
+            }
+            else
+            {
+                enemySmooth.PosFact = 0.2f;
+            }
+
+            Debug.Log("Enemy rolled: " + steps);
+        }
+        StartCoroutine(MoveTowardsPlayer(speedidou, mirror));
     }
 
-    private IEnumerator MoveTowardsPlayer()
+    private IEnumerator MoveTowardsPlayer(bool s1, bool s2)
     {
-        int initialSteps = steps; // 初期のステップ数を保存
-        AudioClip currentBGM = audioSource.clip; // 現在のBGMを保存
-        bool isFootstepPlaying = false; // 足音が再生中かを判定するフラグ
+        int initialSteps = steps;
+        AudioClip currentBGM = audioSource.clip;
+        bool isFootstepPlaying = false;
         Vector3 lastDire = new Vector3(0, 0, 0);
+        bool s1n = false;
+        GameObject mirror;
+        Debug.Log(goToPos);
 
         if (audioSource.isPlaying)
         {
@@ -193,75 +228,105 @@ public class EnemySaikoro : MonoBehaviour
 
         //int dix = Random.Range(1, 3);
         //int diz = Random.Range(1, 3);
-        //random = new Vector3((dix == 1 ? Random.Range(-40, -20) : Random.Range(20, 40)), 0, (diz == 1 ? Random.Range(-40, -20) : Random.Range(20, 40)));
+        //goToPos = new Vector3((dix == 1 ? Random.Range(-40, -20) : Random.Range(20, 40)), 0, (diz == 1 ? Random.Range(-40, -20) : Random.Range(20, 40)));
 
         enemyController.SetMovement(true); // エネミーが動き始めたらisMovingをtrueに設定
 
-        while (steps > 0)
+        if (!s2)
         {
-            Vector3 direction;
-            if (discovery)
+            while (steps > 0)
             {
-                direction = (player.transform.position - enemy.transform.position).normalized;
-                direction = GetValidDirection(direction); // 壁を避ける方向を計算
+                Vector3 direction;
+                if (discovery)
+                {
+                    direction = (player.transform.position - enemy.transform.position).normalized;
+                    direction = GetValidDirection(direction); // 壁を避ける方向を計算
+                }
+                else
+                {
+                    direction = (goToPos - enemy.transform.position);
+                    direction = GetValidDirection(direction);
+                }
+
+                if (direction != lastDire)
+                {
+                    if (direction == new Vector3(0, 0, 2.0f))
+                    {
+                        enemySmooth.TargetRotation = Quaternion.Euler(0, 90, 0);
+                    }
+                    else if (direction == new Vector3(0, 0, -2.0f))
+                    {
+                        enemySmooth.TargetRotation = Quaternion.Euler(0, -90, 0);
+                    }
+                    else if (direction == new Vector3(2.0f, 0, 0))
+                    {
+                        enemySmooth.TargetRotation = Quaternion.Euler(0, 180, 0);
+                    }
+                    else if (direction == new Vector3(-2.0f, 0, 0))
+                    {
+                        enemySmooth.TargetRotation = Quaternion.Euler(0, 0, 0);
+                    }
+                    yield return new WaitForSeconds(0.5f);
+                }
+
+                enemySmooth.TargetPosition += direction * 1.0f; // 2.0f単位で移動
+
+                if (s1)
+                {
+                    if (s1n)
+                    {
+                        steps--;
+                        s1n = false;
+                    }
+                    else
+                    {
+                        s1n = true;
+                    }
+                }
+                else
+                {
+                    steps--;
+                }
+
+                // 足音が鳴っていない場合、鳴らす
+                if (footstepSound != null && !isFootstepPlaying)
+                {
+                    audioSource.PlayOneShot(footstepSound); // 足音を鳴らす
+                    isFootstepPlaying = true; // 足音再生フラグを立てる
+                }
+
+                // エネミーの移動方向を設定
+                enemyLookAtPlayer.SetMoveDirection(direction);
+
+                Debug.Log("Enemy moved towards player. Steps remaining: " + steps);
+
+                // プレイヤーが発見されたかをチェック
+                if (Vector3.Distance(enemy.transform.position, player.transform.position) < mokushi)
+                {
+                    //if (discoveryText != null)
+                    //{
+                    //    discoveryText.text = "発見！"; // プレイヤーが近ければ「発見！」と表示
+                    //}
+                    if (discoveryBGM != null && !audioSource.isPlaying) // 発見時のBGMを流す
+                    {
+                        audioSource.clip = discoveryBGM;
+                        audioSource.Play();
+                    }
+                    discovery = true;
+                    Debug.Log("発見！");
+                }
+                lastDire = direction;
+                yield return new WaitForSeconds(0.5f); // 移動の間隔を待つ
             }
-            else
-            {
-                direction = (goToPos - enemy.transform.position);
-                direction = GetValidDirection(direction);
-            }
+        }
+        else
+        {
+            Debug.Log("ミラーワーーーーーーーーーーーーープ！！！！");
 
-            if (direction != lastDire) {
-                if (direction == new Vector3(0, 0, 2.0f))
-                {
-                    enemySmooth.TargetRotation = Quaternion.Euler(0, 0, 0);
-                }
-                else if (direction == new Vector3(0, 0, -2.0f))
-                {
-                    enemySmooth.TargetRotation = Quaternion.Euler(0, 180, 0);
-                }
-                else if (direction == new Vector3(2.0f, 0, 0))
-                {
-                    enemySmooth.TargetRotation = Quaternion.Euler(0, 90, 0);
-                }
-                else if (direction == new Vector3(-2.0f, 0, 0))
-                {
-                    enemySmooth.TargetRotation = Quaternion.Euler(0, -90, 0);
-                }
-                yield return new WaitForSeconds(0.5f);
-            } 
-
-            enemySmooth.TargetPosition += direction * 1.0f; // 2.0f単位で移動
-            steps--;
-
-            // 足音が鳴っていない場合、鳴らす
-            if (footstepSound != null && !isFootstepPlaying)
-            {
-                audioSource.PlayOneShot(footstepSound); // 足音を鳴らす
-                isFootstepPlaying = true; // 足音再生フラグを立てる
-            }
-
-            Debug.Log("Enemy moved towards player. Steps remaining: " + steps);
-
-            // プレイヤーが発見されたかをチェック
-            if (Vector3.Distance(enemy.transform.position, player.transform.position) < 5f)
-            {
-                if (discoveryText != null)
-                {
-                    discoveryText.text = "発見！"; // プレイヤーが近ければ「発見！」と表示
-                }
-                if (discoveryBGM != null && !audioSource.isPlaying) // 発見時のBGMを流す
-                {
-                    audioSource.clip = discoveryBGM;
-                    audioSource.Play();
-                }
-                discovery = true;
-                Debug.Log("発見！");
-                break;
-            }
-
-            lastDire = direction;
-            yield return new WaitForSeconds(0.5f); // 移動の間隔を待つ
+            mirror = playerCloseMirror.FindClosestMirror();
+            enemySmooth.TargetPosition.x = mirror.transform.position.x * 1.0f;
+            enemySmooth.TargetPosition.z = mirror.transform.position.z;
+            Debug.Log(mirror.transform.position);
         }
 
         enemyController.SetMovement(false); // エネミーの移動が終了したらisMovingをfalseに設定
@@ -278,15 +343,14 @@ public class EnemySaikoro : MonoBehaviour
         Debug.Log("Enemy moved a total of " + initialSteps + " steps.");
         FindObjectOfType<GameManager>().NextTurn(); // 次のターンに進む
     }
-
     private Vector3 GetValidDirection(Vector3 targetDirection)
     {
         Vector3[] directions = new Vector3[]
         {
-            new Vector3(2.0f, 0, 0),   // 東
-            new Vector3(-2.0f, 0, 0),  // 西
-            new Vector3(0, 0, 2.0f),   // 北
-            new Vector3(0, 0, -2.0f)   // 南
+        new Vector3(2.0f, 0, 0),   // 東
+        new Vector3(-2.0f, 0, 0),  // 西
+        new Vector3(0, 0, 2.0f),   // 北
+        new Vector3(0, 0, -2.0f)   // 南
         };
 
         Vector3 bestDirection = Vector3.zero;
@@ -345,4 +409,5 @@ public class EnemySaikoro : MonoBehaviour
         Vector3 direction = enemy.transform.position + enemy.transform.forward * 3f;
         Gizmos.DrawLine(enemy.transform.position, direction);
     }
+
 }
