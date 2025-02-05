@@ -8,13 +8,17 @@ public class GameManager : MonoBehaviour
     public TMP_Text turnText; // TextMeshPro用のターン数表示
     public TMP_Text turnIndicatorText; // 新しいターン表示用のテキスト
     public bool isPlayerTurn = true; // プレイヤーのターンかどうかを示すフラグ
+    public bool EnemyCopyOn = false;
+    public int enemyTurnFinCount = 0;
     public int mapPiece = 0;
 
-    public PlayerSaikoro playerSaikoro;
+    public PlayerSaikoro playerSaikoro; 
     public EnemySaikoro enemySaikoro;
+    public EnemySaikoro enemyCopySaikoro;
 
     public GameObject currentEnemyModel; // 現在のエネミーモデル
     public GameObject newEnemyPrefab; // 新しいエネミーモデルのプレファブ
+    public GameObject EnemyCopy;
 
     private int playerTurnCount = 0; // プレイヤーのターン数をカウントする変数
 
@@ -37,6 +41,18 @@ public class GameManager : MonoBehaviour
         {
             MpPlus();
         }
+
+        if (Input.GetKeyDown(KeyCode.T))
+        {
+            EnemyCopy.SetActive(true);
+            EnemyCopyOn = true;
+        }
+
+        if (enemyTurnFinCount == 2)
+        {
+            enemyTurnFinCount = 0;
+            NextTurn();
+        }
     }
     public void MpPlus()
     {
@@ -57,7 +73,7 @@ public class GameManager : MonoBehaviour
             // プレイヤーのターンが5ターン目になったらエネミーモデルを変更
             if (playerTurnCount == 5)
             {
-                ChangeEnemyModel();
+                //ChangeEnemyModel();
             }
 
             playerSaikoro.StartRolling();
@@ -65,6 +81,11 @@ public class GameManager : MonoBehaviour
         else
         {
             StartCoroutine(enemySaikoro.EnemyTurn());
+
+            if (EnemyCopyOn)
+            {
+                StartCoroutine(enemyCopySaikoro.EnemyTurn());
+            }
         }
     }
 
