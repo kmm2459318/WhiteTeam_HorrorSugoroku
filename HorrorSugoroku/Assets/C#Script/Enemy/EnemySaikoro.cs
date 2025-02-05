@@ -33,6 +33,7 @@ public class EnemySaikoro : MonoBehaviour
     public int idoukagen = 1;
     public bool skill1 = false;
     public bool skill2 = false;
+    private bool isMoving = false; // エネミーが移動中かどうかを示すフラグ
 
     void Start()
     {
@@ -212,6 +213,8 @@ public class EnemySaikoro : MonoBehaviour
 
     private IEnumerator MoveTowardsPlayer(bool s1, bool s2)
     {
+        isMoving = true; // 移動開始
+        enemyLookAtPlayer.SetIsMoving(true); // エネミーの移動状態を設定
         int initialSteps = steps;
         AudioClip currentBGM = audioSource.clip;
         bool isFootstepPlaying = false;
@@ -312,6 +315,7 @@ public class EnemySaikoro : MonoBehaviour
                 }
                 lastDire = direction;
                 yield return new WaitForSeconds(0.5f); // 移動の間隔を待つ
+
             }
         }
         else
@@ -324,7 +328,7 @@ public class EnemySaikoro : MonoBehaviour
             Debug.Log(mirror.transform.position);
         }
 
-        enemyController.SetMovement(false); // エネミーの移動が終了したらisMovingをfalseに設定
+         enemyController.SetMovement(false); // エネミーの移動が終了したらisMovingをfalseに設定
 
         // 移動が終了したら、再度BGMを再開
         if (currentBGM != null && !audioSource.isPlaying)
