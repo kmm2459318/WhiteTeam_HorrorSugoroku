@@ -6,7 +6,6 @@ using SmoothigTransform;
 public class EnemySaikoro : MonoBehaviour
 {
     [SerializeField] SmoothTransform enemySmooth;
-    public GameObject enemy;
     public GameObject player;
     public GameObject saikoro; // サイコロのゲームオブジェクト
     public LayerMask wallLayer; // 壁のレイヤー
@@ -38,9 +37,9 @@ public class EnemySaikoro : MonoBehaviour
     void Start()
     {
         // 初期化コード
-        enemyController = enemy.GetComponent<EnemyController>();
+        enemyController = this.GetComponent<EnemyController>();
         gameManager = FindObjectOfType<GameManager>(); // GameManagerの参照を取得
-        enemyLookAtPlayer = enemy.GetComponent<EnemyLookAtPlayer>(); // EnemyLookAtPlayerの参照を取得
+        enemyLookAtPlayer = this.GetComponent<EnemyLookAtPlayer>(); // EnemyLookAtPlayerの参照を取得
 
         if (enemyLookAtPlayer == null)
         {
@@ -101,7 +100,7 @@ public class EnemySaikoro : MonoBehaviour
         }
 
         // プレイヤーが発見されたかをチェック
-        if (Vector3.Distance(enemy.transform.position, player.transform.position) < mokushi)
+        if (Vector3.Distance(this.transform.position, player.transform.position) < mokushi)
         {
             //if (discoveryText != null)
             //{
@@ -141,8 +140,8 @@ public class EnemySaikoro : MonoBehaviour
             //Debug.Log("未発見");
         }
 
-        if (((goToPos.x + 0.1f > enemy.transform.position.x && goToPos.x - 0.1f < enemy.transform.position.x) &&
-            (goToPos.z + 0.1f > enemy.transform.position.z && goToPos.z - 0.1f < enemy.transform.position.z)) || discovery)
+        if (((goToPos.x + 0.1f > this.transform.position.x && goToPos.x - 0.1f < this.transform.position.x) &&
+            (goToPos.z + 0.1f > this.transform.position.z && goToPos.z - 0.1f < this.transform.position.z)) || discovery)
         {
             GoToMassChange(goToMass);
         }
@@ -226,10 +225,6 @@ public class EnemySaikoro : MonoBehaviour
             audioSource.Pause();
         }
 
-        //int dix = Random.Range(1, 3);
-        //int diz = Random.Range(1, 3);
-        //goToPos = new Vector3((dix == 1 ? Random.Range(-40, -20) : Random.Range(20, 40)), 0, (diz == 1 ? Random.Range(-40, -20) : Random.Range(20, 40)));
-
         enemyController.SetMovement(true); // エネミーが動き始めたらisMovingをtrueに設定
 
         if (!s2)
@@ -239,12 +234,12 @@ public class EnemySaikoro : MonoBehaviour
                 Vector3 direction;
                 if (discovery)
                 {
-                    direction = (player.transform.position - enemy.transform.position).normalized;
+                    direction = (player.transform.position - this.transform.position).normalized;
                     direction = GetValidDirection(direction); // 壁を避ける方向を計算
                 }
                 else
                 {
-                    direction = (goToPos - enemy.transform.position);
+                    direction = (goToPos - this.transform.position);
                     direction = GetValidDirection(direction);
                 }
 
@@ -301,7 +296,7 @@ public class EnemySaikoro : MonoBehaviour
                 Debug.Log("Enemy moved towards player. Steps remaining: " + steps);
 
                 // プレイヤーが発見されたかをチェック
-                if (Vector3.Distance(enemy.transform.position, player.transform.position) < mokushi)
+                if (Vector3.Distance(this.transform.position, player.transform.position) < mokushi)
                 {
                     //if (discoveryText != null)
                     //{
@@ -341,8 +336,17 @@ public class EnemySaikoro : MonoBehaviour
         saikoro.SetActive(false); // サイコロを非表示にする
 
         Debug.Log("Enemy moved a total of " + initialSteps + " steps.");
-        FindObjectOfType<GameManager>().NextTurn(); // 次のターンに進む
+
+        if (!gameManager.EnemyCopyOn)
+        {
+            FindObjectOfType<GameManager>().NextTurn(); // 次のターンに進む
+        }
+        else
+        {
+            gameManager.enemyTurnFinCount++;
+        }
     }
+
     private Vector3 GetValidDirection(Vector3 targetDirection)
     {
         Vector3[] directions = new Vector3[]
@@ -358,7 +362,7 @@ public class EnemySaikoro : MonoBehaviour
 
         foreach (Vector3 direction in directions)
         {
-            Vector3 potentialPosition = enemy.transform.position + direction;
+            Vector3 potentialPosition = this.transform.position + direction;
             if (!Physics.CheckSphere(potentialPosition, 0.5f, wallLayer))
             {
                 if (discovery)
@@ -392,7 +396,7 @@ public class EnemySaikoro : MonoBehaviour
 
     void LateUpdate()
     {
-        Ray ray = new Ray(enemy.transform.position, enemy.transform.forward);
+        Ray ray = new Ray(this.transform.position, this.transform.forward);
         RaycastHit hit;
 
         // センサー機能: Rayが何かに当たった場合にログ出力
@@ -406,8 +410,8 @@ public class EnemySaikoro : MonoBehaviour
     {
         // センサーの範囲を赤い線で表示
         Gizmos.color = Color.red;
-        Vector3 direction = enemy.transform.position + enemy.transform.forward * 3f;
-        Gizmos.DrawLine(enemy.transform.position, direction);
+        Vector3 direction = this.transform.position + this.transform.forward * 3f;
+        Gizmos.DrawLine(this.transform.position, direction);
     }
 
 }
