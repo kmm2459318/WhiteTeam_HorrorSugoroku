@@ -1,28 +1,40 @@
 using UnityEngine;
-using UnityEngine.UI;
 
 public class BeartrapController : MonoBehaviour
 {
-    private void Start()
-    {
-        // Buttonコンポーネントを取得
-        Button button = GetComponent<Button>();
+    private static int bearTrapCount = 3; // トラバサミの所持数 (デバッグ用に3つ所持)
+    public GameObject player; // プレイヤーオブジェクト
+    public GameObject beartrapPrefab; // トラバサミのPrefab
+    private bool isTrapActive = false;  // トラバサミが有効かどうかのフラグ
 
-        // Buttonコンポーネントが存在するか確認
-        if (button != null)
+    public void PlaceBeartrap()
+    {
+        if (bearTrapCount > 0)
         {
-            // ボタンが押されたときにOnButtonPressedメソッドを呼び出す
-            button.onClick.AddListener(OnButtonPressed);
-        }
-        else
-        {
-            Debug.LogError("Buttonコンポーネントがアタッチされていません！");
+            bearTrapCount--;
+            // プレイヤーの座標にトラバサミを配置
+            Instantiate(beartrapPrefab, player.transform.position, Quaternion.identity);
+            isTrapActive = true;  // トラバサミが有効になった
+            Debug.Log("トラばさみ配置");
         }
     }
 
-    // ボタンが押されたときに呼び出されるメソッド
-    private void OnButtonPressed()
+    // トラバサミが有効かどうかを返すメソッド
+    public bool IsTrapActive()
     {
-        Debug.Log(gameObject.name + " がクリックされました！");
+        return isTrapActive;
+    }
+
+    // トラバサミの当たり判定処理
+    public class BeartrapTrigger : MonoBehaviour
+    {
+        private GameObject enemy;
+        private BeartrapController beartrapController; // BeartrapControllerへの参照
+
+        public void SetEnemy(GameObject enemyObj, BeartrapController controller)
+        {
+            enemy = enemyObj;
+            beartrapController = controller;
+        }
     }
 }
