@@ -34,6 +34,7 @@ public class EnemySaikoro : MonoBehaviour
     public int idoukagen = 1;
     public bool skill1 = false;
     public bool skill2 = false;
+    private bool isTrapped = false; // トラバサミにかかっているかどうかを示すフラグ
 
     void Start()
     {
@@ -236,6 +237,15 @@ public class EnemySaikoro : MonoBehaviour
         {
             while (steps > 0)
             {
+                // トラバサミにかかっている場合は移動しない
+                if (isTrapped)
+                {
+                    Debug.Log("Enemy is trapped and cannot move.");
+                    yield return new WaitForSeconds(0.5f); // 0.5秒待つだけ
+                    steps = 0;
+                    break;
+                }
+
                 Vector3 direction;
                 if (discovery)
                 {
@@ -318,6 +328,7 @@ public class EnemySaikoro : MonoBehaviour
                 lastDire = direction;
                 yield return new WaitForSeconds(0.5f); // 移動の間隔を待つ
             }
+            isTrapped = false;
         }
         else
         {
@@ -410,4 +421,13 @@ public class EnemySaikoro : MonoBehaviour
         Gizmos.DrawLine(enemy.transform.position, direction);
     }
 
+    private void OnTriggerEnter(Collider other)
+    {
+        Debug.Log("敵がトラばさみに引っ掛かった！！");
+        if (other.tag == ("Beartrap"))
+        {
+            isTrapped = true;
+            Debug.Log("敵がトラばさみに引っ掛かった！！");
+        }
+    }
 }
