@@ -99,24 +99,14 @@ public class GameManager : MonoBehaviour
             // 新しいエネミーモデルのインスタンスを生成
             GameObject newEnemyModel = Instantiate(newEnemyPrefab, currentEnemyPosition, currentEnemyRotation);
 
-            // 新しいモデルの位置とレンダラーの状態を確認
-            Debug.Log("New Enemy Model Position: " + newEnemyModel.transform.position);
-            Renderer[] renderers = newEnemyModel.GetComponentsInChildren<Renderer>();
-            if (renderers.Length > 0)
-            {
-                foreach (Renderer renderer in renderers)
-                {
-                    Debug.Log("Renderer " + renderer.name + " Enabled: " + renderer.enabled);
-                    renderer.enabled = true; // レンダラーを有効にする
-                }
-            }
-            else
-            {
-                Debug.LogError("New Enemy Model does not have any Renderer components!");
-            }
+            // `EnemySaikoro`スクリプトの`enemy`変数を更新
+            enemySaikoro.enemy = newEnemyModel;
 
             // 現在のエネミーモデルを削除
             Destroy(currentEnemyModel);
+
+            // 新しいエネミーモデルを現在のエネミーモデルとして設定
+            currentEnemyModel = newEnemyModel;
 
             Debug.Log("Enemy model has been changed and positioned.");
         }
