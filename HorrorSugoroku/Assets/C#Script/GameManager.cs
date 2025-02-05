@@ -8,13 +8,17 @@ public class GameManager : MonoBehaviour
     public TMP_Text turnText; // TextMeshPro用のターン数表示
     public TMP_Text turnIndicatorText; // 新しいターン表示用のテキスト
     public bool isPlayerTurn = true; // プレイヤーのターンかどうかを示すフラグ
+    public bool EnemyCopyOn = false;
+    public int enemyTurnFinCount = 0;
     public int mapPiece = 0;
 
-    public PlayerSaikoro playerSaikoro;
+    public PlayerSaikoro playerSaikoro; 
     public EnemySaikoro enemySaikoro;
+    public EnemySaikoro enemyCopySaikoro;
 
     public GameObject currentEnemyModel; // 現在のエネミーモデル
     public GameObject newEnemyPrefab; // 新しいエネミーモデルのプレファブ
+    public GameObject EnemyCopy;
 
     private int playerTurnCount = 0; // プレイヤーのターン数をカウントする変数
 
@@ -37,6 +41,18 @@ public class GameManager : MonoBehaviour
         {
             MpPlus();
         }
+
+        if (Input.GetKeyDown(KeyCode.T))
+        {
+            EnemyCopy.SetActive(true);
+            EnemyCopyOn = true;
+        }
+
+        if (enemyTurnFinCount == 2)
+        {
+            enemyTurnFinCount = 0;
+            NextTurn();
+        }
     }
     public void MpPlus()
     {
@@ -57,7 +73,7 @@ public class GameManager : MonoBehaviour
             // プレイヤーのターンが5ターン目になったらエネミーモデルを変更
             if (playerTurnCount == 5)
             {
-                ChangeEnemyModel();
+                //ChangeEnemyModel();
             }
 
             playerSaikoro.StartRolling();
@@ -65,6 +81,11 @@ public class GameManager : MonoBehaviour
         else
         {
             StartCoroutine(enemySaikoro.EnemyTurn());
+
+            if (EnemyCopyOn)
+            {
+                StartCoroutine(enemyCopySaikoro.EnemyTurn());
+            }
         }
     }
 
@@ -99,24 +120,14 @@ public class GameManager : MonoBehaviour
             // 新しいエネミーモデルのインスタンスを生成
             GameObject newEnemyModel = Instantiate(newEnemyPrefab, currentEnemyPosition, currentEnemyRotation);
 
-            // 新しいモデルの位置とレンダラーの状態を確認
-            Debug.Log("New Enemy Model Position: " + newEnemyModel.transform.position);
-            Renderer[] renderers = newEnemyModel.GetComponentsInChildren<Renderer>();
-            if (renderers.Length > 0)
-            {
-                foreach (Renderer renderer in renderers)
-                {
-                    Debug.Log("Renderer " + renderer.name + " Enabled: " + renderer.enabled);
-                    renderer.enabled = true; // レンダラーを有効にする
-                }
-            }
-            else
-            {
-                Debug.LogError("New Enemy Model does not have any Renderer components!");
-            }
+            // `EnemySaikoro`スクリプトの`enemy`変数を更新
+            enemySaikoro.enemy = newEnemyModel;
 
             // 現在のエネミーモデルを削除
             Destroy(currentEnemyModel);
+
+            // 新しいエネミーモデルを現在のエネミーモデルとして設定
+            currentEnemyModel = newEnemyModel;
 
             Debug.Log("Enemy model has been changed and positioned.");
         }

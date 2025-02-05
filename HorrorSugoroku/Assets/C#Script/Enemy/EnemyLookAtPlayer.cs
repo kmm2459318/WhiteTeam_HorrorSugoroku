@@ -8,10 +8,15 @@ public class EnemyLookAtPlayer : MonoBehaviour
     private bool discovery = false;
     private Vector3 moveDirection;
     private Animator animator; // アニメーターの参照
+    private bool isMoving = false; // エネミーが移動中かどうかを示すフラグ
 
     void Start()
     {
         animator = GetComponent<Animator>(); // アニメーターコンポーネントを取得
+        if (animator == null)
+        {
+            Debug.LogError("Animator component not found on the enemy object.");
+        }
     }
 
     void Update()
@@ -33,19 +38,12 @@ public class EnemyLookAtPlayer : MonoBehaviour
             {
                 Quaternion lookRotation = Quaternion.LookRotation(new Vector3(moveDirection.x, 0, moveDirection.z));
                 transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, Time.deltaTime * 5f);
-                animator.SetBool("isRunning", true); // Runアニメーションを再生
-                animator.SetBool("isIdle", false); // Idleアニメーションを停止
-            }
-            else
-            {
-                animator.SetBool("isRunning", false); // Runアニメーションを停止
-                animator.SetBool("isIdle", true); // Idleアニメーションを再生
             }
 
             // frontColliderも移動方向に向く
             frontCollider.transform.rotation = Quaternion.Slerp(frontCollider.transform.rotation, transform.rotation, Time.deltaTime * 5f);
 
-            // 壁に当たった場合に方向を修正
+            // 壁に当たった場合に方向を反転
             bool frontHit = Physics.CheckBox(frontCollider.transform.position, frontCollider.transform.localScale / 2, frontCollider.transform.rotation, wallLayer);
 
             if (frontHit)
@@ -54,6 +52,10 @@ public class EnemyLookAtPlayer : MonoBehaviour
                 Debug.Log("Wall detected at front, changing direction to: " + moveDirection);
             }
         }
+
+        // エネミーの移動状態に基づいてアニメーションを制御
+        animator.SetBool("isRunning", isMoving);
+        animator.SetBool("isIdle", !isMoving);
     }
 
     public void SetDiscovery(bool isDiscovered)
@@ -65,5 +67,10 @@ public class EnemyLookAtPlayer : MonoBehaviour
     {
         moveDirection = direction;
         Debug.Log("Move direction set to: " + direction);
+    }
+
+    public void SetIsMoving(bool moving)
+    {
+        isMoving = moving;
     }
 }
