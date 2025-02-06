@@ -7,7 +7,6 @@ using UnityEngine.UI;
 public class GridCell : MonoBehaviour
 {
     public string cellEffect = "Normal"; // マス目の効果（例: Normal, Bonus, Penalty）
-    public FlashlightController flashlightController;
     [SerializeField] private Master_Debuff DebuffSheet;
     public GameObject eventPanel; // UIのパネル
     public TextMeshProUGUI eventText; // UIのテキスト
@@ -173,14 +172,7 @@ public class GridCell : MonoBehaviour
     {
         int randomEvent = Random.Range(0, 2);
 
-        if (randomEvent == 0)
-        {
-            flashlightController.OnTurnAdvanced();
-        }
-        else
-        {
-            Debug.Log("デバフイベントB：アイテムが使えなくなった");
-        }
+        Debug.Log("デバフイベントB：アイテムが使えなくなった");
     }
 
 }

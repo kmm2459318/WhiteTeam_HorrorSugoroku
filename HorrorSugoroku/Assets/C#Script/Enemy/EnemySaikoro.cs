@@ -33,12 +33,16 @@ public class EnemySaikoro : MonoBehaviour
     public int idoukagen = 1;
     public bool skill1 = false;
     public bool skill2 = false;
-    private bool isTrapped = false; // トラバサミにかかっているかどうかを示すフラグ
+    public bool isTrapped = false; // トラバサミにかかっているかどうかを示す
     private bool isMoving = false; // エネミーが移動中かどうかを示すフラグ
+    public bool canMove = true; // 敵が動けるかどうか
 
+
+    private Animator animator;
     void Start()
     {
         // 初期化コード
+        animator = GetComponent<Animator>();
         enemyController = this.GetComponent<EnemyController>();
         gameManager = FindObjectOfType<GameManager>(); // GameManagerの参照を取得
         enemyLookAtPlayer = this.GetComponent<EnemyLookAtPlayer>(); // EnemyLookAtPlayerの参照を取得
@@ -81,6 +85,11 @@ public class EnemySaikoro : MonoBehaviour
     {
         if (gameManager.IsPlayerTurn())
         {
+            // プレイヤーのターン中はエネミーをIdle状態に保つ
+            if (animator != null)
+            {
+                animator.SetBool("isRunning", false);
+            }
             return;
         }
 
@@ -147,6 +156,23 @@ public class EnemySaikoro : MonoBehaviour
         {
             GoToMassChange(goToMass);
         }
+        // トラバサミにかかっている場合は動けない
+        if (isTrapped)
+        {
+            canMove = false;
+        }
+    }
+    // トラバサミにかかったときの処理（OnTriggerEnterで呼び出される）
+    public void SetTrapped()
+    {
+        isTrapped = true;
+        canMove = false;
+    }
+
+    public void ResetTrap()
+    {
+        isTrapped = false;
+        canMove = true;
     }
 
     void GoToMassChange(int m)
@@ -328,6 +354,7 @@ public class EnemySaikoro : MonoBehaviour
 
             }
             isTrapped = false;
+            canMove = true;
         }
         else
         {
@@ -339,7 +366,7 @@ public class EnemySaikoro : MonoBehaviour
             Debug.Log(mirror.transform.position);
         }
 
-         enemyController.SetMovement(false); // エネミーの移動が終了したらisMovingをfalseに設定
+        enemyController.SetMovement(false); // エネミーの移動が終了したらisMovingをfalseに設定
 
         // 移動が終了したら、再度BGMを再開
         if (currentBGM != null && !audioSource.isPlaying)
@@ -431,11 +458,25 @@ public class EnemySaikoro : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        Debug.Log("敵がトラばさみに引っ掛かった！！");
         if (other.tag == ("Beartrap"))
         {
             isTrapped = true;
+            canMove = false;
             Debug.Log("敵がトラばさみに引っ掛かった！！");
+        }
+    }
+    public void SetIdle()
+    {
+        if (animator != null)
+        {
+            animator.SetBool("isRunning", false);
+        }
+    }
+    public void SetRun()
+    {
+        if (animator != null)
+        {
+            animator.SetBool("isRunning", true);
         }
     }
 }
