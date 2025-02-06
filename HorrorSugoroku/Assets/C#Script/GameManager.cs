@@ -60,13 +60,16 @@ public class GameManager : MonoBehaviour
         Debug.Log(mapPiece);
     }
 
+    // ターンの切り替えを行う場所
     public void NextTurn()
     {
         isPlayerTurn = !isPlayerTurn; // ターンを切り替える
         UpdateTurnText(); // UIのテキストを更新
 
+
         if (isPlayerTurn)
         {
+            // ターンが1進む
             playerTurnCount++; // プレイヤーのターン数をカウント
             Debug.Log("Player Turn Count: " + playerTurnCount); // デバッグログ
 
