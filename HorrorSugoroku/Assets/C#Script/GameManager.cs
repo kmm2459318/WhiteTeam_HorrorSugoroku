@@ -61,10 +61,12 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    // �^�[���̐؂�ւ����s���ꏊ
     public void NextTurn()
     {
         isPlayerTurn = !isPlayerTurn; // ターンを切り替える
         UpdateTurnText(); // UIのテキストを更新
+
 
         if (isPlayerTurn)
         {
