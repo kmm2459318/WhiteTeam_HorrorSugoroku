@@ -69,6 +69,13 @@ public class CurseSlider : MonoBehaviour
                 EndTurnWithCardDisplay();
             }
         }
+        /*
+        if (dashPoint == 100f)
+        {
+            Debug.Log("強化呪い選択")；
+                 
+                
+        }*/
     }
 
     private void EndTurnWithCardDisplay()
