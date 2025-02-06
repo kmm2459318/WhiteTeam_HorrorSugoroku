@@ -7,14 +7,7 @@ public class EnemySaikoro : MonoBehaviour
 {
     [SerializeField] SmoothTransform enemySmooth;
     public GameObject player;
-    public GameObject saikoro; // サイコロのゲームオブジェクト
     public LayerMask wallLayer; // 壁のレイヤー
-    public Sprite s1;
-    public Sprite s2;
-    public Sprite s3;
-    public Sprite s4;
-    public Sprite s5;
-    public Sprite s6;
     private int steps; // サイコロの目の数
     private bool discovery = false;
     Image image;
@@ -52,17 +45,6 @@ public class EnemySaikoro : MonoBehaviour
             Debug.LogError("EnemyLookAtPlayer component is not assigned or found on the enemy object.");
         }
 
-        if (saikoro != null)
-        {
-            saikoro.SetActive(false);
-        }
-        else
-        {
-            Debug.LogError("Saikoro GameObject is not assigned in the Inspector.");
-        }
-
-        // サイコロのImageを保持
-        image = saikoro.GetComponent<Image>();
 
         // テキストの初期化
         //if (discoveryText != null)
@@ -91,23 +73,6 @@ public class EnemySaikoro : MonoBehaviour
                 animator.SetBool("isRunning", false);
             }
             return;
-        }
-
-        // サイコロの目に応じてスプライトを変更
-        switch (steps)
-        {
-            case 1:
-                image.sprite = s1; break;
-            case 2:
-                image.sprite = s2; break;
-            case 3:
-                image.sprite = s3; break;
-            case 4:
-                image.sprite = s4; break;
-            case 5:
-                image.sprite = s5; break;
-            case 6:
-                image.sprite = s6; break;
         }
 
         // プレイヤーが発見されたかをチェック
@@ -217,7 +182,6 @@ public class EnemySaikoro : MonoBehaviour
 
         if (!mirror)
         {
-            saikoro.SetActive(true);
             for (int i = 0; i < 10; i++) // 10回ランダムに目を表示
             {
                 steps = Random.Range(idoukagen, 7);
@@ -375,7 +339,6 @@ public class EnemySaikoro : MonoBehaviour
             audioSource.Play(); // BGMを再開
         }
 
-        saikoro.SetActive(false); // サイコロを非表示にする
 
         Debug.Log("Enemy moved a total of " + initialSteps + " steps.");
 
