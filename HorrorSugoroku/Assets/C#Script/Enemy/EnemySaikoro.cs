@@ -35,10 +35,11 @@ public class EnemySaikoro : MonoBehaviour
     public bool skill2 = false;
     private bool isTrapped = false; // トラバサミにかかっているかどうかを示すフラグ
     private bool isMoving = false; // エネミーが移動中かどうかを示すフラグ
-
+    private Animator animator;
     void Start()
     {
         // 初期化コード
+        animator = GetComponent<Animator>();
         enemyController = this.GetComponent<EnemyController>();
         gameManager = FindObjectOfType<GameManager>(); // GameManagerの参照を取得
         enemyLookAtPlayer = this.GetComponent<EnemyLookAtPlayer>(); // EnemyLookAtPlayerの参照を取得
@@ -81,6 +82,11 @@ public class EnemySaikoro : MonoBehaviour
     {
         if (gameManager.IsPlayerTurn())
         {
+            // プレイヤーのターン中はエネミーをIdle状態に保つ
+            if (animator != null)
+            {
+                animator.SetBool("isRunning", false);
+            }
             return;
         }
 
@@ -436,6 +442,20 @@ public class EnemySaikoro : MonoBehaviour
         {
             isTrapped = true;
             Debug.Log("敵がトラばさみに引っ掛かった！！");
+        }
+    }
+    public void SetIdle()
+    {
+        if (animator != null)
+        {
+            animator.SetBool("isRunning", false);
+        }
+    }
+    public void SetRun()
+    {
+        if (animator != null)
+        {
+            animator.SetBool("isRunning", true);
         }
     }
 }
