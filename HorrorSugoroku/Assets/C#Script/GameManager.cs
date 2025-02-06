@@ -120,6 +120,7 @@ public class GameManager : MonoBehaviour
             // 新しいエネミーモデルのインスタンスを生成
             GameObject newEnemyModel = Instantiate(newEnemyPrefab, currentEnemyPosition, currentEnemyRotation);
 
+
             // 現在のエネミーモデルを削除
             Destroy(currentEnemyModel);
 
