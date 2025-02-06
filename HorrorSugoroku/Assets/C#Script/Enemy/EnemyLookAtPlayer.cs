@@ -30,6 +30,9 @@ public class EnemyLookAtPlayer : MonoBehaviour
 
             // frontColliderもプレイヤーの方向に向く
             frontCollider.transform.rotation = Quaternion.Slerp(frontCollider.transform.rotation, lookRotation, Time.deltaTime * 5f);
+
+            // プレイヤーに向かって移動する場合のロジックを追加（必要に応じて）
+            // moveDirection = directionToPlayer;
         }
         else
         {
@@ -41,7 +44,7 @@ public class EnemyLookAtPlayer : MonoBehaviour
             }
 
             // frontColliderも移動方向に向く
-            frontCollider.transform.rotation = Quaternion.Slerp(frontCollider.transform.rotation, transform.rotation, Time.deltaTime * 5f);
+            frontCollider.transform.rotation = Quaternion.Slerp(frontCollider.transform.rotation, Quaternion.LookRotation(new Vector3(moveDirection.x, 0, moveDirection.z)), Time.deltaTime * 5f);
 
             // 壁に当たった場合に方向を反転
             bool frontHit = Physics.CheckBox(frontCollider.transform.position, frontCollider.transform.localScale / 2, frontCollider.transform.rotation, wallLayer);
@@ -54,6 +57,8 @@ public class EnemyLookAtPlayer : MonoBehaviour
         }
 
         // エネミーの移動状態に基づいてアニメーションを制御
+        isMoving = moveDirection != Vector3.zero; // 移動方向がゼロでない場合は移動中と判断
+        Debug.Log("isRunning: " + isMoving); // デバッグログを追加
         animator.SetBool("isRunning", isMoving);
         animator.SetBool("isIdle", !isMoving);
     }
@@ -66,6 +71,7 @@ public class EnemyLookAtPlayer : MonoBehaviour
     public void SetMoveDirection(Vector3 direction)
     {
         moveDirection = direction;
+        isMoving = moveDirection != Vector3.zero; // 移動方向がゼロでない場合は移動中と判断
         Debug.Log("Move direction set to: " + direction);
     }
 
