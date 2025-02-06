@@ -6,8 +6,17 @@ using SmoothigTransform;
 public class EnemySaikoro : MonoBehaviour
 {
     [SerializeField] SmoothTransform enemySmooth;
+    [SerializeField] SmoothTransform enemyBodySmooth;
     public GameObject player;
     public GameObject saikoro; // サイコロのゲームオブジェクト
+    public GameObject ENorth;
+    public GameObject EWest;
+    public GameObject EEast;
+    public GameObject ESouth;
+    private bool EN = false; // 敵の東西南北
+    private bool EW = false;
+    private bool EE = false;
+    private bool ES = false;
     public LayerMask wallLayer; // 壁のレイヤー
     public Sprite s1;
     public Sprite s2;
@@ -79,6 +88,11 @@ public class EnemySaikoro : MonoBehaviour
     }
     void Update()
     {
+        EN = ENorth.GetComponent<PlayerNSEWCheck>().masuCheck;
+        EW = EWest.GetComponent<PlayerNSEWCheck>().masuCheck;
+        EE = EEast.GetComponent<PlayerNSEWCheck>().masuCheck;
+        ES = ESouth.GetComponent<PlayerNSEWCheck>().masuCheck;
+
         if (gameManager.IsPlayerTurn())
         {
             return;
@@ -146,6 +160,7 @@ public class EnemySaikoro : MonoBehaviour
             (goToPos.z + 0.1f > this.transform.position.z && goToPos.z - 0.1f < this.transform.position.z)) || discovery)
         {
             GoToMassChange(goToMass);
+            Debug.Log("行先変更");
         }
     }
 
@@ -154,21 +169,23 @@ public class EnemySaikoro : MonoBehaviour
         int a;
         do
         {
-            a = Random.Range(1, 6);
-        } while (a == m);
-        goToMass = a;
+            a = Random.Range(1, 5);
+        } while (a == m || (a == 1 && !EE) || (a == 2 && !EN) || (a == 3 && !EW) || (a == 4 && !ES));
+
         switch (a)
         {
             case 1:
-                goToPos = new Vector3(0, 0, 0); break;
+                goToPos += new Vector3(10f, 0, 0);
+                goToMass = 3; break;
             case 2:
-                goToPos = new Vector3(0, 0, 20f); break;
+                goToPos += new Vector3(0, 0, 10f);
+                goToMass = 4; break;
             case 3:
-                goToPos = new Vector3(20f, 0, 20f); break;
+                goToPos += new Vector3(-10f, 0, 0);
+                goToMass = 1; break;
             case 4:
-                goToPos = new Vector3(20f, 0, 0); break;
-            case 5:
-                goToPos = new Vector3(10f, 0, 10f); break;
+                goToPos += new Vector3(0, 0, -10f);
+                goToMass = 2; break;
         }
         Debug.Log(goToPos);
     }
@@ -255,28 +272,28 @@ public class EnemySaikoro : MonoBehaviour
                     direction = (goToPos - this.transform.position);
                     direction = GetValidDirection(direction);
                 }
-
+                
                 if (direction != lastDire)
                 {
                     if (direction == new Vector3(0, 0, 2.0f))
                     {
-                        enemySmooth.TargetRotation = Quaternion.Euler(0, 90, 0);
+                        enemyBodySmooth.TargetRotation = Quaternion.Euler(-90, 90, 0);
                     }
                     else if (direction == new Vector3(0, 0, -2.0f))
                     {
-                        enemySmooth.TargetRotation = Quaternion.Euler(0, -90, 0);
+                        enemyBodySmooth.TargetRotation = Quaternion.Euler(-90, -90, 0);
                     }
                     else if (direction == new Vector3(2.0f, 0, 0))
                     {
-                        enemySmooth.TargetRotation = Quaternion.Euler(0, 180, 0);
+                        enemyBodySmooth.TargetRotation = Quaternion.Euler(-90, 180, 0);
                     }
                     else if (direction == new Vector3(-2.0f, 0, 0))
                     {
-                        enemySmooth.TargetRotation = Quaternion.Euler(0, 0, 0);
+                        enemyBodySmooth.TargetRotation = Quaternion.Euler(-90, 0, 0);
                     }
                     yield return new WaitForSeconds(0.5f);
                 }
-
+                
                 enemySmooth.TargetPosition += direction * 1.0f; // 2.0f単位で移動
 
                 if (s1)
