@@ -120,8 +120,6 @@ public class GameManager : MonoBehaviour
             // 新しいエネミーモデルのインスタンスを生成
             GameObject newEnemyModel = Instantiate(newEnemyPrefab, currentEnemyPosition, currentEnemyRotation);
 
-            // `EnemySaikoro`スクリプトの`enemy`変数を更新
-            enemySaikoro.enemy = newEnemyModel;
 
             // 現在のエネミーモデルを削除
             Destroy(currentEnemyModel);
