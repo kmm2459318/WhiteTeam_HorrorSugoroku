@@ -33,8 +33,10 @@ public class EnemySaikoro : MonoBehaviour
     public int idoukagen = 1;
     public bool skill1 = false;
     public bool skill2 = false;
-    private bool isTrapped = false; // トラバサミにかかっているかどうかを示すフラグ
+    public bool isTrapped = false; // トラバサミにかかっているかどうかを示す
     private bool isMoving = false; // エネミーが移動中かどうかを示すフラグ
+    public bool canMove = true; // 敵が動けるかどうか
+
 
     void Start()
     {
@@ -147,6 +149,23 @@ public class EnemySaikoro : MonoBehaviour
         {
             GoToMassChange(goToMass);
         }
+        // トラバサミにかかっている場合は動けない
+        if (isTrapped)
+        {
+            canMove = false;
+        }
+    }
+    // トラバサミにかかったときの処理（OnTriggerEnterで呼び出される）
+    public void SetTrapped()
+    {
+        isTrapped = true;
+        canMove = false;
+    }
+
+    public void ResetTrap()
+    {
+        isTrapped = false;
+        canMove = true;
     }
 
     void GoToMassChange(int m)
@@ -328,6 +347,7 @@ public class EnemySaikoro : MonoBehaviour
 
             }
             isTrapped = false;
+            canMove = true;
         }
         else
         {
@@ -431,10 +451,10 @@ public class EnemySaikoro : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        Debug.Log("敵がトラばさみに引っ掛かった！！");
         if (other.tag == ("Beartrap"))
         {
             isTrapped = true;
+            canMove = false;
             Debug.Log("敵がトラばさみに引っ掛かった！！");
         }
     }
