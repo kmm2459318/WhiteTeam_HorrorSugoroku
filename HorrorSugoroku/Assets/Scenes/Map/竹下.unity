@@ -2705,6 +2705,94 @@ Light:
   m_LightUnit: 1
   m_LuxAtDistance: 1
   m_EnableSpotReflector: 1
+--- !u!1001 &597356981
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 1084946449966616373, guid: 4cc824d3abdaabc42927fc5035b211e4, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -13.519213
+      objectReference: {fileID: 0}
+    - target: {fileID: 1084946449966616373, guid: 4cc824d3abdaabc42927fc5035b211e4, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1084946449966616373, guid: 4cc824d3abdaabc42927fc5035b211e4, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -3.8775158
+      objectReference: {fileID: 0}
+    - target: {fileID: 1084946449966616373, guid: 4cc824d3abdaabc42927fc5035b211e4, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1084946449966616373, guid: 4cc824d3abdaabc42927fc5035b211e4, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1084946449966616373, guid: 4cc824d3abdaabc42927fc5035b211e4, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1084946449966616373, guid: 4cc824d3abdaabc42927fc5035b211e4, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1084946449966616373, guid: 4cc824d3abdaabc42927fc5035b211e4, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1084946449966616373, guid: 4cc824d3abdaabc42927fc5035b211e4, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1084946449966616373, guid: 4cc824d3abdaabc42927fc5035b211e4, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3818659488920671761, guid: 4cc824d3abdaabc42927fc5035b211e4, type: 3}
+      propertyPath: m_Controller
+      value: 
+      objectReference: {fileID: 9100000, guid: 21a4c4256cafeb24b8ba7fd8dc626cf7, type: 2}
+    - target: {fileID: 6341752057484097596, guid: 4cc824d3abdaabc42927fc5035b211e4, type: 3}
+      propertyPath: player
+      value: 
+      objectReference: {fileID: 1582549253}
+    - target: {fileID: 6341752057484097596, guid: 4cc824d3abdaabc42927fc5035b211e4, type: 3}
+      propertyPath: enemyLookAtPlayer
+      value: 
+      objectReference: {fileID: 597356982}
+    - target: {fileID: 7918147584060492737, guid: 4cc824d3abdaabc42927fc5035b211e4, type: 3}
+      propertyPath: player
+      value: 
+      objectReference: {fileID: 1582549253}
+    - target: {fileID: 8949150745982800165, guid: 4cc824d3abdaabc42927fc5035b211e4, type: 3}
+      propertyPath: m_Name
+      value: Slender
+      objectReference: {fileID: 0}
+    - target: {fileID: 8986350214387761731, guid: 4cc824d3abdaabc42927fc5035b211e4, type: 3}
+      propertyPath: gameManager
+      value: 
+      objectReference: {fileID: 1478099789}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 4cc824d3abdaabc42927fc5035b211e4, type: 3}
+--- !u!114 &597356982 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7918147584060492737, guid: 4cc824d3abdaabc42927fc5035b211e4, type: 3}
+  m_PrefabInstance: {fileID: 597356981}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c0ff4110a2d265342998d76db9097c4b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &600476968
 GameObject:
   m_ObjectHideFlags: 0
@@ -4401,6 +4489,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gameManager: {fileID: 1478099789}
+  currentEnemy: {fileID: 464111270}
+  newEnemyPrefab: {fileID: 0}
   Map:
   - {fileID: 222810841}
   - {fileID: 1947540854}
@@ -6872,7 +6962,6 @@ MonoBehaviour:
   enemySaikoro: {fileID: 464111271}
   enemyCopySaikoro: {fileID: 464111271}
   currentEnemyModel: {fileID: 464111270}
-  newEnemyPrefab: {fileID: 19126890}
   EnemyCopy: {fileID: 19126890}
 --- !u!114 &1478099790
 MonoBehaviour:
@@ -10826,3 +10915,4 @@ SceneRoots:
   - {fileID: 1434016081}
   - {fileID: 1122307403}
   - {fileID: 1131642053}
+  - {fileID: 597356981}
