@@ -39,7 +39,14 @@ public class GridCell : MonoBehaviour
         Debug.Log("アイテムが使えなくなるかの判定:" + DebuffSheet.DebuffSheet[n].ItemGive);
         Debug.Log("アイテムが使えないターン数:" + DebuffSheet.DebuffSheet[n].ItemGive);
     }
-
+    void Update()
+    {
+        // UI が表示されているときに スペースキーで閉じる
+        if (eventPanel.activeSelf && Input.GetKeyDown(KeyCode.Space))
+        {
+            CloseEventUI();
+        }
+    }
     public void ExecuteEvent()
     {
         switch (cellEffect)
