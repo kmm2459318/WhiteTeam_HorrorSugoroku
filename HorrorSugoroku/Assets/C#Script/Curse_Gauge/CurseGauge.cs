@@ -30,17 +30,20 @@ public class CurseSlider : MonoBehaviour
         DashGage.maxValue = maxDashPoint;
         DashGage.value = dashPoint;
 
-        // ボタンの設定
+        // ボタンのリスナーを一度クリアして、重複登録を防ぐ
         if (extraButton != null)
         {
+            extraButton.onClick.RemoveAllListeners();
             extraButton.onClick.AddListener(() => { ExtraButtonAction(); HideCardCanvas(); });
         }
         if (hideButton != null)
         {
+            hideButton.onClick.RemoveAllListeners();
             hideButton.onClick.AddListener(() => { HideCardCanvasAndModifyDashIncrease(); HideCardCanvas(); });
         }
         if (cursegiveButton != null)
         {
+            cursegiveButton.onClick.RemoveAllListeners();
             cursegiveButton.onClick.AddListener(() => { CursegiveButtonAction(); HideCardCanvas(); });
         }
 
@@ -69,6 +72,13 @@ public class CurseSlider : MonoBehaviour
                 EndTurnWithCardDisplay();
             }
         }
+        /*
+        if (dashPoint == 100f)
+        {
+            Debug.Log("強化呪い選択")；
+                 
+                
+        }*/
     }
 
     private void EndTurnWithCardDisplay()
@@ -82,7 +92,7 @@ public class CurseSlider : MonoBehaviour
         dashPoint = Mathf.Min(dashPoint + dashIncreasePerTurn, maxDashPoint);
         DashGage.value = dashPoint;
 
-        Debug.Log("今の呪いゲージ量" + dashPoint);
+        Debug.Log("今の呪いゲージ量: " + dashPoint);
 
         // 20の倍数に達した場合にCardCanvasを表示
         if ((int)(dashPoint) >= Count * 20)
@@ -100,6 +110,11 @@ public class CurseSlider : MonoBehaviour
         }
     }
 
+    public void ExtraButtonAction()
+    {
+        Debug.Log("Extra Button Clicked!");
+    }
+
     public void HideCardCanvas()
     {
         if (CardCanvas != null)
@@ -108,27 +123,20 @@ public class CurseSlider : MonoBehaviour
         }
     }
 
-    public void ExtraButtonAction()
-    {
-        Debug.Log("Extra Button Clicked!");
-    }
-
-
     public void HideCardCanvasAndModifyDashIncrease()
     {
         dashIncreasePerTurn += master_Curse.CurseSheet[1].TurnIncrease;
-        Debug.Log(master_Curse.CurseSheet[1].TurnIncrease);
-        Debug.Log(dashIncreasePerTurn);
+        Debug.Log("[CurseSlider] TurnIncrease: " + master_Curse.CurseSheet[1].TurnIncrease);
         Debug.Log("[CurseSlider] Dash Increase Per Turn set to: " + dashIncreasePerTurn);
     }
 
     public void CursegiveButtonAction()
     {
+        Debug.Log("[CursegiveButton] Before: DashPoint = " + dashPoint);
+
         dashPoint = Mathf.Min(dashPoint + 15, maxDashPoint);
-        Debug.Log(dashPoint);
         DashGage.value = dashPoint;
 
-        Debug.Log("Cursegive Button Clicked! DashPoint increased by 15.");
+        Debug.Log("[CursegiveButton] After: DashPoint = " + dashPoint);
     }
-
 }
