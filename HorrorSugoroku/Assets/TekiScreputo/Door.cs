@@ -1,17 +1,21 @@
 using System.Collections;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Door : MonoBehaviour
 {
     public Animator doorAnimator; // ドアのアニメーター
-    public string openAnimation = "Open"; // ドアを開けるアニメーションの名前
-    public string closeAnimation = "Close"; // ドアを閉めるアニメーションの名前
-    public bool isOpen = false; // ドアが開いているかどうか
-    public float interactionRange = 3f; // プレイヤーがドアを開けるために必要な距離
+    public float interactionRange = 3f;
+    private bool isOpen = false; // ドアの状態
+
 
     private Transform player; // プレイヤーの Transform
     private PlayerInventory playerInventory; // プレイヤーのインベントリ参照
     public string requiredItem = "鍵"; // 必要なアイテム
+
+    public GameObject doorUI; // UIのパネル（Inspector で設定）
+    public Button okButton;   // OKボタン
+    public Button cancelButton; // キャンセルボタン
     void Start()
     {
         // プレイヤーをシーン内のタグ "Player" を持つオブジェクトに設定
@@ -19,6 +23,18 @@ public class Door : MonoBehaviour
 
         // プレイヤーのインベントリスクリプトを取得
         playerInventory = player.GetComponent<PlayerInventory>();
+
+       
+        if (doorUI != null)
+        {
+            doorUI.SetActive(false); // 最初はUIを非表示
+        }
+        // ボタンのクリックイベントを登録
+        if (okButton != null)
+            okButton.onClick.AddListener(OpenDoorConfirmed);
+
+        if (cancelButton != null)
+            cancelButton.onClick.AddListener(CloseUI);
     }
 
     void Update()
@@ -26,8 +42,8 @@ public class Door : MonoBehaviour
         // プレイヤーがドアの近くにいるか確認
         float distance = Vector3.Distance(player.position, transform.position);
 
-        if (distance <= interactionRange) // インタラクション範囲内にいる場合
-        {
+       // if (distance <= interactionRange) // インタラクション範囲内にいる場合
+       // {
             if (distance <= interactionRange && Input.GetKeyDown(KeyCode.G)) // 「E」キーでドアを開ける/閉める
             {
                 if (isOpen)
@@ -39,10 +55,8 @@ public class Door : MonoBehaviour
                     // 鍵を持っているかどうかチェック
                     if (playerInventory != null && playerInventory.HasItem("鍵"))
                     {
-                      
-                        OpenDoor(); // 鍵があればドアを開ける
-                        Debug.Log("鍵を使って扉を開けた");
-                        playerInventory.RemoveItem("鍵"); // 鍵を使う
+
+                        ShowDoorUI();
                     }
                     else
                     {
@@ -50,14 +64,42 @@ public class Door : MonoBehaviour
                     }
                 }
             }
+       }
+
+        void ShowDoorUI()
+        {
+            if (doorUI != null)
+            {
+                doorUI.SetActive(true);
+                Time.timeScale = 0;
+            }
         }
+
+        void CloseUI()
+        {
+            if (doorUI != null)
+            {
+                doorUI.SetActive(false);
+                Time.timeScale = 1; // ゲームを再開
+            }
+        }
+
+        void OpenDoorConfirmed()
+        {
+            CloseUI(); // UIを閉じる
+            OpenDoor(); // ドアを開く
+            playerInventory.RemoveItem(requiredItem);
+        }
+
+      
 
         // ドアを開けるメソッド
         void OpenDoor()
         {
             if (doorAnimator != null)
             {
-                doorAnimator.Play(openAnimation); // アニメーションを再生
+            Debug.Log("dadwed");
+                doorAnimator.SetBool("isOpen",true); // アニメーションを再生
                 isOpen = true;
             }
         }
@@ -67,9 +109,8 @@ public class Door : MonoBehaviour
         {
             if (doorAnimator != null)
             {
-                doorAnimator.Play(closeAnimation); // アニメーションを再生
+                doorAnimator.SetBool("isOpen",false); // アニメーションを再生
                 isOpen = false;
             }
         }
     }
-}
