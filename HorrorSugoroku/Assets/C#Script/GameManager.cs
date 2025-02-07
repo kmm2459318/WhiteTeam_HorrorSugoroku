@@ -13,7 +13,7 @@ public class GameManager : MonoBehaviour
     public int mapPiece = 0;
 
     public PlayerSaikoro playerSaikoro;
-    public EnemySaikoro enemySaikoro;
+    public EnemySaikoroNakamura enemySaikoro;
     public EnemySaikoro enemyCopySaikoro;
 
     public GameObject currentEnemyModel; // 現在のエネミーモデル
@@ -85,20 +85,20 @@ public class GameManager : MonoBehaviour
             playerSaikoro.StartRolling();
 
             // エネミーのアニメーションをIdleに切り替える
-            enemySaikoro.SetIdle();
+            /*enemySaikoro.SetIdle();
             if (EnemyCopyOn)
             {
                 enemyCopySaikoro.SetIdle();
-            }
+            }*/
         }
         else
         {
             // エネミーのアニメーションをRunに切り替える
-            enemySaikoro.SetRun();
+            /*enemySaikoro.SetRun();
             if (EnemyCopyOn)
             {
                 enemyCopySaikoro.SetRun();
-            }
+            }*/
 
             StartCoroutine(enemySaikoro.EnemyTurn());
 
