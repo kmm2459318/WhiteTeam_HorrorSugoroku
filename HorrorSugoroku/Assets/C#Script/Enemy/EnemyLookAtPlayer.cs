@@ -52,13 +52,13 @@ public class EnemyLookAtPlayer : MonoBehaviour
             if (frontHit)
             {
                 moveDirection = -moveDirection; // 方向を反転
-                Debug.Log("Wall detected at front, changing direction to: " + moveDirection);
+                //Debug.Log("Wall detected at front, changing direction to: " + moveDirection);
             }
         }
 
         // エネミーの移動状態に基づいてアニメーションを制御
         isMoving = moveDirection != Vector3.zero; // 移動方向がゼロでない場合は移動中と判断
-        Debug.Log("isRunning: " + isMoving); // デバッグログを追加
+        //Debug.Log("isRunning: " + isMoving); // デバッグログを追加
         animator.SetBool("isRunning", isMoving);
         animator.SetBool("isIdle", !isMoving);
     }
