@@ -1,3 +1,4 @@
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class MapCreator : MonoBehaviour
@@ -10,7 +11,9 @@ public class MapCreator : MonoBehaviour
     public GameObject DebuffTile;
     public GameObject BatteryTile;
     public GameObject DoorTile;
+    public int MapNumber;
 
+    public Vector3 MapStartPosition = new Vector3(0, 0, 0);
     private int[,] MapData =
     {
         {0,0,0,0,0,0,0,0,0,0,0,0,0 },
@@ -28,9 +31,27 @@ public class MapCreator : MonoBehaviour
         {0,0,0,0,0,0,0,0,0,0,0,0,0 },
     };
 
+    private int[,] MapData2 =
+    {
+        {0,0,0,0,0,0,0,0,0,0,0,0,0 },
+        {0,4,5,6,1,2,3,4,5,6,1,2,0 },
+        {0,3,0,0,0,0,1,0,0,0,0,3,0 },
+        {0,3,0,0,0,0,1,7,1,1,0,4,0 },
+        {0,3,0,0,0,0,1,0,0,0,0,5,0 },
+        {0,1,0,0,0,0,1,0,0,0,0,6,0 },
+        {0,6,1,1,1,1,2,1,1,1,1,1,0 },
+        {0,2,0,0,0,0,1,0,0,0,0,2,0 },
+        {0,2,0,0,0,0,1,0,0,0,0,3,0 },
+        {0,3,0,0,0,0,1,0,0,0,0,4,0 },
+        {0,2,0,0,0,0,1,0,0,0,0,5,0 },
+        {0,1,4,3,2,6,5,2,2,2,1,6,0 },
+        {0,0,0,0,0,0,0,0,0,0,0,0,0 },
+    };
+
+
     private void Start()
     {
-        CreateMap();
+        CreateMap2();
     }
 
     void CreateMap()
@@ -70,6 +91,47 @@ public class MapCreator : MonoBehaviour
                 if (tilePrefab != null)
                 {
                     Instantiate(tilePrefab, new Vector3(2 * (x - 1), 0, 2 * (y - 1)), Quaternion.identity);
+                }
+            }
+        }
+    }
+    void CreateMap2()
+    {
+        for (int y = 0; y < MapData.GetLength(0); y++)
+        {
+            for (int x = 0; x < MapData.GetLength(1); x++)
+            {
+                GameObject tilePrefab = null;
+                switch (MapData[y, x])
+                {
+                    case 0:
+                        break;
+                    case 1:
+                        tilePrefab = NormalTile;
+                        break;
+                    case 2:
+                        tilePrefab = EventTile;
+                        break;
+                    case 3:
+                        tilePrefab = ItemTile;
+                        break;
+                    case 4:
+                        tilePrefab = DirecTile;
+                        break;
+                    case 5:
+                        tilePrefab = DebuffTile;
+                        break;
+                    case 6:
+                        tilePrefab = BatteryTile;
+                        break;
+                    case 7:
+                        tilePrefab = DoorTile;
+                        break;
+                }
+                if (tilePrefab != null)
+                {
+                    Vector3 TilePositon = new Vector3(2 * (x - 1), 0, 2 * (y - 1)) + MapStartPosition;
+                    Instantiate(tilePrefab,TilePositon, Quaternion.identity);
                 }
             }
         }
