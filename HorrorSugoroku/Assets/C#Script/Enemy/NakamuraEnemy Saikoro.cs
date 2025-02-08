@@ -27,6 +27,7 @@ public class EnemySaikoroNakamura : MonoBehaviour
     public Sprite s6;
     private int steps; // サイコロの目の数
     private bool discovery = false;
+    private bool dis = false;
     Image image;
     //public Text discoveryText; // 新しいText変数を追加
     public AudioClip discoveryBGM; // 発見時のBGM
@@ -152,16 +153,18 @@ public class EnemySaikoroNakamura : MonoBehaviour
                 audioSource.Play(); // 未発見時のBGMを再生
             }
             discovery = false;
+            dis = false;
             enemyLookAtPlayer.SetDiscovery(false); // エネミーの体をプレイヤーの方向に向けない
 
             //Debug.Log("未発見");
         }
 
         if (((goToPos.x + 0.1f > this.transform.position.x && goToPos.x - 0.1f < this.transform.position.x) &&
-            (goToPos.z + 0.1f > this.transform.position.z && goToPos.z - 0.1f < this.transform.position.z)) || discovery)
+            (goToPos.z + 0.1f > this.transform.position.z && goToPos.z - 0.1f < this.transform.position.z)) || (discovery && !dis))
         {
-            GoToMassChange(goToMass);
             Debug.Log("行先変更");
+            dis = true;
+            GoToMassChange(goToMass);
         }
     }
 
@@ -342,8 +345,14 @@ public class EnemySaikoroNakamura : MonoBehaviour
                     Debug.Log("発見！");
                 }
                 lastDire = direction;
-                yield return new WaitForSeconds(0.5f); // 移動の間隔を待つ
 
+                if (enemySmooth.PosFact == 0.2f)
+                {
+                    yield return new WaitForSeconds(0.4f); // 移動の間隔を待つ
+                }
+                else {
+                    yield return new WaitForSeconds(1.0f);
+                }
             }
             isTrapped = false;
         }
@@ -449,7 +458,7 @@ public class EnemySaikoroNakamura : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        Debug.Log("敵がトラばさみに引っ掛かった！！");
+        //Debug.Log("敵がトラばさみに引っ掛かった！！");
         if (other.tag == ("Beartrap"))
         {
             isTrapped = true;

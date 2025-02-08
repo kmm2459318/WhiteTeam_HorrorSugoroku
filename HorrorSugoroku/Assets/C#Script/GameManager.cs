@@ -13,12 +13,12 @@ public class GameManager : MonoBehaviour
     public int mapPiece = 0;
 
     public PlayerSaikoro playerSaikoro;
-    public EnemySaikoro enemySaikoro;
+    public EnemySaikoroNakamura enemySaikoro;
     public EnemySaikoro enemyCopySaikoro;
 
     public GameObject currentEnemyModel; // 現在のエネミーモデル
-    public GameObject newEnemyPrefab; // 新しいエネミーモデルのプレファブ
     public GameObject EnemyCopy;
+    public GameObject newEnemyModelPrefab; // 新しいエネミーモデルのプレハブ
 
     private int playerTurnCount = 0; // プレイヤーのターン数をカウントする変数
 
@@ -36,7 +36,7 @@ public class GameManager : MonoBehaviour
             SceneManager.LoadScene("Gameclear");
         }
 
-        //地図のかけら仮
+        // 地図のかけら仮
         if (Input.GetKeyDown(KeyCode.R))
         {
             MpPlus();
@@ -54,48 +54,93 @@ public class GameManager : MonoBehaviour
             NextTurn();
         }
 
-        // エネミーの入れ替えを手動でトリガーするためのキー入力
-        if (Input.GetKeyDown(KeyCode.C))
+        // マップのピースが3枚手に入ったらエネミーモデルを変更
+        if (mapPiece == 3)
         {
             ChangeEnemyModel();
         }
     }
 
-    // �^�[���̐؂�ւ����s���ꏊ
+
+    private void ChangeEnemyModel()
+    {
+        if (currentEnemyModel != null)
+        {
+            // 元のエネミーモデルを非アクティブにする
+            currentEnemyModel.SetActive(false);
+        }
+
+        // 新しいエネミーモデルをアクティブにする
+        if (newEnemyModelPrefab != null)
+        {
+            newEnemyModelPrefab.SetActive(true);
+
+            // 新しいエネミーモデルにエネミーの仕様を適用
+            enemySaikoro = newEnemyModelPrefab.GetComponent<EnemySaikoro>();
+            if (enemySaikoro != null)
+            {
+                // 必要なコンポーネントや設定を引き継ぐ
+                enemySaikoro.player = currentEnemyModel.GetComponent<EnemySaikoro>().player;
+                enemySaikoro.wallLayer = currentEnemyModel.GetComponent<EnemySaikoro>().wallLayer;
+                enemySaikoro.discoveryBGM = currentEnemyModel.GetComponent<EnemySaikoro>().discoveryBGM;
+                enemySaikoro.undetectedBGM = currentEnemyModel.GetComponent<EnemySaikoro>().undetectedBGM;
+                enemySaikoro.footstepSound = currentEnemyModel.GetComponent<EnemySaikoro>().footstepSound;
+                enemySaikoro.enemyController = currentEnemyModel.GetComponent<EnemySaikoro>().enemyController;
+                enemySaikoro.gameManager = this;
+                enemySaikoro.enemyLookAtPlayer = currentEnemyModel.GetComponent<EnemySaikoro>().enemyLookAtPlayer;
+                enemySaikoro.playerCloseMirror = currentEnemyModel.GetComponent<EnemySaikoro>().playerCloseMirror;
+                enemySaikoro.mokushi = currentEnemyModel.GetComponent<EnemySaikoro>().mokushi;
+                enemySaikoro.idoukagen = currentEnemyModel.GetComponent<EnemySaikoro>().idoukagen;
+                enemySaikoro.skill1 = currentEnemyModel.GetComponent<EnemySaikoro>().skill1;
+                enemySaikoro.skill2 = currentEnemyModel.GetComponent<EnemySaikoro>().skill2;
+                enemySaikoro.isTrapped = currentEnemyModel.GetComponent<EnemySaikoro>().isTrapped;
+                enemySaikoro.canMove = currentEnemyModel.GetComponent<EnemySaikoro>().canMove;
+            }
+
+            if (EnemyCopyOn)
+            {
+                enemyCopySaikoro = newEnemyModelPrefab.GetComponent<EnemySaikoro>();
+            }
+
+            // currentEnemyModelを新しいエネミーモデルに更新
+            currentEnemyModel = newEnemyModelPrefab;
+        }
+        else
+        {
+            Debug.LogError("newEnemyModelPrefab is not assigned.");
+        }
+    }
+    // ターンの切り替えを行うメソッド
     public void NextTurn()
     {
         isPlayerTurn = !isPlayerTurn; // ターンを切り替える
         UpdateTurnText(); // UIのテキストを更新
 
-
         if (isPlayerTurn)
         {
+            // サイコロを振る
+            playerSaikoro.DiceRoll();
+
             playerTurnCount++; // プレイヤーのターン数をカウント
             Debug.Log("Player Turn Count: " + playerTurnCount); // デバッグログ
-
-            // プレイヤーのターンが5ターン目になったらエネミーモデルを変更
-            if (playerTurnCount == 5)
-            {
-                ChangeEnemyModel();
-            }
 
             playerSaikoro.StartRolling();
 
             // エネミーのアニメーションをIdleに切り替える
-            enemySaikoro.SetIdle();
+            /*enemySaikoro.SetIdle();
             if (EnemyCopyOn)
             {
                 enemyCopySaikoro.SetIdle();
-            }
+            }*/
         }
         else
         {
             // エネミーのアニメーションをRunに切り替える
-            enemySaikoro.SetRun();
+            /*enemySaikoro.SetRun();
             if (EnemyCopyOn)
             {
                 enemyCopySaikoro.SetRun();
-            }
+            }*/
 
             StartCoroutine(enemySaikoro.EnemyTurn());
 
@@ -105,7 +150,6 @@ public class GameManager : MonoBehaviour
             }
         }
     }
-
     public void MpPlus()
     {
         mapPiece++;
@@ -130,52 +174,5 @@ public class GameManager : MonoBehaviour
     public bool IsPlayerTurn()
     {
         return isPlayerTurn;
-    }
-
-    private void ChangeEnemyModel()
-    {
-        if (currentEnemyModel != null && newEnemyPrefab != null)
-        {
-            // 現在のエネミーの位置と回転を保存
-            Vector3 currentEnemyPosition = currentEnemyModel.transform.position;
-            Quaternion currentEnemyRotation = currentEnemyModel.transform.rotation;
-
-            // 新しいエネミーモデルのインスタンスを生成し、現在のエネミーの位置に配置
-            GameObject newEnemyModel = Instantiate(newEnemyPrefab, currentEnemyPosition, currentEnemyRotation);
-
-            // 新しいエネミーモデルを現在のエネミーモデルとして設定
-            currentEnemyModel = newEnemyModel;
-
-            Debug.Log("New enemy model has been summoned at the current enemy's location.");
-        }
-        else
-        {
-            Debug.LogError("Enemy models are not assigned!");
-        }
-    }
-
-    private void CopyEnemySpecifications(GameObject oldEnemy, GameObject newEnemy)
-    {
-        // ここで必要なコンポーネントや設定をコピーします
-        // 例として、RigidbodyとColliderをコピーする場合
-        Rigidbody oldRigidbody = oldEnemy.GetComponent<Rigidbody>();
-        if (oldRigidbody != null)
-        {
-            Rigidbody newRigidbody = newEnemy.AddComponent<Rigidbody>();
-            newRigidbody.mass = oldRigidbody.mass;
-            newRigidbody.linearDamping = oldRigidbody.linearDamping;
-            newRigidbody.angularDamping = oldRigidbody.angularDamping;
-            newRigidbody.useGravity = oldRigidbody.useGravity;
-            newRigidbody.isKinematic = oldRigidbody.isKinematic;
-        }
-
-        Collider oldCollider = oldEnemy.GetComponent<Collider>();
-        if (oldCollider != null)
-        {
-            Collider newCollider = newEnemy.AddComponent<Collider>();
-            newCollider.isTrigger = oldCollider.isTrigger;
-        }
-
-        // 他の必要なコンポーネントや設定も同様にコピーします
     }
 }

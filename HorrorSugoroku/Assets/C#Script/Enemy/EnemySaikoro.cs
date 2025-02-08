@@ -18,8 +18,8 @@ public class EnemySaikoro : MonoBehaviour
     public AudioClip footstepSound; // 足音のAudioClip
     Vector3 goToPos = new Vector3(0, 0, 0);
     private int goToMass = 1;
-    private EnemyController enemyController;
-    private GameManager gameManager; // GameManagerの参照
+    public EnemyController enemyController; // アクセス修飾子をpublicに変更
+    public GameManager gameManager; // アクセス修飾子をpublicに変更
     public EnemyLookAtPlayer enemyLookAtPlayer; // EnemyLookAtPlayerの参照
     public PlayerCloseMirror playerCloseMirror;
     public float mokushi = 3.0f;
@@ -30,8 +30,9 @@ public class EnemySaikoro : MonoBehaviour
     private bool isMoving = false; // エネミーが移動中かどうかを示すフラグ
     public bool canMove = true; // 敵が動けるかどうか
 
-
+    public float footstepVolume = 1.0f;
     private Animator animator;
+
     void Start()
     {
         // 初期化コード
@@ -39,22 +40,11 @@ public class EnemySaikoro : MonoBehaviour
         enemyController = this.GetComponent<EnemyController>();
         gameManager = FindObjectOfType<GameManager>(); // GameManagerの参照を取得
         enemyLookAtPlayer = this.GetComponent<EnemyLookAtPlayer>(); // EnemyLookAtPlayerの参照を取得
-
+      
         if (enemyLookAtPlayer == null)
         {
             Debug.LogError("EnemyLookAtPlayer component is not assigned or found on the enemy object.");
         }
-
-
-        // テキストの初期化
-        //if (discoveryText != null)
-        //{
-        //    discoveryText.text = "未発見"; // 初期状態は未発見
-        //}
-        //else
-        //{
-        //    Debug.LogError("Discovery Text is not assigned in the Inspector.");
-        //}
 
         // AudioSourceの取得
         audioSource = GetComponent<AudioSource>();
@@ -289,7 +279,7 @@ public class EnemySaikoro : MonoBehaviour
                 // 足音が鳴っていない場合、鳴らす
                 if (footstepSound != null && !isFootstepPlaying)
                 {
-                    audioSource.PlayOneShot(footstepSound); // 足音を鳴らす
+                    audioSource.PlayOneShot(footstepSound,footstepVolume); // 足音を鳴らす
                     isFootstepPlaying = true; // 足音再生フラグを立てる
                 }
 
