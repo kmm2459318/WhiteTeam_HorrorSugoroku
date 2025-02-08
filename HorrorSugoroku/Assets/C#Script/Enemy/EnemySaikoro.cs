@@ -30,6 +30,7 @@ public class EnemySaikoro : MonoBehaviour
     private bool isMoving = false; // エネミーが移動中かどうかを示すフラグ
     public bool canMove = true; // 敵が動けるかどうか
 
+    public float footstepVolume = 1.0f;
     private Animator animator;
 
     void Start()
@@ -39,7 +40,7 @@ public class EnemySaikoro : MonoBehaviour
         enemyController = this.GetComponent<EnemyController>();
         gameManager = FindObjectOfType<GameManager>(); // GameManagerの参照を取得
         enemyLookAtPlayer = this.GetComponent<EnemyLookAtPlayer>(); // EnemyLookAtPlayerの参照を取得
-
+      
         if (enemyLookAtPlayer == null)
         {
             Debug.LogError("EnemyLookAtPlayer component is not assigned or found on the enemy object.");
@@ -278,7 +279,7 @@ public class EnemySaikoro : MonoBehaviour
                 // 足音が鳴っていない場合、鳴らす
                 if (footstepSound != null && !isFootstepPlaying)
                 {
-                    audioSource.PlayOneShot(footstepSound); // 足音を鳴らす
+                    audioSource.PlayOneShot(footstepSound,footstepVolume); // 足音を鳴らす
                     isFootstepPlaying = true; // 足音再生フラグを立てる
                 }
 
