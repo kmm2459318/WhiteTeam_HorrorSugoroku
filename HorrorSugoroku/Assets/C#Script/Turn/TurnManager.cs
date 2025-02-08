@@ -21,14 +21,7 @@ public class TurnManager : MonoBehaviour
             PlayerPrefs.SetInt("Turn", currentTurn);
             UpdateTurnText();
 
-            // サイコロを振る
-            playerSaikoro.DiceRoll();
-
-            // フラッシュライトのターン進行処理
-            if (flashlightController != null)
-            {
-                flashlightController.OnTurnAdvanced();
-            }
+            
 
             // 呪いゲージ増加
             //if (curseSlider != null)

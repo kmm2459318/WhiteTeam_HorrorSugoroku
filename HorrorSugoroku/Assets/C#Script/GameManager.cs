@@ -70,6 +70,9 @@ public class GameManager : MonoBehaviour
 
         if (isPlayerTurn)
         {
+            // サイコロを振る
+            playerSaikoro.DiceRoll();
+
             playerTurnCount++; // プレイヤーのターン数をカウント
             Debug.Log("Player Turn Count: " + playerTurnCount); // デバッグログ
 

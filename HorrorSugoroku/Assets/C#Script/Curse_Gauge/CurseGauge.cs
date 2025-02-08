@@ -97,16 +97,18 @@ public class CurseSlider : MonoBehaviour
         // 20の倍数に達した場合にCardCanvasを表示
         if ((int)(dashPoint) >= Count * 20)
         {
-            ShowCardCanvas();
+            StartCoroutine(ShowCardCanvas());
             Count++;
         }
     }
 
-    private void ShowCardCanvas()
+    IEnumerator ShowCardCanvas()
     {
         if (CardCanvas != null)
         {
             CardCanvas.SetActive(true);
+            yield return new WaitForSeconds(1.0f);
+            Time.timeScale = 0; // **ゲームを停止**
         }
     }
 
@@ -120,6 +122,8 @@ public class CurseSlider : MonoBehaviour
         if (CardCanvas != null)
         {
             CardCanvas.SetActive(false);
+
+            Time.timeScale = 1; // **ゲームを再開**
         }
     }
 
@@ -128,6 +132,8 @@ public class CurseSlider : MonoBehaviour
         dashIncreasePerTurn += master_Curse.CurseSheet[1].TurnIncrease;
         Debug.Log("[CurseSlider] TurnIncrease: " + master_Curse.CurseSheet[1].TurnIncrease);
         Debug.Log("[CurseSlider] Dash Increase Per Turn set to: " + dashIncreasePerTurn);
+
+        Time.timeScale = 1; // **ゲームを再開**
     }
 
     public void CursegiveButtonAction()
@@ -138,5 +144,7 @@ public class CurseSlider : MonoBehaviour
         DashGage.value = dashPoint;
 
         Debug.Log("[CursegiveButton] After: DashPoint = " + dashPoint);
+
+        Time.timeScale = 1; // **ゲームを再開**
     }
 }
