@@ -1,4 +1,4 @@
-using SmoothigTransform;
+ï»¿using SmoothigTransform;
 using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
@@ -9,50 +9,53 @@ public class EnemySaikoroNakamura : MonoBehaviour
     [SerializeField] SmoothTransform enemySmooth;
     [SerializeField] SmoothTransform enemyBodySmooth;
     public GameObject player;
-    public GameObject saikoro; // ƒTƒCƒRƒ‚ÌƒQ[ƒ€ƒIƒuƒWƒFƒNƒg
+    public GameObject saikoro; // ã‚µã‚¤ã‚³ãƒ­ã®ã‚²ãƒ¼ãƒ ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
     public GameObject ENorth;
     public GameObject EWest;
     public GameObject EEast;
     public GameObject ESouth;
-    private bool EN = false; // “G‚Ì“Œ¼“ì–k
+    private bool EN = false; // æ•µã®æ±è¥¿å—åŒ—
     private bool EW = false;
     private bool EE = false;
     private bool ES = false;
-    public LayerMask wallLayer; // •Ç‚ÌƒŒƒCƒ„[
+    public LayerMask wallLayer; // å£ã®ãƒ¬ã‚¤ãƒ¤ãƒ¼
     public Sprite s1;
     public Sprite s2;
     public Sprite s3;
     public Sprite s4;
     public Sprite s5;
     public Sprite s6;
-    private int steps; // ƒTƒCƒRƒ‚Ì–Ú‚Ì”
+    private int steps; // ã‚µã‚¤ã‚³ãƒ­ã®ç›®ã®æ•°
     private bool discovery = false;
     private bool dis = false;
     Image image;
-    //public Text discoveryText; // V‚µ‚¢Text•Ï”‚ğ’Ç‰Á
-    public AudioClip discoveryBGM; // ”­Œ©‚ÌBGM
-    public AudioClip undetectedBGM; // –¢”­Œ©‚ÌBGM
-    private AudioSource audioSource; // ‰¹ºÄ¶—p‚ÌAudioSource
-    public AudioClip footstepSound; // ‘«‰¹‚ÌAudioClip
+    //public Text discoveryText; // æ–°ã—ã„Textå¤‰æ•°ã‚’è¿½åŠ 
+    public AudioClip discoveryBGM; // ç™ºè¦‹æ™‚ã®BGM
+    public AudioClip undetectedBGM; // æœªç™ºè¦‹æ™‚ã®BGM
+    private AudioSource audioSource; // éŸ³å£°å†ç”Ÿç”¨ã®AudioSource
+    public AudioClip footstepSound; // è¶³éŸ³ã®AudioClip
     Vector3 goToPos = new Vector3(0, 0, 0);
     private int goToMass = 1;
-    private EnemyController enemyController;
-    private GameManager gameManager; // GameManager‚ÌQÆ
-    private EnemyLookAtPlayer enemyLookAtPlayer; // EnemyLookAtPlayer‚ÌQÆ
+    public EnemyController enemyController;
+    public GameManager gameManager; // GameManagerã®å‚ç…§
+    public EnemyLookAtPlayer enemyLookAtPlayer; // EnemyLookAtPlayerã®å‚ç…§
     public PlayerCloseMirror playerCloseMirror;
     public float mokushi = 3.0f;
     public int idoukagen = 1;
     public bool skill1 = false;
     public bool skill2 = false;
-    private bool isTrapped = false; // ƒgƒ‰ƒoƒTƒ~‚É‚©‚©‚Á‚Ä‚¢‚é‚©‚Ç‚¤‚©‚ğ¦‚·ƒtƒ‰ƒO
-    private bool isMoving = false; // ƒGƒlƒ~[‚ªˆÚ“®’†‚©‚Ç‚¤‚©‚ğ¦‚·ƒtƒ‰ƒO
+    public bool isTrapped = false; // ãƒˆãƒ©ãƒã‚µãƒŸã«ã‹ã‹ã£ã¦ã„ã‚‹ã‹ã©ã†ã‹ã‚’ç¤ºã™ãƒ•ãƒ©ã‚°
+    private bool isMoving = false; // ã‚¨ãƒãƒŸãƒ¼ãŒç§»å‹•ä¸­ã‹ã©ã†ã‹ã‚’ç¤ºã™ãƒ•ãƒ©ã‚°
 
+    public float footstepVolume = 1.0f;
+    public Animator animator;
     void Start()
     {
-        // ‰Šú‰»ƒR[ƒh
+        // åˆæœŸåŒ–ã‚³ãƒ¼ãƒ‰
+        animator = GetComponent<Animator>();
         enemyController = this.GetComponent<EnemyController>();
-        gameManager = FindObjectOfType<GameManager>(); // GameManager‚ÌQÆ‚ğæ“¾
-        enemyLookAtPlayer = this.GetComponent<EnemyLookAtPlayer>(); // EnemyLookAtPlayer‚ÌQÆ‚ğæ“¾
+        gameManager = FindObjectOfType<GameManager>(); // GameManagerã®å‚ç…§ã‚’å–å¾—
+        enemyLookAtPlayer = this.GetComponent<EnemyLookAtPlayer>(); // EnemyLookAtPlayerã®å‚ç…§ã‚’å–å¾—
 
         if (enemyLookAtPlayer == null)
         {
@@ -68,24 +71,24 @@ public class EnemySaikoroNakamura : MonoBehaviour
             Debug.LogError("Saikoro GameObject is not assigned in the Inspector.");
         }
 
-        // ƒTƒCƒRƒ‚ÌImage‚ğ•Û
+        // ã‚µã‚¤ã‚³ãƒ­ã®Imageã‚’ä¿æŒ
         image = saikoro.GetComponent<Image>();
 
-        // ƒeƒLƒXƒg‚Ì‰Šú‰»
+        // ãƒ†ã‚­ã‚¹ãƒˆã®åˆæœŸåŒ–
         //if (discoveryText != null)
         //{
-        //    discoveryText.text = "–¢”­Œ©"; // ‰Šúó‘Ô‚Í–¢”­Œ©
+        //    discoveryText.text = "æœªç™ºè¦‹"; // åˆæœŸçŠ¶æ…‹ã¯æœªç™ºè¦‹
         //}
         //else
         //{
         //    Debug.LogError("Discovery Text is not assigned in the Inspector.");
         //}
 
-        // AudioSource‚Ìæ“¾
+        // AudioSourceã®å–å¾—
         audioSource = GetComponent<AudioSource>();
         if (audioSource == null)
         {
-            audioSource = gameObject.AddComponent<AudioSource>(); // AudioSource‚ª‚È‚¯‚ê‚Î’Ç‰Á
+            audioSource = gameObject.AddComponent<AudioSource>(); // AudioSourceãŒãªã‘ã‚Œã°è¿½åŠ 
         }
     }
     void Update()
@@ -97,10 +100,15 @@ public class EnemySaikoroNakamura : MonoBehaviour
 
         if (gameManager.IsPlayerTurn())
         {
+            // ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã®ã‚¿ãƒ¼ãƒ³ä¸­ã¯ã‚¨ãƒãƒŸãƒ¼ã‚’IdleçŠ¶æ…‹ã«ä¿ã¤
+            if (animator != null)
+            {
+                animator.SetBool("isRunning", false);
+            }
             return;
         }
 
-        // ƒTƒCƒRƒ‚Ì–Ú‚É‰‚¶‚ÄƒXƒvƒ‰ƒCƒg‚ğ•ÏX
+        // ã‚µã‚¤ã‚³ãƒ­ã®ç›®ã«å¿œã˜ã¦ã‚¹ãƒ—ãƒ©ã‚¤ãƒˆã‚’å¤‰æ›´
         switch (steps)
         {
             case 1:
@@ -117,52 +125,52 @@ public class EnemySaikoroNakamura : MonoBehaviour
                 image.sprite = s6; break;
         }
 
-        // ƒvƒŒƒCƒ„[‚ª”­Œ©‚³‚ê‚½‚©‚ğƒ`ƒFƒbƒN
+        // ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ãŒç™ºè¦‹ã•ã‚ŒãŸã‹ã‚’ãƒã‚§ãƒƒã‚¯
         if (Vector3.Distance(this.transform.position, player.transform.position) < mokushi)
         {
             //if (discoveryText != null)
             //{
-            //    Debug.Log("”­Œ©I");
-            //    discoveryText.text = "”­Œ©I"; // ƒvƒŒƒCƒ„[‚ª‹ß‚¢ê‡Au”­Œ©Iv‚ğ•\¦
+            //    Debug.Log("ç™ºè¦‹ï¼");
+            //    discoveryText.text = "ç™ºè¦‹ï¼"; // ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ãŒè¿‘ã„å ´åˆã€ã€Œç™ºè¦‹ï¼ã€ã‚’è¡¨ç¤º
             //}
 
-            // ”­Œ©‚ÌBGM‚ğ—¬‚·
+            // ç™ºè¦‹æ™‚ã®BGMã‚’æµã™
             if (discoveryBGM != null && audioSource.clip != discoveryBGM)
             {
-                audioSource.Stop(); // Œ»İ‚ÌBGM‚ğ’â~
+                audioSource.Stop(); // ç¾åœ¨ã®BGMã‚’åœæ­¢
                 audioSource.clip = discoveryBGM;
-                audioSource.Play(); // ”­Œ©‚ÌBGM‚ğÄ¶
+                audioSource.Play(); // ç™ºè¦‹æ™‚ã®BGMã‚’å†ç”Ÿ
             }
             discovery = true;
-            enemyLookAtPlayer.SetDiscovery(true); // ƒGƒlƒ~[‚Ì‘Ì‚ğƒvƒŒƒCƒ„[‚Ì•ûŒü‚ÉŒü‚¯‚é
+            enemyLookAtPlayer.SetDiscovery(true); // ã‚¨ãƒãƒŸãƒ¼ã®ä½“ã‚’ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã®æ–¹å‘ã«å‘ã‘ã‚‹
 
-            //Debug.Log("”­Œ©I");
+            //Debug.Log("ç™ºè¦‹ï¼");
         }
         else
         {
             //if (discoveryText != null)
             //{
-            //    discoveryText.text = "–¢”­Œ©"; // ƒvƒŒƒCƒ„[‚ª‰“‚¢ê‡Au–¢”­Œ©v‚ğ•\¦
+            //    discoveryText.text = "æœªç™ºè¦‹"; // ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ãŒé ã„å ´åˆã€ã€Œæœªç™ºè¦‹ã€ã‚’è¡¨ç¤º
             //}
 
-            // –¢”­Œ©‚ÌBGM‚ğ—¬‚·
+            // æœªç™ºè¦‹æ™‚ã®BGMã‚’æµã™
             if (undetectedBGM != null && audioSource.clip != undetectedBGM)
             {
-                audioSource.Stop(); // Œ»İ‚ÌBGM‚ğ’â~
+                audioSource.Stop(); // ç¾åœ¨ã®BGMã‚’åœæ­¢
                 audioSource.clip = undetectedBGM;
-                audioSource.Play(); // –¢”­Œ©‚ÌBGM‚ğÄ¶
+                audioSource.Play(); // æœªç™ºè¦‹æ™‚ã®BGMã‚’å†ç”Ÿ
             }
             discovery = false;
             dis = false;
-            enemyLookAtPlayer.SetDiscovery(false); // ƒGƒlƒ~[‚Ì‘Ì‚ğƒvƒŒƒCƒ„[‚Ì•ûŒü‚ÉŒü‚¯‚È‚¢
+            enemyLookAtPlayer.SetDiscovery(false); // ã‚¨ãƒãƒŸãƒ¼ã®ä½“ã‚’ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã®æ–¹å‘ã«å‘ã‘ãªã„
 
-            //Debug.Log("–¢”­Œ©");
+            //Debug.Log("æœªç™ºè¦‹");
         }
 
         if (((goToPos.x + 0.1f > this.transform.position.x && goToPos.x - 0.1f < this.transform.position.x) &&
             (goToPos.z + 0.1f > this.transform.position.z && goToPos.z - 0.1f < this.transform.position.z)) || (discovery && !dis))
         {
-            Debug.Log("sæ•ÏX");
+            Debug.Log("è¡Œå…ˆå¤‰æ›´");
             dis = true;
             GoToMassChange(goToMass);
         }
@@ -200,12 +208,12 @@ public class EnemySaikoroNakamura : MonoBehaviour
         bool mirror = false;
         if (5 == Random.Range(1, 6) && skill1)
         {
-            Debug.Log("[[[[[[‚‘¬ˆÚ“®”­“®[[[[[[");
+            Debug.Log("ãƒ¼ãƒ¼ãƒ¼ãƒ¼ãƒ¼ãƒ¼é«˜é€Ÿç§»å‹•ç™ºå‹•ãƒ¼ãƒ¼ãƒ¼ãƒ¼ãƒ¼ãƒ¼");
             speedidou = true;
         }
         else if (5 == Random.Range(1, 6) && skill2)
         {
-            Debug.Log("[[[[[[[‹¾ˆÚ“®”­“®[[[[[[[");
+            Debug.Log("ãƒ¼ãƒ¼ãƒ¼ãƒ¼ãƒ¼ãƒ¼ãƒ¼é¡ç§»å‹•ç™ºå‹•ãƒ¼ãƒ¼ãƒ¼ãƒ¼ãƒ¼ãƒ¼ãƒ¼");
             mirror = true;
             enemySmooth.PosFact = 0f;
         }
@@ -213,10 +221,10 @@ public class EnemySaikoroNakamura : MonoBehaviour
         if (!mirror)
         {
             saikoro.SetActive(true);
-            for (int i = 0; i < 10; i++) // 10‰ñƒ‰ƒ“ƒ_ƒ€‚É–Ú‚ğ•\¦
+            for (int i = 0; i < 10; i++) // 10å›ãƒ©ãƒ³ãƒ€ãƒ ã«ç›®ã‚’è¡¨ç¤º
             {
                 steps = Random.Range(idoukagen, 7);
-                yield return new WaitForSeconds(0.1f); // 0.1•b‚²‚Æ‚É–Ú‚ğ•ÏX
+                yield return new WaitForSeconds(0.1f); // 0.1ç§’ã”ã¨ã«ç›®ã‚’å¤‰æ›´
             }
 
             if (steps <= 3)
@@ -235,8 +243,8 @@ public class EnemySaikoroNakamura : MonoBehaviour
 
     private IEnumerator MoveTowardsPlayer(bool s1, bool s2)
     {
-        isMoving = true; // ˆÚ“®ŠJn
-        enemyLookAtPlayer.SetIsMoving(true); // ƒGƒlƒ~[‚ÌˆÚ“®ó‘Ô‚ğİ’è
+        isMoving = true; // ç§»å‹•é–‹å§‹
+        enemyLookAtPlayer.SetIsMoving(true); // ã‚¨ãƒãƒŸãƒ¼ã®ç§»å‹•çŠ¶æ…‹ã‚’è¨­å®š
         int initialSteps = steps;
         AudioClip currentBGM = audioSource.clip;
         bool isFootstepPlaying = false;
@@ -250,17 +258,17 @@ public class EnemySaikoroNakamura : MonoBehaviour
             audioSource.Pause();
         }
 
-        enemyController.SetMovement(true); // ƒGƒlƒ~[‚ª“®‚«n‚ß‚½‚çisMoving‚ğtrue‚Éİ’è
+        enemyController.SetMovement(true); // ã‚¨ãƒãƒŸãƒ¼ãŒå‹•ãå§‹ã‚ãŸã‚‰isMovingã‚’trueã«è¨­å®š
 
         if (!s2)
         {
             while (steps > 0)
             {
-                // ƒgƒ‰ƒoƒTƒ~‚É‚©‚©‚Á‚Ä‚¢‚éê‡‚ÍˆÚ“®‚µ‚È‚¢
+                // ãƒˆãƒ©ãƒã‚µãƒŸã«ã‹ã‹ã£ã¦ã„ã‚‹å ´åˆã¯ç§»å‹•ã—ãªã„
                 if (isTrapped)
                 {
                     Debug.Log("Enemy is trapped and cannot move.");
-                    yield return new WaitForSeconds(0.5f); // 0.5•b‘Ò‚Â‚¾‚¯
+                    yield return new WaitForSeconds(0.5f); // 0.5ç§’å¾…ã¤ã ã‘
                     steps = 0;
                     break;
                 }
@@ -269,7 +277,7 @@ public class EnemySaikoroNakamura : MonoBehaviour
                 if (discovery)
                 {
                     direction = (player.transform.position - this.transform.position).normalized;
-                    direction = GetValidDirection(direction); // •Ç‚ğ”ğ‚¯‚é•ûŒü‚ğŒvZ
+                    direction = GetValidDirection(direction); // å£ã‚’é¿ã‘ã‚‹æ–¹å‘ã‚’è¨ˆç®—
                 }
                 else
                 {
@@ -298,7 +306,7 @@ public class EnemySaikoroNakamura : MonoBehaviour
                     yield return new WaitForSeconds(0.5f);
                 }
 
-                enemySmooth.TargetPosition += direction * 1.0f; // 2.0f’PˆÊ‚ÅˆÚ“®
+                enemySmooth.TargetPosition += direction * 1.0f; // 2.0få˜ä½ã§ç§»å‹•
 
                 if (s1)
                 {
@@ -317,40 +325,41 @@ public class EnemySaikoroNakamura : MonoBehaviour
                     steps--;
                 }
 
-                // ‘«‰¹‚ª–Â‚Á‚Ä‚¢‚È‚¢ê‡A–Â‚ç‚·
+                // è¶³éŸ³ãŒé³´ã£ã¦ã„ãªã„å ´åˆã€é³´ã‚‰ã™
                 if (footstepSound != null && !isFootstepPlaying)
                 {
-                    audioSource.PlayOneShot(footstepSound); // ‘«‰¹‚ğ–Â‚ç‚·
-                    isFootstepPlaying = true; // ‘«‰¹Ä¶ƒtƒ‰ƒO‚ğ—§‚Ä‚é
+                    audioSource.PlayOneShot(footstepSound, footstepVolume); // è¶³éŸ³ã‚’é³´ã‚‰ã™
+                    isFootstepPlaying = true; // è¶³éŸ³å†ç”Ÿãƒ•ãƒ©ã‚°ã‚’ç«‹ã¦ã‚‹
                 }
 
-                // ƒGƒlƒ~[‚ÌˆÚ“®•ûŒü‚ğİ’è
+                // ã‚¨ãƒãƒŸãƒ¼ã®ç§»å‹•æ–¹å‘ã‚’è¨­å®š
                 enemyLookAtPlayer.SetMoveDirection(direction);
 
                 Debug.Log("Enemy moved towards player. Steps remaining: " + steps);
 
-                // ƒvƒŒƒCƒ„[‚ª”­Œ©‚³‚ê‚½‚©‚ğƒ`ƒFƒbƒN
+                // ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ãŒç™ºè¦‹ã•ã‚ŒãŸã‹ã‚’ãƒã‚§ãƒƒã‚¯
                 if (Vector3.Distance(this.transform.position, player.transform.position) < mokushi)
                 {
                     //if (discoveryText != null)
                     //{
-                    //    discoveryText.text = "”­Œ©I"; // ƒvƒŒƒCƒ„[‚ª‹ß‚¯‚ê‚Îu”­Œ©Iv‚Æ•\¦
+                    //    discoveryText.text = "ç™ºè¦‹ï¼"; // ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ãŒè¿‘ã‘ã‚Œã°ã€Œç™ºè¦‹ï¼ã€ã¨è¡¨ç¤º
                     //}
-                    if (discoveryBGM != null && !audioSource.isPlaying) // ”­Œ©‚ÌBGM‚ğ—¬‚·
+                    if (discoveryBGM != null && !audioSource.isPlaying) // ç™ºè¦‹æ™‚ã®BGMã‚’æµã™
                     {
                         audioSource.clip = discoveryBGM;
                         audioSource.Play();
                     }
                     discovery = true;
-                    Debug.Log("”­Œ©I");
+                    Debug.Log("ç™ºè¦‹ï¼");
                 }
                 lastDire = direction;
 
                 if (enemySmooth.PosFact == 0.2f)
                 {
-                    yield return new WaitForSeconds(0.4f); // ˆÚ“®‚ÌŠÔŠu‚ğ‘Ò‚Â
+                    yield return new WaitForSeconds(0.4f); // ç§»å‹•ã®é–“éš”ã‚’å¾…ã¤
                 }
-                else {
+                else
+                {
                     yield return new WaitForSeconds(1.0f);
                 }
             }
@@ -358,7 +367,7 @@ public class EnemySaikoroNakamura : MonoBehaviour
         }
         else
         {
-            Debug.Log("ƒ~ƒ‰[ƒ[[[[[[[[[[[[[ƒvIIII");
+            Debug.Log("ãƒŸãƒ©ãƒ¼ãƒ¯ãƒ¼ãƒ¼ãƒ¼ãƒ¼ãƒ¼ãƒ¼ãƒ¼ãƒ¼ãƒ¼ãƒ¼ãƒ¼ãƒ¼ãƒ¼ãƒ—ï¼ï¼ï¼ï¼");
 
             mirror = playerCloseMirror.FindClosestMirror();
             enemySmooth.TargetPosition.x = mirror.transform.position.x * 1.0f;
@@ -366,22 +375,22 @@ public class EnemySaikoroNakamura : MonoBehaviour
             Debug.Log(mirror.transform.position);
         }
 
-        enemyController.SetMovement(false); // ƒGƒlƒ~[‚ÌˆÚ“®‚ªI—¹‚µ‚½‚çisMoving‚ğfalse‚Éİ’è
+        enemyController.SetMovement(false); // ã‚¨ãƒãƒŸãƒ¼ã®ç§»å‹•ãŒçµ‚äº†ã—ãŸã‚‰isMovingã‚’falseã«è¨­å®š
 
-        // ˆÚ“®‚ªI—¹‚µ‚½‚çAÄ“xBGM‚ğÄŠJ
+        // ç§»å‹•ãŒçµ‚äº†ã—ãŸã‚‰ã€å†åº¦BGMã‚’å†é–‹
         if (currentBGM != null && !audioSource.isPlaying)
         {
             audioSource.clip = currentBGM;
-            audioSource.Play(); // BGM‚ğÄŠJ
+            audioSource.Play(); // BGMã‚’å†é–‹
         }
 
-        saikoro.SetActive(false); // ƒTƒCƒRƒ‚ğ”ñ•\¦‚É‚·‚é
+        saikoro.SetActive(false); // ã‚µã‚¤ã‚³ãƒ­ã‚’éè¡¨ç¤ºã«ã™ã‚‹
 
         Debug.Log("Enemy moved a total of " + initialSteps + " steps.");
 
         if (!gameManager.EnemyCopyOn)
         {
-            FindObjectOfType<GameManager>().NextTurn(); // Ÿ‚Ìƒ^[ƒ“‚Éi‚Ş
+            FindObjectOfType<GameManager>().NextTurn(); // æ¬¡ã®ã‚¿ãƒ¼ãƒ³ã«é€²ã‚€
         }
         else
         {
@@ -393,10 +402,10 @@ public class EnemySaikoroNakamura : MonoBehaviour
     {
         Vector3[] directions = new Vector3[]
         {
-        new Vector3(2.0f, 0, 0),   // “Œ
-        new Vector3(-2.0f, 0, 0),  // ¼
-        new Vector3(0, 0, 2.0f),   // –k
-        new Vector3(0, 0, -2.0f)   // “ì
+        new Vector3(2.0f, 0, 0),   // æ±
+        new Vector3(-2.0f, 0, 0),  // è¥¿
+        new Vector3(0, 0, 2.0f),   // åŒ—
+        new Vector3(0, 0, -2.0f)   // å—
         };
 
         Vector3 bestDirection = Vector3.zero;
@@ -428,7 +437,7 @@ public class EnemySaikoroNakamura : MonoBehaviour
             }
         }
 
-        return bestDirection != Vector3.zero ? bestDirection : targetDirection; // —LŒø‚È•ûŒü‚ª‚ ‚ê‚Î‚»‚ê‚ğ•Ô‚·
+        return bestDirection != Vector3.zero ? bestDirection : targetDirection; // æœ‰åŠ¹ãªæ–¹å‘ãŒã‚ã‚Œã°ãã‚Œã‚’è¿”ã™
     }
 
     public IEnumerator EnemyTurn()
@@ -441,16 +450,16 @@ public class EnemySaikoroNakamura : MonoBehaviour
         Ray ray = new Ray(this.transform.position, this.transform.forward);
         RaycastHit hit;
 
-        // ƒZƒ“ƒT[‹@”\: Ray‚ª‰½‚©‚É“–‚½‚Á‚½ê‡‚ÉƒƒOo—Í
-        if (Physics.Raycast(ray, out hit, 3f)) // 3m‚Ì”ÍˆÍ
+        // ã‚»ãƒ³ã‚µãƒ¼æ©Ÿèƒ½: RayãŒä½•ã‹ã«å½“ãŸã£ãŸå ´åˆã«ãƒ­ã‚°å‡ºåŠ›
+        if (Physics.Raycast(ray, out hit, 3f)) // 3mã®ç¯„å›²
         {
-            //Debug.Log("”­Œ©");
+            //Debug.Log("ç™ºè¦‹");
         }
     }
 
     void OnDrawGizmosSelected()
     {
-        // ƒZƒ“ƒT[‚Ì”ÍˆÍ‚ğÔ‚¢ü‚Å•\¦
+        // ã‚»ãƒ³ã‚µãƒ¼ã®ç¯„å›²ã‚’èµ¤ã„ç·šã§è¡¨ç¤º
         Gizmos.color = Color.red;
         Vector3 direction = this.transform.position + this.transform.forward * 3f;
         Gizmos.DrawLine(this.transform.position, direction);
@@ -458,11 +467,25 @@ public class EnemySaikoroNakamura : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        //Debug.Log("“G‚ªƒgƒ‰‚Î‚³‚İ‚Éˆø‚ÁŠ|‚©‚Á‚½II");
+        //Debug.Log("æ•µãŒãƒˆãƒ©ã°ã•ã¿ã«å¼•ã£æ›ã‹ã£ãŸï¼ï¼");
         if (other.tag == ("Beartrap"))
         {
             isTrapped = true;
-            Debug.Log("“G‚ªƒgƒ‰‚Î‚³‚İ‚Éˆø‚ÁŠ|‚©‚Á‚½II");
+            Debug.Log("æ•µãŒãƒˆãƒ©ã°ã•ã¿ã«å¼•ã£æ›ã‹ã£ãŸï¼ï¼");
+        }
+    }
+    public void SetIdle()
+    {
+        if (animator != null)
+        {
+            animator.SetBool("isRunning", false);
+        }
+    }
+    public void SetRun()
+    {
+        if (animator != null)
+        {
+            animator.SetBool("isRunning", true);
         }
     }
 }
