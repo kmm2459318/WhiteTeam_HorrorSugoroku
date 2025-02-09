@@ -13,7 +13,7 @@ public class GameManager : MonoBehaviour
     public int mapPiece = 0;
 
     public PlayerSaikoro playerSaikoro;
-    public EnemySaikoroNakamura enemySaikoro;
+    public EnemySaikoro enemySaikoro;
     public EnemySaikoro enemyCopySaikoro;
 
     public GameObject currentEnemyModel; // 現在のエネミーモデル
@@ -94,7 +94,6 @@ public class GameManager : MonoBehaviour
                 enemySaikoro.skill1 = currentEnemyModel.GetComponent<EnemySaikoro>().skill1;
                 enemySaikoro.skill2 = currentEnemyModel.GetComponent<EnemySaikoro>().skill2;
                 enemySaikoro.isTrapped = currentEnemyModel.GetComponent<EnemySaikoro>().isTrapped;
-                enemySaikoro.canMove = currentEnemyModel.GetComponent<EnemySaikoro>().canMove;
             }
 
             if (EnemyCopyOn)

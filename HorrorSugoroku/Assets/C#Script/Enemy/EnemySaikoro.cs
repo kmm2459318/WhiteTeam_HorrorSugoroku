@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using SmoothigTransform;
+using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
 using SmoothigTransform;
@@ -6,10 +7,20 @@ using SmoothigTransform;
 public class EnemySaikoro : MonoBehaviour
 {
     [SerializeField] SmoothTransform enemySmooth;
+    [SerializeField] SmoothTransform enemyBodySmooth;
     public GameObject player;
+    public GameObject ENorth;
+    public GameObject EWest;
+    public GameObject EEast;
+    public GameObject ESouth;
+    private bool EN = false; // 敵の東西南北
+    private bool EW = false;
+    private bool EE = false;
+    private bool ES = false;
     public LayerMask wallLayer; // 壁のレイヤー
     private int steps; // サイコロの目の数
     private bool discovery = false;
+    private bool dis = false;
     Image image;
     //public Text discoveryText; // 新しいText変数を追加
     public AudioClip discoveryBGM; // 発見時のBGM
@@ -18,21 +29,19 @@ public class EnemySaikoro : MonoBehaviour
     public AudioClip footstepSound; // 足音のAudioClip
     Vector3 goToPos = new Vector3(0, 0, 0);
     private int goToMass = 1;
-    public EnemyController enemyController; // アクセス修飾子をpublicに変更
-    public GameManager gameManager; // アクセス修飾子をpublicに変更
+    public EnemyController enemyController;
+    public GameManager gameManager; // GameManagerの参照
     public EnemyLookAtPlayer enemyLookAtPlayer; // EnemyLookAtPlayerの参照
     public PlayerCloseMirror playerCloseMirror;
     public float mokushi = 3.0f;
     public int idoukagen = 1;
     public bool skill1 = false;
     public bool skill2 = false;
-    public bool isTrapped = false; // トラバサミにかかっているかどうかを示す
+    public bool isTrapped = false; // トラバサミにかかっているかどうかを示すフラグ
     private bool isMoving = false; // エネミーが移動中かどうかを示すフラグ
-    public bool canMove = true; // 敵が動けるかどうか
 
     public float footstepVolume = 1.0f;
-    private Animator animator;
-
+    public Animator animator;
     void Start()
     {
         // 初期化コード
@@ -40,11 +49,22 @@ public class EnemySaikoro : MonoBehaviour
         enemyController = this.GetComponent<EnemyController>();
         gameManager = FindObjectOfType<GameManager>(); // GameManagerの参照を取得
         enemyLookAtPlayer = this.GetComponent<EnemyLookAtPlayer>(); // EnemyLookAtPlayerの参照を取得
-      
+
         if (enemyLookAtPlayer == null)
         {
             Debug.LogError("EnemyLookAtPlayer component is not assigned or found on the enemy object.");
         }
+
+        
+        // テキストの初期化
+        //if (discoveryText != null)
+        //{
+        //    discoveryText.text = "未発見"; // 初期状態は未発見
+        //}
+        //else
+        //{
+        //    Debug.LogError("Discovery Text is not assigned in the Inspector.");
+        //}
 
         // AudioSourceの取得
         audioSource = GetComponent<AudioSource>();
@@ -55,6 +75,11 @@ public class EnemySaikoro : MonoBehaviour
     }
     void Update()
     {
+        EN = ENorth.GetComponent<PlayerNSEWCheck>().masuCheck;
+        EW = EWest.GetComponent<PlayerNSEWCheck>().masuCheck;
+        EE = EEast.GetComponent<PlayerNSEWCheck>().masuCheck;
+        ES = ESouth.GetComponent<PlayerNSEWCheck>().masuCheck;
+
         if (gameManager.IsPlayerTurn())
         {
             // プレイヤーのターン中はエネミーをIdle状態に保つ
@@ -65,6 +90,7 @@ public class EnemySaikoro : MonoBehaviour
             return;
         }
 
+        
         // プレイヤーが発見されたかをチェック
         if (Vector3.Distance(this.transform.position, player.transform.position) < mokushi)
         {
@@ -101,33 +127,19 @@ public class EnemySaikoro : MonoBehaviour
                 audioSource.Play(); // 未発見時のBGMを再生
             }
             discovery = false;
+            dis = false;
             enemyLookAtPlayer.SetDiscovery(false); // エネミーの体をプレイヤーの方向に向けない
 
             //Debug.Log("未発見");
         }
 
         if (((goToPos.x + 0.1f > this.transform.position.x && goToPos.x - 0.1f < this.transform.position.x) &&
-            (goToPos.z + 0.1f > this.transform.position.z && goToPos.z - 0.1f < this.transform.position.z)) || discovery)
+            (goToPos.z + 0.1f > this.transform.position.z && goToPos.z - 0.1f < this.transform.position.z)) || (discovery && !dis))
         {
+            Debug.Log("行先変更");
+            dis = true;
             GoToMassChange(goToMass);
         }
-        // トラバサミにかかっている場合は動けない
-        if (isTrapped)
-        {
-            canMove = false;
-        }
-    }
-    // トラバサミにかかったときの処理（OnTriggerEnterで呼び出される）
-    public void SetTrapped()
-    {
-        isTrapped = true;
-        canMove = false;
-    }
-
-    public void ResetTrap()
-    {
-        isTrapped = false;
-        canMove = true;
     }
 
     void GoToMassChange(int m)
@@ -135,21 +147,23 @@ public class EnemySaikoro : MonoBehaviour
         int a;
         do
         {
-            a = Random.Range(1, 6);
-        } while (a == m);
-        goToMass = a;
+            a = Random.Range(1, 5);
+        } while (a == m || (a == 1 && !EE) || (a == 2 && !EN) || (a == 3 && !EW) || (a == 4 && !ES));
+
         switch (a)
         {
             case 1:
-                goToPos = new Vector3(0, 0, 0); break;
+                goToPos += new Vector3(10f, 0, 0);
+                goToMass = 3; break;
             case 2:
-                goToPos = new Vector3(0, 0, 20f); break;
+                goToPos += new Vector3(0, 0, 10f);
+                goToMass = 4; break;
             case 3:
-                goToPos = new Vector3(20f, 0, 20f); break;
+                goToPos += new Vector3(-10f, 0, 0);
+                goToMass = 1; break;
             case 4:
-                goToPos = new Vector3(20f, 0, 0); break;
-            case 5:
-                goToPos = new Vector3(10f, 0, 10f); break;
+                goToPos += new Vector3(0, 0, -10f);
+                goToMass = 2; break;
         }
         Debug.Log(goToPos);
     }
@@ -240,19 +254,19 @@ public class EnemySaikoro : MonoBehaviour
                 {
                     if (direction == new Vector3(0, 0, 2.0f))
                     {
-                        enemySmooth.TargetRotation = Quaternion.Euler(0, 90, 0);
+                        enemyBodySmooth.TargetRotation = Quaternion.Euler(-90, 90, 0);
                     }
                     else if (direction == new Vector3(0, 0, -2.0f))
                     {
-                        enemySmooth.TargetRotation = Quaternion.Euler(0, -90, 0);
+                        enemyBodySmooth.TargetRotation = Quaternion.Euler(-90, -90, 0);
                     }
                     else if (direction == new Vector3(2.0f, 0, 0))
                     {
-                        enemySmooth.TargetRotation = Quaternion.Euler(0, 180, 0);
+                        enemyBodySmooth.TargetRotation = Quaternion.Euler(-90, 180, 0);
                     }
                     else if (direction == new Vector3(-2.0f, 0, 0))
                     {
-                        enemySmooth.TargetRotation = Quaternion.Euler(0, 0, 0);
+                        enemyBodySmooth.TargetRotation = Quaternion.Euler(-90, 0, 0);
                     }
                     yield return new WaitForSeconds(0.5f);
                 }
@@ -279,7 +293,7 @@ public class EnemySaikoro : MonoBehaviour
                 // 足音が鳴っていない場合、鳴らす
                 if (footstepSound != null && !isFootstepPlaying)
                 {
-                    audioSource.PlayOneShot(footstepSound,footstepVolume); // 足音を鳴らす
+                    audioSource.PlayOneShot(footstepSound, footstepVolume); // 足音を鳴らす
                     isFootstepPlaying = true; // 足音再生フラグを立てる
                 }
 
@@ -304,11 +318,17 @@ public class EnemySaikoro : MonoBehaviour
                     Debug.Log("発見！");
                 }
                 lastDire = direction;
-                yield return new WaitForSeconds(0.5f); // 移動の間隔を待つ
 
+                if (enemySmooth.PosFact == 0.2f)
+                {
+                    yield return new WaitForSeconds(0.4f); // 移動の間隔を待つ
+                }
+                else
+                {
+                    yield return new WaitForSeconds(1.0f);
+                }
             }
             isTrapped = false;
-            canMove = true;
         }
         else
         {
@@ -411,10 +431,10 @@ public class EnemySaikoro : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
+        //Debug.Log("敵がトラばさみに引っ掛かった！！");
         if (other.tag == ("Beartrap"))
         {
             isTrapped = true;
-            canMove = false;
             Debug.Log("敵がトラばさみに引っ掛かった！！");
         }
     }
