@@ -15,8 +15,10 @@ public class PlayerSaikoro : MonoBehaviour
     public bool saikorotyu = false; // サイコロを振っているか
     public bool idoutyu = false;
     private bool magarityu = false;
+    private bool idouspan = false;
     private float saikoroTime = 0; // サイコロの時間の計測
     private float magariTime = 0; // 曲がりの時間の計測
+    private float idouspanTime = 0;
     private int ii = 0; // 繰り返し回数
     private int detame = 0; //出た値（ストッパー）
     private bool PN = false; // プレイヤーの東西南北
@@ -109,7 +111,7 @@ public class PlayerSaikoro : MonoBehaviour
     void Update()
     {
         //if (!gameManager.IsPlayerTurn())
-            //Pos = Player.transform.position;
+        //Pos = Player.transform.position;
         Rot = Camera.transform.eulerAngles;
         PN = PNorth.GetComponent<PlayerNSEWCheck>().masuCheck;
         PW = PWest.GetComponent<PlayerNSEWCheck>().masuCheck;
@@ -137,9 +139,10 @@ public class PlayerSaikoro : MonoBehaviour
                 image.sprite = s6; break;
         }
 
-        if (Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.Space))
-        {
-            if (!saikorotyu && !idoutyu && gameManager.isPlayerTurn)
+
+        if (!saikorotyu && !idoutyu && gameManager.isPlayerTurn)
+        { 
+            if (Input.GetKeyDown(KeyCode.Space))
             {
                 turnManager.NextTurn();
             }
@@ -178,7 +181,8 @@ public class PlayerSaikoro : MonoBehaviour
         if (idoutyu)
         {
            // Debug.Log(Rot.y);
-            if (Input.GetKeyDown(KeyCode.W)) {
+            if (Input.GetKeyDown(KeyCode.W) && !idouspan) {
+                idouspan = true;
                 if (PN && (Rot.y >= 0f && Rot.y < 45f) || (Rot.y >= 315f && Rot.y < 360f))
                 {
                     FrontBack(1);
@@ -200,6 +204,14 @@ public class PlayerSaikoro : MonoBehaviour
                     Debug.Log("South");
                 }
             }
+
+            this.idouspanTime += Time.deltaTime;
+            if (idouspanTime > player.PosFact)
+            {
+                idouspanTime = 0f;
+                idouspan = false;
+            }
+
             if (sai < 1)
             {
                 idoutyu = false;
@@ -358,7 +370,6 @@ public class PlayerSaikoro : MonoBehaviour
             sai--;
         }
     }
-
 
     private IEnumerator RollDice()
     {

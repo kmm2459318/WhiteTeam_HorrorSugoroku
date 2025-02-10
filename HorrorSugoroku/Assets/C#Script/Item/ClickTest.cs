@@ -1,0 +1,26 @@
+using UnityEngine;
+
+public class ClickTest : MonoBehaviour
+{
+    bool n = false;
+
+    void Update()
+    {
+        if (n)
+        {
+            Debug.Log("êGÇÍÇΩÇÊÅI");
+        }
+    }
+
+    private void OnTriggerStay(Collider collision)
+    {
+        if (collision.tag == ("Object"))
+        {
+            Debug.Log("êGÇÍÇƒÇÈÅI");
+            if (Input.GetMouseButtonDown(0))
+            {
+                n = true;
+            }
+        }
+    }
+}
