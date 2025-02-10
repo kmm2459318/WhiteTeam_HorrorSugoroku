@@ -58,6 +58,7 @@ public class PlayerSaikoro : MonoBehaviour
     [System.Obsolete]
     void Start()
     {
+        cameraChange.Change();
         // プレイヤーシーンがロードされる際に、EnemySaikoroを探して参照を保持
         targetScript = FindObjectOfType<EnemySaikoro>();
 
@@ -136,11 +137,10 @@ public class PlayerSaikoro : MonoBehaviour
                 image.sprite = s6; break;
         }
 
-        if (Input.GetKeyDown(KeyCode.E))
+        if (Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.Space))
         {
             if (!saikorotyu && !idoutyu && gameManager.isPlayerTurn)
             {
-                cameraChange.Change();
                 turnManager.NextTurn();
             }
         }
@@ -270,6 +270,7 @@ public class PlayerSaikoro : MonoBehaviour
     public void DiceRoll()
     {
         saikorotyu = true;
+        cameraChange.Change();
     }
 
     public void DiceAfter(int n)
