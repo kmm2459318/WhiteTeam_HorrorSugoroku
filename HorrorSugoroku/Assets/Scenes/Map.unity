@@ -191,8 +191,8 @@ MonoBehaviour:
   enemySaikoro: {fileID: 1492082208}
   enemyCopySaikoro: {fileID: 1492082208}
   currentEnemyModel: {fileID: 1492082207}
-  newEnemyPrefab: {fileID: 0}
   EnemyCopy: {fileID: 240925144}
+  newEnemyModelPrefab: {fileID: 0}
 --- !u!114 &35047689
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2414,9 +2414,9 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 838142696}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 382, y: -134}
+  m_AnchorMin: {x: 1, y: 0}
+  m_AnchorMax: {x: 1, y: 0}
+  m_AnchoredPosition: {x: -100, y: 120}
   m_SizeDelta: {x: 200, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &406813752
@@ -2969,6 +2969,8 @@ MonoBehaviour:
   - {fileID: -2133054301, guid: 6443d0e9ca5385a44a6ae25b86e96a25, type: 3}
   - {fileID: 1558620994, guid: c5cd025ddb4a1734e9699085ebc4a31b, type: 3}
   - {fileID: -284539505, guid: 8c8926c108d1a9644beaaf2967d9b8e7, type: 3}
+  currentEnemyModel: {fileID: 1492082207}
+  newEnemyModel: {fileID: 240925144}
 --- !u!1 &463294032
 GameObject:
   m_ObjectHideFlags: 0
@@ -4878,13 +4880,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   enemySmooth: {fileID: 792993948}
+  enemyBodySmooth: {fileID: 0}
   player: {fileID: 1265317264}
+  ENorth: {fileID: 0}
+  EWest: {fileID: 0}
+  EEast: {fileID: 0}
+  ESouth: {fileID: 0}
   wallLayer:
     serializedVersion: 2
     m_Bits: 128
   discoveryBGM: {fileID: 8300000, guid: ea525edcd04e7914a8c09ad451cd6016, type: 3}
   undetectedBGM: {fileID: 8300000, guid: 57d9261537e7dd94ea2cb733b1a312af, type: 3}
   footstepSound: {fileID: 8300000, guid: 0a8c2e93afaf12d4e98b344d6a3e2687, type: 3}
+  enemyController: {fileID: 0}
+  gameManager: {fileID: 0}
   enemyLookAtPlayer: {fileID: 792993949}
   playerCloseMirror: {fileID: 2042766874}
   mokushi: 3
@@ -4892,7 +4901,8 @@ MonoBehaviour:
   skill1: 0
   skill2: 0
   isTrapped: 0
-  canMove: 1
+  footstepVolume: 1
+  animator: {fileID: 0}
 --- !u!1 &795296936
 GameObject:
   m_ObjectHideFlags: 0
@@ -5413,6 +5423,8 @@ MonoBehaviour:
   DebuffTile: {fileID: 1418585864}
   BatteryTile: {fileID: 1242682019}
   DoorTile: {fileID: 7232207041130697160, guid: e7694a3e0cb325d4ea72b29e8c3350e9, type: 3}
+  MapStartPosition: {x: 0, y: 0, z: 0}
+  MapName: Area1
 --- !u!4 &870684452
 Transform:
   m_ObjectHideFlags: 0
@@ -9623,7 +9635,7 @@ MonoBehaviour:
   TEXT: {fileID: 1622380565}
   FadeInTime: 1
   FadeOutTime: 1
-  DisplayTime: 3
+  DisplayTime: 1.5
 --- !u!114 &1699883096
 MonoBehaviour:
   m_ObjectHideFlags: 0
