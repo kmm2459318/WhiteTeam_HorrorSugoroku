@@ -3,7 +3,6 @@ using UnityEngine;
 public class EnemyLookAtPlayer : MonoBehaviour
 {
     public GameObject player; // プレイヤーのゲームオブジェクト
-    public GameObject frontCollider; // エネミーの正面に配置されたBoxColliderオブジェクト
     public LayerMask wallLayer; // 壁のレイヤー
     private bool discovery = false;
     private Vector3 moveDirection;
@@ -28,9 +27,6 @@ public class EnemyLookAtPlayer : MonoBehaviour
             Quaternion lookRotation = Quaternion.LookRotation(new Vector3(directionToPlayer.x, 0, directionToPlayer.z));
             transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, Time.deltaTime * 5f);
 
-            // frontColliderもプレイヤーの方向に向く
-            frontCollider.transform.rotation = Quaternion.Slerp(frontCollider.transform.rotation, lookRotation, Time.deltaTime * 5f);
-
             // プレイヤーに向かって移動する場合のロジックを追加（必要に応じて）
             // moveDirection = directionToPlayer;
         }
@@ -43,11 +39,8 @@ public class EnemyLookAtPlayer : MonoBehaviour
                 transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, Time.deltaTime * 5f);
             }
 
-            // frontColliderも移動方向に向く
-            frontCollider.transform.rotation = Quaternion.Slerp(frontCollider.transform.rotation, Quaternion.LookRotation(new Vector3(moveDirection.x, 0, moveDirection.z)), Time.deltaTime * 5f);
-
             // 壁に当たった場合に方向を反転
-            bool frontHit = Physics.CheckBox(frontCollider.transform.position, frontCollider.transform.localScale / 2, frontCollider.transform.rotation, wallLayer);
+            bool frontHit = Physics.CheckBox(transform.position, transform.localScale / 2, transform.rotation, wallLayer);
 
             if (frontHit)
             {

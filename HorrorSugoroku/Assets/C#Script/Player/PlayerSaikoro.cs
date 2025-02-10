@@ -2,6 +2,7 @@
 using UnityEngine.UI;
 using System.Collections;
 using SmoothigTransform;
+using System.Collections.Generic;
 
 public class PlayerSaikoro : MonoBehaviour
 {
@@ -26,12 +27,13 @@ public class PlayerSaikoro : MonoBehaviour
     private int[] lastAction = new int[7]; // 前の行動の記録【北：１、西：２、東：３、南：４】
     private int mesen = 1; //目線【北：１、西：２、東：３、南：４】
     private float Pkakudo = 0; //プレイヤーのＹ軸角度
-    public Sprite s1;
-    public Sprite s2;
-    public Sprite s3;
-    public Sprite s4;
-    public Sprite s5;
-    public Sprite s6;
+                               // プレハブとしてのサイコロの目
+    public GameObject s1Prefab;
+    public GameObject s2Prefab;
+    public GameObject s3Prefab;
+    public GameObject s4Prefab;
+    public GameObject s5Prefab;
+    public GameObject s6Prefab;
     public GameObject saikoro;
     public GameObject Player;
     public GameObject PNorth;
@@ -55,7 +57,8 @@ public class PlayerSaikoro : MonoBehaviour
     private AudioSource audioSource; // AudioSource to play sound
     public AudioClip diceRollSound; // The sound to play when the dice rolls
 
-    [System.Obsolete]
+    private List<GameObject> diceInstances = new List<GameObject>();
+    private GameObject currentDice; // 現在表示されているサイコロのプレハブ
     void Start()
     {
         cameraChange.Change();
@@ -104,6 +107,12 @@ public class PlayerSaikoro : MonoBehaviour
         {
             Debug.LogError("DiceRollSound AudioClip is not assigned.");
         }
+        diceInstances.Add(s1Prefab);
+        diceInstances.Add(s2Prefab);
+        diceInstances.Add(s3Prefab);
+        diceInstances.Add(s4Prefab);
+        diceInstances.Add(s5Prefab);
+        diceInstances.Add(s6Prefab);
     }
 
     void Update()
@@ -119,22 +128,30 @@ public class PlayerSaikoro : MonoBehaviour
         Wmasu = PWest.GetComponent<PlayerCloseMass>().GetClosestObject();
         Emasu = PEast.GetComponent<PlayerCloseMass>().GetClosestObject();
         Smasu = PSouth.GetComponent<PlayerCloseMass>().GetClosestObject();
+        ShowDice(sai);
 
-        //サイコロ表示
+
+        // サイコロ表示
         switch (sai)
         {
             case 1:
-                image.sprite = s1; break;
+                Instantiate(s1Prefab, saikoro.transform.position, Quaternion.identity, saikoro.transform);
+                break;
             case 2:
-                image.sprite = s2; break;
+                Instantiate(s2Prefab, saikoro.transform.position, Quaternion.identity, saikoro.transform);
+                break;
             case 3:
-                image.sprite = s3; break;
+                Instantiate(s3Prefab, saikoro.transform.position, Quaternion.identity, saikoro.transform);
+                break;
             case 4:
-                image.sprite = s4; break;
+                Instantiate(s4Prefab, saikoro.transform.position, Quaternion.identity, saikoro.transform);
+                break;
             case 5:
-                image.sprite = s5; break;
+                Instantiate(s5Prefab, saikoro.transform.position, Quaternion.identity, saikoro.transform);
+                break;
             case 6:
-                image.sprite = s6; break;
+                Instantiate(s6Prefab, saikoro.transform.position, Quaternion.identity, saikoro.transform);
+                break;
         }
 
         if (Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.Space))
@@ -363,25 +380,11 @@ public class PlayerSaikoro : MonoBehaviour
     private IEnumerator RollDice()
     {
         saikoro.SetActive(true);
-        for (int i = 0; i < 10; i++) // 10回ランダムに目を表示
+        for (int i = 0; i < 10; i++)
         {
             sai = Random.Range(1, 7);
-            switch (sai)
-            {
-                case 1:
-                    image.sprite = s1; break;
-                case 2:
-                    image.sprite = s2; break;
-                case 3:
-                    image.sprite = s3; break;
-                case 4:
-                    image.sprite = s4; break;
-                case 5:
-                    image.sprite = s5; break;
-                case 6:
-                    image.sprite = s6; break;
-            }
-            yield return new WaitForSeconds(0.1f); // 0.1秒ごとに目を変更
+            ShowDice(sai);
+            yield return new WaitForSeconds(0.1f);
         }
 
         detame = sai;
@@ -395,5 +398,51 @@ public class PlayerSaikoro : MonoBehaviour
     {
         // このメソッドは空にしておくか、必要に応じて他の処理を追加します
     }
+    // サイコロ表示
+    void ShowDice(int sai)
+    {
+        // すべてのプレハブを非表示にする
+        foreach (GameObject instance in diceInstances)
+        {
+            if (instance != null)
+            {
+                instance.SetActive(false);
+            }
+        }
 
+        // 指定されたサイコロの目のプレハブを表示する
+        GameObject newDice = null;
+        switch (sai)
+        {
+            case 1:
+                newDice = s1Prefab;
+                break;
+            case 2:
+                newDice = s2Prefab;
+                break;
+            case 3:
+                newDice = s3Prefab;
+                break;
+            case 4:
+                newDice = s4Prefab;
+                break;
+            case 5:
+                newDice = s5Prefab;
+                break;
+            case 6:
+                newDice = s6Prefab;
+                break;
+        }
+
+        if (newDice != null)
+        {
+            GameObject instance = diceInstances.Find(d => d.name == newDice.name);
+            if (instance == null)
+            {
+                instance = Instantiate(newDice, saikoro.transform.position, Quaternion.identity, saikoro.transform);
+                diceInstances.Add(instance);
+            }
+            instance.SetActive(true);
+        }
+    }
 }
