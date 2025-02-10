@@ -59,11 +59,11 @@ public class GridCell : MonoBehaviour
                 Debug.Log($"{name}: ペナルティ効果発動！");
                 break;
             case "Item":
-                if (cellEffect == "Item" && playerInventory != null)
-                {
-                    Debug.Log($"{name}:アイテムを獲得！");
-                    playerInventory.AddItem("鍵"); // 鍵を追加
-                }
+                //if (cellEffect == "Item" && playerInventory != null)
+                //{
+                //    Debug.Log($"{name}:アイテムを獲得！");
+                //    playerInventory.AddItem("鍵"); // 鍵を追加
+                //}
                 break;
             case "Dires":
                 Debug.Log($"{name}:演出発動！");
