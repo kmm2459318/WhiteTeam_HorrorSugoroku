@@ -171,8 +171,8 @@ public class PlayerSaikoro : MonoBehaviour
                     detame = sai;
                     Debug.Log("Player rolled: " + sai);*/
 
-                    
-                //}
+
+            //}
             //}
 
         }
@@ -351,7 +351,7 @@ public class PlayerSaikoro : MonoBehaviour
         // 現在のPlayerのY軸の値を保持
         //Pos = Player.transform.position;
 
-        
+
 
         //Player.transform.position = Pos; // 移動
 
