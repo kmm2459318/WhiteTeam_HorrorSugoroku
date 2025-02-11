@@ -109,7 +109,7 @@ public class PlayerSaikoro : MonoBehaviour
     void Update()
     {
         //if (!gameManager.IsPlayerTurn())
-            //Pos = Player.transform.position;
+        //Pos = Player.transform.position;
         Rot = Camera.transform.eulerAngles;
         PN = PNorth.GetComponent<PlayerNSEWCheck>().masuCheck;
         PW = PWest.GetComponent<PlayerNSEWCheck>().masuCheck;
@@ -168,8 +168,8 @@ public class PlayerSaikoro : MonoBehaviour
                     detame = sai;
                     Debug.Log("Player rolled: " + sai);*/
 
-                    
-                //}
+
+            //}
             //}
 
         }
@@ -177,8 +177,9 @@ public class PlayerSaikoro : MonoBehaviour
         //移動処理　【北：１、西：２、東：３、南：４】
         if (idoutyu)
         {
-           // Debug.Log(Rot.y);
-            if (Input.GetKeyDown(KeyCode.W)) {
+            // Debug.Log(Rot.y);
+            if (Input.GetKeyDown(KeyCode.W))
+            {
                 if (PN && (Rot.y >= 0f && Rot.y < 45f) || (Rot.y >= 315f && Rot.y < 360f))
                 {
                     FrontBack(1);
@@ -339,7 +340,7 @@ public class PlayerSaikoro : MonoBehaviour
         // 現在のPlayerのY軸の値を保持
         //Pos = Player.transform.position;
 
-        
+
 
         //Player.transform.position = Pos; // 移動
 
