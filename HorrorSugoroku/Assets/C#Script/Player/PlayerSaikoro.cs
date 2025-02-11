@@ -14,6 +14,7 @@ public class PlayerSaikoro : MonoBehaviour
     private int sai = 1; // ランダムなサイコロの値
     public bool saikorotyu = false; // サイコロを振っているか
     public bool idoutyu = false;
+    private bool exploring = false; // 探索中の判定（追加）
     private bool magarityu = false;
     private bool idouspan = false;
     private float saikoroTime = 0; // サイコロの時間の計測
@@ -176,7 +177,8 @@ public class PlayerSaikoro : MonoBehaviour
             //}
 
         }
-
+     
+    
         //移動処理　【北：１、西：２、東：３、南：４】
         if (idoutyu)
         {
@@ -218,9 +220,28 @@ public class PlayerSaikoro : MonoBehaviour
                 turnManager.turnStay = false;
                 turnManager.TurnCurse();
                 saikoro.SetActive(false);
-                gameManager.NextTurn();
+
+                // プレイヤーの動き終了
+                // プレイヤーの移動が終了したら探索モードに入る
+                if (!idoutyu && !saikorotyu && !exploring)
+                {
+                    exploring = true;
+                    Debug.Log("探索モードに入りました");
+                }
+
+                // スペースキーを押したら探索を終了し、次のターンへ
+                if (exploring && Input.GetKeyDown(KeyCode.F))
+                {
+                    exploring = false;
+                    Debug.Log("探索モード終了、次のターンへ");
+                    gameManager.NextTurn();
+                }
+                // 探索中の判定をtrueにする
+                // ボタン、スペースキーを押したときに探索の判定をfalseにする
+                // ボタン、スペースを押したときにNextTurnを動かす
             }
         }
+
 
         //プレイヤー角度【北：１、西：２、東：３、南：４】
         /*if (Input.GetKeyDown(KeyCode.A) && !magarityu)
