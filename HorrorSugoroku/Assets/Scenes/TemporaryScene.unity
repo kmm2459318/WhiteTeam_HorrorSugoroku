@@ -705,11 +705,6 @@ PrefabInstance:
       insertIndex: -1
       addedObject: {fileID: 1471756050}
   m_SourcePrefab: {fileID: 100100000, guid: 28459e7db1e585f48b100589d0b8440f, type: 3}
---- !u!1 &79905757 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 9141876648976046523, guid: f0d0397779fe1e343a9e10814bd84047, type: 3}
-  m_PrefabInstance: {fileID: 179221417}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &103288465
 GameObject:
   m_ObjectHideFlags: 0
@@ -1675,6 +1670,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerSaikoro: {fileID: 997519011}
+  playerInventory: {fileID: 0}
+  itemName: "\u9375"
 --- !u!1 &243809843
 GameObject:
   m_ObjectHideFlags: 0
@@ -6532,6 +6529,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   result: 0
   player: {fileID: 997519011}
+  cameraChange: {fileID: 0}
   faces:
   - {fileID: 1791233224}
   - {fileID: 1152653161}
@@ -7824,7 +7822,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   player: {fileID: 0}
-  frontCollider: {fileID: 1644049615}
   wallLayer:
     serializedVersion: 2
     m_Bits: 128
@@ -8564,7 +8561,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   player: {fileID: 0}
-  frontCollider: {fileID: 79905757}
   wallLayer:
     serializedVersion: 2
     m_Bits: 128
@@ -8637,6 +8633,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   mainCamera: {fileID: 956852543}
   diceCamera: {fileID: 1563290004}
+  DiceC: 0
 --- !u!114 &1703405977
 MonoBehaviour:
   m_ObjectHideFlags: 0

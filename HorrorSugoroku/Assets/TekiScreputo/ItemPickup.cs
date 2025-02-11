@@ -1,6 +1,5 @@
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "NewKeyItem", menuName = "Items/Key")]
 public class ItemPickup : MonoBehaviour
 {
     public string itemName = "Œ®"; // Žæ“¾‚Å‚«‚éƒAƒCƒeƒ€–¼
