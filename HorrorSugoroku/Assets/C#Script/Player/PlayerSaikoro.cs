@@ -15,8 +15,10 @@ public class PlayerSaikoro : MonoBehaviour
     public bool saikorotyu = false; // サイコロを振っているか
     public bool idoutyu = false;
     private bool magarityu = false;
+    private bool idouspan = false;
     private float saikoroTime = 0; // サイコロの時間の計測
     private float magariTime = 0; // 曲がりの時間の計測
+    private float idouspanTime = 0;
     private int ii = 0; // 繰り返し回数
     private int detame = 0; //出た値（ストッパー）
     private bool PN = false; // プレイヤーの東西南北
@@ -37,6 +39,10 @@ public class PlayerSaikoro : MonoBehaviour
     public GameObject PNorth;
     public GameObject PWest;
     public GameObject PEast;
+    private Transform Smasu;
+    private Transform Nmasu;
+    private Transform Wmasu;
+    private Transform Emasu;
     public GameObject PSouth;
     public GameObject Camera;
     //Vector3 Pos;
@@ -54,6 +60,7 @@ public class PlayerSaikoro : MonoBehaviour
     [System.Obsolete]
     void Start()
     {
+        cameraChange.Change();
         // プレイヤーシーンがロードされる際に、EnemySaikoroを探して参照を保持
         targetScript = FindObjectOfType<EnemySaikoro>();
 
@@ -104,12 +111,16 @@ public class PlayerSaikoro : MonoBehaviour
     void Update()
     {
         //if (!gameManager.IsPlayerTurn())
-            //Pos = Player.transform.position;
+        //Pos = Player.transform.position;
         Rot = Camera.transform.eulerAngles;
         PN = PNorth.GetComponent<PlayerNSEWCheck>().masuCheck;
         PW = PWest.GetComponent<PlayerNSEWCheck>().masuCheck;
         PE = PEast.GetComponent<PlayerNSEWCheck>().masuCheck;
         PS = PSouth.GetComponent<PlayerNSEWCheck>().masuCheck;
+        Nmasu = PNorth.GetComponent<PlayerCloseMass>().GetClosestObject();
+        Wmasu = PWest.GetComponent<PlayerCloseMass>().GetClosestObject();
+        Emasu = PEast.GetComponent<PlayerCloseMass>().GetClosestObject();
+        Smasu = PSouth.GetComponent<PlayerCloseMass>().GetClosestObject();
 
         //サイコロ表示
         switch (sai)
@@ -128,11 +139,11 @@ public class PlayerSaikoro : MonoBehaviour
                 image.sprite = s6; break;
         }
 
-        if (Input.GetKeyDown(KeyCode.E))
-        {
-            if (!saikorotyu && !idoutyu && gameManager.isPlayerTurn)
+
+        if (!saikorotyu && !idoutyu && gameManager.isPlayerTurn)
+        { 
+            if (Input.GetKeyDown(KeyCode.Space))
             {
-                cameraChange.Change();
                 turnManager.NextTurn();
             }
         }
@@ -160,8 +171,8 @@ public class PlayerSaikoro : MonoBehaviour
                     detame = sai;
                     Debug.Log("Player rolled: " + sai);*/
 
-                    
-                //}
+
+            //}
             //}
 
         }
@@ -169,8 +180,9 @@ public class PlayerSaikoro : MonoBehaviour
         //移動処理　【北：１、西：２、東：３、南：４】
         if (idoutyu)
         {
-            Debug.Log(Rot.y);
-            if (Input.GetKeyDown(KeyCode.W)) {
+           // Debug.Log(Rot.y);
+            if (Input.GetKeyDown(KeyCode.W) && !idouspan) {
+                idouspan = true;
                 if (PN && (Rot.y >= 0f && Rot.y < 45f) || (Rot.y >= 315f && Rot.y < 360f))
                 {
                     FrontBack(1);
@@ -192,6 +204,14 @@ public class PlayerSaikoro : MonoBehaviour
                     Debug.Log("South");
                 }
             }
+
+            this.idouspanTime += Time.deltaTime;
+            if (idouspanTime > player.PosFact)
+            {
+                idouspanTime = 0f;
+                idouspan = false;
+            }
+
             if (sai < 1)
             {
                 idoutyu = false;
@@ -262,6 +282,7 @@ public class PlayerSaikoro : MonoBehaviour
     public void DiceRoll()
     {
         saikorotyu = true;
+        cameraChange.Change();
     }
 
     public void DiceAfter(int n)
@@ -330,7 +351,7 @@ public class PlayerSaikoro : MonoBehaviour
         // 現在のPlayerのY軸の値を保持
         //Pos = Player.transform.position;
 
-        
+
 
         //Player.transform.position = Pos; // 移動
 
@@ -338,10 +359,10 @@ public class PlayerSaikoro : MonoBehaviour
         {
             switch (n)
             {
-                case 1: player.TargetPosition.z += 2.0f; break; // 北に移動
-                case 2: player.TargetPosition.x -= 2.0f; break; // 西に移動
-                case 3: player.TargetPosition.x += 2.0f; break; // 東に移動
-                case 4: player.TargetPosition.z -= 2.0f; break; // 南に移動
+                case 1: player.TargetPosition = Nmasu.transform.position + new Vector3(0, 1.15f, 0); break; // 北に移動
+                case 2: player.TargetPosition = Wmasu.transform.position + new Vector3(0, 1.15f, 0); break; // 西に移動
+                case 3: player.TargetPosition = Emasu.transform.position + new Vector3(0, 1.15f, 0); break; // 東に移動
+                case 4: player.TargetPosition = Smasu.transform.position + new Vector3(0, 1.15f, 0); break; // 南に移動
             }
 
             lastAction[detame - sai + 1] = n; // 来た方向を記憶
@@ -349,7 +370,6 @@ public class PlayerSaikoro : MonoBehaviour
             sai--;
         }
     }
-
 
     private IEnumerator RollDice()
     {

@@ -1,49 +1,158 @@
 using UnityEngine;
 using TMPro;
 using System.Collections;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
-    public TMP_Text turnText; // TextMeshPro—p‚Ìƒ^[ƒ“”•\¦
-    public TMP_Text turnIndicatorText; // V‚µ‚¢ƒ^[ƒ“•\¦—p‚ÌƒeƒLƒXƒg
-    public bool isPlayerTurn = true; // ƒvƒŒƒCƒ„[‚Ìƒ^[ƒ“‚©‚Ç‚¤‚©‚ğ¦‚·ƒtƒ‰ƒO
+    public TMP_Text turnText; // TextMeshProç”¨ã®ã‚¿ãƒ¼ãƒ³æ•°è¡¨ç¤º
+    public TMP_Text turnIndicatorText; // æ–°ã—ã„ã‚¿ãƒ¼ãƒ³è¡¨ç¤ºç”¨ã®ãƒ†ã‚­ã‚¹ãƒˆ
+    public bool isPlayerTurn = true; // ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã®ã‚¿ãƒ¼ãƒ³ã‹ã©ã†ã‹ã‚’ç¤ºã™ãƒ•ãƒ©ã‚°
+    public bool EnemyCopyOn = false;
+    public int enemyTurnFinCount = 0;
+    public int mapPiece = 0;
 
     public PlayerSaikoro playerSaikoro;
     public EnemySaikoro enemySaikoro;
+    public EnemySaikoro enemyCopySaikoro;
 
-    public GameObject currentEnemyModel; // Œ»İ‚ÌƒGƒlƒ~[ƒ‚ƒfƒ‹
-    public GameObject newEnemyPrefab; // V‚µ‚¢ƒGƒlƒ~[ƒ‚ƒfƒ‹‚ÌƒvƒŒƒtƒ@ƒu
+    public GameObject currentEnemyModel; // ç¾åœ¨ã®ã‚¨ãƒãƒŸãƒ¼ãƒ¢ãƒ‡ãƒ«
+    public GameObject EnemyCopy;
+    public GameObject newEnemyModelPrefab; // æ–°ã—ã„ã‚¨ãƒãƒŸãƒ¼ãƒ¢ãƒ‡ãƒ«ã®ãƒ—ãƒ¬ãƒãƒ–
 
-    private int playerTurnCount = 0; // ƒvƒŒƒCƒ„[‚Ìƒ^[ƒ“”‚ğƒJƒEƒ“ƒg‚·‚é•Ï”
+    private int playerTurnCount = 0; // ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã®ã‚¿ãƒ¼ãƒ³æ•°ã‚’ã‚«ã‚¦ãƒ³ãƒˆã™ã‚‹å¤‰æ•°
 
     private void Start()
     {
-        UpdateTurnText(); // ‰Šúƒ^[ƒ“•\¦
-        playerSaikoro.StartRolling(); // ƒvƒŒƒCƒ„[‚Ìƒ^[ƒ“‚ğŠJn
+        UpdateTurnText(); // åˆæœŸã‚¿ãƒ¼ãƒ³è¡¨ç¤º
+        playerSaikoro.StartRolling(); // ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã®ã‚¿ãƒ¼ãƒ³ã‚’é–‹å§‹
     }
 
-    public void NextTurn()
+    private void Update()
     {
-        isPlayerTurn = !isPlayerTurn; // ƒ^[ƒ“‚ğØ‚è‘Ö‚¦‚é
-        UpdateTurnText(); // UI‚ÌƒeƒLƒXƒg‚ğXV
-
-        if (isPlayerTurn)
+        if (mapPiece >= 10)
         {
-            playerTurnCount++; // ƒvƒŒƒCƒ„[‚Ìƒ^[ƒ“”‚ğƒJƒEƒ“ƒg
-            Debug.Log("Player Turn Count: " + playerTurnCount); // ƒfƒoƒbƒOƒƒO
+            Debug.Log("ã‚¯ãƒªã‚¢ã™ã‚Œã€‚");
+            SceneManager.LoadScene("Gameclear");
+        }
 
-            // ƒvƒŒƒCƒ„[‚Ìƒ^[ƒ“‚ª5ƒ^[ƒ“–Ú‚É‚È‚Á‚½‚çƒGƒlƒ~[ƒ‚ƒfƒ‹‚ğ•ÏX
-            if (playerTurnCount == 5)
+        // åœ°å›³ã®ã‹ã‘ã‚‰ä»®
+        if (Input.GetKeyDown(KeyCode.R))
+        {
+            MpPlus();
+        }
+
+        if (Input.GetKeyDown(KeyCode.T))
+        {
+            EnemyCopy.SetActive(true);
+            EnemyCopyOn = true;
+        }
+
+        if (enemyTurnFinCount == 2)
+        {
+            enemyTurnFinCount = 0;
+            NextTurn();
+        }
+
+        // ãƒãƒƒãƒ—ã®ãƒ”ãƒ¼ã‚¹ãŒ3æšæ‰‹ã«å…¥ã£ãŸã‚‰ã‚¨ãƒãƒŸãƒ¼ãƒ¢ãƒ‡ãƒ«ã‚’å¤‰æ›´
+        if (mapPiece == 3)
+        {
+            ChangeEnemyModel();
+        }
+    }
+
+
+    private void ChangeEnemyModel()
+    {
+        if (currentEnemyModel != null)
+        {
+            // å…ƒã®ã‚¨ãƒãƒŸãƒ¼ãƒ¢ãƒ‡ãƒ«ã‚’éã‚¢ã‚¯ãƒ†ã‚£ãƒ–ã«ã™ã‚‹
+            currentEnemyModel.SetActive(false);
+        }
+
+        // æ–°ã—ã„ã‚¨ãƒãƒŸãƒ¼ãƒ¢ãƒ‡ãƒ«ã‚’ã‚¢ã‚¯ãƒ†ã‚£ãƒ–ã«ã™ã‚‹
+        if (newEnemyModelPrefab != null)
+        {
+            newEnemyModelPrefab.SetActive(true);
+
+            // æ–°ã—ã„ã‚¨ãƒãƒŸãƒ¼ãƒ¢ãƒ‡ãƒ«ã«ã‚¨ãƒãƒŸãƒ¼ã®ä»•æ§˜ã‚’é©ç”¨
+            enemySaikoro = newEnemyModelPrefab.GetComponent<EnemySaikoro>();
+            if (enemySaikoro != null)
             {
-                ChangeEnemyModel();
+                // å¿…è¦ãªã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆã‚„è¨­å®šã‚’å¼•ãç¶™ã
+                enemySaikoro.player = currentEnemyModel.GetComponent<EnemySaikoro>().player;
+                enemySaikoro.wallLayer = currentEnemyModel.GetComponent<EnemySaikoro>().wallLayer;
+                enemySaikoro.discoveryBGM = currentEnemyModel.GetComponent<EnemySaikoro>().discoveryBGM;
+                enemySaikoro.undetectedBGM = currentEnemyModel.GetComponent<EnemySaikoro>().undetectedBGM;
+                enemySaikoro.footstepSound = currentEnemyModel.GetComponent<EnemySaikoro>().footstepSound;
+                enemySaikoro.enemyController = currentEnemyModel.GetComponent<EnemySaikoro>().enemyController;
+                enemySaikoro.gameManager = this;
+                enemySaikoro.enemyLookAtPlayer = currentEnemyModel.GetComponent<EnemySaikoro>().enemyLookAtPlayer;
+                enemySaikoro.playerCloseMirror = currentEnemyModel.GetComponent<EnemySaikoro>().playerCloseMirror;
+                enemySaikoro.mokushi = currentEnemyModel.GetComponent<EnemySaikoro>().mokushi;
+                enemySaikoro.idoukagen = currentEnemyModel.GetComponent<EnemySaikoro>().idoukagen;
+                enemySaikoro.skill1 = currentEnemyModel.GetComponent<EnemySaikoro>().skill1;
+                enemySaikoro.skill2 = currentEnemyModel.GetComponent<EnemySaikoro>().skill2;
+                enemySaikoro.isTrapped = currentEnemyModel.GetComponent<EnemySaikoro>().isTrapped;
             }
 
-            playerSaikoro.StartRolling();
+            if (EnemyCopyOn)
+            {
+                enemyCopySaikoro = newEnemyModelPrefab.GetComponent<EnemySaikoro>();
+            }
+
+            // currentEnemyModelã‚’æ–°ã—ã„ã‚¨ãƒãƒŸãƒ¼ãƒ¢ãƒ‡ãƒ«ã«æ›´æ–°
+            currentEnemyModel = newEnemyModelPrefab;
         }
         else
         {
-            StartCoroutine(enemySaikoro.EnemyTurn());
+            Debug.LogError("newEnemyModelPrefab is not assigned.");
         }
+    }
+    // ã‚¿ãƒ¼ãƒ³ã®åˆ‡ã‚Šæ›¿ãˆã‚’è¡Œã†ãƒ¡ã‚½ãƒƒãƒ‰
+    public void NextTurn()
+    {
+        isPlayerTurn = !isPlayerTurn; // ã‚¿ãƒ¼ãƒ³ã‚’åˆ‡ã‚Šæ›¿ãˆã‚‹
+        UpdateTurnText(); // UIã®ãƒ†ã‚­ã‚¹ãƒˆã‚’æ›´æ–°
+
+        if (isPlayerTurn)
+        {
+            // ã‚µã‚¤ã‚³ãƒ­ã‚’æŒ¯ã‚‹
+            playerSaikoro.DiceRoll();
+
+            playerTurnCount++; // ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã®ã‚¿ãƒ¼ãƒ³æ•°ã‚’ã‚«ã‚¦ãƒ³ãƒˆ
+            Debug.Log("Player Turn Count: " + playerTurnCount); // ãƒ‡ãƒãƒƒã‚°ãƒ­ã‚°
+
+            playerSaikoro.StartRolling();
+
+            // ã‚¨ãƒãƒŸãƒ¼ã®ã‚¢ãƒ‹ãƒ¡ãƒ¼ã‚·ãƒ§ãƒ³ã‚’Idleã«åˆ‡ã‚Šæ›¿ãˆã‚‹
+            /*enemySaikoro.SetIdle();
+            if (EnemyCopyOn)
+            {
+                enemyCopySaikoro.SetIdle();
+            }*/
+        }
+        else
+        {
+            // ã‚¨ãƒãƒŸãƒ¼ã®ã‚¢ãƒ‹ãƒ¡ãƒ¼ã‚·ãƒ§ãƒ³ã‚’Runã«åˆ‡ã‚Šæ›¿ãˆã‚‹
+            /*enemySaikoro.SetRun();
+            if (EnemyCopyOn)
+            {
+                enemyCopySaikoro.SetRun();
+            }*/
+
+            StartCoroutine(enemySaikoro.EnemyTurn());
+
+            if (EnemyCopyOn)
+            {
+                StartCoroutine(enemyCopySaikoro.EnemyTurn());
+            }
+        }
+    }
+    public void MpPlus()
+    {
+        mapPiece++;
+        Debug.Log(mapPiece);
     }
 
     private void UpdateTurnText()
@@ -52,11 +161,11 @@ public class GameManager : MonoBehaviour
         {
             if (isPlayerTurn)
             {
-                turnIndicatorText.text = "PlayerTurn"; // ƒvƒŒƒCƒ„[‚Ìƒ^[ƒ“•\¦
+                turnIndicatorText.text = "PlayerTurn"; // ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã®ã‚¿ãƒ¼ãƒ³è¡¨ç¤º
             }
             else
             {
-                turnIndicatorText.text = "EnemyTurn"; // ƒGƒlƒ~[‚Ìƒ^[ƒ“•\¦
+                turnIndicatorText.text = "EnemyTurn"; // ã‚¨ãƒãƒŸãƒ¼ã®ã‚¿ãƒ¼ãƒ³è¡¨ç¤º
             }
         }
     }
@@ -64,43 +173,5 @@ public class GameManager : MonoBehaviour
     public bool IsPlayerTurn()
     {
         return isPlayerTurn;
-    }
-
-    private void ChangeEnemyModel()
-    {
-        if (currentEnemyModel != null && newEnemyPrefab != null)
-        {
-            // Œ»İ‚ÌƒGƒlƒ~[‚ÌˆÊ’u‚Æ‰ñ“]‚ğ•Û‘¶
-            Vector3 currentEnemyPosition = currentEnemyModel.transform.position;
-            Quaternion currentEnemyRotation = currentEnemyModel.transform.rotation;
-
-            // V‚µ‚¢ƒGƒlƒ~[ƒ‚ƒfƒ‹‚ÌƒCƒ“ƒXƒ^ƒ“ƒX‚ğ¶¬
-            GameObject newEnemyModel = Instantiate(newEnemyPrefab, currentEnemyPosition, currentEnemyRotation);
-
-            // V‚µ‚¢ƒ‚ƒfƒ‹‚ÌˆÊ’u‚ÆƒŒƒ“ƒ_ƒ‰[‚Ìó‘Ô‚ğŠm”F
-            Debug.Log("New Enemy Model Position: " + newEnemyModel.transform.position);
-            Renderer[] renderers = newEnemyModel.GetComponentsInChildren<Renderer>();
-            if (renderers.Length > 0)
-            {
-                foreach (Renderer renderer in renderers)
-                {
-                    Debug.Log("Renderer " + renderer.name + " Enabled: " + renderer.enabled);
-                    renderer.enabled = true; // ƒŒƒ“ƒ_ƒ‰[‚ğ—LŒø‚É‚·‚é
-                }
-            }
-            else
-            {
-                Debug.LogError("New Enemy Model does not have any Renderer components!");
-            }
-
-            // Œ»İ‚ÌƒGƒlƒ~[ƒ‚ƒfƒ‹‚ğíœ
-            Destroy(currentEnemyModel);
-
-            Debug.Log("Enemy model has been changed and positioned.");
-        }
-        else
-        {
-            Debug.LogError("Enemy models are not assigned!");
-        }
     }
 }

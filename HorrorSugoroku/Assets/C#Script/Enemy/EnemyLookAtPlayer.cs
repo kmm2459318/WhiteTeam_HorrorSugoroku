@@ -3,15 +3,19 @@ using UnityEngine;
 public class EnemyLookAtPlayer : MonoBehaviour
 {
     public GameObject player; // プレイヤーのゲームオブジェクト
-    public GameObject frontCollider; // エネミーの正面に配置されたBoxColliderオブジェクト
     public LayerMask wallLayer; // 壁のレイヤー
     private bool discovery = false;
     private Vector3 moveDirection;
     private Animator animator; // アニメーターの参照
+    private bool isMoving = false; // エネミーが移動中かどうかを示すフラグ
 
     void Start()
     {
         animator = GetComponent<Animator>(); // アニメーターコンポーネントを取得
+        if (animator == null)
+        {
+            Debug.LogError("Animator component not found on the enemy object.");
+        }
     }
 
     void Update()
@@ -23,8 +27,8 @@ public class EnemyLookAtPlayer : MonoBehaviour
             Quaternion lookRotation = Quaternion.LookRotation(new Vector3(directionToPlayer.x, 0, directionToPlayer.z));
             transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, Time.deltaTime * 5f);
 
-            // frontColliderもプレイヤーの方向に向く
-            frontCollider.transform.rotation = Quaternion.Slerp(frontCollider.transform.rotation, lookRotation, Time.deltaTime * 5f);
+            // プレイヤーに向かって移動する場合のロジックを追加（必要に応じて）
+            // moveDirection = directionToPlayer;
         }
         else
         {
@@ -33,27 +37,23 @@ public class EnemyLookAtPlayer : MonoBehaviour
             {
                 Quaternion lookRotation = Quaternion.LookRotation(new Vector3(moveDirection.x, 0, moveDirection.z));
                 transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, Time.deltaTime * 5f);
-                animator.SetBool("isRunning", true); // Runアニメーションを再生
-                animator.SetBool("isIdle", false); // Idleアニメーションを停止
-            }
-            else
-            {
-                animator.SetBool("isRunning", false); // Runアニメーションを停止
-                animator.SetBool("isIdle", true); // Idleアニメーションを再生
             }
 
-            // frontColliderも移動方向に向く
-            frontCollider.transform.rotation = Quaternion.Slerp(frontCollider.transform.rotation, transform.rotation, Time.deltaTime * 5f);
-
-            // 壁に当たった場合に方向を修正
-            bool frontHit = Physics.CheckBox(frontCollider.transform.position, frontCollider.transform.localScale / 2, frontCollider.transform.rotation, wallLayer);
+            // 壁に当たった場合に方向を反転
+            bool frontHit = Physics.CheckBox(transform.position, transform.localScale / 2, transform.rotation, wallLayer);
 
             if (frontHit)
             {
                 moveDirection = -moveDirection; // 方向を反転
-                Debug.Log("Wall detected at front, changing direction to: " + moveDirection);
+                //Debug.Log("Wall detected at front, changing direction to: " + moveDirection);
             }
         }
+
+        // エネミーの移動状態に基づいてアニメーションを制御
+        isMoving = moveDirection != Vector3.zero; // 移動方向がゼロでない場合は移動中と判断
+        //Debug.Log("isRunning: " + isMoving); // デバッグログを追加
+        animator.SetBool("isRunning", isMoving);
+        animator.SetBool("isIdle", !isMoving);
     }
 
     public void SetDiscovery(bool isDiscovered)
@@ -64,6 +64,12 @@ public class EnemyLookAtPlayer : MonoBehaviour
     public void SetMoveDirection(Vector3 direction)
     {
         moveDirection = direction;
+        isMoving = moveDirection != Vector3.zero; // 移動方向がゼロでない場合は移動中と判断
         Debug.Log("Move direction set to: " + direction);
+    }
+
+    public void SetIsMoving(bool moving)
+    {
+        isMoving = moving;
     }
 }

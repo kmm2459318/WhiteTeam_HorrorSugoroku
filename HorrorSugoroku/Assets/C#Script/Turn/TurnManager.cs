@@ -8,7 +8,7 @@ public class TurnManager : MonoBehaviour
     public bool turnStay = false;
 
     public PlayerSaikoro playerSaikoro;
-    //public CurseSlider curseSlider; // 呪いゲージ管理
+    public CurseSlider curseSlider; // 呪いゲージ管理
     public FlashlightController flashlightController; // フラッシュライト管理
 
     // 次のターンへ進む処理
@@ -21,14 +21,7 @@ public class TurnManager : MonoBehaviour
             PlayerPrefs.SetInt("Turn", currentTurn);
             UpdateTurnText();
 
-            // サイコロを振る
-            playerSaikoro.DiceRoll();
-
-            // フラッシュライトのターン進行処理
-            if (flashlightController != null)
-            {
-                flashlightController.OnTurnAdvanced();
-            }
+            
 
             // 呪いゲージ増加
             //if (curseSlider != null)

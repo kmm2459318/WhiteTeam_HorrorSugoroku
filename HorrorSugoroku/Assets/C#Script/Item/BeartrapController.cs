@@ -1,28 +1,29 @@
 using UnityEngine;
-using UnityEngine.UI;
 
 public class BeartrapController : MonoBehaviour
 {
-    private void Start()
-    {
-        // Buttonコンポーネントを取得
-        Button button = GetComponent<Button>();
+    public GameObject beartrapPrefab; // トラばさみのPrefab
+    public Transform spawnPoint; // トラばさみを生成する場所
+    public EnemySaikoro enemySaikoro; // EnemySaikoroへの参照
 
-        // Buttonコンポーネントが存在するか確認
-        if (button != null)
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag("Enemy")) // タグがEnemyのオブジェクトとの接触をチェック
         {
-            // ボタンが押されたときにOnButtonPressedメソッドを呼び出す
-            button.onClick.AddListener(OnButtonPressed);
-        }
-        else
-        {
-            Debug.LogError("Buttonコンポーネントがアタッチされていません！");
+            // 反応した敵に対して処理を行う
+            var enemy = other.GetComponent<EnemySaikoro>();
+            if (enemy != null)
+            {
+                enemy.isTrapped = true; // トラバサミにかかったときの処理
+                Debug.Log("敵がトラバサミにかかった！");
+            }
         }
     }
 
-    // ボタンが押されたときに呼び出されるメソッド
-    private void OnButtonPressed()
+    // ボタンを押すとトラばさみを生成するメソッド
+    public void PlaceBeartrap()
     {
-        Debug.Log(gameObject.name + " がクリックされました！");
+        // トラばさみのPrefabを生成
+        Instantiate(beartrapPrefab, spawnPoint.position, Quaternion.identity);
     }
 }

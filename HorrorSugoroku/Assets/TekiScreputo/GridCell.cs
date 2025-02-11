@@ -7,7 +7,6 @@ using UnityEngine.UI;
 public class GridCell : MonoBehaviour
 {
     public string cellEffect = "Normal"; // マス目の効果（例: Normal, Bonus, Penalty）
-    public FlashlightController flashlightController;
     [SerializeField] private Master_Debuff DebuffSheet;
     public GameObject eventPanel; // UIのパネル
     public TextMeshProUGUI eventText; // UIのテキスト
@@ -40,7 +39,14 @@ public class GridCell : MonoBehaviour
         Debug.Log("アイテムが使えなくなるかの判定:" + DebuffSheet.DebuffSheet[n].ItemGive);
         Debug.Log("アイテムが使えないターン数:" + DebuffSheet.DebuffSheet[n].ItemGive);
     }
-
+    void Update()
+    {
+        // UI が表示されているときに スペースキーで閉じる
+        if (eventPanel.activeSelf && Input.GetKeyDown(KeyCode.Space))
+        {
+            CloseEventUI();
+        }
+    }
     public void ExecuteEvent()
     {
         switch (cellEffect)
@@ -71,7 +77,6 @@ public class GridCell : MonoBehaviour
                 break;
             case "Battery":
                 Debug.Log($"{name}:バッテリーを獲得！");
-                Batre();
                 break;
             default:
                 Debug.Log($"{name}: 通常マス - 効果なし。");
@@ -174,19 +179,7 @@ public class GridCell : MonoBehaviour
     {
         int randomEvent = Random.Range(0, 2);
 
-        if (randomEvent == 0)
-        {
-            flashlightController.OnTurnAdvanced();
-        }
-        else
-        {
-            Debug.Log("デバフイベントB：アイテムが使えなくなった");
-        }
+        Debug.Log("デバフイベントB：アイテムが使えなくなった");
     }
 
-    void Batre()
-    {
-        Debug.Log("バッテリー回復：バッテリーが回復した");
-        flashlightController.AddBattery(20f);
-    }
 }
