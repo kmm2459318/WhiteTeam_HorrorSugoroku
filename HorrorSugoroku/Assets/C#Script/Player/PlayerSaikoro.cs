@@ -226,22 +226,23 @@ public class PlayerSaikoro : MonoBehaviour
                 if (!idoutyu && !saikorotyu && !exploring)
                 {
                     exploring = true;
-                    Debug.Log("探索モードに入りました");
+                    Debug.Log("探索モードに入りました:Fを押して次に");
                 }
 
-                // スペースキーを押したら探索を終了し、次のターンへ
-                if (exploring && Input.GetKeyDown(KeyCode.F))
-                {
-                    exploring = false;
-                    Debug.Log("探索モード終了、次のターンへ");
-                    gameManager.NextTurn();
-                }
-                // 探索中の判定をtrueにする
-                // ボタン、スペースキーを押したときに探索の判定をfalseにする
-                // ボタン、スペースを押したときにNextTurnを動かす
+                
             }
         }
 
+        // スペースキーを押したら探索を終了し、次のターンへ
+        if (exploring && Input.GetKeyDown(KeyCode.F))
+        {
+            exploring = false;
+            Debug.Log("探索モード終了、次のターンへ");
+            gameManager.NextTurn();
+        }
+        // 探索中の判定をtrueにする
+        // ボタン、スペースキーを押したときに探索の判定をfalseにする
+        // ボタン、スペースを押したときにNextTurnを動かす
 
         //プレイヤー角度【北：１、西：２、東：３、南：４】
         /*if (Input.GetKeyDown(KeyCode.A) && !magarityu)
