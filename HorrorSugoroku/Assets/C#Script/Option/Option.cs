@@ -11,7 +11,8 @@ public class Option : MonoBehaviour
     public Slider VolumeSlider;//音量バー
     public int Volume = 50;//音量
     public Slider SensitivitySlider;//マウス感度バー
-    public int Sensitivity = 2;// 感度///
+    public int Sensitivity = 2;// 感度
+    private bool Setting = false;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -42,7 +43,17 @@ public class Option : MonoBehaviour
     //オプションボタンを押したら表示するようにする
     public void OpenOption()
     {
-        OptionCanvas.SetActive(true);
+        if(Setting == false)
+        {
+            OptionCanvas.SetActive(true);
+            Setting = true;
+        }
+        else
+        {
+            OptionCanvas.SetActive(false);
+            Setting = false;
+        }
+        
     }
 
 }
