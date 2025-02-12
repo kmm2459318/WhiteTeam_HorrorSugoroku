@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections;
+﻿using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -13,24 +11,26 @@ public class CurseSlider : MonoBehaviour
     [SerializeField] Button hideButton;
     [SerializeField] Button cursegiveButton;
 
-    [SerializeField] private Master_Curse master_Curse; // Master_Curse への参照
+    [SerializeField] private Master_Curse master_Curse;
+    [SerializeField] private Image[] ImageGages; // 画像ゲージ (2〜6)
 
-    public float maxDashPoint = 300;
-    public float dashIncreasePerTurn = 5; // 初期増加量
+    public float maxDashPoint = 100;
+    public float dashIncreasePerTurn = 5;
 
-    int Count = 1; // 何回呪いカードを選んだか
+    int CountGauge = 0;
     float dashPoint = 0;
-
     public GameManager gameManager;
     public TurnManager turnManager;
     private bool saikorotyu;
+
+    private int nextShowCardThreshold = 20; // カード表示の閾値（20,40,60,80,100）
 
     void Start()
     {
         DashGage.maxValue = maxDashPoint;
         DashGage.value = dashPoint;
+        ResetGaugeImages();
 
-        // ボタンのリスナーを一度クリアして、重複登録を防ぐ
         if (extraButton != null)
         {
             extraButton.onClick.RemoveAllListeners();
@@ -52,19 +52,24 @@ public class CurseSlider : MonoBehaviour
 
     void Update()
     {
-        // ゲージ更新
         DashGage.value = dashPoint;
 
-        // ゲージが最大値に達した場合にゲームオーバー処理
         if (dashPoint >= maxDashPoint)
         {
-            if (sceneChanger != null)
-            {
-                sceneChanger.HandleGameOver();
-            }
+            CountGauge++;
+            dashPoint = 0;
+            nextShowCardThreshold = 20; // リセット時に閾値もリセット
+            ResetGaugeImages();
         }
 
-        // プレイヤーターン中で、サイコロが振られていない場合に次のターンへ
+        UpdateImageGauges();
+
+        if (dashPoint >= nextShowCardThreshold)
+        {
+            StartCoroutine(ShowCardCanvas());
+            nextShowCardThreshold += 20;
+        }
+
         if (gameManager.isPlayerTurn && !saikorotyu)
         {
             if (Input.GetKeyDown(KeyCode.E))
@@ -72,13 +77,6 @@ public class CurseSlider : MonoBehaviour
                 EndTurnWithCardDisplay();
             }
         }
-        /*
-        if (dashPoint == 100f)
-        {
-            Debug.Log("強化呪い選択")；
-                 
-                
-        }*/
     }
 
     private void EndTurnWithCardDisplay()
@@ -87,18 +85,36 @@ public class CurseSlider : MonoBehaviour
         if (!gameManager.isPlayerTurn) return;
     }
 
+
     public void IncreaseDashPointPerTurn()
     {
         dashPoint = Mathf.Min(dashPoint + dashIncreasePerTurn, maxDashPoint);
         DashGage.value = dashPoint;
 
         Debug.Log("今の呪いゲージ量: " + dashPoint);
+    }
 
-        // 20の倍数に達した場合にCardCanvasを表示
-        if ((int)(dashPoint) >= Count * 20)
+    private void UpdateImageGauges()
+    {
+        for (int i = 0; i < ImageGages.Length; i++)
         {
-            StartCoroutine(ShowCardCanvas());
-            Count++;
+            float min = i * 20;
+            float max = (i + 1) * 20;
+            float alpha = Mathf.Clamp01((dashPoint - min) / (max - min));
+
+            Color color = ImageGages[i].color;
+            color.a = alpha;
+            ImageGages[i].color = color;
+        }
+    }
+
+    private void ResetGaugeImages()
+    {
+        foreach (Image img in ImageGages)
+        {
+            Color color = img.color;
+            color.a = 0;
+            img.color = color;
         }
     }
 
@@ -122,29 +138,22 @@ public class CurseSlider : MonoBehaviour
         if (CardCanvas != null)
         {
             CardCanvas.SetActive(false);
-
-            Time.timeScale = 1; // **ゲームを再開**
+            Time.timeScale = 1;
         }
     }
 
     public void HideCardCanvasAndModifyDashIncrease()
     {
         dashIncreasePerTurn += master_Curse.CurseSheet[1].TurnIncrease;
-        Debug.Log("[CurseSlider] TurnIncrease: " + master_Curse.CurseSheet[1].TurnIncrease);
         Debug.Log("[CurseSlider] Dash Increase Per Turn set to: " + dashIncreasePerTurn);
-
-        Time.timeScale = 1; // **ゲームを再開**
+        Time.timeScale = 1;
     }
 
     public void CursegiveButtonAction()
     {
-        Debug.Log("[CursegiveButton] Before: DashPoint = " + dashPoint);
-
         dashPoint = Mathf.Min(dashPoint + 15, maxDashPoint);
         DashGage.value = dashPoint;
-
         Debug.Log("[CursegiveButton] After: DashPoint = " + dashPoint);
-
-        Time.timeScale = 1; // **ゲームを再開**
+        Time.timeScale = 1;
     }
 }
