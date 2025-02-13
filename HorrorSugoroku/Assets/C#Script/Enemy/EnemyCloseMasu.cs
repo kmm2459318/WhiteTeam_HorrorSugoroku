@@ -5,7 +5,7 @@ public class EnemyCloseMasu : MonoBehaviour
     public GameObject FindClosestMasu()
     {
         GameObject[] gos;
-        gos = GameObject.FindGameObjectsWithTag("Masu");
+        gos = GameObject.FindGameObjectsWithTag("masu");
         GameObject closest = null;
         float distance = Mathf.Infinity;
         Vector3 position = transform.position;

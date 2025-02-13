@@ -45,7 +45,7 @@ public class ClickObject : MonoBehaviour
                         if (distance <= 3f) // カメラからの距離が3以下の場合
                         {
                             // 🎲 ランダムでスクリプトA または B を実行
-                            int randomChoice = Random.Range(0, 2);
+                            int randomChoice = Random.Range(0, 0);
 
                             if (randomChoice == 0)
                             {
