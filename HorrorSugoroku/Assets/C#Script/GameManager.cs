@@ -21,6 +21,8 @@ public class GameManager : MonoBehaviour
     public GameObject EnemyCopy; // コピーエネミーモデル
     public GameObject newEnemyModelPrefab; // 新しいエネミーモデルのプレハブ
 
+    public EnemyTransferManager enemyTransferManager;
+
     private int playerTurnCount = 0; // プレイヤーのターン数をカウントする変数
 
     private void Start()
@@ -61,132 +63,12 @@ public class GameManager : MonoBehaviour
             ChangeEnemyModel();
         }
     }
-    public void ChangeEnemyModel()
-    {
-        if (currentEnemyModel == null)
-        {
-            Debug.LogError("currentEnemyModel is not assigned.");
-            return;
-        }
-
-        if (newEnemyModelPrefab == null)
-        {
-            Debug.LogError("newEnemyModelPrefab is not assigned.");
-            return;
-        }
-
-        // 新しいエネミーモデルをアクティブにする
-        newEnemyModelPrefab.SetActive(true);
-        Debug.Log("New enemy model is now active: " + newEnemyModelPrefab.activeInHierarchy);
-
-        // 新しいエネミーモデルを元のエネミーモデルの位置に移動
-        StartCoroutine(MoveAndSetupNewEnemyModel());
-    }
 
     public void ChangeEnemyModel()
     {
-        if (currentEnemyModel == null)
-        {
-            Debug.LogError("currentEnemyModel is not assigned.");
-            return;
-        }
-
-        if (newEnemyModelPrefab == null)
-        {
-            Debug.LogError("newEnemyModelPrefab is not assigned.");
-            return;
-        }
-
-        // 新しいエネミーモデルをアクティブにする
-        newEnemyModelPrefab.SetActive(true);
-        Debug.Log("New enemy model is now active: " + newEnemyModelPrefab.activeInHierarchy);
-
-        // 新しいエネミーモデルを元のエネミーモデルの位置に移動
-        StartCoroutine(MoveAndSetupNewEnemyModel());
+        enemyTransferManager.TransferEnemySettings();
     }
 
-    private IEnumerator MoveAndSetupNewEnemyModel()
-    {
-        // 新しいエネミーモデルを元のエネミーモデルの位置に移動
-        newEnemyModelPrefab.transform.position = currentEnemyModel.transform.position;
-        newEnemyModelPrefab.transform.rotation = currentEnemyModel.transform.rotation;
-        Debug.Log("New enemy model moved to position: " + newEnemyModelPrefab.transform.position);
-
-        // フレームの終わりまで待つ
-        yield return new WaitForEndOfFrame();
-
-        // 新しいエネミーモデルにエネミーの仕様を適用
-        EnemySaikoro oldEnemySaikoro = currentEnemyModel.GetComponent<EnemySaikoro>();
-        EnemySaikoro newEnemySaikoro = newEnemyModelPrefab.GetComponent<EnemySaikoro>();
-        if (newEnemySaikoro != null)
-        {
-            // 必要なコンポーネントや設定を引き継ぐ
-            newEnemySaikoro.player = oldEnemySaikoro.player;
-            newEnemySaikoro.wallLayer = oldEnemySaikoro.wallLayer;
-            newEnemySaikoro.discoveryBGM = oldEnemySaikoro.discoveryBGM;
-            newEnemySaikoro.undetectedBGM = oldEnemySaikoro.undetectedBGM;
-            newEnemySaikoro.footstepSound = oldEnemySaikoro.footstepSound;
-            newEnemySaikoro.enemyController = oldEnemySaikoro.enemyController;
-            newEnemySaikoro.gameManager = this;
-            newEnemySaikoro.enemyLookAtPlayer = oldEnemySaikoro.enemyLookAtPlayer;
-            newEnemySaikoro.playerCloseMirror = oldEnemySaikoro.playerCloseMirror;
-            newEnemySaikoro.mokushi = oldEnemySaikoro.mokushi;
-            newEnemySaikoro.idoukagen = oldEnemySaikoro.idoukagen;
-            newEnemySaikoro.skill1 = oldEnemySaikoro.skill1;
-            newEnemySaikoro.skill2 = oldEnemySaikoro.skill2;
-            newEnemySaikoro.isTrapped = oldEnemySaikoro.isTrapped;
-
-            // アニメーションや状態を引き継ぐ
-            newEnemySaikoro.SetAnimationState(oldEnemySaikoro.GetCurrentAnimationState());
-        }
-
-        // EnemyControllerの設定を引き継ぐ
-        EnemyController oldEnemyController = currentEnemyModel.GetComponent<EnemyController>();
-        EnemyController newEnemyController = newEnemyModelPrefab.GetComponent<EnemyController>();
-        if (newEnemyController != null)
-        {
-            newEnemyController.gameManager = oldEnemyController.gameManager;
-            newEnemyController.enemySaikoro = newEnemySaikoro;
-        }
-
-        // EnemyLookAtPlayerの設定を引き継ぐ
-        EnemyLookAtPlayer oldEnemyLookAtPlayer = currentEnemyModel.GetComponent<EnemyLookAtPlayer>();
-        EnemyLookAtPlayer newEnemyLookAtPlayer = newEnemyModelPrefab.GetComponent<EnemyLookAtPlayer>();
-        if (newEnemyLookAtPlayer != null)
-        {
-            newEnemyLookAtPlayer.player = oldEnemyLookAtPlayer.player;
-            newEnemyLookAtPlayer.wallLayer = oldEnemyLookAtPlayer.wallLayer;
-        }
-
-        // SmoothTransformの設定を引き継ぐ
-        SmoothTransform oldSmoothTransform = currentEnemyModel.GetComponent<SmoothTransform>();
-        SmoothTransform newSmoothTransform = newEnemyModelPrefab.GetComponent<SmoothTransform>();
-        if (newSmoothTransform != null)
-        {
-            newSmoothTransform.TargetPosition = oldSmoothTransform.TargetPosition;
-            newSmoothTransform.TargetRotation = oldSmoothTransform.TargetRotation;
-            newSmoothTransform.PosFact = oldSmoothTransform.PosFact;
-            newSmoothTransform.RotFact = oldSmoothTransform.RotFact;
-        }
-
-        if (EnemyCopyOn)
-        {
-            enemyCopySaikoro = newEnemyModelPrefab.GetComponent<EnemySaikoro>();
-        }
-
-        // currentEnemyModelを新しいエネミーモデルに更新
-        currentEnemyModel = newEnemyModelPrefab;
-
-        Debug.Log("New enemy model setup complete.");
-    }
-    private IEnumerator MoveOldEnemyModelFarAway(EnemySaikoro oldEnemySaikoro)
-    {
-        yield return new WaitForEndOfFrame(); // 新しいエネミーモデルの移動が完了するのを待つ
-
-        // 元のエネミーモデルを遠くに移動
-        oldEnemySaikoro.transform.position = new Vector3(1000, 1000, 1000); // 遠くに移動
-        Debug.Log("Old enemy model moved to a distant location: " + oldEnemySaikoro.transform.position);
-    }
     // ターンの切り替えを行うメソッド
     public void NextTurn()
     {
@@ -202,26 +84,17 @@ public class GameManager : MonoBehaviour
             Debug.Log("Player Turn Count: " + playerTurnCount); // デバッグログ
 
             playerSaikoro.StartRolling();
-
-            // エネミーのアニメーションをIdleに切り替える
-            /*enemySaikoro.SetIdle();
-            if (EnemyCopyOn)
-            {
-                enemyCopySaikoro.SetIdle();
-            }*/
         }
         else
         {
-            // エネミーのアニメーションをRunに切り替える
-            /*enemySaikoro.SetRun();
-            if (EnemyCopyOn)
+            // 新しいエネミーにアクセス先を変更
+            if (enemySaikoro != null)
             {
-                enemyCopySaikoro.SetRun();
-            }*/
+                Debug.Log("Starting enemy turn for new enemy.");
+                StartCoroutine(enemySaikoro.EnemyTurn());
+            }
 
-            StartCoroutine(enemySaikoro.EnemyTurn());
-
-            if (EnemyCopyOn)
+            if (EnemyCopyOn && enemyCopySaikoro != null)
             {
                 StartCoroutine(enemyCopySaikoro.EnemyTurn());
             }
@@ -237,14 +110,7 @@ public class GameManager : MonoBehaviour
     {
         if (turnIndicatorText != null)
         {
-            if (isPlayerTurn)
-            {
-                turnIndicatorText.text = "PlayerTurn"; // プレイヤーのターン表示
-            }
-            else
-            {
-                turnIndicatorText.text = "EnemyTurn"; // エネミーのターン表示
-            }
+            turnIndicatorText.text = isPlayerTurn ? "PlayerTurn" : "EnemyTurn"; // ターン表示を更新
         }
     }
 

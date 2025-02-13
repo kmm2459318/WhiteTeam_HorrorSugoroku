@@ -162,6 +162,7 @@ GameObject:
   - component: {fileID: 35047690}
   - component: {fileID: 35047688}
   - component: {fileID: 35047689}
+  - component: {fileID: 35047692}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -191,8 +192,9 @@ MonoBehaviour:
   enemySaikoro: {fileID: 1492082208}
   enemyCopySaikoro: {fileID: 240925152}
   currentEnemyModel: {fileID: 1492082207}
-  EnemyCopy: {fileID: 1492082207}
+  EnemyCopy: {fileID: 240925144}
   newEnemyModelPrefab: {fileID: 240925144}
+  enemyTransferManager: {fileID: 35047692}
 --- !u!114 &35047689
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -240,6 +242,21 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &35047692
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 35047687}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ba5168a1b988f2544981c30cd45d0f56, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  currentEnemyModel: {fileID: 1492082207}
+  newEnemyModelPrefab: {fileID: 240925144}
+  gameManager: {fileID: 35047688}
 --- !u!1 &47920136
 GameObject:
   m_ObjectHideFlags: 0
@@ -1405,7 +1422,7 @@ PrefabInstance:
     - target: {fileID: 7918147584060492737, guid: 4cc824d3abdaabc42927fc5035b211e4, type: 3}
       propertyPath: player
       value: 
-      objectReference: {fileID: 344678374}
+      objectReference: {fileID: 2042766872}
     - target: {fileID: 8949150745982800165, guid: 4cc824d3abdaabc42927fc5035b211e4, type: 3}
       propertyPath: m_Name
       value: Slender
@@ -1413,6 +1430,10 @@ PrefabInstance:
     - target: {fileID: 8949150745982800165, guid: 4cc824d3abdaabc42927fc5035b211e4, type: 3}
       propertyPath: m_IsActive
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8949150745982800165, guid: 4cc824d3abdaabc42927fc5035b211e4, type: 3}
+      propertyPath: m_TagString
+      value: Enemy Second
       objectReference: {fileID: 0}
     - target: {fileID: 8986350214387761731, guid: 4cc824d3abdaabc42927fc5035b211e4, type: 3}
       propertyPath: gameManager
@@ -2729,7 +2750,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: -1181335124, guid: 30108f68919f636418b45be9366b09cf, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 12d7b4d0a7b7a0c428d9a04180224ff1, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -3754,7 +3775,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: -1099030412, guid: 889e75fb3d112cf4d814b5eef9a0b8ef, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 5ed2592ecc9b0a44ab7e32319c8d0cff, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -6911,7 +6932,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Texture: {fileID: 0}
+  m_Texture: {fileID: 2800000, guid: cc38fedbdd73bfd4cae3e846dfb5b664, type: 3}
   m_UVRect:
     serializedVersion: 2
     x: 0
@@ -8621,6 +8642,10 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 4613120221208806466, guid: f0d0397779fe1e343a9e10814bd84047, type: 3}
+      propertyPath: m_TagString
+      value: Enemy
+      objectReference: {fileID: 0}
     - target: {fileID: 4613120221208975456, guid: f0d0397779fe1e343a9e10814bd84047, type: 3}
       propertyPath: m_LocalPosition.z
       value: 6.003608
@@ -9358,7 +9383,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 2089418712, guid: 2868f7e4305a2794583384e123336941, type: 3}
+  m_Sprite: {fileID: 21300000, guid: cabb0a08756526a4c9cba0dda6f831cf, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -10145,8 +10170,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: OPTION
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 606b13638a140bd469ecba8e535d80d1, type: 2}
+  m_sharedMaterial: {fileID: -2357513657856494946, guid: 606b13638a140bd469ecba8e535d80d1, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
