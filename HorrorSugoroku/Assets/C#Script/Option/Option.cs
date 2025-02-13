@@ -1,5 +1,6 @@
 using Unity.VisualScripting.Antlr3.Runtime.Tree;
 using UnityEngine;
+using UnityEngine.Rendering;
 using UnityEngine.UI;
 
 public class Option : MonoBehaviour
@@ -23,37 +24,24 @@ public class Option : MonoBehaviour
     {
         OptionCanvas.SetActive(false);
 
-        //音量を初期化
+        // 音量を初期化
         VolumeSlider.value = Volume;
-        //Debug.Log("初期音量:" + VolumeSlider.value);
+        AudioListener.volume = Volume / 100f;//ここの100fを消すと音割れが起きる!
 
-        //カメラ感度を初期化
+        // カメラ感度を初期化
         SensitivitySlider.value = Sensitivity;
         cameraController.mouseSensitivity = Sensitivity;
         Debug.Log("初期感度///:" + SensitivitySlider.value);
 
-
-        
+        // スライダーのリスナーを追加
+        VolumeSlider.onValueChanged.AddListener(OnVolumeChanged);
+        SensitivitySlider.onValueChanged.AddListener(OnSensitivityChanged);
     }
 
-    // Update is called once per frame
     void Update()
     {
-        //バーの値を反映させる
-        Volume = (int)VolumeSlider.value;
-        VolumeSlider.value = Volume;
-        
-        //カメラ感度変更
-        Sensitivity = SensitivitySlider.value;
-        SensitivitySlider.value = Sensitivity;
-        cameraController.mouseSensitivity = Sensitivity;
-
-
-        //Debug.Log("変更音量:" + VolumeSlider.value);
-        //Debug.Log("変更感度:" + SensitivitySlider.value);
-
-        //ボリュームが0なら画像変更
-        if(Volume == 0)
+        // ボリュームが 0 ならミュートアイコンに変更
+        if (AudioListener.volume == 0)
         {
             VolumeImg.sprite = VolumeMuteSprite;
         }
@@ -61,23 +49,26 @@ public class Option : MonoBehaviour
         {
             VolumeImg.sprite = VolumeSprite;
         }
+    }
+
+    private void OnVolumeChanged(float value)
+    {
+        Volume = (int)value;
+        AudioListener.volume = Volume / 100f;//ここの100fを消すと音割れが起きる!
+    }
+
+    // カメラ感度スライダーの値変更時の処理
+    private void OnSensitivityChanged(float value)
+    {
+        cameraController.mouseSensitivity = value;
 
     }
 
-    //オプションボタンを押したら表示するようにする
+    // オプションボタンを押したら表示・非表示を切り替える
     public void OpenOption()
     {
-        if(Setting == false)
-        {
-            OptionCanvas.SetActive(true);
-            Setting = true;
-        }
-        else
-        {
-            OptionCanvas.SetActive(false);
-            Setting = false;
-        }
-        
+        Setting = !Setting;
+        OptionCanvas.SetActive(Setting);
     }
 
 }
