@@ -64,7 +64,7 @@ public class CurseSlider : MonoBehaviour
             nextShowCardThreshold = 20; // リセット時に閾値もリセット
             ResetGaugeImages();
 
-            // Update the text display to show the current CountGauge value
+            // 現在の CountGauge 値で、表示するテキスト表示を更新します。
             UpdateCountText();
         }
 
@@ -169,14 +169,14 @@ public class CurseSlider : MonoBehaviour
     {
         if (countText != null)
         {
-            // If CountGauge is 2 or more, show "呪" instead of the count
+            //CountGauge が 2 以上の場合、カウントの代わりに「呪」を表示
             if (CountGauge >= 2)
             {
-                countText.text = "呪"; // Show "呪" when CountGauge reaches 2 or more
+                countText.text = "呪";
             }
             else
             {
-                countText.text = (3 - CountGauge).ToString(); // Show 3, 2, 1, etc., when CountGauge is less than 2
+                countText.text = (3 - CountGauge).ToString();
             }
         }
     }
