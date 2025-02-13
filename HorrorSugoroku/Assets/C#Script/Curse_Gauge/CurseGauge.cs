@@ -118,7 +118,7 @@ public class CurseSlider : MonoBehaviour
         }
     }
 
-    IEnumerator ShowCardCanvas()
+    public IEnumerator ShowCardCanvas()
     {
         if (CardCanvas != null)
         {

@@ -1,5 +1,5 @@
-using UnityEngine;
 using TMPro;
+using UnityEngine;
 
 public class TurnManager : MonoBehaviour
 {
@@ -21,20 +21,16 @@ public class TurnManager : MonoBehaviour
             PlayerPrefs.SetInt("Turn", currentTurn);
             UpdateTurnText();
 
-            
-
             // 呪いゲージ増加
-            //if (curseSlider != null)
-            //{
-            //    curseSlider.IncreaseDashPointPerTurn();
-            //    Debug.Log("[TurnManager] IncreaseDashPointPerTurn() called.");
-            //}
-            //else
-            //{
-            //    Debug.LogError("[TurnManager] CurseSlider is not assigned!");
-            //}
-
-
+            if (curseSlider != null)
+            {
+                curseSlider.IncreaseDashPointPerTurn();
+                Debug.Log("[TurnManager] IncreaseDashPointPerTurn() called.");
+            }
+            else
+            {
+                Debug.LogError("[TurnManager] CurseSlider is not assigned!");
+            }
         }
     }
 
@@ -51,6 +47,7 @@ public class TurnManager : MonoBehaviour
             Debug.LogError("[TurnManager] CurseSlider is not assigned!");
         }
     }
+
     // ターン数のUIを更新
     private void UpdateTurnText()
     {
@@ -66,17 +63,24 @@ public class TurnManager : MonoBehaviour
         UpdateTurnText();
         PlayerPrefs.SetInt("Turn", 0);
     }
-
+    public void IncreaseDashPointPerTurn()
+    {
+        // 呪いゲージを増加させるロジックをここに追加
+        Debug.Log("CurseSlider: IncreaseDashPointPerTurn called.");
+    }
     // **ターンの最後にCardCanvasを表示するメソッド**
     private void ShowCardCanvasAfterTurn()
     {
-        //if (curseSlider != null)
-        //{
-        //    curseSlider.ShowCardCanvas();
-        //    Debug.Log("[TurnManager] CardCanvas is now displayed.");
-        //}
+        if (curseSlider != null)
+        {
+            curseSlider.ShowCardCanvas();
+            Debug.Log("[TurnManager] CardCanvas is now displayed.");
+        }
     }
+    public void ShowCardCanvas()
+    {
+        // カードキャンバスを表示するロジックをここに追加
+        Debug.Log("CurseSlider: ShowCardCanvas called.");
+    }
+
 }
-
-
-

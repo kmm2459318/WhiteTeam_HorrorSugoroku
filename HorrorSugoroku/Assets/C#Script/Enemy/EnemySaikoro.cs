@@ -452,4 +452,37 @@ public class EnemySaikoro : MonoBehaviour
             animator.SetBool("isRunning", true);
         }
     }
+
+    // 現在のアニメーション状態を取得するメソッド
+    public string GetCurrentAnimationState()
+    {
+        if (animator != null)
+        {
+            if (animator.GetBool("isRunning"))
+            {
+                return "Run";
+            }
+            else
+            {
+                return "Idle";
+            }
+        }
+        return "Idle";
+    }
+
+    // アニメーション状態を設定するメソッド
+    public void SetAnimationState(string state)
+    {
+        if (animator != null)
+        {
+            if (state == "Run")
+            {
+                animator.SetBool("isRunning", true);
+            }
+            else
+            {
+                animator.SetBool("isRunning", false);
+            }
+        }
+    }
 }

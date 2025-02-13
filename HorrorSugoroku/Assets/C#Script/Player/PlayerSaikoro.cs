@@ -61,6 +61,7 @@ public class PlayerSaikoro : MonoBehaviour
     [System.Obsolete]
     void Start()
     {
+        turnManager = FindObjectOfType<TurnManager>();
         cameraChange.Change();
         // プレイヤーシーンがロードされる際に、EnemySaikoroを探して参照を保持
         targetScript = FindObjectOfType<EnemySaikoro>();
@@ -107,6 +108,14 @@ public class PlayerSaikoro : MonoBehaviour
         {
             Debug.LogError("DiceRollSound AudioClip is not assigned.");
         }
+
+        // スプライトのサイズを変更
+        ChangeSpriteSize(s1, new Vector2(200, 200));
+        ChangeSpriteSize(s2, new Vector2(200, 200));
+        ChangeSpriteSize(s3, new Vector2(200, 200));
+        ChangeSpriteSize(s4, new Vector2(200, 200));
+        ChangeSpriteSize(s5, new Vector2(200, 200));
+        ChangeSpriteSize(s6, new Vector2(200, 200));
     }
 
     void Update()
@@ -300,7 +309,18 @@ public class PlayerSaikoro : MonoBehaviour
             }
         }*/
     }
-
+    void ChangeSpriteSize(Sprite sprite, Vector2 newSize)
+    {
+        RectTransform rectTransform = saikoro.GetComponent<RectTransform>();
+        if (rectTransform != null)
+        {
+            rectTransform.sizeDelta = newSize;
+        }
+        else
+        {
+            Debug.LogError("RectTransform component is missing on the saikoro GameObject.");
+        }
+    }
     public void DiceRoll()
     {
         saikorotyu = true;

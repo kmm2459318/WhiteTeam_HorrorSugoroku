@@ -76,24 +76,30 @@ public class GameManager : MonoBehaviour
             newEnemyModelPrefab.SetActive(true);
 
             // 新しいエネミーモデルにエネミーの仕様を適用
+            EnemySaikoro oldEnemySaikoro = currentEnemyModel.GetComponent<EnemySaikoro>();
             enemySaikoro = newEnemyModelPrefab.GetComponent<EnemySaikoro>();
             if (enemySaikoro != null)
             {
                 // 必要なコンポーネントや設定を引き継ぐ
-                enemySaikoro.player = currentEnemyModel.GetComponent<EnemySaikoro>().player;
-                enemySaikoro.wallLayer = currentEnemyModel.GetComponent<EnemySaikoro>().wallLayer;
-                enemySaikoro.discoveryBGM = currentEnemyModel.GetComponent<EnemySaikoro>().discoveryBGM;
-                enemySaikoro.undetectedBGM = currentEnemyModel.GetComponent<EnemySaikoro>().undetectedBGM;
-                enemySaikoro.footstepSound = currentEnemyModel.GetComponent<EnemySaikoro>().footstepSound;
-                enemySaikoro.enemyController = currentEnemyModel.GetComponent<EnemySaikoro>().enemyController;
+                enemySaikoro.player = oldEnemySaikoro.player;
+                enemySaikoro.wallLayer = oldEnemySaikoro.wallLayer;
+                enemySaikoro.discoveryBGM = oldEnemySaikoro.discoveryBGM;
+                enemySaikoro.undetectedBGM = oldEnemySaikoro.undetectedBGM;
+                enemySaikoro.footstepSound = oldEnemySaikoro.footstepSound;
+                enemySaikoro.enemyController = oldEnemySaikoro.enemyController;
                 enemySaikoro.gameManager = this;
-                enemySaikoro.enemyLookAtPlayer = currentEnemyModel.GetComponent<EnemySaikoro>().enemyLookAtPlayer;
-                enemySaikoro.playerCloseMirror = currentEnemyModel.GetComponent<EnemySaikoro>().playerCloseMirror;
-                enemySaikoro.mokushi = currentEnemyModel.GetComponent<EnemySaikoro>().mokushi;
-                enemySaikoro.idoukagen = currentEnemyModel.GetComponent<EnemySaikoro>().idoukagen;
-                enemySaikoro.skill1 = currentEnemyModel.GetComponent<EnemySaikoro>().skill1;
-                enemySaikoro.skill2 = currentEnemyModel.GetComponent<EnemySaikoro>().skill2;
-                enemySaikoro.isTrapped = currentEnemyModel.GetComponent<EnemySaikoro>().isTrapped;
+                enemySaikoro.enemyLookAtPlayer = oldEnemySaikoro.enemyLookAtPlayer;
+                enemySaikoro.playerCloseMirror = oldEnemySaikoro.playerCloseMirror;
+                enemySaikoro.mokushi = oldEnemySaikoro.mokushi;
+                enemySaikoro.idoukagen = oldEnemySaikoro.idoukagen;
+                enemySaikoro.skill1 = oldEnemySaikoro.skill1;
+                enemySaikoro.skill2 = oldEnemySaikoro.skill2;
+                enemySaikoro.isTrapped = oldEnemySaikoro.isTrapped;
+
+                // アニメーションや状態を引き継ぐ
+                enemySaikoro.SetAnimationState(oldEnemySaikoro.GetCurrentAnimationState());
+                enemySaikoro.transform.position = oldEnemySaikoro.transform.position;
+                enemySaikoro.transform.rotation = oldEnemySaikoro.transform.rotation;
             }
 
             if (EnemyCopyOn)
