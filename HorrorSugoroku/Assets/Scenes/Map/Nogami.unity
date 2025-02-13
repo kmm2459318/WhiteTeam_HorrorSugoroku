@@ -1635,6 +1635,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerBody: {fileID: 0}
+  mouseSensitivity: 250
   sensitivitySlider: {fileID: 0}
 --- !u!114 &281751358
 MonoBehaviour:
@@ -2170,7 +2171,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 20, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &358859156
 MonoBehaviour:
@@ -4147,7 +4148,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 10, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &616064794
 MonoBehaviour:
@@ -7376,7 +7377,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 10, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1167375726
 MonoBehaviour:
@@ -8035,10 +8036,10 @@ MonoBehaviour:
   m_FillRect: {fileID: 1167375725}
   m_HandleRect: {fileID: 1667385350}
   m_Direction: 0
-  m_MinValue: 1
-  m_MaxValue: 10
+  m_MinValue: 100
+  m_MaxValue: 300
   m_WholeNumbers: 0
-  m_Value: 5
+  m_Value: 200
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -9104,7 +9105,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 20, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &1667385351
 CanvasRenderer:
@@ -9868,11 +9869,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gameManager: {fileID: 35047688}
+  cameraController: {fileID: 281751357}
   OptionCanvas: {fileID: 1878833734}
   VolumeSlider: {fileID: 1894785244}
+  VolumeImg: {fileID: 395774333}
+  VolumeSprite: {fileID: -1181335124, guid: 30108f68919f636418b45be9366b09cf, type: 3}
+  VolumeMuteSprite: {fileID: -2078093348, guid: 1774e010358a815469f483f9dc00a064, type: 3}
   Volume: 50
   SensitivitySlider: {fileID: 1409761839}
-  Sensitivity: 2
+  Sensitivity: 250
 --- !u!4 &1765977225
 Transform:
   m_ObjectHideFlags: 0
@@ -10771,7 +10776,7 @@ MonoBehaviour:
   m_MinValue: 0
   m_MaxValue: 100
   m_WholeNumbers: 0
-  m_Value: 50
+  m_Value: 1
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls: []
