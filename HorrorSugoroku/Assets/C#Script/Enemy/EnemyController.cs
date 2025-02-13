@@ -13,8 +13,12 @@ public class EnemyController : MonoBehaviour
     void Start()
     {
         animator = GetComponent<Animator>(); // アニメーターコンポーネントの取得
-    }
 
+        if (enemySaikoro == null)
+        {
+            Debug.LogError("enemySaikoro is not assigned.");
+        }
+    }
     void Update()
     {
         if (isMoving)
