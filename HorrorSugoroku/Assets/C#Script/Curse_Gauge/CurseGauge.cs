@@ -1,9 +1,11 @@
 ﻿using System.Collections;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class CurseSlider : MonoBehaviour
 {
+    [SerializeField] TextMeshProUGUI countText;  //呪いゲージTEXT
     [SerializeField] Slider DashGage;
     [SerializeField] SceneChanger3D sceneChanger;
     [SerializeField] GameObject CardCanvas;
@@ -12,12 +14,12 @@ public class CurseSlider : MonoBehaviour
     [SerializeField] Button cursegiveButton;
 
     [SerializeField] private Master_Curse master_Curse;
-    [SerializeField] private Image[] ImageGages; // 画像ゲージ (2〜6)
+    [SerializeField] private Image[] ImageGages; // 画像ゲージ（下から上に増える）
 
     public float maxDashPoint = 100;
     public float dashIncreasePerTurn = 5;
 
-    int CountGauge = 0;
+    int CountGauge = 0;      　　　　　　　 //ゲームオーバーカウント
     float dashPoint = 0;
     public GameManager gameManager;
     public TurnManager turnManager;
@@ -54,12 +56,22 @@ public class CurseSlider : MonoBehaviour
     {
         DashGage.value = dashPoint;
 
+        // 100を超えた場合、ゲージリセット
         if (dashPoint >= maxDashPoint)
         {
             CountGauge++;
             dashPoint = 0;
             nextShowCardThreshold = 20; // リセット時に閾値もリセット
             ResetGaugeImages();
+
+            // 現在の CountGauge 値で、表示するテキスト表示を更新します。
+            UpdateCountText();
+        }
+
+        // 300を超えた場合、ゲームオーバー画面へ遷移
+        if (CountGauge == 3)
+        {
+            GameOver();
         }
 
         UpdateImageGauges();
@@ -85,7 +97,6 @@ public class CurseSlider : MonoBehaviour
         if (!gameManager.isPlayerTurn) return;
     }
 
-
     public void IncreaseDashPointPerTurn()
     {
         dashPoint = Mathf.Min(dashPoint + dashIncreasePerTurn, maxDashPoint);
@@ -100,11 +111,9 @@ public class CurseSlider : MonoBehaviour
         {
             float min = i * 20;
             float max = (i + 1) * 20;
-            float alpha = Mathf.Clamp01((dashPoint - min) / (max - min));
+            float fill = Mathf.Clamp01((dashPoint - min) / (max - min));
 
-            Color color = ImageGages[i].color;
-            color.a = alpha;
-            ImageGages[i].color = color;
+            ImageGages[i].fillAmount = fill; // 下から上に向かってゲージが増える
         }
     }
 
@@ -112,13 +121,11 @@ public class CurseSlider : MonoBehaviour
     {
         foreach (Image img in ImageGages)
         {
-            Color color = img.color;
-            color.a = 0;
-            img.color = color;
+            img.fillAmount = 0; // 全ゲージをリセット
         }
     }
 
-    IEnumerator ShowCardCanvas()
+    public IEnumerator ShowCardCanvas()
     {
         if (CardCanvas != null)
         {
@@ -155,5 +162,30 @@ public class CurseSlider : MonoBehaviour
         DashGage.value = dashPoint;
         Debug.Log("[CursegiveButton] After: DashPoint = " + dashPoint);
         Time.timeScale = 1;
+    }
+
+    
+    private void UpdateCountText()
+    {
+        if (countText != null)
+        {
+            //CountGauge が 2 以上の場合、カウントの代わりに「呪」を表示
+            if (CountGauge >= 2)
+            {
+                countText.text = "呪";
+            }
+            else
+            {
+                countText.text = (3 - CountGauge).ToString();
+            }
+        }
+    }
+        
+    
+
+    private void GameOver()
+    {
+        // ゲームオーバー処理（シーンをゲームオーバー画面に変更するなど）
+        Debug.Log("ゲームオーバーです！");
     }
 }

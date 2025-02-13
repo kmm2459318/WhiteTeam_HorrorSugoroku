@@ -2,6 +2,7 @@ using UnityEngine;
 using TMPro;
 using System.Collections;
 using UnityEngine.SceneManagement;
+using SmoothigTransform;
 
 public class GameManager : MonoBehaviour
 {
@@ -17,8 +18,10 @@ public class GameManager : MonoBehaviour
     public EnemySaikoro enemyCopySaikoro;
 
     public GameObject currentEnemyModel; // 現在のエネミーモデル
-    public GameObject EnemyCopy;
+    public GameObject EnemyCopy; // コピーエネミーモデル
     public GameObject newEnemyModelPrefab; // 新しいエネミーモデルのプレハブ
+
+    public EnemyTransferManager enemyTransferManager;
 
     private int playerTurnCount = 0; // プレイヤーのターン数をカウントする変数
 
@@ -61,54 +64,11 @@ public class GameManager : MonoBehaviour
         }
     }
 
-
-    private void ChangeEnemyModel()
+    public void ChangeEnemyModel()
     {
-        if (currentEnemyModel != null)
-        {
-            // 元のエネミーモデルを非アクティブにする
-            currentEnemyModel.SetActive(false);
-        }
-
-        // 新しいエネミーモデルをアクティブにする
-        if (newEnemyModelPrefab != null)
-        {
-            newEnemyModelPrefab.SetActive(true);
-
-            // 新しいエネミーモデルにエネミーの仕様を適用
-            enemySaikoro = newEnemyModelPrefab.GetComponent<EnemySaikoro>();
-            if (enemySaikoro != null)
-            {
-                // 必要なコンポーネントや設定を引き継ぐ
-                enemySaikoro.player = currentEnemyModel.GetComponent<EnemySaikoro>().player;
-                enemySaikoro.wallLayer = currentEnemyModel.GetComponent<EnemySaikoro>().wallLayer;
-                enemySaikoro.discoveryBGM = currentEnemyModel.GetComponent<EnemySaikoro>().discoveryBGM;
-                enemySaikoro.undetectedBGM = currentEnemyModel.GetComponent<EnemySaikoro>().undetectedBGM;
-                enemySaikoro.footstepSound = currentEnemyModel.GetComponent<EnemySaikoro>().footstepSound;
-                enemySaikoro.enemyController = currentEnemyModel.GetComponent<EnemySaikoro>().enemyController;
-                enemySaikoro.gameManager = this;
-                enemySaikoro.enemyLookAtPlayer = currentEnemyModel.GetComponent<EnemySaikoro>().enemyLookAtPlayer;
-                enemySaikoro.playerCloseMirror = currentEnemyModel.GetComponent<EnemySaikoro>().playerCloseMirror;
-                enemySaikoro.mokushi = currentEnemyModel.GetComponent<EnemySaikoro>().mokushi;
-                enemySaikoro.idoukagen = currentEnemyModel.GetComponent<EnemySaikoro>().idoukagen;
-                enemySaikoro.skill1 = currentEnemyModel.GetComponent<EnemySaikoro>().skill1;
-                enemySaikoro.skill2 = currentEnemyModel.GetComponent<EnemySaikoro>().skill2;
-                enemySaikoro.isTrapped = currentEnemyModel.GetComponent<EnemySaikoro>().isTrapped;
-            }
-
-            if (EnemyCopyOn)
-            {
-                enemyCopySaikoro = newEnemyModelPrefab.GetComponent<EnemySaikoro>();
-            }
-
-            // currentEnemyModelを新しいエネミーモデルに更新
-            currentEnemyModel = newEnemyModelPrefab;
-        }
-        else
-        {
-            Debug.LogError("newEnemyModelPrefab is not assigned.");
-        }
+        enemyTransferManager.TransferEnemySettings();
     }
+
     // ターンの切り替えを行うメソッド
     public void NextTurn()
     {
@@ -124,26 +84,17 @@ public class GameManager : MonoBehaviour
             Debug.Log("Player Turn Count: " + playerTurnCount); // デバッグログ
 
             playerSaikoro.StartRolling();
-
-            // エネミーのアニメーションをIdleに切り替える
-            /*enemySaikoro.SetIdle();
-            if (EnemyCopyOn)
-            {
-                enemyCopySaikoro.SetIdle();
-            }*/
         }
         else
         {
-            // エネミーのアニメーションをRunに切り替える
-            /*enemySaikoro.SetRun();
-            if (EnemyCopyOn)
+            // 新しいエネミーにアクセス先を変更
+            if (enemySaikoro != null)
             {
-                enemyCopySaikoro.SetRun();
-            }*/
+                Debug.Log("Starting enemy turn for new enemy.");
+                StartCoroutine(enemySaikoro.EnemyTurn());
+            }
 
-            StartCoroutine(enemySaikoro.EnemyTurn());
-
-            if (EnemyCopyOn)
+            if (EnemyCopyOn && enemyCopySaikoro != null)
             {
                 StartCoroutine(enemyCopySaikoro.EnemyTurn());
             }
@@ -159,14 +110,7 @@ public class GameManager : MonoBehaviour
     {
         if (turnIndicatorText != null)
         {
-            if (isPlayerTurn)
-            {
-                turnIndicatorText.text = "PlayerTurn"; // プレイヤーのターン表示
-            }
-            else
-            {
-                turnIndicatorText.text = "EnemyTurn"; // エネミーのターン表示
-            }
+            turnIndicatorText.text = isPlayerTurn ? "PlayerTurn" : "EnemyTurn"; // ターン表示を更新
         }
     }
 

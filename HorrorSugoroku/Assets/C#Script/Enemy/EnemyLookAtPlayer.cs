@@ -26,9 +26,6 @@ public class EnemyLookAtPlayer : MonoBehaviour
             Vector3 directionToPlayer = (player.transform.position - transform.position).normalized;
             Quaternion lookRotation = Quaternion.LookRotation(new Vector3(directionToPlayer.x, 0, directionToPlayer.z));
             transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, Time.deltaTime * 5f);
-
-            // プレイヤーに向かって移動する場合のロジックを追加（必要に応じて）
-            // moveDirection = directionToPlayer;
         }
         else
         {
@@ -45,13 +42,12 @@ public class EnemyLookAtPlayer : MonoBehaviour
             if (frontHit)
             {
                 moveDirection = -moveDirection; // 方向を反転
-                //Debug.Log("Wall detected at front, changing direction to: " + moveDirection);
+                Debug.Log("Wall detected at front, changing direction to: " + moveDirection);
             }
         }
 
         // エネミーの移動状態に基づいてアニメーションを制御
         isMoving = moveDirection != Vector3.zero; // 移動方向がゼロでない場合は移動中と判断
-        //Debug.Log("isRunning: " + isMoving); // デバッグログを追加
         animator.SetBool("isRunning", isMoving);
         animator.SetBool("isIdle", !isMoving);
     }
