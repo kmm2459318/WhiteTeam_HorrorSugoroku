@@ -17,9 +17,12 @@ public class PlayerSaikoro : MonoBehaviour
     public bool exploring = false; // 探索中の判定（追加）
     private bool magarityu = false;
     private bool idouspan = false;
+    private bool enemyEnd1 = false;
+    private bool enemyEnd2 = false;
     private float saikoroTime = 0; // サイコロの時間の計測
     private float magariTime = 0; // 曲がりの時間の計測
     private float idouspanTime = 0;
+    private float enemyendTime = 0;
     private int ii = 0; // 繰り返し回数
     private int detame = 0; //出た値（ストッパー）
     private bool PN = false; // プレイヤーの東西南北
@@ -37,6 +40,7 @@ public class PlayerSaikoro : MonoBehaviour
     public Sprite s6;
     public GameObject saikoro;
     public GameObject Player;
+    public GameObject Enemy;
     public GameObject PNorth;
     public GameObject PWest;
     public GameObject PEast;
@@ -46,6 +50,7 @@ public class PlayerSaikoro : MonoBehaviour
     private Transform Emasu;
     public GameObject PSouth;
     public GameObject Camera;
+    Vector3 nnn = new Vector3(0, 0, 0);
     //Vector3 Pos;
     Vector3 Rotation;
     Vector3 Rot;
@@ -242,12 +247,27 @@ public class PlayerSaikoro : MonoBehaviour
         }
 
         // Fキーを押したら探索を終了し、次のターンへ
-        if (exploring && Input.GetKeyDown(KeyCode.F))
+        if ((exploring && Input.GetKeyDown(KeyCode.F)) || enemyEnd1)
         {
-            exploring = false;
-            targetScript.idouspanTime = 0f;
-            Debug.Log("探索モード終了、次のターンへ");
-            gameManager.NextTurn();
+            enemyEnd1 = true;
+
+            if (((nnn.x + 0.0001f > Enemy.transform.position.x && nnn.x - 0.0001f < Enemy.transform.position.x) &&
+            (nnn.z + 0.0001f > Enemy.transform.position.z && nnn.z - 0.0001f < Enemy.transform.position.z)) || enemyEnd2)
+            {
+                enemyEnd2 = true;
+
+                this.enemyendTime += Time.deltaTime;
+                if (enemyendTime > 4f)
+                {
+                    enemyEnd1 = false;
+                    enemyEnd2 = false;
+                    exploring = false;
+                    targetScript.idouspanTime = 0f;
+                    Debug.Log("探索モード終了、次のターンへ");
+                    gameManager.NextTurn();
+                }
+            }
+            nnn = Enemy.transform.position;
         }
         // 探索中の判定をtrueにする
         // ボタン、スペースキーを押したときに探索の判定をfalseにする

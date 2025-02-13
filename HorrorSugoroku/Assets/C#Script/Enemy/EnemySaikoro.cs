@@ -58,26 +58,30 @@ public class EnemySaikoro : MonoBehaviour
             Debug.LogError("EnemyLookAtPlayer component is not assigned or found on the enemy object.");
         }
 
-        
-        // テキストの初期化
-        //if (discoveryText != null)
-        //{
-        //    discoveryText.text = "未発見"; // 初期状態は未発見
-        //}
-        //else
-        //{
-        //    Debug.LogError("Discovery Text is not assigned in the Inspector.");
-        //}
-
         // AudioSourceの取得
         audioSource = GetComponent<AudioSource>();
         if (audioSource == null)
         {
             audioSource = gameObject.AddComponent<AudioSource>(); // AudioSourceがなければ追加
         }
+
+        // デバッグログの追加
+        Debug.Log("EnemySaikoro Start method called.");
+        Debug.Log("Player: " + player);
+        Debug.Log("ENorth: " + ENorth);
+        Debug.Log("EWest: " + EWest);
+        Debug.Log("EEast: " + EEast);
+        Debug.Log("ESouth: " + ESouth);
+        Debug.Log("enemySmooth: " + enemySmooth);
+        Debug.Log("enemyBodySmooth: " + enemyBodySmooth);
     }
     void Update()
     {
+        if (ENorth == null) Debug.LogError("ENorth is not assigned.");
+        if (EWest == null) Debug.LogError("EWest is not assigned.");
+        if (EEast == null) Debug.LogError("EEast is not assigned.");
+        if (ESouth == null) Debug.LogError("ESouth is not assigned.");
+
         EN = ENorth.GetComponent<PlayerNSEWCheck>().masuCheck;
         EW = EWest.GetComponent<PlayerNSEWCheck>().masuCheck;
         EE = EEast.GetComponent<PlayerNSEWCheck>().masuCheck;
@@ -93,7 +97,7 @@ public class EnemySaikoro : MonoBehaviour
             return;
         }
 
-        
+
         // プレイヤーが発見されたかをチェック
         if (Vector3.Distance(this.transform.position, player.transform.position) < mokushi)
         {
@@ -239,6 +243,7 @@ public class EnemySaikoro : MonoBehaviour
 
     private IEnumerator MoveTowardsPlayer(bool s1, bool s2)
     {
+        Debug.Log("MoveTowardsPlayer called");
         isMoving = true; // 移動開始
         enemyLookAtPlayer.SetIsMoving(true); // エネミーの移動状態を設定
         int initialSteps = steps;
@@ -336,10 +341,6 @@ public class EnemySaikoro : MonoBehaviour
                 // プレイヤーが発見されたかをチェック
                 if (Vector3.Distance(this.transform.position, player.transform.position) < mokushi)
                 {
-                    //if (discoveryText != null)
-                    //{
-                    //    discoveryText.text = "発見！"; // プレイヤーが近ければ「発見！」と表示
-                    //}
                     if (discoveryBGM != null && !audioSource.isPlaying) // 発見時のBGMを流す
                     {
                         audioSource.clip = discoveryBGM;
@@ -379,7 +380,6 @@ public class EnemySaikoro : MonoBehaviour
             audioSource.clip = currentBGM;
             audioSource.Play(); // BGMを再開
         }
-
 
         Debug.Log("Enemy moved a total of " + initialSteps + " steps.");
 
