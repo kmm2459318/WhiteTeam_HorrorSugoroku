@@ -5,7 +5,7 @@ public class ClickObject : MonoBehaviour
     public PlayerSaikoro playerSaikoro; // PlayerSaikoroクラスへの参照
     public PlayerInventory playerInventory; // PlayerInventory への参照
     public GameManager gameManager;
-    public string itemName = "鍵"; // 鍵の名前
+  //  public string itemName = "鍵"; // 鍵の名前
     void Start()
     {
         // 自動で `PlayerInventory` を取得
@@ -49,7 +49,7 @@ public class ClickObject : MonoBehaviour
 
                             if (randomChoice == 0)
                             {
-                                ExecuteScriptA(); // スクリプトAを実行（アイテム取得）
+                                ExecuteScriptA(hit.collider.gameObject); // スクリプトAを実行（アイテム取得）
                             }
                             else
                             {
@@ -76,16 +76,14 @@ public class ClickObject : MonoBehaviour
             }
         }
     }
-    void ExecuteScriptA()
+    void ExecuteScriptA(GameObject clickedItem)
     {
-        string itemName = gameObject.name;  // 取得するアイテム名
-                              Debug.Log(this.itemName + " を入手しました");
+        string itemName = "鍵";  // **固定で「鍵」にする**
+        Debug.Log(itemName + " を入手しました");
 
-
-        // インベントリが `null` でなければ追加
         if (playerInventory != null)
         {
-            playerInventory.AddItem(itemName);
+            playerInventory.AddItem(itemName); // 🎯 インベントリに「鍵」を追加
         }
         else
         {
