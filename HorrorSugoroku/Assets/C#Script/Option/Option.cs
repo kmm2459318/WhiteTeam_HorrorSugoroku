@@ -26,7 +26,7 @@ public class Option : MonoBehaviour
 
         // 音量を初期化
         VolumeSlider.value = Volume;
-        AudioListener.volume = Volume / 100f;
+        AudioListener.volume = Volume / 100f;//ここの100fを消すと音割れが起きる
 
         // カメラ感度を初期化
         SensitivitySlider.value = Sensitivity;
@@ -54,7 +54,7 @@ public class Option : MonoBehaviour
     private void OnVolumeChanged(float value)
     {
         Volume = (int)value;
-        AudioListener.volume = Volume / 100f;
+        AudioListener.volume = Volume / 100f;//ここの100fを消すと音割れが起きる
     }
 
     // カメラ感度スライダーの値変更時の処理
