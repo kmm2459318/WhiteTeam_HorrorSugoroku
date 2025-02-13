@@ -64,7 +64,11 @@ public class MapCreator : MonoBehaviour
         // マップ生成の処理実行
         CreateMap(MapName);
     }
-
+    public void ReplaceTile(Vector3 position)
+    {
+        GameObject newTile = NormalTile; // 置き換えるタイル（ここでは NormalTile）
+        Instantiate(newTile, position, Quaternion.identity);
+    }
     void CreateMap(string MapName)
     {
         int[,] CreateMapData = MapData[MapName];
@@ -107,8 +111,19 @@ public class MapCreator : MonoBehaviour
                 }
                 if (tilePrefab != null)
                 {
-                    Vector3 TilePositon = new Vector3(2 * (x - 1), 0, 2 * (y - 1)) + MapStartPosition;
-                    Instantiate(tilePrefab, TilePositon, Quaternion.identity);
+                    //Vector3 TilePositon = new Vector3(2 * (x - 1), 0, 2 * (y - 1)) + MapStartPosition;
+                    //Instantiate(tilePrefab, TilePositon, Quaternion.identity);
+                    Vector3 tilePosition = new Vector3(2 * (x - 1), 0, 2 * (y - 1)) + MapStartPosition;
+
+                    // tilePrefabをインスタンス化
+                    GameObject tileInstance = Instantiate(tilePrefab, tilePosition, Quaternion.identity);
+
+                    // DoorTile なら削除時に置き換える処理を追加
+                    if (CreateMapData[y, x] == 7)
+                    {
+                        DoorTileScript doorScript = tileInstance.AddComponent<DoorTileScript>();
+                        doorScript.mapCreator = this;
+                    }
                 }
             }
         }

@@ -47,7 +47,7 @@ public class Door : MonoBehaviour
         {
             if (doorUI.activeSelf)
             {
-                Debug.Log("aaa");
+              //  Debug.Log("aaa");
                 //CloseDoor(); // ドアを閉める
                 CloseUI(); // UIが開いていたら閉じる
             }
@@ -92,10 +92,10 @@ public class Door : MonoBehaviour
 
         void CloseUI()
         {
-            Debug.Log("iii");
+            //Debug.Log("iii");
             if (doorUI != null)
             {
-                Debug.Log("uuu");
+               // Debug.Log("uuu");
                 doorUI.SetActive(false);
                 isOpen = false;
                 Time.timeScale = 1; // ゲームを再開
