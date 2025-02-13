@@ -11,7 +11,7 @@ public class Door : MonoBehaviour
 
 
     private Transform player; // プレイヤーの Transform
-    private PlayerInventory playerInventory; // プレイヤーのインベントリ参照
+    public PlayerInventory playerInventory; // プレイヤーのインベントリ参照
     public string requiredItem = "鍵"; // 必要なアイテム
 
     public GameObject doorUI; // UIのパネル（Inspector で設定）

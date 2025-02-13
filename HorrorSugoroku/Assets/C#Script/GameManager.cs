@@ -83,28 +83,6 @@ public class GameManager : MonoBehaviour
         StartCoroutine(MoveAndSetupNewEnemyModel());
     }
 
-    public void ChangeEnemyModel()
-    {
-        if (currentEnemyModel == null)
-        {
-            Debug.LogError("currentEnemyModel is not assigned.");
-            return;
-        }
-
-        if (newEnemyModelPrefab == null)
-        {
-            Debug.LogError("newEnemyModelPrefab is not assigned.");
-            return;
-        }
-
-        // 新しいエネミーモデルをアクティブにする
-        newEnemyModelPrefab.SetActive(true);
-        Debug.Log("New enemy model is now active: " + newEnemyModelPrefab.activeInHierarchy);
-
-        // 新しいエネミーモデルを元のエネミーモデルの位置に移動
-        StartCoroutine(MoveAndSetupNewEnemyModel());
-    }
-
     private IEnumerator MoveAndSetupNewEnemyModel()
     {
         // 新しいエネミーモデルを元のエネミーモデルの位置に移動
