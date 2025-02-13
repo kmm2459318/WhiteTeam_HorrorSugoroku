@@ -5143,7 +5143,9 @@ MonoBehaviour:
   enemyController: {fileID: 0}
   gameManager: {fileID: 0}
   enemyLookAtPlayer: {fileID: 792993949}
+  playerSaikoro: {fileID: 0}
   playerCloseMirror: {fileID: 2042766874}
+  enemyCloseMasu: {fileID: 0}
   mokushi: 3
   idoukagen: 1
   skill1: 0
@@ -8244,7 +8246,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4613120221208975458, guid: f0d0397779fe1e343a9e10814bd84047, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 6.5
+      value: 5.53
       objectReference: {fileID: 0}
     - target: {fileID: 4613120221208975458, guid: f0d0397779fe1e343a9e10814bd84047, type: 3}
       propertyPath: m_LocalPosition.z
@@ -8315,6 +8317,14 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 35047688}
     - target: {fileID: 8647504930974984232, guid: f0d0397779fe1e343a9e10814bd84047, type: 3}
+      propertyPath: playerSaikoro
+      value: 
+      objectReference: {fileID: 1599821573}
+    - target: {fileID: 8647504930974984232, guid: f0d0397779fe1e343a9e10814bd84047, type: 3}
+      propertyPath: enemyCloseMasu
+      value: 
+      objectReference: {fileID: 1492082213}
+    - target: {fileID: 8647504930974984232, guid: f0d0397779fe1e343a9e10814bd84047, type: 3}
       propertyPath: enemyBodySmooth
       value: 
       objectReference: {fileID: 96554117}
@@ -8347,6 +8357,9 @@ PrefabInstance:
       insertIndex: -1
       addedObject: {fileID: 1861827280}
     m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 4613120221208806466, guid: f0d0397779fe1e343a9e10814bd84047, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1492082213}
     - targetCorrespondingSourceObject: {fileID: 4613120221208806472, guid: f0d0397779fe1e343a9e10814bd84047, type: 3}
       insertIndex: -1
       addedObject: {fileID: 96554117}
@@ -8401,6 +8414,18 @@ MonoBehaviour:
   m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 8b7bc4169fc839f4fbde20ded8fd971b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1492082213
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1492082207}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 658c7dda6e230d2488fde00f9d94a77a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &1527687192
@@ -8627,6 +8652,7 @@ MonoBehaviour:
   player: {fileID: 2042766877}
   saikorotyu: 0
   idoutyu: 0
+  exploring: 0
   s1: {fileID: 21300000, guid: 48857b2fd6bca22478e90a6a898c1438, type: 3}
   s2: {fileID: 21300000, guid: ef67102a90008f240a3d709b350a091b, type: 3}
   s3: {fileID: 21300000, guid: da9b6c8d60480c94f98e85c36b8375eb, type: 3}

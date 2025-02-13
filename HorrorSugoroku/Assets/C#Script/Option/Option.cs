@@ -35,8 +35,8 @@ public class Option : MonoBehaviour
         VolumeSlider.value = Volume;
         SensitivitySlider.value = Sensitivity;
 
-        Debug.Log("変更音量:" + VolumeSlider.value);
-        Debug.Log("変更感度:" + SensitivitySlider.value);
+        //Debug.Log("変更音量:" + VolumeSlider.value);
+        //Debug.Log("変更感度:" + SensitivitySlider.value);
 
     }
 
