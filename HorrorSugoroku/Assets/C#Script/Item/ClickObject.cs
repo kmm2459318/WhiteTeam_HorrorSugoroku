@@ -1,62 +1,109 @@
-using UnityEngine;
+ï»¿using UnityEngine;
 
 public class ClickObject : MonoBehaviour
 {
-    public PlayerSaikoro playerSaikoro; // PlayerSaikoroƒNƒ‰ƒX‚Ö‚ÌQÆ
-    public PlayerInventory playerInventory; // PlayerInventory ‚Ö‚ÌQÆ
-    public string itemName = "Œ®"; // Œ®‚Ì–¼‘O
+    public PlayerSaikoro playerSaikoro; // PlayerSaikoroã‚¯ãƒ©ã‚¹ã¸ã®å‚ç…§
+    public PlayerInventory playerInventory; // PlayerInventory ã¸ã®å‚ç…§
+    public GameManager gameManager;
+    public string itemName = "éµ"; // éµã®åå‰
     void Start()
     {
-        // ©“®‚Å `PlayerInventory` ‚ğæ“¾
+        // è‡ªå‹•ã§ `PlayerInventory` ã‚’å–å¾—
         playerInventory = FindObjectOfType<PlayerInventory>();
 
-        // `PlayerSaikoro` ‚à©“®æ“¾
+        // `PlayerSaikoro` ã‚‚è‡ªå‹•å–å¾—
         playerSaikoro = FindObjectOfType<PlayerSaikoro>();
 
-        // Nullƒ`ƒFƒbƒN
+        gameManager = FindObjectOfType<GameManager>(); // GameManager ã‚’å–å¾—
+
+        // Nullãƒã‚§ãƒƒã‚¯
         if (playerInventory == null)
-            Debug.LogError("PlayerInventory ‚ªŒ©‚Â‚©‚è‚Ü‚¹‚ñIƒvƒŒƒCƒ„[‚ÉƒAƒ^ƒbƒ`‚³‚ê‚Ä‚¢‚Ü‚·‚©H");
+            Debug.LogError("PlayerInventory ãŒè¦‹ã¤ã‹ã‚Šã¾ã›ã‚“ï¼ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã«ã‚¢ã‚¿ãƒƒãƒã•ã‚Œã¦ã„ã¾ã™ã‹ï¼Ÿ");
 
         if (playerSaikoro == null)
-            Debug.LogError("PlayerSaikoro ‚ªŒ©‚Â‚©‚è‚Ü‚¹‚ñI");
+            Debug.LogError("PlayerSaikoro ãŒè¦‹ã¤ã‹ã‚Šã¾ã›ã‚“ï¼");
+
+        if (gameManager == null)
+            Debug.LogError("GameManager ãŒè¦‹ã¤ã‹ã‚Šã¾ã›ã‚“ï¼");
     }
     void Update()
     {
-        if (Input.GetMouseButtonDown(0)) // ¶ƒNƒŠƒbƒN
+        if (Input.GetMouseButtonDown(0)) // å·¦ã‚¯ãƒªãƒƒã‚¯
         {
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
             RaycastHit hit;
 
-            if (Physics.Raycast(ray, out hit)) // ƒŒƒCƒLƒƒƒXƒg‚ÅƒIƒuƒWƒFƒNƒg‚ğ”»’è
+            if (Physics.Raycast(ray, out hit)) // ãƒ¬ã‚¤ã‚­ãƒ£ã‚¹ãƒˆã§ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’åˆ¤å®š
             {
-                if (hit.collider.CompareTag("Object")) // ƒ^ƒO‚ª "Object" ‚Ìê‡
+                if (hit.collider.CompareTag("Item")) // ã‚¿ã‚°ãŒ "Item" ã®å ´åˆ
                 {
-                    // idoutyu‚ªfalse‚Ì‚Æ‚«‚Ì‚İƒNƒŠƒbƒN‰Â”\
+                    // idoutyuãŒfalseã®ã¨ãã®ã¿ã‚¯ãƒªãƒƒã‚¯å¯èƒ½
                     if (!playerSaikoro.idoutyu)
                     {
                         float distance = Vector3.Distance(Camera.main.transform.position, hit.collider.transform.position);
 
-                        if (distance <= 3f) // ƒJƒƒ‰‚©‚ç‚Ì‹——£‚ª3ˆÈ‰º‚Ìê‡
+                        if (distance <= 3f) // ã‚«ãƒ¡ãƒ©ã‹ã‚‰ã®è·é›¢ãŒ3ä»¥ä¸‹ã®å ´åˆ
                         {
-                            string itemName = hit.collider.gameObject.name; // æ“¾‚·‚éƒAƒCƒeƒ€–¼
-                            Debug.Log(itemName + " ‚ğ“üè‚µ‚Ü‚µ‚½");
+                            // ğŸ² ãƒ©ãƒ³ãƒ€ãƒ ã§ã‚¹ã‚¯ãƒªãƒ—ãƒˆA ã¾ãŸã¯ B ã‚’å®Ÿè¡Œ
+                            int randomChoice = Random.Range(0, 2);
 
-                          
-                            // ƒCƒ“ƒxƒ“ƒgƒŠ‚ª `null` ‚Å‚È‚¯‚ê‚Î’Ç‰Á
-                            if (playerInventory != null)
+                            if (randomChoice == 0)
                             {
-                                playerInventory.AddItem(itemName);
+                                ExecuteScriptA(); // ã‚¹ã‚¯ãƒªãƒ—ãƒˆAã‚’å®Ÿè¡Œï¼ˆã‚¢ã‚¤ãƒ†ãƒ å–å¾—ï¼‰
                             }
                             else
                             {
-                                Debug.LogError("playerInventory ‚ªİ’è‚³‚ê‚Ä‚¢‚Ü‚¹‚ñI");
+                                ExecuteScriptB(); // ã‚¹ã‚¯ãƒªãƒ—ãƒˆBã‚’å®Ÿè¡Œï¼ˆä¾‹ï¼šæ•µã‚’å¬å–šï¼‰
                             }
-                            // ƒNƒŠƒbƒN‚µ‚½ƒIƒuƒWƒFƒNƒg‚ğíœ
+                            ///*  string itemName = hit.collider.gameObject.name;*/ // å–å¾—ã™ã‚‹ã‚¢ã‚¤ãƒ†ãƒ å
+                            //  Debug.Log(this.itemName + " ã‚’å…¥æ‰‹ã—ã¾ã—ãŸ");
+
+
+                            //  // ã‚¤ãƒ³ãƒ™ãƒ³ãƒˆãƒªãŒ `null` ã§ãªã‘ã‚Œã°è¿½åŠ 
+                            //  if (playerInventory != null)
+                            //  {
+                            //      playerInventory.AddItem(itemName);
+                            //  }
+                            //  else
+                            //  {
+                            //      Debug.LogError("playerInventory ãŒè¨­å®šã•ã‚Œã¦ã„ã¾ã›ã‚“ï¼");
+                            //  }
+                            // ã‚¯ãƒªãƒƒã‚¯ã—ãŸã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’å‰Šé™¤
                             Destroy(hit.collider.gameObject);
                         }
                     }
                 }
             }
+        }
+    }
+    void ExecuteScriptA()
+    {
+        string itemName = gameObject.name;  // å–å¾—ã™ã‚‹ã‚¢ã‚¤ãƒ†ãƒ å
+                              Debug.Log(this.itemName + " ã‚’å…¥æ‰‹ã—ã¾ã—ãŸ");
+
+
+        // ã‚¤ãƒ³ãƒ™ãƒ³ãƒˆãƒªãŒ `null` ã§ãªã‘ã‚Œã°è¿½åŠ 
+        if (playerInventory != null)
+        {
+            playerInventory.AddItem(itemName);
+        }
+        else
+        {
+            Debug.LogError("playerInventory ãŒè¨­å®šã•ã‚Œã¦ã„ã¾ã›ã‚“ï¼");
+        }
+    }
+
+    // ğŸ¯ ã‚¹ã‚¯ãƒªãƒ—ãƒˆB: ä½•ã‹åˆ¥ã®å‡¦ç†ï¼ˆä¾‹ï¼šæ•µã‚’å¬å–šï¼‰
+    void ExecuteScriptB()
+    {
+        Debug.Log("åœ°å›³ã®ã‹ã‘ã‚‰ã‚’ç²å¾—ï¼");
+        if (gameManager != null)
+        {
+            gameManager.MpPlus(); // ğŸ¯ `GameManager` ã® `MpPlus()` ã‚’å®Ÿè¡Œ
+        }
+        else
+        {
+            Debug.LogError("GameManager ãŒè¦‹ã¤ã‹ã‚Šã¾ã›ã‚“ï¼");
         }
     }
 }

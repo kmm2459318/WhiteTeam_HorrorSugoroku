@@ -14,7 +14,7 @@ public class PlayerSaikoro : MonoBehaviour
     private int sai = 1; // ランダムなサイコロの値
     public bool saikorotyu = false; // サイコロを振っているか
     public bool idoutyu = false;
-    private bool exploring = false; // 探索中の判定（追加）
+    public bool exploring = false; // 探索中の判定（追加）
     private bool magarityu = false;
     private bool idouspan = false;
     private float saikoroTime = 0; // サイコロの時間の計測
@@ -236,16 +236,16 @@ public class PlayerSaikoro : MonoBehaviour
                 {
                     exploring = true;
                     Debug.Log("探索モードに入りました:Fを押して次に");
+                    gameManager.NextTurn();
                 }
-
-                
             }
         }
 
-        // スペースキーを押したら探索を終了し、次のターンへ
+        // Fキーを押したら探索を終了し、次のターンへ
         if (exploring && Input.GetKeyDown(KeyCode.F))
         {
             exploring = false;
+            targetScript.idouspanTime = 0f;
             Debug.Log("探索モード終了、次のターンへ");
             gameManager.NextTurn();
         }

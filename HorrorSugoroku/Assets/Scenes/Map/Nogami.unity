@@ -1635,6 +1635,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerBody: {fileID: 0}
+  mouseSensitivity: 250
   sensitivitySlider: {fileID: 0}
 --- !u!114 &281751358
 MonoBehaviour:
@@ -2170,7 +2171,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 20, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &358859156
 MonoBehaviour:
@@ -2986,8 +2987,6 @@ MonoBehaviour:
   - {fileID: -2133054301, guid: 6443d0e9ca5385a44a6ae25b86e96a25, type: 3}
   - {fileID: 1558620994, guid: c5cd025ddb4a1734e9699085ebc4a31b, type: 3}
   - {fileID: -284539505, guid: 8c8926c108d1a9644beaaf2967d9b8e7, type: 3}
-  currentEnemyModel: {fileID: 1492082207}
-  newEnemyModel: {fileID: 240925144}
 --- !u!1 &463294032
 GameObject:
   m_ObjectHideFlags: 0
@@ -4147,7 +4146,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 10, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &616064794
 MonoBehaviour:
@@ -5140,10 +5139,13 @@ MonoBehaviour:
   discoveryBGM: {fileID: 8300000, guid: ea525edcd04e7914a8c09ad451cd6016, type: 3}
   undetectedBGM: {fileID: 8300000, guid: 57d9261537e7dd94ea2cb733b1a312af, type: 3}
   footstepSound: {fileID: 8300000, guid: 0a8c2e93afaf12d4e98b344d6a3e2687, type: 3}
+  idouspanTime: 0
   enemyController: {fileID: 0}
   gameManager: {fileID: 0}
   enemyLookAtPlayer: {fileID: 792993949}
+  playerSaikoro: {fileID: 0}
   playerCloseMirror: {fileID: 2042766874}
+  enemyCloseMasu: {fileID: 0}
   mokushi: 3
   idoukagen: 1
   skill1: 0
@@ -7376,7 +7378,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 10, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1167375726
 MonoBehaviour:
@@ -8035,10 +8037,10 @@ MonoBehaviour:
   m_FillRect: {fileID: 1167375725}
   m_HandleRect: {fileID: 1667385350}
   m_Direction: 0
-  m_MinValue: 1
-  m_MaxValue: 10
+  m_MinValue: 100
+  m_MaxValue: 300
   m_WholeNumbers: 0
-  m_Value: 5
+  m_Value: 200
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -8627,6 +8629,7 @@ MonoBehaviour:
   player: {fileID: 2042766877}
   saikorotyu: 0
   idoutyu: 0
+  exploring: 0
   s1: {fileID: 21300000, guid: 48857b2fd6bca22478e90a6a898c1438, type: 3}
   s2: {fileID: 21300000, guid: ef67102a90008f240a3d709b350a091b, type: 3}
   s3: {fileID: 21300000, guid: da9b6c8d60480c94f98e85c36b8375eb, type: 3}
@@ -9104,7 +9107,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 20, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &1667385351
 CanvasRenderer:
@@ -9868,11 +9871,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gameManager: {fileID: 35047688}
+  cameraController: {fileID: 281751357}
   OptionCanvas: {fileID: 1878833734}
   VolumeSlider: {fileID: 1894785244}
+  VolumeImg: {fileID: 395774333}
+  VolumeSprite: {fileID: -1181335124, guid: 30108f68919f636418b45be9366b09cf, type: 3}
+  VolumeMuteSprite: {fileID: -2078093348, guid: 1774e010358a815469f483f9dc00a064, type: 3}
   Volume: 50
   SensitivitySlider: {fileID: 1409761839}
-  Sensitivity: 2
+  Sensitivity: 250
 --- !u!4 &1765977225
 Transform:
   m_ObjectHideFlags: 0
@@ -10771,7 +10778,7 @@ MonoBehaviour:
   m_MinValue: 0
   m_MaxValue: 100
   m_WholeNumbers: 0
-  m_Value: 50
+  m_Value: 1
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -11452,6 +11459,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerSaikoro: {fileID: 1599821573}
   playerInventory: {fileID: 2042766883}
+  gameManager: {fileID: 0}
   itemName: "\u9375"
 --- !u!1 &2002209074
 GameObject:

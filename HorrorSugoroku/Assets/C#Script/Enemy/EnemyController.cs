@@ -62,6 +62,6 @@ public class EnemyController : MonoBehaviour
     public void SetMovement(bool moving)
     {
         isMoving = moving; // 移動中かどうかを設定
-        Debug.Log("SetMovement called with: " + moving); // デバッグログに移動状態を出力
+        //Debug.Log("SetMovement called with: " + moving); // デバッグログに移動状態を出力
     }
 }

@@ -26,13 +26,16 @@ public class EnemySaikoro : MonoBehaviour
     public AudioClip discoveryBGM; // 発見時のBGM
     public AudioClip undetectedBGM; // 未発見時のBGM
     private AudioSource audioSource; // 音声再生用のAudioSource
-    public AudioClip footstepSound; // 足音のAudioClip
-    Vector3 goToPos = new Vector3(0, 0, 0);
-    private int goToMass = 1;
+    public AudioClip footstepSound;// 足音のAudioClip
+    public float idouspanTime;
+    Vector3 goToPos = new Vector3(18, 0, -36);
+    private int goToMass = 4;
     public EnemyController enemyController;
     public GameManager gameManager; // GameManagerの参照
     public EnemyLookAtPlayer enemyLookAtPlayer; // EnemyLookAtPlayerの参照
+    public PlayerSaikoro playerSaikoro;
     public PlayerCloseMirror playerCloseMirror;
+    public EnemyCloseMasu enemyCloseMasu;
     public float mokushi = 3.0f;
     public int idoukagen = 1;
     public bool skill1 = false;
@@ -137,6 +140,16 @@ public class EnemySaikoro : MonoBehaviour
             //Debug.Log("未発見");
         }
 
+        if (playerSaikoro.exploring)
+        {
+            this.idouspanTime += Time.deltaTime;
+            if (idouspanTime > 2.0f)
+            {
+                idouspanTime = 0f;
+                StartCoroutine(EnemyTurn());
+            }
+        }
+
         if (((goToPos.x + 0.1f > this.transform.position.x && goToPos.x - 0.1f < this.transform.position.x) &&
             (goToPos.z + 0.1f > this.transform.position.z && goToPos.z - 0.1f < this.transform.position.z)) || (discovery && !dis))
         {
@@ -148,26 +161,42 @@ public class EnemySaikoro : MonoBehaviour
 
     void GoToMassChange(int m)
     {
-        int a;
-        do
-        {
-            a = Random.Range(1, 5);
-        } while (a == m || (a == 1 && !EE) || (a == 2 && !EN) || (a == 3 && !EW) || (a == 4 && !ES));
+        GameObject masu;
 
-        switch (a)
+        if (!discovery)
         {
-            case 1:
-                goToPos += new Vector3(10f, 0, 0);
-                goToMass = 3; break;
-            case 2:
-                goToPos += new Vector3(0, 0, 10f);
-                goToMass = 4; break;
-            case 3:
-                goToPos += new Vector3(-10f, 0, 0);
-                goToMass = 1; break;
-            case 4:
-                goToPos += new Vector3(0, 0, -10f);
-                goToMass = 2; break;
+            int a;
+            do
+            {
+                a = Random.Range(1, 5);
+            } while (a == m || (a == 1 && !EE) || (a == 2 && !EN) || (a == 3 && !EW) || (a == 4 && !ES));
+
+            switch (a)
+            {
+                case 1:
+                    goToPos += new Vector3(2f, 0, 0);
+                    goToMass = 3; break;
+                case 2:
+                    goToPos += new Vector3(0, 0, 2f);
+                    goToMass = 4; break;
+                case 3:
+                    goToPos += new Vector3(-2f, 0, 0);
+                    goToMass = 1; break;
+                case 4:
+                    goToPos += new Vector3(0, 0, -2f);
+                    goToMass = 2; break;
+            }
+            Debug.Log(goToPos);
+        }
+        else
+        {
+            do
+            {
+                masu = enemyCloseMasu.FindClosestMasu();
+            } while (!discovery);
+
+            goToPos.x = masu.transform.position.x;
+            goToPos.z = masu.transform.position.z;
         }
         Debug.Log(goToPos);
     }
@@ -190,11 +219,12 @@ public class EnemySaikoro : MonoBehaviour
 
         if (!mirror)
         {
-            for (int i = 0; i < 10; i++) // 10回ランダムに目を表示
+            /*for (int i = 0; i < 10; i++) // 10回ランダムに目を表示
             {
                 steps = Random.Range(idoukagen, 7);
                 yield return new WaitForSeconds(0.1f); // 0.1秒ごとに目を変更
-            }
+            }*/
+            steps = 1;
 
             if (steps <= 3)
             {
@@ -205,9 +235,10 @@ public class EnemySaikoro : MonoBehaviour
                 enemySmooth.PosFact = 0.2f;
             }
 
-            Debug.Log("Enemy rolled: " + steps);
+            //Debug.Log("Enemy rolled: " + steps);
         }
         StartCoroutine(MoveTowardsPlayer(speedidou, mirror));
+        yield return 0;
     }
 
     private IEnumerator MoveTowardsPlayer(bool s1, bool s2)
@@ -352,14 +383,15 @@ public class EnemySaikoro : MonoBehaviour
 
         Debug.Log("Enemy moved a total of " + initialSteps + " steps.");
 
-        if (!gameManager.EnemyCopyOn)
+        yield return 0;
+        /*if (!gameManager.EnemyCopyOn)
         {
             FindObjectOfType<GameManager>().NextTurn(); // 次のターンに進む
         }
         else
         {
             gameManager.enemyTurnFinCount++;
-        }
+        }*/
     }
 
     private Vector3 GetValidDirection(Vector3 targetDirection)
