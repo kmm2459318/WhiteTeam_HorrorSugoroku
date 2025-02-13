@@ -13,8 +13,12 @@ public class EnemyController : MonoBehaviour
     void Start()
     {
         animator = GetComponent<Animator>(); // アニメーターコンポーネントの取得
-    }
 
+        if (enemySaikoro == null)
+        {
+            Debug.LogError("enemySaikoro is not assigned.");
+        }
+    }
     void Update()
     {
         if (isMoving)
@@ -28,24 +32,24 @@ public class EnemyController : MonoBehaviour
 
         mp = gameManager.mapPiece; // ゲームマネージャーからマップピースの数を取得
 
-        if (mp < 3) // １段階　アチャモ
+        if (mp < 3) // １段階
         {
             mo = 6f;
             id = 1;
         }
-        else if (mp < 6) // ２段階　ワカシャモ
+        else if (mp < 6) // ２段階
         {
             mo = 8f;
             id = 2;
             enemySaikoro.skill1 = true; // スキル1を有効にする
         }
-        else if (mp < 9) // ３段階　バシャーモ
+        else if (mp < 9) // ３段階
         {
             mo = 10f;
             id = 3;
             enemySaikoro.skill2 = true; // スキル2を有効にする
         }
-        else // 目が進化　メガバシャーモ
+        else // 目が進化
         {
             mo = 12f;
             id = 4;
@@ -58,6 +62,6 @@ public class EnemyController : MonoBehaviour
     public void SetMovement(bool moving)
     {
         isMoving = moving; // 移動中かどうかを設定
-        Debug.Log("SetMovement called with: " + moving); // デバッグログに移動状態を出力
+        //Debug.Log("SetMovement called with: " + moving); // デバッグログに移動状態を出力
     }
 }

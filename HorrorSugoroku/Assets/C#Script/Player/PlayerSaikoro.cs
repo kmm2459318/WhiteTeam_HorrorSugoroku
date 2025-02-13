@@ -14,7 +14,7 @@ public class PlayerSaikoro : MonoBehaviour
     private int sai = 1; // ランダムなサイコロの値
     public bool saikorotyu = false; // サイコロを振っているか
     public bool idoutyu = false;
-    private bool exploring = false; // 探索中の判定（追加）
+    public bool exploring = false; // 探索中の判定（追加）
     private bool magarityu = false;
     private bool idouspan = false;
     private float saikoroTime = 0; // サイコロの時間の計測
@@ -61,6 +61,7 @@ public class PlayerSaikoro : MonoBehaviour
     [System.Obsolete]
     void Start()
     {
+        turnManager = FindObjectOfType<TurnManager>();
         cameraChange.Change();
         // プレイヤーシーンがロードされる際に、EnemySaikoroを探して参照を保持
         targetScript = FindObjectOfType<EnemySaikoro>();
@@ -107,6 +108,14 @@ public class PlayerSaikoro : MonoBehaviour
         {
             Debug.LogError("DiceRollSound AudioClip is not assigned.");
         }
+
+        // スプライトのサイズを変更
+        ChangeSpriteSize(s1, new Vector2(200, 200));
+        ChangeSpriteSize(s2, new Vector2(200, 200));
+        ChangeSpriteSize(s3, new Vector2(200, 200));
+        ChangeSpriteSize(s4, new Vector2(200, 200));
+        ChangeSpriteSize(s5, new Vector2(200, 200));
+        ChangeSpriteSize(s6, new Vector2(200, 200));
     }
 
     void Update()
@@ -227,16 +236,16 @@ public class PlayerSaikoro : MonoBehaviour
                 {
                     exploring = true;
                     Debug.Log("探索モードに入りました:Fを押して次に");
+                    gameManager.NextTurn();
                 }
-
-                
             }
         }
 
-        // スペースキーを押したら探索を終了し、次のターンへ
+        // Fキーを押したら探索を終了し、次のターンへ
         if (exploring && Input.GetKeyDown(KeyCode.F))
         {
             exploring = false;
+            targetScript.idouspanTime = 0f;
             Debug.Log("探索モード終了、次のターンへ");
             gameManager.NextTurn();
         }
@@ -300,7 +309,18 @@ public class PlayerSaikoro : MonoBehaviour
             }
         }*/
     }
-
+    void ChangeSpriteSize(Sprite sprite, Vector2 newSize)
+    {
+        RectTransform rectTransform = saikoro.GetComponent<RectTransform>();
+        if (rectTransform != null)
+        {
+            rectTransform.sizeDelta = newSize;
+        }
+        else
+        {
+            Debug.LogError("RectTransform component is missing on the saikoro GameObject.");
+        }
+    }
     public void DiceRoll()
     {
         saikorotyu = true;

@@ -4,7 +4,7 @@ using UnityEngine.UI; // スライダーのために必要
 public class CameraController : MonoBehaviour
 {
     public Transform playerBody;  // プレイヤーの本体
-    private float mouseSensitivity = 250f;  // マウス感度
+    public float mouseSensitivity = 250f;  // マウス感度
     public Slider sensitivitySlider; // 感度倍率を設定するスライダー
     private float sensitivityMultiplier = 1.0f;  // 感度倍率
     private float upperLookLimit = 90f;  // 上方向の回転制限
