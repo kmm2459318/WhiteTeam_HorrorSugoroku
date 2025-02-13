@@ -406,6 +406,12 @@ public class EnemySaikoro : MonoBehaviour
 
     public IEnumerator EnemyTurn()
     {
+        if (!gameObject.activeInHierarchy)
+        {
+            Debug.LogError("Cannot start coroutine because the game object is inactive.");
+            yield break;
+        }
+
         yield return StartCoroutine(RollEnemyDice());
     }
 
