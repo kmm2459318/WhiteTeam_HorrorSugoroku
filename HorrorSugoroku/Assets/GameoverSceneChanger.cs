@@ -14,9 +14,11 @@ public class SceneChanger3D : MonoBehaviour
 
     [SerializeField] private float volume = 1.0f; // 音量 (デフォルトは最大)
 
-    private bool isGameOver = false; // 重複処理防止用フラグ
+    private bool isGameOver = false;    // 重複処理防止用フラグ
+   /* private bool isCurseGauga = false; */ // 重複処理防止用フラグ
     public static bool hasSubstituteDoll = false; // 身代わり人形の使用フラグ
 
+    public CurseSlider curseslider;
     private void Start()
     {
         // AudioSourceの初期化
@@ -31,21 +33,26 @@ public class SceneChanger3D : MonoBehaviour
 
         // 最初に音が鳴らないように、音を再生しない
         audioSource.Stop();
+
     }
 
-    private void OnCollisionEnter(Collision collision)
-    {
-        if (!isGameOver && enemies.Contains(collision.gameObject))
-        {
-            HandleGameOver();
-        }
-    }
+    //private void OnCollisionEnter(Collision collision)
+    //{
+    //    if (!isGameOver && enemies.Contains(collision.gameObject) && (curseslider.CountGauge == 3))
+    //    {
+    //        HandleGameOver();
+    //    }
+    //}
 
     private void OnTriggerEnter(Collider other)
     {
-        if (!isGameOver && enemies.Contains(other.gameObject))
+        if (!isGameOver && enemies.Contains(other.gameObject) && (curseslider.CountGauge == 3))
         {
             HandleGameOver();
+        }
+        else if(enemies.Contains(other.gameObject) && (curseslider.CountGauge > 3))
+        {
+            CurseGaugeUP();
         }
     }
 
@@ -98,6 +105,29 @@ public class SceneChanger3D : MonoBehaviour
         SceneManager.LoadScene("Gameover");
     }
 
+    public void CurseGaugeUP()
+    {
+        if (hasSubstituteDoll)
+        {
+            // 身代わり人形がある場合は回避
+            hasSubstituteDoll = false; // 身代わり人形を消費
+            Debug.Log("身代わり人形が発動！ゲームオーバーを回避！");
+        }
+        else
+        {
+            StartCoroutine(ShowCutInAndGoToCurseGaugeUP());
+            
+        }
+    }
+    private IEnumerator ShowCutInAndGoToCurseGaugeUP()
+    {
+        if (curseslider.dashPoint < 100)
+        {
+            curseslider.dashPoint =-curseslider.dashPoint;
+            curseslider.dashPoint += 100;
+        }
+        yield return new WaitForSeconds(2.0f); // 1秒待機（例）
+    }
     // UIの他の要素（テキストやその他の画像）を非表示にするメソッド
     private void HideAllUI()
     {

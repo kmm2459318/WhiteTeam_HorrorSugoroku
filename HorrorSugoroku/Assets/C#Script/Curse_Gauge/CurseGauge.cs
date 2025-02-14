@@ -19,8 +19,8 @@ public class CurseSlider : MonoBehaviour
     public float maxDashPoint = 100;
     public float dashIncreasePerTurn = 5;
 
-    int CountGauge = 0;      　　　　　　　 //ゲームオーバーカウント
-    float dashPoint = 0;
+    public int CountGauge = 0;              //ゲームオーバーカウント
+    public float dashPoint = 0;
     public GameManager gameManager;
     public TurnManager turnManager;
     private bool saikorotyu;
@@ -185,7 +185,6 @@ public class CurseSlider : MonoBehaviour
 
     private void GameOver()
     {
-        // ゲームオーバー処理（シーンをゲームオーバー画面に変更するなど）
-        Debug.Log("ゲームオーバーです！");
+
     }
 }
