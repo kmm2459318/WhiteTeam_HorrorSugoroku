@@ -3080,7 +3080,7 @@ MonoBehaviour:
   VolumeMuteSprite: {fileID: 21300000, guid: 12d7b4d0a7b7a0c428d9a04180224ff1, type: 3}
   Volume: 50
   SensitivitySlider: {fileID: 1280531841}
-  Sensitivity: 2
+  Sensitivity: 200
 --- !u!4 &413954078
 Transform:
   m_ObjectHideFlags: 0
@@ -5432,7 +5432,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 400010, guid: 28459e7db1e585f48b100589d0b8440f, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -0.33465123
+      value: -40
       objectReference: {fileID: 0}
     - target: {fileID: 400010, guid: 28459e7db1e585f48b100589d0b8440f, type: 3}
       propertyPath: m_LocalRotation.w
@@ -8129,15 +8129,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1084946449966616373, guid: 4cc824d3abdaabc42927fc5035b211e4, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -15.26
+      value: 18
       objectReference: {fileID: 0}
     - target: {fileID: 1084946449966616373, guid: 4cc824d3abdaabc42927fc5035b211e4, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: 5.53
       objectReference: {fileID: 0}
     - target: {fileID: 1084946449966616373, guid: 4cc824d3abdaabc42927fc5035b211e4, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0.76
+      value: -40
       objectReference: {fileID: 0}
     - target: {fileID: 1084946449966616373, guid: 4cc824d3abdaabc42927fc5035b211e4, type: 3}
       propertyPath: m_LocalRotation.w
@@ -8202,7 +8202,7 @@ PrefabInstance:
     - target: {fileID: 6341752057484097596, guid: 4cc824d3abdaabc42927fc5035b211e4, type: 3}
       propertyPath: player
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 2042766872}
     - target: {fileID: 6341752057484097596, guid: 4cc824d3abdaabc42927fc5035b211e4, type: 3}
       propertyPath: saikoro
       value: 
@@ -8214,7 +8214,15 @@ PrefabInstance:
     - target: {fileID: 6341752057484097596, guid: 4cc824d3abdaabc42927fc5035b211e4, type: 3}
       propertyPath: gameManager
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 35047688}
+    - target: {fileID: 6341752057484097596, guid: 4cc824d3abdaabc42927fc5035b211e4, type: 3}
+      propertyPath: playerSaikoro
+      value: 
+      objectReference: {fileID: 1599821573}
+    - target: {fileID: 6341752057484097596, guid: 4cc824d3abdaabc42927fc5035b211e4, type: 3}
+      propertyPath: enemyCloseMasu
+      value: 
+      objectReference: {fileID: 1294739822}
     - target: {fileID: 6341752057484097596, guid: 4cc824d3abdaabc42927fc5035b211e4, type: 3}
       propertyPath: enemyBodySmooth
       value: 
@@ -8230,11 +8238,11 @@ PrefabInstance:
     - target: {fileID: 6341752057484097596, guid: 4cc824d3abdaabc42927fc5035b211e4, type: 3}
       propertyPath: playerCloseMirror
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 2042766874}
     - target: {fileID: 7918147584060492737, guid: 4cc824d3abdaabc42927fc5035b211e4, type: 3}
       propertyPath: player
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 2042766872}
     - target: {fileID: 8949150745982800165, guid: 4cc824d3abdaabc42927fc5035b211e4, type: 3}
       propertyPath: m_Name
       value: Slender
@@ -8250,7 +8258,7 @@ PrefabInstance:
     - target: {fileID: 8986350214387761731, guid: 4cc824d3abdaabc42927fc5035b211e4, type: 3}
       propertyPath: gameManager
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 35047688}
     m_RemovedComponents: []
     m_RemovedGameObjects:
     - {fileID: 3166391399882877733, guid: 4cc824d3abdaabc42927fc5035b211e4, type: 3}
@@ -8279,7 +8287,10 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 1084946449966616373, guid: 4cc824d3abdaabc42927fc5035b211e4, type: 3}
       insertIndex: 8
       addedObject: {fileID: 50060627}
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 8949150745982800165, guid: 4cc824d3abdaabc42927fc5035b211e4, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1294739822}
   m_SourcePrefab: {fileID: 100100000, guid: 4cc824d3abdaabc42927fc5035b211e4, type: 3}
 --- !u!4 &1294739813 stripped
 Transform:
@@ -8324,6 +8335,18 @@ Animator:
   m_CorrespondingSourceObject: {fileID: 3818659488920671761, guid: 4cc824d3abdaabc42927fc5035b211e4, type: 3}
   m_PrefabInstance: {fileID: 1294739812}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1294739822
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 985214324}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 658c7dda6e230d2488fde00f9d94a77a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1294914066
 GameObject:
   m_ObjectHideFlags: 0
