@@ -21,8 +21,8 @@ public class CurseSlider : MonoBehaviour
       public int dashIncreasePerTurn = 5;
 
 
-    int CountGauge = 0;      　　　　　　　 //ゲームオーバーカウント
-    int dashPoint = 0;
+    public int CountGauge = 0;              //ゲームオーバーカウント
+    public float dashPoint = 0;
     public GameManager gameManager;
     public TurnManager turnManager;
     private bool saikorotyu;
@@ -183,8 +183,4 @@ public class CurseSlider : MonoBehaviour
             }
         }
     }
-        
-    
-
- 
 }

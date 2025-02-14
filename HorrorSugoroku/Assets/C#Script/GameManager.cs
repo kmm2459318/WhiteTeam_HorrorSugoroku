@@ -29,6 +29,12 @@ public class GameManager : MonoBehaviour
     {
         UpdateTurnText(); // 初期ターン表示
         playerSaikoro.StartRolling(); // プレイヤーのターンを開始
+
+        // 新しいエネミーモデルを非表示に設定
+        if (newEnemyModelPrefab != null)
+        {
+            newEnemyModelPrefab.SetActive(false);
+        }
     }
 
     private void Update()
@@ -66,10 +72,33 @@ public class GameManager : MonoBehaviour
 
     public void ChangeEnemyModel()
     {
-        enemyTransferManager.TransferEnemySettings();
-    }
+        // 現在のエネミーモデルを非表示に設定
+        if (currentEnemyModel != null)
+        {
+            currentEnemyModel.SetActive(false);
+        }
 
-    // ターンの切り替えを行うメソッド
+        // 新しいエネミーモデルを表示に設定
+        if (newEnemyModelPrefab != null)
+        {
+            newEnemyModelPrefab.SetActive(true);
+            currentEnemyModel = newEnemyModelPrefab;
+
+            // 新しいエネミーモデルにスクリプトをアタッチ
+            if (currentEnemyModel.GetComponent<EnemySaikoro>() == null)
+            {
+                currentEnemyModel.AddComponent<EnemySaikoro>();
+            }
+            enemySaikoro = currentEnemyModel.GetComponent<EnemySaikoro>();
+
+            // 必要な設定を引き継ぐ
+            enemyTransferManager.TransferEnemySettings();
+        }
+    }
+    void OnDestroy()
+    {
+        Debug.Log("OnDestroy called in " + this.GetType().Name);
+    }
     public void NextTurn()
     {
         isPlayerTurn = !isPlayerTurn; // ターンを切り替える
@@ -87,11 +116,16 @@ public class GameManager : MonoBehaviour
         }
         else
         {
-            // 新しいエネミーにアクセス先を変更
+            // 両方のエネミーモデルのターンを開始
             if (enemySaikoro != null)
             {
                 Debug.Log("Starting enemy turn for new enemy.");
                 StartCoroutine(enemySaikoro.EnemyTurn());
+            }
+
+            if (currentEnemyModel != null && currentEnemyModel.GetComponent<EnemySaikoro>() != null)
+            {
+                StartCoroutine(currentEnemyModel.GetComponent<EnemySaikoro>().EnemyTurn());
             }
 
             if (EnemyCopyOn && enemyCopySaikoro != null)
@@ -101,21 +135,21 @@ public class GameManager : MonoBehaviour
         }
     }
     public void MpPlus()
-    {
-        mapPiece++;
-        Debug.Log(mapPiece);
-    }
-
-    private void UpdateTurnText()
-    {
-        if (turnIndicatorText != null)
         {
-            turnIndicatorText.text = isPlayerTurn ? "PlayerTurn" : "EnemyTurn"; // ターン表示を更新
+            mapPiece++;
+            Debug.Log(mapPiece);
         }
-    }
 
-    public bool IsPlayerTurn()
-    {
-        return isPlayerTurn;
-    }
-}
+        private void UpdateTurnText()
+        {
+            if (turnIndicatorText != null)
+            {
+                turnIndicatorText.text = isPlayerTurn ? "PlayerTurn" : "EnemyTurn"; // ターン表示を更新
+            }
+        }
+
+        public bool IsPlayerTurn()
+        {
+            return isPlayerTurn;
+        }
+    } 

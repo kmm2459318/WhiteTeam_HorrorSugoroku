@@ -1998,6 +1998,7 @@ MonoBehaviour:
   playerBody: {fileID: 852565734}
   mouseSensitivity: 250
   sensitivitySlider: {fileID: 0}
+  optionMenu: {fileID: 413954077}
 --- !u!114 &281751358
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3076,11 +3077,11 @@ MonoBehaviour:
   OptionCanvas: {fileID: 867115439}
   VolumeSlider: {fileID: 1232388574}
   VolumeImg: {fileID: 1708643389}
-  VolumeSprite: {fileID: -2078093348, guid: 1774e010358a815469f483f9dc00a064, type: 3}
-  VolumeMuteSprite: {fileID: 21300000, guid: 12d7b4d0a7b7a0c428d9a04180224ff1, type: 3}
+  VolumeSprite: {fileID: 21300000, guid: 12d7b4d0a7b7a0c428d9a04180224ff1, type: 3}
+  VolumeMuteSprite: {fileID: -2078093348, guid: 1774e010358a815469f483f9dc00a064, type: 3}
   Volume: 50
   SensitivitySlider: {fileID: 1280531841}
-  Sensitivity: 2
+  Sensitivity: 250
 --- !u!4 &413954078
 Transform:
   m_ObjectHideFlags: 0
@@ -8086,10 +8087,10 @@ MonoBehaviour:
   m_FillRect: {fileID: 838751966}
   m_HandleRect: {fileID: 2083538979}
   m_Direction: 0
-  m_MinValue: 1
-  m_MaxValue: 10
+  m_MinValue: 100
+  m_MaxValue: 300
   m_WholeNumbers: 0
-  m_Value: 5
+  m_Value: 100
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls: []
