@@ -5,7 +5,6 @@ public class CameraController : MonoBehaviour
 {
     public Transform playerBody;
     public float mouseSensitivity = 250f;
-    public Slider sensitivitySlider;
     private float sensitivityMultiplier = 1.0f;
     private float upperLookLimit = 90f;
     private float lowerLookLimit = -90f;
@@ -20,14 +19,6 @@ public class CameraController : MonoBehaviour
     {
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
-
-        if (sensitivitySlider != null)
-        {
-            sensitivitySlider.minValue = 0.1f;
-            sensitivitySlider.maxValue = 20.0f;
-            sensitivitySlider.value = sensitivityMultiplier;
-            sensitivitySlider.onValueChanged.AddListener(OnSensitivityChanged);
-        }
     }
 
     void Update()
