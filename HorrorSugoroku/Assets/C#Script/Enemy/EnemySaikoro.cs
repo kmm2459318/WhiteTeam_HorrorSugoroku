@@ -3,6 +3,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
 using SmoothigTransform;
+using UnityEngine.SceneManagement;
 
 public class EnemySaikoro : MonoBehaviour
 {
@@ -48,15 +49,21 @@ public class EnemySaikoro : MonoBehaviour
     public Animator animator;
     void Start()
     {
-        // 初期化コード
+        // 他の初期化コード
         animator = GetComponent<Animator>();
-        enemyController = this.GetComponent<EnemyController>();
+        enemyController = GetComponent<EnemyController>();
         gameManager = FindObjectOfType<GameManager>(); // GameManagerの参照を取得
-        enemyLookAtPlayer = this.GetComponent<EnemyLookAtPlayer>(); // EnemyLookAtPlayerの参照を取得
+        enemyLookAtPlayer = GetComponent<EnemyLookAtPlayer>(); // EnemyLookAtPlayerの参照を取得
+        enemyCloseMasu = GetComponent<EnemyCloseMasu>(); // EnemyCloseMasuの参照を取得
 
         if (enemyLookAtPlayer == null)
         {
             Debug.LogError("EnemyLookAtPlayer component is not assigned or found on the enemy object.");
+        }
+
+        if (enemyCloseMasu == null)
+        {
+            Debug.LogError("EnemyCloseMasu component is not assigned or found on the enemy object.");
         }
 
         // AudioSourceの取得
@@ -378,9 +385,16 @@ public class EnemySaikoro : MonoBehaviour
             Debug.Log("ミラーワーーーーーーーーーーーーープ！！！！");
 
             mirror = playerCloseMirror.FindClosestMirror();
-            enemySmooth.TargetPosition.x = mirror.transform.position.x * 1.0f;
-            enemySmooth.TargetPosition.z = mirror.transform.position.z;
-            Debug.Log(mirror.transform.position);
+            if (mirror != null)
+            {
+                enemySmooth.TargetPosition.x = mirror.transform.position.x * 1.0f;
+                enemySmooth.TargetPosition.z = mirror.transform.position.z;
+                Debug.Log(mirror.transform.position);
+            }
+            else
+            {
+                Debug.LogError("Mirror object is null!");
+            }
         }
 
         enemyController.SetMovement(false); // エネミーの移動が終了したらisMovingをfalseに設定
@@ -395,14 +409,10 @@ public class EnemySaikoro : MonoBehaviour
         Debug.Log("Enemy moved a total of " + initialSteps + " steps.");
 
         yield return 0;
-        /*if (!gameManager.EnemyCopyOn)
-        {
-            FindObjectOfType<GameManager>().NextTurn(); // 次のターンに進む
-        }
-        else
-        {
-            gameManager.enemyTurnFinCount++;
-        }*/
+    }
+    void OnDestroy()
+    {
+        Debug.Log("OnDestroy called in " + this.GetType().Name);
     }
 
     private Vector3 GetValidDirection(Vector3 targetDirection)
@@ -480,8 +490,15 @@ public class EnemySaikoro : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        //Debug.Log("敵がトラばさみに引っ掛かった！！");
-        if (other.tag == ("Beartrap"))
+        // プレイヤーがエネミーに当たった場合
+        if (other.CompareTag("Player"))
+        {
+            Debug.Log("プレイヤーがエネミーに当たった！ゲームオーバー！");
+            SceneManager.LoadScene("GameOver"); // ゲームオーバーシーンに移動
+        }
+
+        // 既存のトラバサミの処理
+        if (other.CompareTag("Beartrap"))
         {
             isTrapped = true;
             Debug.Log("敵がトラばさみに引っ掛かった！！");
