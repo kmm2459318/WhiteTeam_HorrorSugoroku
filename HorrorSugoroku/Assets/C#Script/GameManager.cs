@@ -21,8 +21,6 @@ public class GameManager : MonoBehaviour
     public GameObject EnemyCopy; // コピーエネミーモデル
     public GameObject newEnemyModelPrefab; // 新しいエネミーモデルのプレハブ
 
-    public EnemyTransferManager enemyTransferManager;
-
     private int playerTurnCount = 0; // プレイヤーのターン数をカウントする変数
 
     private void Start()
@@ -72,29 +70,10 @@ public class GameManager : MonoBehaviour
 
     public void ChangeEnemyModel()
     {
-        // 現在のエネミーモデルを非表示に設定
-        if (currentEnemyModel != null)
-        {
-            currentEnemyModel.SetActive(false);
-        }
-
-        // 新しいエネミーモデルを表示に設定
-        if (newEnemyModelPrefab != null)
-        {
-            newEnemyModelPrefab.SetActive(true);
-            currentEnemyModel = newEnemyModelPrefab;
-
-            // 新しいエネミーモデルにスクリプトをアタッチ
-            if (currentEnemyModel.GetComponent<EnemySaikoro>() == null)
-            {
-                currentEnemyModel.AddComponent<EnemySaikoro>();
-            }
-            enemySaikoro = currentEnemyModel.GetComponent<EnemySaikoro>();
-
-            // 必要な設定を引き継ぐ
-            enemyTransferManager.TransferEnemySettings();
-        }
+        currentEnemyModel.SetActive(false);
+        newEnemyModelPrefab.SetActive(true);
     }
+
     void OnDestroy()
     {
         Debug.Log("OnDestroy called in " + this.GetType().Name);
