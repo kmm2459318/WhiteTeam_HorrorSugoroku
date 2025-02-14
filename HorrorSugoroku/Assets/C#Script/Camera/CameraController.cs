@@ -30,7 +30,7 @@ public class CameraController : MonoBehaviour
         if (sensitivitySlider != null)
         {
             sensitivitySlider.minValue = 0.1f;
-            sensitivitySlider.maxValue = 20.0f;
+            sensitivitySlider.maxValue = 200.0f;
             sensitivitySlider.value = sensitivityMultiplier;
             sensitivitySlider.onValueChanged.AddListener(OnSensitivityChanged);
         }
