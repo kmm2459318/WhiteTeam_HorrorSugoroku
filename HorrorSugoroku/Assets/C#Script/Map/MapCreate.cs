@@ -11,7 +11,7 @@ public class MapCreator : MonoBehaviour
     public GameObject ItemTile;
     public GameObject DirecTile;
     public GameObject DebuffTile;
-    public GameObject BatteryTile;
+    public GameObject CurseTile;
     public GameObject DoorTile;
 
 　　// マップの初期位置を変える
@@ -38,7 +38,7 @@ public class MapCreator : MonoBehaviour
         { 0,2,0,0,0,0,1,0,0,0,0,3,0 },
         { 0,3,0,0,0,0,1,0,0,0,0,4,0 },
         { 0,2,0,0,0,0,1,0,0,0,0,5,0 },
-        { 0,1,4,3,2,6,5,2,2,2,1,6,0 },
+        { 0,1,4,3,2,6,5,6,2,2,1,6,0 },
         { 0,0,0,0,0,0,0,0,0,0,0,0,0 },
         });
 
@@ -54,7 +54,7 @@ public class MapCreator : MonoBehaviour
         {0,2,0,0,0,0,1,0,0,0,0,3,0 },
         {0,3,0,0,0,0,1,0,0,0,0,4,0 },
         {0,2,0,0,0,0,1,0,0,0,0,5,0 },
-        {0,1,4,3,2,6,5,2,2,2,1,6,0 },
+        {0,1,4,3,2,6,5,6,2,2,1,6,0 },
         {0,0,0,0,0,0,0,0,0,0,0,0,0 },
         });
 
@@ -103,7 +103,12 @@ public class MapCreator : MonoBehaviour
                         tilePrefab = DebuffTile;
                         break;
                     case 6:
-                        tilePrefab = BatteryTile;
+                        tilePrefab = CurseTile;
+                        CurseTile curseTile = GetComponent<CurseTile>();
+                        if (curseTile != null)
+                        {
+                            curseTile.CurEs(20); // 20増加
+                        }
                         break;
                     case 7:
                         tilePrefab = DoorTile;

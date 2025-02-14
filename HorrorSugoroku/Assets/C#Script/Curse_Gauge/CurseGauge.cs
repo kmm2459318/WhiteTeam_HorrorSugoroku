@@ -16,8 +16,10 @@ public class CurseSlider : MonoBehaviour
     [SerializeField] private Master_Curse master_Curse;
     [SerializeField] private Image[] ImageGages; // 画像ゲージ（下から上に増える）
 
-    public float maxDashPoint = 100;
-    public float dashIncreasePerTurn = 5;
+    public int maxDashPoint = 100;
+    public int defaultIncreaseAmount = 20; // デフォルトの増加量（CurseSlider 側の設定）
+      public int dashIncreasePerTurn = 5;
+
 
     public int CountGauge = 0;              //ゲームオーバーカウント
     public float dashPoint = 0;
@@ -68,11 +70,7 @@ public class CurseSlider : MonoBehaviour
             UpdateCountText();
         }
 
-        // 300を超えた場合、ゲームオーバー画面へ遷移
-        if (CountGauge == 3)
-        {
-            GameOver();
-        }
+      
 
         UpdateImageGauges();
 
@@ -97,14 +95,19 @@ public class CurseSlider : MonoBehaviour
         if (!gameManager.isPlayerTurn) return;
     }
 
-    public void IncreaseDashPointPerTurn()
+    public void IncreaseDashPoint(int amount)
     {
-        dashPoint = Mathf.Min(dashPoint + dashIncreasePerTurn, maxDashPoint);
+        dashPoint = Mathf.Min(dashPoint + amount, maxDashPoint);
         DashGage.value = dashPoint;
 
-        Debug.Log("今の呪いゲージ量: " + dashPoint);
+        Debug.Log("今の呪いゲージ量: {dashPoint}" );
     }
-
+    // **ターンごとの呪いゲージ増加**
+   
+    public void IncreaseDashPointPerTurn()
+    {
+        IncreaseDashPoint(dashIncreasePerTurn);
+    }
     private void UpdateImageGauges()
     {
         for (int i = 0; i < ImageGages.Length; i++)
@@ -179,12 +182,5 @@ public class CurseSlider : MonoBehaviour
                 countText.text = (3 - CountGauge).ToString();
             }
         }
-    }
-        
-    
-
-    private void GameOver()
-    {
-
     }
 }
