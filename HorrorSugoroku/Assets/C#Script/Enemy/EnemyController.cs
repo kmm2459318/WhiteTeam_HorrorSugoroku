@@ -23,11 +23,13 @@ public class EnemyController : MonoBehaviour
     {
         if (isMoving)
         {
-            animator.SetBool("isRunning", true); // 移動中の場合、アニメーションを走る状態に設定
+            Debug.Log("Setting Run state");
+            animator.SetBool("is Running", true); // 移動中の場合、アニメーションを走る状態に設定
         }
         else
         {
-            animator.SetBool("isRunning", false); // 移動していない場合、アニメーションを停止状態に設定
+            Debug.Log("Setting Idle state");
+            animator.SetBool("is Running", false); // 移動していない場合、アニメーションを停止状態に設定
         }
 
         mp = gameManager.mapPiece; // ゲームマネージャーからマップピースの数を取得
@@ -62,6 +64,6 @@ public class EnemyController : MonoBehaviour
     public void SetMovement(bool moving)
     {
         isMoving = moving; // 移動中かどうかを設定
-        //Debug.Log("SetMovement called with: " + moving); // デバッグログに移動状態を出力
+        Debug.Log("SetMovement called with: " + moving); // デバッグログに移動状態を出力
     }
 }

@@ -100,7 +100,7 @@ public class EnemySaikoro : MonoBehaviour
             // プレイヤーのターン中はエネミーをIdle状態に保つ
             if (animator != null)
             {
-                animator.SetBool("isRunning", false);
+                animator.SetBool("is Running", false);
             }
             return;
         }
@@ -508,14 +508,17 @@ public class EnemySaikoro : MonoBehaviour
     {
         if (animator != null)
         {
-            animator.SetBool("isRunning", false);
+            Debug.Log("Setting Idle state");
+            animator.SetBool("is Running", false);
         }
     }
+
     public void SetRun()
     {
         if (animator != null)
         {
-            animator.SetBool("isRunning", true);
+            Debug.Log("Setting Run state");
+            animator.SetBool("is Running", true);
         }
     }
 

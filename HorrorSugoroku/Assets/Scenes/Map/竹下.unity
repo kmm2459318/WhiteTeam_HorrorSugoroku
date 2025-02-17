@@ -459,7 +459,7 @@ MonoBehaviour:
   enemySaikoro: {fileID: 1492082208}
   enemyCopySaikoro: {fileID: 1492082208}
   currentEnemyModel: {fileID: 992479493}
-  EnemyCopy: {fileID: 792993945}
+  EnemyCopy: {fileID: 1492082207}
   newEnemyModelPrefab: {fileID: 1685889097}
 --- !u!114 &35047689
 MonoBehaviour:
@@ -10923,7 +10923,7 @@ PrefabInstance:
     - target: {fileID: 8647504930974984232, guid: f0d0397779fe1e343a9e10814bd84047, type: 3}
       propertyPath: animator
       value: 
-      objectReference: {fileID: 96554119}
+      objectReference: {fileID: 1492082217}
     - target: {fileID: 8647504930974984232, guid: f0d0397779fe1e343a9e10814bd84047, type: 3}
       propertyPath: m_Enabled
       value: 1
@@ -10956,8 +10956,7 @@ PrefabInstance:
       propertyPath: playerCloseMirror
       value: 
       objectReference: {fileID: 2042766874}
-    m_RemovedComponents:
-    - {fileID: 4613120221216241544, guid: f0d0397779fe1e343a9e10814bd84047, type: 3}
+    m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects:
     - targetCorrespondingSourceObject: {fileID: 4613120221208975458, guid: f0d0397779fe1e343a9e10814bd84047, type: 3}
@@ -10985,6 +10984,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 4613120221208806466, guid: f0d0397779fe1e343a9e10814bd84047, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1492082213}
+    - targetCorrespondingSourceObject: {fileID: 4613120221208806466, guid: f0d0397779fe1e343a9e10814bd84047, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1492082217}
     - targetCorrespondingSourceObject: {fileID: 4613120221208806472, guid: f0d0397779fe1e343a9e10814bd84047, type: 3}
       insertIndex: -1
       addedObject: {fileID: 96554117}
@@ -11053,6 +11055,28 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 658c7dda6e230d2488fde00f9d94a77a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!95 &1492082217
+Animator:
+  serializedVersion: 7
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1492082207}
+  m_Enabled: 1
+  m_Avatar: {fileID: 9000000, guid: 28459e7db1e585f48b100589d0b8440f, type: 3}
+  m_Controller: {fileID: 9100000, guid: 3b77841a3a279ed46aa0db6aa40f8665, type: 2}
+  m_CullingMode: 1
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 1
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_AnimatePhysics: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &1492534157
 GameObject:
   m_ObjectHideFlags: 0
@@ -12826,6 +12850,8 @@ GameObject:
   m_Component:
   - component: {fileID: 1685889098}
   - component: {fileID: 1685889099}
+  - component: {fileID: 1685889100}
+  - component: {fileID: 1685889101}
   m_Layer: 0
   m_Name: Slender (1)
   m_TagString: Untagged
@@ -12969,6 +12995,41 @@ SkinnedMeshRenderer:
     m_Center: {x: 0.000010051765, y: -0.0041098124, z: 0.0012820121}
     m_Extent: {x: 0.008969617, y: 0.014583208, z: 0.005891387}
   m_DirtyAABB: 0
+--- !u!114 &1685889100
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1685889097}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2a65916a4d9974e4a98b4c07c714132d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  animator: {fileID: 1685889101}
+--- !u!95 &1685889101
+Animator:
+  serializedVersion: 7
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1685889097}
+  m_Enabled: 1
+  m_Avatar: {fileID: 9000000, guid: 97b0cd269422460b9c5672eb06af8f7c, type: 3}
+  m_Controller: {fileID: 9100000, guid: 21a4c4256cafeb24b8ba7fd8dc626cf7, type: 2}
+  m_CullingMode: 1
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_AnimatePhysics: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &1691836563
 GameObject:
   m_ObjectHideFlags: 0
@@ -15844,7 +15905,7 @@ MonoBehaviour:
   cutInDuration: 2
   gameOverSound: {fileID: 8300000, guid: 108a7f61328664b43ab7d149efe490cb, type: 3}
   volume: 1
-  curseslider: {fileID: 0}
+  curseslider: {fileID: 146448896}
 --- !u!114 &2042766876
 MonoBehaviour:
   m_ObjectHideFlags: 0
