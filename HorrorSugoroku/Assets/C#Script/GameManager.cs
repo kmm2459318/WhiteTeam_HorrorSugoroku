@@ -21,18 +21,14 @@ public class GameManager : MonoBehaviour
     public GameObject EnemyCopy; // コピーエネミーモデル
     public GameObject newEnemyModelPrefab; // 新しいエネミーモデルのプレハブ
 
+    public EnemyTransferManager enemyTransferManager;
+
     private int playerTurnCount = 0; // プレイヤーのターン数をカウントする変数
 
     private void Start()
     {
         UpdateTurnText(); // 初期ターン表示
         playerSaikoro.StartRolling(); // プレイヤーのターンを開始
-
-        // 新しいエネミーモデルを非表示に設定
-        if (newEnemyModelPrefab != null)
-        {
-            newEnemyModelPrefab.SetActive(false);
-        }
     }
 
     private void Update()
@@ -70,14 +66,10 @@ public class GameManager : MonoBehaviour
 
     public void ChangeEnemyModel()
     {
-        currentEnemyModel.SetActive(false);
-        newEnemyModelPrefab.SetActive(true);
+        enemyTransferManager.TransferEnemySettings();
     }
 
-    void OnDestroy()
-    {
-        Debug.Log("OnDestroy called in " + this.GetType().Name);
-    }
+    // ターンの切り替えを行うメソッド
     public void NextTurn()
     {
         isPlayerTurn = !isPlayerTurn; // ターンを切り替える
@@ -95,16 +87,11 @@ public class GameManager : MonoBehaviour
         }
         else
         {
-            // 両方のエネミーモデルのターンを開始
+            // 新しいエネミーにアクセス先を変更
             if (enemySaikoro != null)
             {
                 Debug.Log("Starting enemy turn for new enemy.");
                 StartCoroutine(enemySaikoro.EnemyTurn());
-            }
-
-            if (currentEnemyModel != null && currentEnemyModel.GetComponent<EnemySaikoro>() != null)
-            {
-                StartCoroutine(currentEnemyModel.GetComponent<EnemySaikoro>().EnemyTurn());
             }
 
             if (EnemyCopyOn && enemyCopySaikoro != null)
@@ -114,21 +101,21 @@ public class GameManager : MonoBehaviour
         }
     }
     public void MpPlus()
-        {
-            mapPiece++;
-            Debug.Log(mapPiece);
-        }
+    {
+        mapPiece++;
+        Debug.Log(mapPiece);
+    }
 
-        private void UpdateTurnText()
+    private void UpdateTurnText()
+    {
+        if (turnIndicatorText != null)
         {
-            if (turnIndicatorText != null)
-            {
-                turnIndicatorText.text = isPlayerTurn ? "PlayerTurn" : "EnemyTurn"; // ターン表示を更新
-            }
+            turnIndicatorText.text = isPlayerTurn ? "PlayerTurn" : "EnemyTurn"; // ターン表示を更新
         }
+    }
 
-        public bool IsPlayerTurn()
-        {
-            return isPlayerTurn;
-        }
-    } 
+    public bool IsPlayerTurn()
+    {
+        return isPlayerTurn;
+    }
+}
