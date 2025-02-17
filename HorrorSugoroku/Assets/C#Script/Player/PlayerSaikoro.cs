@@ -41,7 +41,6 @@ public class PlayerSaikoro : MonoBehaviour
     public GameObject saikoro;
     public GameObject Player;
     public GameObject Enemy;
-    public GameObject EnemyBody;
     public GameObject PNorth;
     public GameObject PWest;
     public GameObject PEast;
@@ -252,7 +251,6 @@ public class PlayerSaikoro : MonoBehaviour
         {
             enemyEnd1 = true;
             exploring = false;
-            Debug.Log(EnemyBody.transform.rotation);
             if ((lastPos.x + 0.0001f > Enemy.transform.position.x && lastPos.x - 0.0001f < Enemy.transform.position.x) &&
             (lastPos.z + 0.0001f > Enemy.transform.position.z && lastPos.z - 0.0001f < Enemy.transform.position.z) &&
             !targetScript.enemyidoutyu)

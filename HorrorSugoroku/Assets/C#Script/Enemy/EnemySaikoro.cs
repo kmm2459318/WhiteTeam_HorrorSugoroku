@@ -9,6 +9,7 @@ public class EnemySaikoro : MonoBehaviour
 {
     [SerializeField] SmoothTransform enemySmooth;
     [SerializeField] SmoothTransform enemyBodySmooth;
+    [SerializeField] SmoothTransform enemyBodySmoothsin;
     public GameObject player;
     public GameObject ENorth;
     public GameObject EWest;
@@ -173,6 +174,18 @@ public class EnemySaikoro : MonoBehaviour
 
             goToPos.x = masu.transform.position.x;
             goToPos.z = masu.transform.position.z;
+            
+            switch (goToMass)
+            {
+                case 1:
+                    goToPos.x += 2.0f; break;
+                case 2:
+                    goToPos.z += 2.0f; break;
+                case 3:
+                    goToPos.x -= 2.0f; break;
+                case 4:
+                    goToPos.z -= 2.0f; break;
+            }
         }
 
         if (((goToPos.x + 0.1f > this.transform.position.x && goToPos.x - 0.1f < this.transform.position.x) &&
@@ -302,21 +315,25 @@ public class EnemySaikoro : MonoBehaviour
                     if (direction == new Vector3(0, 0, 2.0f))
                     {
                         enemyBodySmooth.TargetRotation = Quaternion.Euler(-90, 90, 0);
+                        enemyBodySmoothsin.TargetRotation = Quaternion.Euler(0, 0, 0);
                         goToMass = 4;
                     }
                     else if (direction == new Vector3(0, 0, -2.0f))
                     {
                         enemyBodySmooth.TargetRotation = Quaternion.Euler(-90, -90, 0);
+                        enemyBodySmoothsin.TargetRotation = Quaternion.Euler(0, 180, 0);
                         goToMass = 2;
                     }
                     else if (direction == new Vector3(2.0f, 0, 0))
                     {
                         enemyBodySmooth.TargetRotation = Quaternion.Euler(-90, 180, 0);
+                        enemyBodySmoothsin.TargetRotation = Quaternion.Euler(0, 90, 0);
                         goToMass = 3;
                     }
                     else if (direction == new Vector3(-2.0f, 0, 0))
                     {
                         enemyBodySmooth.TargetRotation = Quaternion.Euler(-90, 0, 0);
+                        enemyBodySmoothsin.TargetRotation = Quaternion.Euler(0, -90, 0);
                         goToMass = 1;
                     }
                     yield return new WaitForSeconds(0.5f);
