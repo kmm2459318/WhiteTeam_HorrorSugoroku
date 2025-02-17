@@ -3,6 +3,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 
 public class SceneChanger3D : MonoBehaviour
 {
@@ -38,6 +39,7 @@ public class SceneChanger3D : MonoBehaviour
 
     //private void OnCollisionEnter(Collision collision)
     //{
+    //    Debug.Log("AAAAAAAAAAAAAA");
     //    if (!isGameOver && enemies.Contains(collision.gameObject) && (curseslider.CountGauge == 3))
     //    {
     //        HandleGameOver();
@@ -46,16 +48,18 @@ public class SceneChanger3D : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (!isGameOver && enemies.Contains(other.gameObject) && (curseslider.CountGauge == 3))
+        Debug.Log("AAAAAAAAAAAAAA");
+        if (!isGameOver && enemies.Contains(other.gameObject) && (curseslider.CountGauge >= 2))
         {
             HandleGameOver();
+            Debug.Log("AAAAAAAAAAAAAA");
         }
-        else if(enemies.Contains(other.gameObject) && (curseslider.CountGauge > 3))
+        else if(enemies.Contains(other.gameObject) && (curseslider.CountGauge < 3))
         {
             CurseGaugeUP();
+            Debug.Log("AAAAAAAAAAAAAA");
         }
     }
-
     // ゲームオーバー処理を判定するメソッド
     public void HandleGameOver()
     {
@@ -123,7 +127,7 @@ public class SceneChanger3D : MonoBehaviour
     {
         if (curseslider.dashPoint < 100)
         {
-            curseslider.dashPoint =-curseslider.dashPoint;
+            curseslider.dashPoint =0;
             curseslider.dashPoint += 100;
         }
         yield return new WaitForSeconds(2.0f); // 1秒待機（例）

@@ -17,13 +17,14 @@ public class CurseSlider : MonoBehaviour
     [SerializeField] private Image[] ImageGages; // 画像ゲージ（下から上に増える）
 
     public float maxDashPoint = 100;
-    public float dashIncreasePerTurn = 5;
+    public float dashIncreasePerTurn = 0;
 
     public int CountGauge = 0;              //ゲームオーバーカウント
     public float dashPoint = 0;
     public GameManager gameManager;
     public TurnManager turnManager;
     private bool saikorotyu;
+    private bool CardSelect = false;
 
     private int nextShowCardThreshold = 20; // カード表示の閾値（20,40,60,80,100）
 
@@ -59,9 +60,11 @@ public class CurseSlider : MonoBehaviour
         // 100を超えた場合、ゲージリセット
         if (dashPoint >= maxDashPoint)
         {
+            Debug.Log("ポケポケ最高");
             CountGauge++;
             dashPoint = 0;
             nextShowCardThreshold = 20; // リセット時に閾値もリセット
+            CardSelect = false;
             ResetGaugeImages();
 
             // 現在の CountGauge 値で、表示するテキスト表示を更新します。
@@ -76,8 +79,9 @@ public class CurseSlider : MonoBehaviour
 
         UpdateImageGauges();
 
-        if (dashPoint >= nextShowCardThreshold)
+        if (dashPoint >= nextShowCardThreshold && !CardSelect)
         {
+            CardSelect = true;
             StartCoroutine(ShowCardCanvas());
             nextShowCardThreshold += 20;
         }
@@ -151,6 +155,7 @@ public class CurseSlider : MonoBehaviour
 
     public void HideCardCanvasAndModifyDashIncrease()
     {
+        CardSelect = false;
         dashIncreasePerTurn += master_Curse.CurseSheet[1].TurnIncrease;
         Debug.Log("[CurseSlider] Dash Increase Per Turn set to: " + dashIncreasePerTurn);
         Time.timeScale = 1;
@@ -158,6 +163,7 @@ public class CurseSlider : MonoBehaviour
 
     public void CursegiveButtonAction()
     {
+        CardSelect = false;
         dashPoint = Mathf.Min(dashPoint + 15, maxDashPoint);
         DashGage.value = dashPoint;
         Debug.Log("[CursegiveButton] After: DashPoint = " + dashPoint);
@@ -170,7 +176,7 @@ public class CurseSlider : MonoBehaviour
         if (countText != null)
         {
             //CountGauge が 2 以上の場合、カウントの代わりに「呪」を表示
-            if (CountGauge >= 2)
+            if (CountGauge == 2)
             {
                 countText.text = "呪";
             }
