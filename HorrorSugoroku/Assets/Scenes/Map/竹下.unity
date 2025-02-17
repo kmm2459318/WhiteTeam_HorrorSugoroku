@@ -457,9 +457,9 @@ MonoBehaviour:
   mapPiece: 0
   playerSaikoro: {fileID: 1599821573}
   enemySaikoro: {fileID: 1492082208}
-  enemyCopySaikoro: {fileID: 1492082208}
-  currentEnemyModel: {fileID: 992479493}
-  EnemyCopy: {fileID: 1492082207}
+  enemyCopySaikoro: {fileID: 792993951}
+  currentEnemyModel: {fileID: 377374595}
+  EnemyCopy: {fileID: 792993945}
   newEnemyModelPrefab: {fileID: 1685889097}
 --- !u!114 &35047689
 MonoBehaviour:
@@ -2368,7 +2368,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerBody: {fileID: 852565734}
   mouseSensitivity: 250
-  optionMenu: {fileID: 413954077}
+  sensitivitySlider: {fileID: 0}
+  isMouseLocked: 1
 --- !u!114 &281751358
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3247,6 +3248,11 @@ RectTransform:
   m_AnchoredPosition: {x: -100, y: 120}
   m_SizeDelta: {x: 200, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!1 &377374595 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4613120221208806464, guid: f0d0397779fe1e343a9e10814bd84047, type: 3}
+  m_PrefabInstance: {fileID: 1492082204}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &382471485
 GameObject:
   m_ObjectHideFlags: 0
@@ -4005,7 +4011,7 @@ PrefabInstance:
     - target: {fileID: 3670651007897774828, guid: 01e2d212890a0ba42a69fa33901ce4b7, type: 3}
       propertyPath: enemySaikoro
       value: 
-      objectReference: {fileID: 1492082208}
+      objectReference: {fileID: 0}
     - target: {fileID: 3670651007897774828, guid: 01e2d212890a0ba42a69fa33901ce4b7, type: 3}
       propertyPath: beartrapPrefab
       value: 
@@ -6535,6 +6541,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   enemySmooth: {fileID: 792993948}
   enemyBodySmooth: {fileID: 0}
+  enemyBodySmoothsin: {fileID: 0}
   player: {fileID: 1265317264}
   ENorth: {fileID: 0}
   EWest: {fileID: 0}
@@ -8135,11 +8142,6 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 0.37, z: 1}
   m_Center: {x: -2.01, y: -1.06, z: 0}
---- !u!1 &992479493 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 4613120221208806464, guid: f0d0397779fe1e343a9e10814bd84047, type: 3}
-  m_PrefabInstance: {fileID: 1492082204}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &993543843
 GameObject:
   m_ObjectHideFlags: 0
@@ -10956,6 +10958,10 @@ PrefabInstance:
       propertyPath: playerCloseMirror
       value: 
       objectReference: {fileID: 2042766874}
+    - target: {fileID: 8647504930974984232, guid: f0d0397779fe1e343a9e10814bd84047, type: 3}
+      propertyPath: enemyBodySmoothsin
+      value: 
+      objectReference: {fileID: 96554117}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects:
@@ -11810,8 +11816,7 @@ MonoBehaviour:
   s6: {fileID: 21300000, guid: 0ce679c758ee9564a896cd733ae2eedc, type: 3}
   saikoro: {fileID: 406813752}
   Player: {fileID: 2042766872}
-  Enemy: {fileID: 1492082207}
-  EnemyBody: {fileID: 96554115}
+  Enemy: {fileID: 0}
   PNorth: {fileID: 550482476}
   PWest: {fileID: 986229753}
   PEast: {fileID: 673041631}
@@ -15899,7 +15904,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   enemies:
   - {fileID: 1492082207}
-  - {fileID: 792993945}
+  - {fileID: 0}
   - {fileID: 0}
   cutInImage: {fileID: 544266725}
   cutInDuration: 2
@@ -15918,6 +15923,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5cb7ad12be5f09149be3e0ed77ee9ef0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playerSaikoro: {fileID: 1599821573}
 --- !u!114 &2042766877
 MonoBehaviour:
   m_ObjectHideFlags: 0

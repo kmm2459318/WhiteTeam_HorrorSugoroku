@@ -9,7 +9,6 @@ public class TurnManager : MonoBehaviour
 
     public PlayerSaikoro playerSaikoro;
     public CurseSlider curseSlider; // 呪いゲージ管理
-    public FlashlightController flashlightController; // フラッシュライト管理
 
     // 次のターンへ進む処理
     public void NextTurn()

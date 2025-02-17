@@ -70,7 +70,7 @@ public class Option : MonoBehaviour
             // オプションを開く → マウスを表示し、カメラ操作を無効化
             Cursor.lockState = CursorLockMode.None;
             Cursor.visible = true;
-            cameraController.SetMouseLock(false);
+            cameraController.isMouseLocked = false;
             Time.timeScale = 0;
         }
         else
@@ -78,7 +78,7 @@ public class Option : MonoBehaviour
             // オプションを閉じる → マウスをロックし、カメラ操作を有効化
             Cursor.lockState = CursorLockMode.Locked;
             Cursor.visible = false;
-            cameraController.SetMouseLock(true);
+            cameraController.isMouseLocked = true;
             Time.timeScale = 1;
         }
     }
