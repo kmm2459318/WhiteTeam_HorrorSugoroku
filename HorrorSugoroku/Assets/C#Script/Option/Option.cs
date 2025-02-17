@@ -40,6 +40,12 @@ public class Option : MonoBehaviour
     {
         // ボリュームが 0 ならミュートアイコンに変更
         VolumeImg.sprite = (AudioListener.volume == 0) ? VolumeMuteSprite : VolumeSprite;
+
+        //ESCキーで設定画面表示
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            OpenOption();
+        }
     }
 
     private void OnVolumeChanged(float value)
