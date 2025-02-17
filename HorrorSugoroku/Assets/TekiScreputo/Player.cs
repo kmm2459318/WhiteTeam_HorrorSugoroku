@@ -1,13 +1,13 @@
 using UnityEngine;
 
-public class Preya : MonoBehaviour
+public class Player : MonoBehaviour
 {
     public float speed = 5f; // 移動速度
     public float mouseSensitivity = 2f; // マウス感度
     public float jumpHeight = 2f; // ジャンプの高さ
     public float gravity = -9.81f; // 重力
 
-    private CharacterController characterController; // CharacterControllerコンポーネント
+    private UnityEngine.CharacterController characterController; // CharacterControllerコンポーネント
     private Vector3 velocity; // プレイヤーの垂直速度（重力用）
     private bool isGrounded; // 地面に接しているかどうか
 
@@ -17,8 +17,8 @@ public class Preya : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-      // CharacterControllerコンポーネントを取得
-        characterController = GetComponent<CharacterController>();
+        // CharacterControllerコンポーネントを取得
+        characterController = GetComponent<UnityEngine.CharacterController>();
 
         // マウスカーソルを非表示にしてロック
         Cursor.lockState = CursorLockMode.Locked;
