@@ -100,7 +100,7 @@ public class CurseSlider : MonoBehaviour
         dashPoint = Mathf.Min(dashPoint + amount, maxDashPoint);
         DashGage.value = dashPoint;
 
-        Debug.Log("今の呪いゲージ量: {dashPoint}" );
+        Debug.Log($"今の呪いゲージ量: {dashPoint}" );
     }
     // **ターンごとの呪いゲージ増加**
    

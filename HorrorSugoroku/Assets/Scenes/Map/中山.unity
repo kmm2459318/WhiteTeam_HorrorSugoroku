@@ -7772,6 +7772,77 @@ Transform:
   - {fileID: 114039003}
   m_Father: {fileID: 1959166091}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1001 &936083946
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 3638614397722817050, guid: b946810fba866cc47b0383f360b65a06, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3638614397722817050, guid: b946810fba866cc47b0383f360b65a06, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.3
+      objectReference: {fileID: 0}
+    - target: {fileID: 3638614397722817050, guid: b946810fba866cc47b0383f360b65a06, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3638614397722817050, guid: b946810fba866cc47b0383f360b65a06, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3638614397722817050, guid: b946810fba866cc47b0383f360b65a06, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3638614397722817050, guid: b946810fba866cc47b0383f360b65a06, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3638614397722817050, guid: b946810fba866cc47b0383f360b65a06, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3638614397722817050, guid: b946810fba866cc47b0383f360b65a06, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3638614397722817050, guid: b946810fba866cc47b0383f360b65a06, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3638614397722817050, guid: b946810fba866cc47b0383f360b65a06, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4703944375306678719, guid: b946810fba866cc47b0383f360b65a06, type: 3}
+      propertyPath: m_Size.y
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4703944375306678719, guid: b946810fba866cc47b0383f360b65a06, type: 3}
+      propertyPath: m_IsTrigger
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7161172907520196943, guid: b946810fba866cc47b0383f360b65a06, type: 3}
+      propertyPath: m_Name
+      value: Curse 1
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 7161172907520196943, guid: b946810fba866cc47b0383f360b65a06, type: 3}
+      insertIndex: 3
+      addedObject: {fileID: 1995450889}
+    - targetCorrespondingSourceObject: {fileID: 7161172907520196943, guid: b946810fba866cc47b0383f360b65a06, type: 3}
+      insertIndex: 4
+      addedObject: {fileID: 1995450893}
+  m_SourcePrefab: {fileID: 100100000, guid: b946810fba866cc47b0383f360b65a06, type: 3}
 --- !u!1 &938466269
 GameObject:
   m_ObjectHideFlags: 0
@@ -9011,7 +9082,7 @@ MonoBehaviour:
   ItemTile: {fileID: 2469074605850534854, guid: 73f89671aaa321140bb8cdc2ada4c725, type: 3}
   DirecTile: {fileID: 7448521663041143137, guid: 94f2b393423a6424fbc915338bc84201, type: 3}
   DebuffTile: {fileID: 7161172907520196943, guid: b946810fba866cc47b0383f360b65a06, type: 3}
-  CurseTile: {fileID: 7161172907520196943, guid: b946810fba866cc47b0383f360b65a06, type: 3}
+  CurseTile: {fileID: 1995450887}
   DoorTile: {fileID: 1365980965}
   MapStartPosition: {x: 18, y: 3, z: -46}
   MapName: Area1
@@ -15572,6 +15643,46 @@ Transform:
   - {fileID: 525440072}
   m_Father: {fileID: 1629915733}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1995450887 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7161172907520196943, guid: b946810fba866cc47b0383f360b65a06, type: 3}
+  m_PrefabInstance: {fileID: 936083946}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1995450889
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1995450887}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 81a6fe1c69aaf3349b811ab8b4dd9601, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  gridCellIncreaseAmount: 10
+--- !u!114 &1995450893
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1995450887}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: be09e6e834c73cf45949ac4e256e91ba, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cellEffect: Curse
+  DebuffSheet: {fileID: 11400000, guid: 11758338602bb3e498299fa102a3798e, type: 2}
+  curseTile: {fileID: 0}
+  eventPanel: {fileID: 0}
+  eventText: {fileID: 0}
+  closeButton: {fileID: 0}
+  item: {fileID: 0}
+  requiredItem: "\u9375"
+  n: 0
+  playerInventory: {fileID: 0}
 --- !u!1 &2002209074
 GameObject:
   m_ObjectHideFlags: 0
@@ -16667,3 +16778,4 @@ SceneRoots:
   - {fileID: 1365980964}
   - {fileID: 735880377}
   - {fileID: 413954078}
+  - {fileID: 936083946}
