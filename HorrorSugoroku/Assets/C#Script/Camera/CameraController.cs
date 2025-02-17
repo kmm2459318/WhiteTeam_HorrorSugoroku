@@ -12,7 +12,7 @@ public class CameraController : MonoBehaviour
 
     private float xRotation = 0f;  // カメラの現在の上下回転
     private float yRotation = 0f;  // カメラの現在の左右回転
-    private bool isMouseLocked = true;  // マウスロック状態
+    public bool isMouseLocked = true;  // マウスロック状態
 
     private float targetYRotation = 0f;  // 目標Y軸回転角度（補間対象）
     private float smoothTime = 0.3f;  // 補間にかける時間

@@ -21,8 +21,6 @@ public class GameManager : MonoBehaviour
     public GameObject EnemyCopy; // コピーエネミーモデル
     public GameObject newEnemyModelPrefab; // 新しいエネミーモデルのプレハブ
 
-    public EnemyTransferManager enemyTransferManager;
-
     private int playerTurnCount = 0; // プレイヤーのターン数をカウントする変数
 
     private void Start()
@@ -66,7 +64,8 @@ public class GameManager : MonoBehaviour
 
     public void ChangeEnemyModel()
     {
-        enemyTransferManager.TransferEnemySettings();
+        currentEnemyModel.SetActive(false);
+        newEnemyModelPrefab.SetActive(true);
     }
 
     // ターンの切り替えを行うメソッド
