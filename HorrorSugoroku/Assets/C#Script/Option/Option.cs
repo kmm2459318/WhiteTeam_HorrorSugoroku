@@ -40,6 +40,12 @@ public class Option : MonoBehaviour
     {
         // ボリュームが 0 ならミュートアイコンに変更
         VolumeImg.sprite = (AudioListener.volume == 0) ? VolumeMuteSprite : VolumeSprite;
+
+        //ESCキーで設定画面表示
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            OpenOption();
+        }
     }
 
     private void OnVolumeChanged(float value)
@@ -65,6 +71,7 @@ public class Option : MonoBehaviour
             Cursor.lockState = CursorLockMode.None;
             Cursor.visible = true;
             cameraController.SetMouseLock(false);
+            Time.timeScale = 0;
         }
         else
         {
@@ -72,6 +79,7 @@ public class Option : MonoBehaviour
             Cursor.lockState = CursorLockMode.Locked;
             Cursor.visible = false;
             cameraController.SetMouseLock(true);
+            Time.timeScale = 1;
         }
     }
 
