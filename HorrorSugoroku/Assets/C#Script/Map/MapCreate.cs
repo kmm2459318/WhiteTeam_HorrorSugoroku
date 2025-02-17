@@ -11,7 +11,7 @@ public class MapCreator : MonoBehaviour
     public GameObject ItemTile;
     public GameObject DirecTile;
     public GameObject DebuffTile;
-    public GameObject BatteryTile;
+    public GameObject CurseTile;
     public GameObject DoorTile;
 
 　　// マップの初期位置を変える
@@ -28,7 +28,7 @@ public class MapCreator : MonoBehaviour
         // マップデータをこの下に記入
         MapData.Add("Sample", new int[,] {
         { 0,0,0,0,0,0,0,0,0,0,0,0,0 },
-        { 0,4,5,6,1,2,3,4,5,6,1,2,0 },
+        { 0,6,6,6,6,2,3,4,5,6,1,2,0 },
         { 0,3,0,0,0,0,1,0,0,0,0,3,0 },
         { 0,3,0,0,0,0,1,7,1,1,0,4,0 },
         { 0,3,0,0,0,0,1,0,0,0,0,5,0 },
@@ -38,13 +38,13 @@ public class MapCreator : MonoBehaviour
         { 0,2,0,0,0,0,1,0,0,0,0,3,0 },
         { 0,3,0,0,0,0,1,0,0,0,0,4,0 },
         { 0,2,0,0,0,0,1,0,0,0,0,5,0 },
-        { 0,1,4,3,2,6,5,2,2,2,1,6,0 },
+        { 0,1,4,3,2,6,5,6,2,2,1,6,0 },
         { 0,0,0,0,0,0,0,0,0,0,0,0,0 },
         });
 
         MapData.Add("Area1", new int[,]{
         {0,0,0,0,0,0,0,0,0,0,0,0,0 },
-        {0,4,5,6,1,2,3,4,5,6,1,2,0 },
+        {0,6,6,6,6,2,3,4,5,6,1,2,0 },
         {0,3,0,0,0,0,1,0,0,0,0,3,0 },
         {0,3,0,0,0,0,1,7,1,1,0,4,0 },
         {0,3,0,0,0,0,1,0,0,0,0,5,0 },
@@ -54,7 +54,7 @@ public class MapCreator : MonoBehaviour
         {0,2,0,0,0,0,1,0,0,0,0,3,0 },
         {0,3,0,0,0,0,1,0,0,0,0,4,0 },
         {0,2,0,0,0,0,1,0,0,0,0,5,0 },
-        {0,1,4,3,2,6,5,2,2,2,1,6,0 },
+        {0,1,4,3,2,6,5,6,2,2,1,6,0 },
         {0,0,0,0,0,0,0,0,0,0,0,0,0 },
         });
 
@@ -103,7 +103,8 @@ public class MapCreator : MonoBehaviour
                         tilePrefab = DebuffTile;
                         break;
                     case 6:
-                        tilePrefab = BatteryTile;
+                        tilePrefab = CurseTile;
+                       
                         break;
                     case 7:
                         tilePrefab = DoorTile;

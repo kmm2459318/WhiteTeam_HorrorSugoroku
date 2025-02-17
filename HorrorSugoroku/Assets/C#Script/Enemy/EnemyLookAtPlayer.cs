@@ -26,6 +26,9 @@ public class EnemyLookAtPlayer : MonoBehaviour
             Vector3 directionToPlayer = (player.transform.position - transform.position).normalized;
             Quaternion lookRotation = Quaternion.LookRotation(new Vector3(directionToPlayer.x, 0, directionToPlayer.z));
             transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, Time.deltaTime * 5f);
+
+            // 移動方向をプレイヤーの方向に設定
+            moveDirection = directionToPlayer;
         }
         else
         {
@@ -48,13 +51,13 @@ public class EnemyLookAtPlayer : MonoBehaviour
 
         // エネミーの移動状態に基づいてアニメーションを制御
         isMoving = moveDirection != Vector3.zero; // 移動方向がゼロでない場合は移動中と判断
-        animator.SetBool("isRunning", isMoving);
-        animator.SetBool("isIdle", !isMoving);
+        animator.SetBool("is Running", isMoving); // isRunningパラメータを設定
     }
 
     public void SetDiscovery(bool isDiscovered)
     {
         discovery = isDiscovered;
+        Debug.Log("Discovery state set to: " + isDiscovered);
     }
 
     public void SetMoveDirection(Vector3 direction)
@@ -67,5 +70,6 @@ public class EnemyLookAtPlayer : MonoBehaviour
     public void SetIsMoving(bool moving)
     {
         isMoving = moving;
+        Debug.Log("IsMoving state set to: " + moving);
     }
 }

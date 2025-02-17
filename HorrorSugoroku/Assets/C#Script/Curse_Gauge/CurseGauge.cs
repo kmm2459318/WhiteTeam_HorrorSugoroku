@@ -16,15 +16,16 @@ public class CurseSlider : MonoBehaviour
     [SerializeField] private Master_Curse master_Curse;
     [SerializeField] private Image[] ImageGages; // 画像ゲージ（下から上に増える）
 
-    public float maxDashPoint = 100;
-    public float dashIncreasePerTurn = 0;
+    public int maxDashPoint = 100;
+    public int defaultIncreaseAmount = 20; // デフォルトの増加量（CurseSlider 側の設定）
+      public int dashIncreasePerTurn = 5;
+
 
     public int CountGauge = 0;              //ゲームオーバーカウント
     public float dashPoint = 0;
     public GameManager gameManager;
     public TurnManager turnManager;
     private bool saikorotyu;
-    private bool CardSelect = false;
 
     private int nextShowCardThreshold = 20; // カード表示の閾値（20,40,60,80,100）
 
@@ -60,28 +61,21 @@ public class CurseSlider : MonoBehaviour
         // 100を超えた場合、ゲージリセット
         if (dashPoint >= maxDashPoint)
         {
-            Debug.Log("ポケポケ最高");
             CountGauge++;
             dashPoint = 0;
             nextShowCardThreshold = 20; // リセット時に閾値もリセット
-            CardSelect = false;
             ResetGaugeImages();
 
             // 現在の CountGauge 値で、表示するテキスト表示を更新します。
             UpdateCountText();
         }
 
-        // 300を超えた場合、ゲームオーバー画面へ遷移
-        if (CountGauge == 3)
-        {
-            GameOver();
-        }
+      
 
         UpdateImageGauges();
 
-        if (dashPoint >= nextShowCardThreshold && !CardSelect)
+        if (dashPoint >= nextShowCardThreshold)
         {
-            CardSelect = true;
             StartCoroutine(ShowCardCanvas());
             nextShowCardThreshold += 20;
         }
@@ -101,14 +95,19 @@ public class CurseSlider : MonoBehaviour
         if (!gameManager.isPlayerTurn) return;
     }
 
-    public void IncreaseDashPointPerTurn()
+    public void IncreaseDashPoint(int amount)
     {
-        dashPoint = Mathf.Min(dashPoint + dashIncreasePerTurn, maxDashPoint);
+        dashPoint = Mathf.Min(dashPoint + amount, maxDashPoint);
         DashGage.value = dashPoint;
 
-        Debug.Log("今の呪いゲージ量: " + dashPoint);
+        Debug.Log($"今の呪いゲージ量: {dashPoint}" );
     }
-
+    // **ターンごとの呪いゲージ増加**
+   
+    public void IncreaseDashPointPerTurn()
+    {
+        IncreaseDashPoint(dashIncreasePerTurn);
+    }
     private void UpdateImageGauges()
     {
         for (int i = 0; i < ImageGages.Length; i++)
@@ -155,7 +154,6 @@ public class CurseSlider : MonoBehaviour
 
     public void HideCardCanvasAndModifyDashIncrease()
     {
-        CardSelect = false;
         dashIncreasePerTurn += master_Curse.CurseSheet[1].TurnIncrease;
         Debug.Log("[CurseSlider] Dash Increase Per Turn set to: " + dashIncreasePerTurn);
         Time.timeScale = 1;
@@ -163,7 +161,6 @@ public class CurseSlider : MonoBehaviour
 
     public void CursegiveButtonAction()
     {
-        CardSelect = false;
         dashPoint = Mathf.Min(dashPoint + 15, maxDashPoint);
         DashGage.value = dashPoint;
         Debug.Log("[CursegiveButton] After: DashPoint = " + dashPoint);
@@ -176,7 +173,7 @@ public class CurseSlider : MonoBehaviour
         if (countText != null)
         {
             //CountGauge が 2 以上の場合、カウントの代わりに「呪」を表示
-            if (CountGauge == 2)
+            if (CountGauge >= 2)
             {
                 countText.text = "呪";
             }
@@ -185,12 +182,5 @@ public class CurseSlider : MonoBehaviour
                 countText.text = (3 - CountGauge).ToString();
             }
         }
-    }
-        
-    
-
-    private void GameOver()
-    {
-
     }
 }
