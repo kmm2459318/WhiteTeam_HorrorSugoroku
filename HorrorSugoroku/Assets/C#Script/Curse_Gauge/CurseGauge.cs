@@ -147,9 +147,9 @@ public class CurseSlider : MonoBehaviour
 
         if (CardCanvas != null)
         {
-            CardCanvas.SetActive(isCardCanvas);
-            yield return new WaitForSeconds(1.0f);
+            yield return new WaitForSeconds(1f);
             Time.timeScale = 0; // **ゲームを停止**
+            CardCanvas.SetActive(isCardCanvas);
 
         }
 
