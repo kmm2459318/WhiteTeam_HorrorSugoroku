@@ -1,11 +1,16 @@
-﻿using UnityEngine;
+﻿using TMPro;
+using UnityEngine;
+using UnityEngine.UI;
 
 public class ClickObject : MonoBehaviour
 {
     public PlayerSaikoro playerSaikoro; // PlayerSaikoroクラスへの参照
     public PlayerInventory playerInventory; // PlayerInventory への参照
     public GameManager gameManager;
-  //  public string itemName = "鍵"; // 鍵の名前
+    [SerializeField] public TextMeshProUGUI Text;
+    [SerializeField] public GameObject Canvas;
+    [SerializeField] private Image cutInImage; // カットイン画像
+    //  public string itemName = "鍵"; // 鍵の名前
     void Start()
     {
         // 自動で `PlayerInventory` を取得
@@ -35,7 +40,7 @@ public class ClickObject : MonoBehaviour
 
             if (Physics.Raycast(ray, out hit)) // レイキャストでオブジェクトを判定
             {
-                if (hit.collider.CompareTag("Item")) // タグが "Item" の場合
+                if (hit.collider.CompareTag("Item") || hit.collider.CompareTag("Key") || hit.collider.CompareTag("Map")) // タグが "Item" "Key" "Map"の場合
                 {
                     // idoutyuがfalseのときのみクリック可能
                     if (!playerSaikoro.idoutyu)
@@ -45,16 +50,30 @@ public class ClickObject : MonoBehaviour
                         if (distance <= 3f) // カメラからの距離が3以下の場合
                         {
                             // 🎲 ランダムでスクリプトA または B を実行
-                            int randomChoice = Random.Range(0, 0);
+                           // int randomChoice = Random.Range(0, 4);
 
-                            if (randomChoice == 0)
+                            if (hit.collider.CompareTag("Key"))
                             {
                                 ExecuteScriptA(hit.collider.gameObject); // スクリプトAを実行（アイテム取得）
                             }
-                            else
+                            else if (hit.collider.CompareTag("Map"))
                             {
                                 ExecuteScriptB(); // スクリプトBを実行（例：敵を召喚）
                             }
+                            else if (hit.collider.CompareTag("Item"))
+                            {
+                                ExecuteScriptC(); // スクリプトBを実行（例：敵を召喚）
+                            }
+                            //else if (randomChoice == 2)
+                            //{
+                            //    ExecuteScriptC();
+                            //}
+                            //else if (randomChoice == 3)
+                            //{
+                            //    ExecuteScriptC();
+                            //}
+
+
                             ///*  string itemName = hit.collider.gameObject.name;*/ // 取得するアイテム名
                             //  Debug.Log(this.itemName + " を入手しました");
 
@@ -73,6 +92,13 @@ public class ClickObject : MonoBehaviour
                         }
                     }
                 }
+            }
+        }
+        if (Canvas.active == true)
+        {
+            if (Input.GetKeyDown(KeyCode.Space))
+            {
+                Canvas.SetActive(false);
             }
         }
     }
@@ -102,6 +128,22 @@ public class ClickObject : MonoBehaviour
         else
         {
             Debug.LogError("GameManager が見つかりません！");
+        }
+    }
+    // 🎯 スクリプトC: 何か別の処理（例：敵を召喚）
+    void ExecuteScriptC()
+    {
+        int randomChoice = Random.Range(0, 100);
+        if (randomChoice % 5 == 0)
+        {
+            Debug.Log("ジャンプスケア");
+            cutInImage.gameObject.SetActive(true); // 画像を表示
+        }
+        else
+        {
+            Debug.Log("何もなかった。");
+            Canvas.SetActive(true);
+            Text.text = ("何もなかった。");
         }
     }
 }
