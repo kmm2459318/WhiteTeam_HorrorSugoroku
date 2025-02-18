@@ -31,17 +31,16 @@ public class MiniMap : MonoBehaviour
         // マップの取得数を代入
         Mapcount = gameManager.mapPiece;
 
-        // カウントが増えるごとに画像を変更し、表示する
-        if (Mapcount >= 0 && Mapcount < Map.Length)
+        // すべてのマップピースを非表示にし、適切なスプライトを設定
+        for (int i = 0; i < Map.Length; i++)
         {
-            if (Map[Mapcount] != null)
+            if (Map[i] != null)
             {
-                Map[Mapcount].SetActive(true); // 表示
-                SpriteRenderer sr = Map[Mapcount].GetComponent<SpriteRenderer>();
-
-                if (sr != null && Sprites[Mapcount] != null)
+                Map[i].SetActive(i <= Mapcount);
+                SpriteRenderer sr = Map[i].GetComponent<SpriteRenderer>();
+                if (sr != null && i < Sprites.Length && Sprites[i] != null)
                 {
-                    sr.sprite = Sprites[Mapcount]; // 画像を変更
+                    sr.sprite = Sprites[i]; // 画像を変更
                 }
             }
         }
