@@ -389,10 +389,11 @@ GameObject:
   - component: {fileID: 7360832063563205206}
   - component: {fileID: 8741870528243454730}
   - component: {fileID: 392363684780667251}
+  - component: {fileID: -5929006097959414431}
   - component: {fileID: 3844098710942129867}
   m_Layer: 0
   m_Name: Cube Blue
-  m_TagString: Untagged
+  m_TagString: masu
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -407,7 +408,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: 1, z: -0, w: 0}
   m_LocalPosition: {x: -15.28, y: 0.87, z: -1.34}
-  m_LocalScale: {x: 1, y: 0.02, z: 1}
+  m_LocalScale: {x: 1.95, y: 0.02, z: 1.95}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 8514873708344604878}
@@ -469,6 +470,37 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!114 &-5929006097959414431
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6697206057811729497}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: be09e6e834c73cf45949ac4e256e91ba, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cellEffect: Normal
+  DebuffSheet: {fileID: 0}
+  curseTile: {fileID: 0}
+  eventPanel: {fileID: 0}
+  eventText: {fileID: 0}
+  cursePanel: {fileID: 0}
+  curseText: {fileID: 0}
+  closeButton: {fileID: 0}
+  item: {fileID: 0}
+  requiredItem: "\u9375"
+  curseChance: 50
+  scareChance: 30
+  nothingChance: 20
+  curseamout: 10
+  cutInImage: {fileID: 0}
+  cutInDuration: 2
+  gameOverSound: {fileID: 0}
+  volume: 1
+  n: 0
 --- !u!65 &3844098710942129867
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -484,12 +516,12 @@ BoxCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Size: {x: 1, y: 34.258232, z: 1}
+  m_Center: {x: -0, y: 1.0982201, z: -0}
 --- !u!1 &9180031842096458207
 GameObject:
   m_ObjectHideFlags: 0

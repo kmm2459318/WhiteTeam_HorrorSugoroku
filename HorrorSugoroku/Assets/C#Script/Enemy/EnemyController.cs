@@ -24,12 +24,12 @@ public class EnemyController : MonoBehaviour
         if (isMoving)
         {
             Debug.Log("Setting Run state");
-            animator.SetBool("is Running", true); // 移動中の場合、アニメーションを走る状態に設定
+            //animator.SetBool("is Running", true); // 移動中の場合、アニメーションを走る状態に設定
         }
         else
         {
             Debug.Log("Setting Idle state");
-            animator.SetBool("is Running", false); // 移動していない場合、アニメーションを停止状態に設定
+            //animator.SetBool("is Running", false); // 移動していない場合、アニメーションを停止状態に設定
         }
 
         mp = gameManager.mapPiece; // ゲームマネージャーからマップピースの数を取得

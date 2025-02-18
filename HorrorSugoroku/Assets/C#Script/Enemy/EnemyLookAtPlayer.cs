@@ -14,7 +14,7 @@ public class EnemyLookAtPlayer : MonoBehaviour
         animator = GetComponent<Animator>(); // アニメーターコンポーネントを取得
         if (animator == null)
         {
-            Debug.LogError("Animator component not found on the enemy object.");
+            //Debug.LogError("Animator component not found on the enemy object.");
         }
     }
 
@@ -51,7 +51,7 @@ public class EnemyLookAtPlayer : MonoBehaviour
 
         // エネミーの移動状態に基づいてアニメーションを制御
         isMoving = moveDirection != Vector3.zero; // 移動方向がゼロでない場合は移動中と判断
-        animator.SetBool("is Running", isMoving); // isRunningパラメータを設定
+        //animator.SetBool("is Running", isMoving); // isRunningパラメータを設定
     }
 
     public void SetDiscovery(bool isDiscovered)
