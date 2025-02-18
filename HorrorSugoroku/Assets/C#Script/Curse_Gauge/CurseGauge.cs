@@ -9,6 +9,7 @@ public class CurseSlider : MonoBehaviour
     [SerializeField] Slider DashGage;
     [SerializeField] SceneChanger3D sceneChanger;
     [SerializeField] GameObject CardCanvas;
+    private bool isCardCanvas = false; //CardCanvasの開閉状態
     [SerializeField] Button extraButton;
     [SerializeField] Button hideButton;
     [SerializeField] Button cursegiveButton;
@@ -87,6 +88,18 @@ public class CurseSlider : MonoBehaviour
                 EndTurnWithCardDisplay();
             }
         }
+
+        //CardCanvasが開いているときマウスカーソルを表示する
+        if (CardCanvas == isCardCanvas)
+        {
+            Cursor.lockState = CursorLockMode.None;
+            Cursor.visible = true;
+        }
+        else
+        {
+            Cursor.lockState = CursorLockMode.Locked;
+            Cursor.visible = false;
+        }
     }
 
     private void EndTurnWithCardDisplay()
@@ -130,12 +143,16 @@ public class CurseSlider : MonoBehaviour
 
     public IEnumerator ShowCardCanvas()
     {
+        isCardCanvas = true;
+
         if (CardCanvas != null)
         {
-            CardCanvas.SetActive(true);
+            CardCanvas.SetActive(isCardCanvas);
             yield return new WaitForSeconds(1.0f);
             Time.timeScale = 0; // **ゲームを停止**
+
         }
+
     }
 
     public void ExtraButtonAction()
@@ -148,6 +165,7 @@ public class CurseSlider : MonoBehaviour
         if (CardCanvas != null)
         {
             CardCanvas.SetActive(false);
+            isCardCanvas = false;
             Time.timeScale = 1;
         }
     }
