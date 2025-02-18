@@ -14,10 +14,12 @@ public class CutIn : MonoBehaviour
     [SerializeField, Header("表示時間")]
     public float DisplayTime = 1.5f; // 完全に表示する時間
 
+    public GameObject Text;
     private bool previousTurnState = false; // 前回のターン状態
 
     void Start()
     {
+        Text.SetActive(false);
         TEXT.text = "";
         TEXT.color = new Color(1.0f, 1.0f, 1.0f, 0.0f); // 完全に透明
         previousTurnState = gameManager.isPlayerTurn; // 初期状態を保存
@@ -28,6 +30,7 @@ public class CutIn : MonoBehaviour
         // `isPlayerTurn` が true に変わったときに 1 回だけ `NextTurn()` を実行
         if (gameManager.isPlayerTurn && !previousTurnState)
         {
+            Text.SetActive(true);
             StartCoroutine(FadeIn());
         }
 
@@ -70,5 +73,6 @@ public class CutIn : MonoBehaviour
 
         TEXT.color = new Color(1, 1, 1, 0); // 完全に透明
         TEXT.text = ""; // フェードアウト後テキストを消す
+        Text.SetActive(false);
     }
 }
