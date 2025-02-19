@@ -203,7 +203,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &12648735
 RectTransform:
   m_ObjectHideFlags: 0
@@ -2193,7 +2193,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 223507029}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1632628218}
+        m_TargetAssemblyTypeName: CurseSlider, Assembly-CSharp
+        m_MethodName: CursegiveButtonAction
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &223507029
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3113,7 +3125,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 276726758}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1632628218}
+        m_TargetAssemblyTypeName: CurseSlider, Assembly-CSharp
+        m_MethodName: ExtraButtonAction
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &276726758
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3681,9 +3705,6 @@ MonoBehaviour:
   playerSaikoro: {fileID: 0}
   playerInventory: {fileID: 0}
   gameManager: {fileID: 0}
-  Text: {fileID: 0}
-  Canvas: {fileID: 0}
-  cutInImage: {fileID: 0}
 --- !u!135 &314146373
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -5596,15 +5617,11 @@ PrefabInstance:
     - target: {fileID: 3670651007897774828, guid: 01e2d212890a0ba42a69fa33901ce4b7, type: 3}
       propertyPath: spawnPoint
       value: 
-      objectReference: {fileID: 2042766882}
-    - target: {fileID: 3670651007897774828, guid: 01e2d212890a0ba42a69fa33901ce4b7, type: 3}
-      propertyPath: curseSlider
-      value: 
-      objectReference: {fileID: 1632628218}
+      objectReference: {fileID: 0}
     - target: {fileID: 3670651007897774828, guid: 01e2d212890a0ba42a69fa33901ce4b7, type: 3}
       propertyPath: enemySaikoro
       value: 
-      objectReference: {fileID: 1492082208}
+      objectReference: {fileID: 0}
     - target: {fileID: 3670651007897774828, guid: 01e2d212890a0ba42a69fa33901ce4b7, type: 3}
       propertyPath: beartrapPrefab
       value: 
@@ -5703,11 +5720,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6648733601776081982, guid: 01e2d212890a0ba42a69fa33901ce4b7, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 98
+      value: 100
       objectReference: {fileID: 0}
     - target: {fileID: 6648733601776081982, guid: 01e2d212890a0ba42a69fa33901ce4b7, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -145
+      value: -142
       objectReference: {fileID: 0}
     - target: {fileID: 6648733601776081982, guid: 01e2d212890a0ba42a69fa33901ce4b7, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -6271,9 +6288,6 @@ MonoBehaviour:
   playerSaikoro: {fileID: 0}
   playerInventory: {fileID: 0}
   gameManager: {fileID: 0}
-  Text: {fileID: 0}
-  Canvas: {fileID: 0}
-  cutInImage: {fileID: 0}
 --- !u!135 &532596139
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -7200,7 +7214,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 601141003}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1632628218}
+        m_TargetAssemblyTypeName: CurseSlider, Assembly-CSharp
+        m_MethodName: HideCardCanvas
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &601141003
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9291,9 +9317,6 @@ MonoBehaviour:
   playerSaikoro: {fileID: 0}
   playerInventory: {fileID: 0}
   gameManager: {fileID: 0}
-  Text: {fileID: 0}
-  Canvas: {fileID: 0}
-  cutInImage: {fileID: 0}
 --- !u!135 &808390687
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -10921,7 +10944,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 930804418}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1632628218}
+        m_TargetAssemblyTypeName: CurseSlider, Assembly-CSharp
+        m_MethodName: HideCardCanvasAndModifyDashIncrease
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &930804418
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -11566,38 +11601,6 @@ PrefabInstance:
       propertyPath: m_Sprite
       value: 
       objectReference: {fileID: 21300000, guid: d0a2f2c068931464c978cb8ce16681e0, type: 3}
-    - target: {fileID: 650834329582602276, guid: cc7429b1a19f3b145bddafa519e3c674, type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 650834329582602276, guid: cc7429b1a19f3b145bddafa519e3c674, type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 650834329582602276, guid: cc7429b1a19f3b145bddafa519e3c674, type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
-      value: 
-      objectReference: {fileID: 1918528532}
-    - target: {fileID: 650834329582602276, guid: cc7429b1a19f3b145bddafa519e3c674, type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 650834329582602276, guid: cc7429b1a19f3b145bddafa519e3c674, type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 650834329582602276, guid: cc7429b1a19f3b145bddafa519e3c674, type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
-      value: UnityEngine.MonoBehaviour, UnityEngine
-      objectReference: {fileID: 0}
-    - target: {fileID: 650834329582602276, guid: cc7429b1a19f3b145bddafa519e3c674, type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_BoolArgument
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 650834329582602276, guid: cc7429b1a19f3b145bddafa519e3c674, type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
-      value: UnityEngine.Object, UnityEngine
-      objectReference: {fileID: 0}
     - target: {fileID: 3113390486746831993, guid: cc7429b1a19f3b145bddafa519e3c674, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -11678,10 +11681,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 5571389889205491030, guid: cc7429b1a19f3b145bddafa519e3c674, type: 3}
-      propertyPath: curseSlider
-      value: 
-      objectReference: {fileID: 1632628218}
     - target: {fileID: 7628177870289693198, guid: cc7429b1a19f3b145bddafa519e3c674, type: 3}
       propertyPath: m_fontAsset
       value: 
@@ -12381,7 +12380,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1121941387}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 0}
+        m_TargetAssemblyTypeName: 
+        m_MethodName: 
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: 
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1121941387
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -16906,7 +16917,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1596643580}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1632628218}
+        m_TargetAssemblyTypeName: CurseSlider, Assembly-CSharp
+        m_MethodName: CursegiveButtonAction
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1596643580
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -18797,9 +18820,6 @@ MonoBehaviour:
   playerSaikoro: {fileID: 0}
   playerInventory: {fileID: 0}
   gameManager: {fileID: 0}
-  Text: {fileID: 0}
-  Canvas: {fileID: 0}
-  cutInImage: {fileID: 0}
 --- !u!135 &1719710178
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -20867,17 +20887,6 @@ Transform:
   - {fileID: 1907572994}
   m_Father: {fileID: 73818676}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1918528532 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 5571389889205491030, guid: cc7429b1a19f3b145bddafa519e3c674, type: 3}
-  m_PrefabInstance: {fileID: 971697936}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 01e48e88e1e1a1e4b81a60509f366e03, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!4 &1925072932 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4613120221208975862, guid: f0d0397779fe1e343a9e10814bd84047, type: 3}
@@ -21593,9 +21602,6 @@ MonoBehaviour:
   playerSaikoro: {fileID: 1599821573}
   playerInventory: {fileID: 2042766883}
   gameManager: {fileID: 35047688}
-  Text: {fileID: 0}
-  Canvas: {fileID: 0}
-  cutInImage: {fileID: 0}
 --- !u!1 &1976653323
 GameObject:
   m_ObjectHideFlags: 0
