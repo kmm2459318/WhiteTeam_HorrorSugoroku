@@ -2,19 +2,25 @@ using UnityEngine;
 
 public class EnemyLookAtPlayer : MonoBehaviour
 {
-    public GameObject player; // ƒvƒŒƒCƒ„[‚ÌƒQ[ƒ€ƒIƒuƒWƒFƒNƒg
-    public LayerMask wallLayer; // •Ç‚ÌƒŒƒCƒ„[
+    public GameObject player; // ï¿½vï¿½ï¿½ï¿½Cï¿½ï¿½ï¿½[ï¿½ÌƒQï¿½[ï¿½ï¿½ï¿½Iï¿½uï¿½Wï¿½Fï¿½Nï¿½g
+    public LayerMask wallLayer; // ï¿½Ç‚Ìƒï¿½ï¿½Cï¿½ï¿½ï¿½[
     private bool discovery = false;
     private Vector3 moveDirection;
-    private Animator animator; // ƒAƒjƒ[ƒ^[‚ÌQÆ
-    private bool isMoving = false; // ƒGƒlƒ~[‚ªˆÚ“®’†‚©‚Ç‚¤‚©‚ğ¦‚·ƒtƒ‰ƒO
+    private Animator animator; // ï¿½Aï¿½jï¿½ï¿½ï¿½[ï¿½^ï¿½[ï¿½ÌQï¿½ï¿½
+    private bool isMoving = false; // ï¿½Gï¿½lï¿½~ï¿½[ï¿½ï¿½ï¿½Ú“ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ç‚ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½tï¿½ï¿½ï¿½O
+    public Transform northTransform; // Northï¿½Iï¿½uï¿½Wï¿½Fï¿½Nï¿½gï¿½ï¿½Transform
 
     void Start()
     {
-        animator = GetComponent<Animator>(); // ƒAƒjƒ[ƒ^[ƒRƒ“ƒ|[ƒlƒ“ƒg‚ğæ“¾
+        animator = GetComponent<Animator>(); // ï¿½Aï¿½jï¿½ï¿½ï¿½[ï¿½^ï¿½[ï¿½Rï¿½ï¿½ï¿½|ï¿½[ï¿½lï¿½ï¿½ï¿½gï¿½ï¿½ï¿½æ“¾
         if (animator == null)
         {
             Debug.LogError("Animator component not found on the enemy object.");
+        }
+
+        if (northTransform == null)
+        {
+            Debug.LogError("North Transform is not assigned.");
         }
     }
 
@@ -22,32 +28,39 @@ public class EnemyLookAtPlayer : MonoBehaviour
     {
         if (discovery)
         {
-            // ƒvƒŒƒCƒ„[‚Ì•ûŒü‚ÉŒü‚­
+            // ï¿½vï¿½ï¿½ï¿½Cï¿½ï¿½ï¿½[ï¿½Ì•ï¿½ï¿½ï¿½ï¿½ÉŒï¿½ï¿½ï¿½
             Vector3 directionToPlayer = (player.transform.position - transform.position).normalized;
             Quaternion lookRotation = Quaternion.LookRotation(new Vector3(directionToPlayer.x, 0, directionToPlayer.z));
             transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, Time.deltaTime * 5f);
         }
         else
         {
-            // ˆÚ“®•ûŒü‚ÉŒü‚­
+            // ï¿½Ú“ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ÉŒï¿½ï¿½ï¿½
             if (moveDirection != Vector3.zero)
             {
                 Quaternion lookRotation = Quaternion.LookRotation(new Vector3(moveDirection.x, 0, moveDirection.z));
                 transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, Time.deltaTime * 5f);
             }
 
-            // •Ç‚É“–‚½‚Á‚½ê‡‚É•ûŒü‚ğ”½“]
+            // ï¿½Ç‚É“ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ê‡ï¿½É•ï¿½ï¿½ï¿½ï¿½ğ”½“]
             bool frontHit = Physics.CheckBox(transform.position, transform.localScale / 2, transform.rotation, wallLayer);
 
             if (frontHit)
             {
-                moveDirection = -moveDirection; // •ûŒü‚ğ”½“]
+                moveDirection = -moveDirection; // ï¿½ï¿½ï¿½ï¿½ï¿½ğ”½“]
                 Debug.Log("Wall detected at front, changing direction to: " + moveDirection);
             }
         }
 
-        // ƒGƒlƒ~[‚ÌˆÚ“®ó‘Ô‚ÉŠî‚Ã‚¢‚ÄƒAƒjƒ[ƒVƒ‡ƒ“‚ğ§Œä
-        isMoving = moveDirection != Vector3.zero; // ˆÚ“®•ûŒü‚ªƒ[ƒ‚Å‚È‚¢ê‡‚ÍˆÚ“®’†‚Æ”»’f
+        // Northï¿½Iï¿½uï¿½Wï¿½Fï¿½Nï¿½gï¿½ï¿½ï¿½Gï¿½lï¿½~ï¿½[ï¿½Ì‰ï¿½]ï¿½É’Ç]ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+        if (northTransform != null)
+        {
+            northTransform.position = transform.position; // Northï¿½Iï¿½uï¿½Wï¿½Fï¿½Nï¿½gï¿½ÌˆÊ’uï¿½ï¿½ï¿½Gï¿½lï¿½~ï¿½[ï¿½ÌˆÊ’uï¿½Éï¿½ï¿½í‚¹ï¿½ï¿½
+            northTransform.rotation = Quaternion.Euler(0, transform.rotation.eulerAngles.y, 0); // Yï¿½ï¿½ï¿½Ì‚İ‚Å‰ï¿½]
+        }
+
+        // ï¿½Gï¿½lï¿½~ï¿½[ï¿½ÌˆÚ“ï¿½ï¿½ï¿½Ô‚ÉŠï¿½Ã‚ï¿½ï¿½ÄƒAï¿½jï¿½ï¿½ï¿½[ï¿½Vï¿½ï¿½ï¿½ï¿½ï¿½ğ§Œï¿½
+        isMoving = moveDirection != Vector3.zero; // ï¿½Ú“ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½Å‚È‚ï¿½ï¿½ê‡ï¿½ÍˆÚ“ï¿½ï¿½ï¿½ï¿½Æ”ï¿½ï¿½f
         animator.SetBool("isRunning", isMoving);
         animator.SetBool("isIdle", !isMoving);
     }
@@ -60,7 +73,7 @@ public class EnemyLookAtPlayer : MonoBehaviour
     public void SetMoveDirection(Vector3 direction)
     {
         moveDirection = direction;
-        isMoving = moveDirection != Vector3.zero; // ˆÚ“®•ûŒü‚ªƒ[ƒ‚Å‚È‚¢ê‡‚ÍˆÚ“®’†‚Æ”»’f
+        isMoving = moveDirection != Vector3.zero; // ï¿½Ú“ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½Å‚È‚ï¿½ï¿½ê‡ï¿½ÍˆÚ“ï¿½ï¿½ï¿½ï¿½Æ”ï¿½ï¿½f
         Debug.Log("Move direction set to: " + direction);
     }
 
