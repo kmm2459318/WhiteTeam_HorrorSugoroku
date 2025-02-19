@@ -72,7 +72,7 @@ public class TurnManager : MonoBehaviour
     {
         if (curseSlider != null)
         {
-            curseSlider.ShowCardCanvas();
+            curseSlider.ShowCardCanvas1();
             Debug.Log("[TurnManager] CardCanvas is now displayed.");
         }
     }

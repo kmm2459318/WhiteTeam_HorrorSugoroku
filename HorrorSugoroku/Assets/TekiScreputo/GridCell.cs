@@ -2,29 +2,24 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
-using UnityEngine.Rendering;
 using UnityEngine.UI;
 
 public class GridCell : MonoBehaviour
 {
     public string cellEffect = "Normal"; // マス目の効果（例: Normal, Bonus, Penalty）
     [SerializeField] private Master_Debuff DebuffSheet;
-    public CurseTile curseTile;
     public GameObject eventPanel; // UIのパネル
     public TextMeshProUGUI eventText; // UIのテキスト
     public Button closeButton; // UIを閉じるボタン
     public ItemPickup item;
     public string requiredItem = "鍵"; // 必要なアイテム
-    private CurseSlider curseSlider;                                // public int gridCellIncreaseAmount = 20; // GridCell 側の呪いゲージ増加量
+ 
 
 
     public int n = 0;
-    private PlayerInventory playerInventory;
+  private PlayerInventory playerInventory;
     void Start()
-    {
-        playerInventory = FindObjectOfType<PlayerInventory>();
-        curseSlider = FindObjectOfType<CurseSlider>(); // 呪いゲージを取得
-
+    {  
         playerInventory = FindObjectOfType<PlayerInventory>();
         if (eventPanel != null)
         {
@@ -35,7 +30,7 @@ public class GridCell : MonoBehaviour
         {
             closeButton.onClick.AddListener(CloseEventUI);
         }
-
+     
         Debug.Log("ID:" + DebuffSheet.DebuffSheet[n].ID);
         Debug.Log("イベント名:" + DebuffSheet.DebuffSheet[n].Name);
         Debug.Log("懐中電灯の最小ゲージ減少量:" + DebuffSheet.DebuffSheet[n].DecreaseMin);
@@ -46,18 +41,18 @@ public class GridCell : MonoBehaviour
     }
     void Update()
     {
-        //// UI が表示されているときに スペースキーで閉じる
-        //if (eventPanel.activeSelf && Input.GetKeyDown(KeyCode.Space))
-        //{
-        //    CloseEventUI();
-        //}
+        // UI が表示されているときに スペースキーで閉じる
+        if (eventPanel.activeSelf && Input.GetKeyDown(KeyCode.Space))
+        {
+            CloseEventUI();
+        }
     }
     public void ExecuteEvent()
     {
         switch (cellEffect)
         {
             case "Event":
-
+                
                 DisplayRandomEvent();
                 break;
             case "Blockl":
@@ -78,29 +73,21 @@ public class GridCell : MonoBehaviour
                 DeBuh();
                 break;
             case "Door":
-
+               
                 break;
-            case "Curse":
-                Debug.Log($"{name}: 呪いゲージが増えた。");
-
-                // 呪いゲージがある場合、増加させる
-                if (curseSlider != null)
-                {
-                    curseSlider.IncreaseDashPoint(20); // 20ポイント増加（適宜変更）
-                }
-
+            case "Battery":
+                Debug.Log($"{name}:バッテリーを獲得！");
                 break;
-
             default:
                 Debug.Log($"{name}: 通常マス - 効果なし。");
                 break;
         }
     }
-    void ShowEventUI(string message, float delay = 1.0f)
+    void ShowEventUI(string message, float   delay = 1.0f)
     {
-        StartCoroutine(DelayedShowEventUI(message, delay));
+        StartCoroutine(DelayedShowEventUI(message,  delay));
     }
-    IEnumerator DelayedShowEventUI(string message, float delay)
+    IEnumerator DelayedShowEventUI(string message,float delay)
     {
         yield return new WaitForSeconds(delay);
         if (eventPanel != null && eventText != null)
@@ -162,7 +149,7 @@ public class GridCell : MonoBehaviour
         }
     }
 
-
+ 
 
     public void OpenDoor()
     {
@@ -187,7 +174,6 @@ public class GridCell : MonoBehaviour
     {
         Debug.Log($"プレイヤーが {name} に到達しました。現在の位置: {transform.position}");
     }
-
 
     void DeBuh()
     {

@@ -2,13 +2,13 @@
 using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
+using SmoothigTransform;
 using UnityEngine.SceneManagement;
 
 public class EnemySaikoro : MonoBehaviour
 {
     [SerializeField] SmoothTransform enemySmooth;
     [SerializeField] SmoothTransform enemyBodySmooth;
-    [SerializeField] SmoothTransform enemyBodySmoothsin;
     public GameObject player;
     public GameObject ENorth;
     public GameObject EWest;
@@ -22,7 +22,6 @@ public class EnemySaikoro : MonoBehaviour
     private int steps; // サイコロの目の数
     private bool discovery = false;
     private bool dis = false;
-    public bool enemyidoutyu = false;
     Image image;
     public AudioClip discoveryBGM; // 発見時のBGM
     public AudioClip undetectedBGM; // 未発見時のBGM
@@ -30,7 +29,7 @@ public class EnemySaikoro : MonoBehaviour
     public AudioClip footstepSound;// 足音のAudioClip
     public float idouspanTime;
     Vector3 goToPos = new Vector3(18, 0, -36);
-    private int goToMass = 2;
+    private int goToMass = 4;
     public EnemyController enemyController;
     public GameManager gameManager; // GameManagerの参照
     public EnemyLookAtPlayer enemyLookAtPlayer; // EnemyLookAtPlayerの参照
@@ -48,12 +47,11 @@ public class EnemySaikoro : MonoBehaviour
     public Animator animator;
     void Start()
     {
-        // 他の初期化コード
+        // 初期化コード
         animator = GetComponent<Animator>();
-        enemyController = GetComponent<EnemyController>();
+        enemyController = this.GetComponent<EnemyController>();
         gameManager = FindObjectOfType<GameManager>(); // GameManagerの参照を取得
-        enemyLookAtPlayer = GetComponent<EnemyLookAtPlayer>(); // EnemyLookAtPlayerの参照を取得
-        enemyCloseMasu = GetComponent<EnemyCloseMasu>(); // EnemyCloseMasuの参照を取得
+        enemyLookAtPlayer = this.GetComponent<EnemyLookAtPlayer>(); // EnemyLookAtPlayerの参照を取得
 
         if (enemyLookAtPlayer == null)
         {
@@ -62,11 +60,6 @@ public class EnemySaikoro : MonoBehaviour
         else
         {
             enemyLookAtPlayer.northTransform = ENorth.transform; // NorthオブジェクトのTransformを設定
-        }
-
-        if (enemyCloseMasu == null)
-        {
-            Debug.LogError("EnemyCloseMasu component is not assigned or found on the enemy object.");
         }
 
         // AudioSourceの取得
@@ -103,7 +96,7 @@ public class EnemySaikoro : MonoBehaviour
             // プレイヤーのターン中はエネミーをIdle状態に保つ
             if (animator != null)
             {
-                animator.SetBool("is Running", false);
+                animator.SetBool("isRunning", false);
             }
             return;
         }
@@ -198,28 +191,42 @@ public class EnemySaikoro : MonoBehaviour
     }
     void GoToMassChange(int m)
     {
+        GameObject masu;
 
-
-        int a;
-        do
+        if (!discovery)
         {
-            a = Random.Range(1, 5);
-        } while (a == m || (a == 1 && !EE) || (a == 2 && !EN) || (a == 3 && !EW) || (a == 4 && !ES));
+            int a;
+            do
+            {
+                a = Random.Range(1, 5);
+            } while (a == m || (a == 1 && !EE) || (a == 2 && !EN) || (a == 3 && !EW) || (a == 4 && !ES));
 
-        switch (a)
+            switch (a)
+            {
+                case 1:
+                    goToPos += new Vector3(2f, 0, 0);
+                    goToMass = 3; break;
+                case 2:
+                    goToPos += new Vector3(0, 0, 2f);
+                    goToMass = 4; break;
+                case 3:
+                    goToPos += new Vector3(-2f, 0, 0);
+                    goToMass = 1; break;
+                case 4:
+                    goToPos += new Vector3(0, 0, -2f);
+                    goToMass = 2; break;
+            }
+            Debug.Log(goToPos);
+        }
+        else
         {
-            case 1:
-                goToPos += new Vector3(2f, 0, 0);
-                goToMass = 3; break;
-            case 2:
-                goToPos += new Vector3(0, 0, 2f);
-                goToMass = 4; break;
-            case 3:
-                goToPos += new Vector3(-2f, 0, 0);
-                goToMass = 1; break;
-            case 4:
-                goToPos += new Vector3(0, 0, -2f);
-                goToMass = 2; break;
+            do
+            {
+                masu = enemyCloseMasu.FindClosestMasu();
+            } while (!discovery);
+
+            goToPos.x = masu.transform.position.x;
+            goToPos.z = masu.transform.position.z;
         }
         Debug.Log(goToPos);
     }
@@ -228,7 +235,6 @@ public class EnemySaikoro : MonoBehaviour
     {
         bool speedidou = false;
         bool mirror = false;
-        enemyidoutyu = true;
         if (5 == Random.Range(1, 6) && skill1)
         {
             Debug.Log("ーーーーーー高速移動発動ーーーーーー");
@@ -278,6 +284,7 @@ public class EnemySaikoro : MonoBehaviour
         Vector3 lastDire = new Vector3(0, 0, 0);
         bool s1n = false;
         GameObject mirror;
+        Debug.Log(goToPos);
 
         if (audioSource.isPlaying)
         {
@@ -314,30 +321,21 @@ public class EnemySaikoro : MonoBehaviour
                     if (direction == new Vector3(0, 0, 2.0f))
                     {
                         enemyBodySmooth.TargetRotation = Quaternion.Euler(-90, 90, 0);
-                        enemyBodySmoothsin.TargetRotation = Quaternion.Euler(0, 0, 0);
-                        goToMass = 4;
                     }
                     else if (direction == new Vector3(0, 0, -2.0f))
                     {
                         enemyBodySmooth.TargetRotation = Quaternion.Euler(-90, -90, 0);
-                        enemyBodySmoothsin.TargetRotation = Quaternion.Euler(0, 180, 0);
-                        goToMass = 2;
                     }
                     else if (direction == new Vector3(2.0f, 0, 0))
                     {
                         enemyBodySmooth.TargetRotation = Quaternion.Euler(-90, 180, 0);
-                        enemyBodySmoothsin.TargetRotation = Quaternion.Euler(0, 90, 0);
-                        goToMass = 3;
                     }
                     else if (direction == new Vector3(-2.0f, 0, 0))
                     {
                         enemyBodySmooth.TargetRotation = Quaternion.Euler(-90, 0, 0);
-                        enemyBodySmoothsin.TargetRotation = Quaternion.Euler(0, -90, 0);
-                        goToMass = 1;
                     }
                     yield return new WaitForSeconds(0.5f);
                 }
-                Debug.Log(goToMass);
 
                 enemySmooth.TargetPosition += direction * 1.0f; // 2.0f単位で移動
 
@@ -389,8 +387,6 @@ public class EnemySaikoro : MonoBehaviour
                     discovery = true;
                     Debug.Log("発見！");
                 }
-
-                enemyidoutyu = false;
                 lastDire = direction;
 
                 if (enemySmooth.PosFact == 0.2f)
@@ -409,16 +405,9 @@ public class EnemySaikoro : MonoBehaviour
             Debug.Log("ミラーワーーーーーーーーーーーーープ！！！！");
 
             mirror = playerCloseMirror.FindClosestMirror();
-            if (mirror != null)
-            {
-                enemySmooth.TargetPosition.x = mirror.transform.position.x * 1.0f;
-                enemySmooth.TargetPosition.z = mirror.transform.position.z;
-                Debug.Log(mirror.transform.position);
-            }
-            else
-            {
-                Debug.LogError("Mirror object is null!");
-            }
+            enemySmooth.TargetPosition.x = mirror.transform.position.x * 1.0f;
+            enemySmooth.TargetPosition.z = mirror.transform.position.z;
+            Debug.Log(mirror.transform.position);
         }
 
         enemyController.SetMovement(false); // エネミーの移動が終了したらisMovingをfalseに設定
@@ -433,10 +422,14 @@ public class EnemySaikoro : MonoBehaviour
         Debug.Log("Enemy moved a total of " + initialSteps + " steps.");
 
         yield return 0;
-    }
-    void OnDestroy()
-    {
-        Debug.Log("OnDestroy called in " + this.GetType().Name);
+        /*if (!gameManager.EnemyCopyOn)
+        {
+            FindObjectOfType<GameManager>().NextTurn(); // 次のターンに進む
+        }
+        else
+        {
+            gameManager.enemyTurnFinCount++;
+        }*/
     }
 
     private Vector3 GetValidDirection(Vector3 targetDirection)
@@ -514,15 +507,8 @@ public class EnemySaikoro : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        // プレイヤーがエネミーに当たった場合
-        if (other.CompareTag("Player"))
-        {
-            Debug.Log("プレイヤーがエネミーに当たった！ゲームオーバー！");
-            SceneManager.LoadScene("GameOver"); // ゲームオーバーシーンに移動
-        }
-
-        // 既存のトラバサミの処理
-        if (other.CompareTag("Beartrap"))
+        //Debug.Log("敵がトラばさみに引っ掛かった！！");
+        if (other.tag == ("Beartrap"))
         {
             isTrapped = true;
             Debug.Log("敵がトラばさみに引っ掛かった！！");
@@ -532,17 +518,14 @@ public class EnemySaikoro : MonoBehaviour
     {
         if (animator != null)
         {
-            Debug.Log("Setting Idle state");
-            animator.SetBool("is Running", false);
+            animator.SetBool("isRunning", false);
         }
     }
-
     public void SetRun()
     {
         if (animator != null)
         {
-            Debug.Log("Setting Run state");
-            animator.SetBool("is Running", true);
+            animator.SetBool("isRunning", true);
         }
     }
 
