@@ -20,6 +20,7 @@ public class GameManager : MonoBehaviour
     public GameObject currentEnemyModel; // 現在のエネミーモデル
     public GameObject EnemyCopy; // コピーエネミーモデル
     public GameObject newEnemyModelPrefab; // 新しいエネミーモデルのプレハブ
+    public GameObject newEnemyModelPrefab2; // 6つ目のピースで変更する新しいエネミーモデルのプレハブ
 
     private int playerTurnCount = 0; // プレイヤーのターン数をカウントする変数
 
@@ -56,16 +57,42 @@ public class GameManager : MonoBehaviour
         }
 
         // マップのピースが3枚手に入ったらエネミーモデルを変更
-        if (mapPiece == 3)
+        if (mapPiece == 3 || mapPiece == 6)
         {
-            ChangeEnemyModel();
+            ChangeEnemyModel(mapPiece); // 引数を渡してメソッドを呼び出す
         }
     }
-
-    public void ChangeEnemyModel()
+    public void ChangeEnemyModel(int mapPieceCount)
     {
+        Animator currentAnimator = currentEnemyModel.GetComponent<Animator>();
+        Animator newAnimator = null;
+
+        if (mapPieceCount == 3)
+        {
+            newAnimator = newEnemyModelPrefab.GetComponent<Animator>();
+        }
+        else if (mapPieceCount == 6)
+        {
+            newAnimator = newEnemyModelPrefab2.GetComponent<Animator>();
+        }
+
+        if (currentAnimator != null && newAnimator != null)
+        {
+            AnimatorStateInfo currentState = currentAnimator.GetCurrentAnimatorStateInfo(0);
+            newAnimator.Play(currentState.fullPathHash, -1, currentState.normalizedTime);
+        }
+
         currentEnemyModel.SetActive(false);
-        newEnemyModelPrefab.SetActive(true);
+
+        if (mapPieceCount == 3)
+        {
+            newEnemyModelPrefab.SetActive(true);
+        }
+        else if (mapPieceCount == 6)
+        {
+            newEnemyModelPrefab2.SetActive(true);
+            newEnemyModelPrefab.SetActive(false); // 6つ目のピースで変更する際に前のモデルを非アクティブにする
+        }
     }
 
     // ターンの切り替えを行うメソッド

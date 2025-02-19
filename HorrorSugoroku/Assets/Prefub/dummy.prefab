@@ -145,8 +145,7 @@ PrefabInstance:
       propertyPath: m_Controller
       value: 
       objectReference: {fileID: 9100000, guid: 3b77841a3a279ed46aa0db6aa40f8665, type: 2}
-    m_RemovedComponents:
-    - {fileID: 9500000, guid: 28459e7db1e585f48b100589d0b8440f, type: 3}
+    m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects:
     - targetCorrespondingSourceObject: {fileID: 400010, guid: 28459e7db1e585f48b100589d0b8440f, type: 3}
@@ -190,33 +189,25 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   enemySmooth: {fileID: 2232634025215194085}
-  enemyBodySmooth: {fileID: 0}
   player: {fileID: 0}
-  ENorth: {fileID: 0}
-  EWest: {fileID: 0}
-  EEast: {fileID: 0}
-  ESouth: {fileID: 0}
+  saikoro: {fileID: 0}
   wallLayer:
     serializedVersion: 2
     m_Bits: 128
-  enemyidoutyu: 0
+  s1: {fileID: 21300000, guid: 824ececc4e06af74d82a69ccc765b6cb, type: 3}
+  s2: {fileID: 21300000, guid: f3fb44dde111a454da5b4bafedd6bb13, type: 3}
+  s3: {fileID: 21300000, guid: 81804253d626fe3438bcccac310e8446, type: 3}
+  s4: {fileID: 21300000, guid: 50437870a4b98394192e58fef821667f, type: 3}
+  s5: {fileID: 21300000, guid: 69e71bfa4f3005a4fa438b394fcdf55b, type: 3}
+  s6: {fileID: 21300000, guid: be466869eecccfe44848b1f269b2951e, type: 3}
   discoveryBGM: {fileID: 8300000, guid: ea525edcd04e7914a8c09ad451cd6016, type: 3}
   undetectedBGM: {fileID: 8300000, guid: 57d9261537e7dd94ea2cb733b1a312af, type: 3}
   footstepSound: {fileID: 8300000, guid: 0a8c2e93afaf12d4e98b344d6a3e2687, type: 3}
-  idouspanTime: 0
-  enemyController: {fileID: 0}
-  gameManager: {fileID: 0}
-  enemyLookAtPlayer: {fileID: 0}
-  playerSaikoro: {fileID: 0}
   playerCloseMirror: {fileID: 0}
-  enemyCloseMasu: {fileID: 0}
   mokushi: 3
   idoukagen: 1
   skill1: 0
   skill2: 0
-  isTrapped: 0
-  footstepVolume: 1
-  animator: {fileID: 0}
 --- !u!114 &1892730676930623938
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -244,6 +235,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   player: {fileID: 0}
+  frontCollider: {fileID: 9141876648976046523}
   wallLayer:
     serializedVersion: 2
     m_Bits: 128

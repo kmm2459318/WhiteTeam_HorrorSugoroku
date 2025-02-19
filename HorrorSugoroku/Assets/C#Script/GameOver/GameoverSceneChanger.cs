@@ -127,7 +127,7 @@ public class SceneChanger3D : MonoBehaviour
     {
         if (curseslider.dashPoint < 100)
         {
-            curseslider.dashPoint =0;
+            curseslider.dashPoint = 0;
             curseslider.dashPoint += 100;
         }
         yield return new WaitForSeconds(2.0f); // 1•b‘Ò‹@i—áj

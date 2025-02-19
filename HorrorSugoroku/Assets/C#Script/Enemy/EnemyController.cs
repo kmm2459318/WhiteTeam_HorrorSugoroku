@@ -1,69 +1,91 @@
 using UnityEngine;
+using System.Collections; // ï¿½Ç‰ï¿½
 
 public class EnemyController : MonoBehaviour
 {
-    private Animator animator; // ƒAƒjƒ[ƒ^[ƒRƒ“ƒ|[ƒlƒ“ƒg
-    private bool isMoving; // ˆÚ“®’†‚©‚Ç‚¤‚©‚ğ¦‚·ƒtƒ‰ƒO
-    public GameManager gameManager; // ƒQ[ƒ€ƒ}ƒl[ƒWƒƒ[‚Ö‚ÌQÆ
-    public EnemySaikoro enemySaikoro; // “GƒLƒƒƒ‰ƒNƒ^[‚ÌƒTƒCƒRƒ‚Ö‚ÌQÆ
-    int mp = 0; // ƒ}ƒbƒvƒs[ƒX‚Ì”
-    float mo = 3f; // ˆÚ“®‘¬“x
-    int id = 1; // “GƒLƒƒƒ‰ƒNƒ^[‚ÌID
+    private Animator animator; // ï¿½Aï¿½jï¿½ï¿½ï¿½[ï¿½^ï¿½[ï¿½Rï¿½ï¿½ï¿½|ï¿½[ï¿½lï¿½ï¿½ï¿½g
+    private bool isMoving; // ï¿½Ú“ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ç‚ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½tï¿½ï¿½ï¿½O
+    public GameManager gameManager; // ï¿½Qï¿½[ï¿½ï¿½ï¿½}ï¿½lï¿½[ï¿½Wï¿½ï¿½ï¿½[ï¿½Ö‚ÌQï¿½ï¿½
+    public EnemySaikoro enemySaikoro; // ï¿½Gï¿½Lï¿½ï¿½ï¿½ï¿½ï¿½Nï¿½^ï¿½[ï¿½ÌƒTï¿½Cï¿½Rï¿½ï¿½ï¿½Ö‚ÌQï¿½ï¿½
+    int mp = 0; // ï¿½}ï¿½bï¿½vï¿½sï¿½[ï¿½Xï¿½Ìï¿½
+    float mo = 3f; // ï¿½Ú“ï¿½ï¿½ï¿½ï¿½x
+    int id = 1; // ï¿½Gï¿½Lï¿½ï¿½ï¿½ï¿½ï¿½Nï¿½^ï¿½[ï¿½ï¿½ID
 
     void Start()
     {
-        animator = GetComponent<Animator>(); // ƒAƒjƒ[ƒ^[ƒRƒ“ƒ|[ƒlƒ“ƒg‚Ìæ“¾
+        animator = GetComponent<Animator>(); // ï¿½Aï¿½jï¿½ï¿½ï¿½[ï¿½^ï¿½[ï¿½Rï¿½ï¿½ï¿½|ï¿½[ï¿½lï¿½ï¿½ï¿½gï¿½Ìæ“¾
 
         if (enemySaikoro == null)
         {
             Debug.LogError("enemySaikoro is not assigned.");
         }
+
+        // AttackRoutineï¿½Rï¿½ï¿½ï¿½[ï¿½`ï¿½ï¿½ï¿½ï¿½ï¿½Jï¿½n
+        StartCoroutine(AttackRoutine());
     }
+
     void Update()
     {
         if (isMoving)
         {
-            Debug.Log("Setting Run state");
-            animator.SetBool("is Running", true); // ˆÚ“®’†‚Ìê‡AƒAƒjƒ[ƒVƒ‡ƒ“‚ğ‘–‚éó‘Ô‚Éİ’è
+            //animator.SetBool("isRunning", true); // ï¿½Ú“ï¿½ï¿½ï¿½ï¿½Ìê‡ï¿½Aï¿½Aï¿½jï¿½ï¿½ï¿½[ï¿½Vï¿½ï¿½ï¿½ï¿½ï¿½ğ‘–‚ï¿½ï¿½Ô‚Éİ’ï¿½
         }
         else
         {
-            Debug.Log("Setting Idle state");
-            animator.SetBool("is Running", false); // ˆÚ“®‚µ‚Ä‚¢‚È‚¢ê‡AƒAƒjƒ[ƒVƒ‡ƒ“‚ğ’â~ó‘Ô‚Éİ’è
+            //animator.SetBool("isRunning", false); // ï¿½Ú“ï¿½ï¿½ï¿½ï¿½Ä‚ï¿½ï¿½È‚ï¿½ï¿½ê‡ï¿½Aï¿½Aï¿½jï¿½ï¿½ï¿½[ï¿½Vï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½~ï¿½ï¿½Ô‚Éİ’ï¿½
         }
 
-        mp = gameManager.mapPiece; // ƒQ[ƒ€ƒ}ƒl[ƒWƒƒ[‚©‚çƒ}ƒbƒvƒs[ƒX‚Ì”‚ğæ“¾
+        mp = gameManager.mapPiece; // ï¿½Qï¿½[ï¿½ï¿½ï¿½}ï¿½lï¿½[ï¿½Wï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½ï¿½}ï¿½bï¿½vï¿½sï¿½[ï¿½Xï¿½Ìï¿½ï¿½ï¿½ï¿½æ“¾
 
-        if (mp < 3) // ‚P’iŠK
+        if (mp < 3) // ï¿½Pï¿½iï¿½K
         {
             mo = 6f;
             id = 1;
         }
-        else if (mp < 6) // ‚Q’iŠK
+        else if (mp < 6) // ï¿½Qï¿½iï¿½K
         {
             mo = 8f;
             id = 2;
-            enemySaikoro.skill1 = true; // ƒXƒLƒ‹1‚ğ—LŒø‚É‚·‚é
+            enemySaikoro.skill1 = true; // ï¿½Xï¿½Lï¿½ï¿½1ï¿½ï¿½Lï¿½ï¿½ï¿½É‚ï¿½ï¿½ï¿½
         }
-        else if (mp < 9) // ‚R’iŠK
+        else if (mp < 9) // ï¿½Rï¿½iï¿½K
         {
             mo = 10f;
             id = 3;
-            enemySaikoro.skill2 = true; // ƒXƒLƒ‹2‚ğ—LŒø‚É‚·‚é
+            enemySaikoro.skill2 = true; // ï¿½Xï¿½Lï¿½ï¿½2ï¿½ï¿½Lï¿½ï¿½ï¿½É‚ï¿½ï¿½ï¿½
         }
-        else // –Ú‚ªi‰»
+        else // ï¿½Ú‚ï¿½ï¿½iï¿½ï¿½
         {
             mo = 12f;
             id = 4;
         }
 
-        enemySaikoro.mokushi = mo; // ƒTƒCƒRƒ‚ÌˆÚ“®‘¬“x‚ğİ’è
-        enemySaikoro.idoukagen = id; // ƒTƒCƒRƒ‚ÌID‚ğİ’è
+        enemySaikoro.mokushi = mo; // ï¿½Tï¿½Cï¿½Rï¿½ï¿½ï¿½ÌˆÚ“ï¿½ï¿½ï¿½ï¿½xï¿½ï¿½İ’ï¿½
+        enemySaikoro.idoukagen = id; // ï¿½Tï¿½Cï¿½Rï¿½ï¿½ï¿½ï¿½IDï¿½ï¿½İ’ï¿½
     }
 
     public void SetMovement(bool moving)
     {
-        isMoving = moving; // ˆÚ“®’†‚©‚Ç‚¤‚©‚ğİ’è
-        Debug.Log("SetMovement called with: " + moving); // ƒfƒoƒbƒOƒƒO‚ÉˆÚ“®ó‘Ô‚ğo—Í
+        isMoving = moving; // ï¿½Ú“ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ç‚ï¿½ï¿½ï¿½ï¿½ï¿½İ’ï¿½
+        if (animator != null)
+        {
+            animator.SetBool("is Running", moving); // ï¿½Ú“ï¿½ï¿½ï¿½ï¿½Ìê‡ï¿½Aï¿½Aï¿½jï¿½ï¿½ï¿½[ï¿½Vï¿½ï¿½ï¿½ï¿½ï¿½ğ‘–‚ï¿½ï¿½Ô‚Éİ’ï¿½
+        }
+        Debug.Log("SetMovement called with: " + moving); // ï¿½fï¿½oï¿½bï¿½Oï¿½ï¿½ï¿½Oï¿½ÉˆÚ“ï¿½ï¿½ï¿½Ô‚ï¿½ï¿½oï¿½ï¿½
+    }
+
+    private IEnumerator AttackRoutine()
+    {
+        while (true)
+        {
+            yield return new WaitForSeconds(120f); // 2ï¿½ï¿½ï¿½Ò‹@
+            if (animator != null && !animator.GetBool("is Running")) // is Runningï¿½ï¿½falseï¿½Ìê‡ï¿½Ì‚ï¿½Attackï¿½ğ”­“ï¿½
+            {
+                animator.SetBool("Attack", true); // Attackï¿½Aï¿½jï¿½ï¿½ï¿½[ï¿½Vï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Jï¿½n
+                yield return new WaitForSeconds(1f); // ï¿½Aï¿½^ï¿½bï¿½Nï¿½ï¿½ï¿½[ï¿½Vï¿½ï¿½ï¿½ï¿½ï¿½ÌÄï¿½ï¿½ï¿½ï¿½Ô‚ï¿½Ò‹@ï¿½iï¿½Kï¿½Xï¿½ï¿½ï¿½ï¿½ï¿½j
+                animator.SetBool("Attack", false); // Attackï¿½Aï¿½jï¿½ï¿½ï¿½[ï¿½Vï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Iï¿½ï¿½
+                animator.SetBool("is Running", false); // Idleï¿½ï¿½Ô‚É–ß‚ï¿½
+            }
+        }
     }
 }

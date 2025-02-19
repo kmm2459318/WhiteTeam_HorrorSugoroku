@@ -1,4 +1,4 @@
-using UnityEngine;
+п»їusing UnityEngine;
 
 public class CharacterController : MonoBehaviour
 {
@@ -13,17 +13,17 @@ public class CharacterController : MonoBehaviour
     void Update()
     {
         Vector3 currentPosition = transform.position;
-        if (Vector3.Distance(currentPosition, lastPosition) > 0.01f) // 0.01f‚Ни‡’l‚Е‚·
+        if (Vector3.Distance(currentPosition, lastPosition) > 0.01f) // 0.01fпїЅпїЅи‡’lпїЅЕ‚пїЅ
         {
-            animator.SetBool("isRunning", true);
+            animator.SetBool("is Running", true); // пїЅЪ“пїЅпїЅпїЅпїЅпїЅisRunningпїЅпїЅtrueпїЅЙђЭ’пїЅ
         }
         else
         {
-            animator.SetBool("isRunning", false);
+            animator.SetBool("is Running", false); // пїЅТ‹@пїЅпїЅпїЅпїЅisRunningпїЅпїЅfalseпїЅЙђЭ’пїЅ
         }
         lastPosition = currentPosition;
 
-        // ѓLѓѓѓ‰ѓNѓ^Ѓ[‚М€Ъ“®•ыЊь‚Й‘М‚рЊь‚Ї‚й
+        // пїЅLпїЅпїЅпїЅпїЅпїЅNпїЅ^пїЅ[пїЅМ€Ъ“пїЅпїЅпїЅпїЅпїЅпїЅЙ‘М‚пїЅпїЅпїЅпїЅпїЅпїЅпїЅ
         if (currentPosition != lastPosition)
         {
             Vector3 direction = (currentPosition - lastPosition).normalized;
