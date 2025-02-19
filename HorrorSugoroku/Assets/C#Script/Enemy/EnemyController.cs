@@ -88,4 +88,19 @@ public class EnemyController : MonoBehaviour
             }
         }
     }
+
+    private IEnumerator AttackRoutine()
+    {
+        while (true)
+        {
+            yield return new WaitForSeconds(120f); // 2���ҋ@
+            if (animator != null && !animator.GetBool("is Running")) // is Running��false�̏ꍇ�̂�Attack�𔭓�
+            {
+                animator.SetBool("Attack", true); // Attack�A�j���[�V�������J�n
+                yield return new WaitForSeconds(1f); // �A�^�b�N���[�V�����̍Đ����Ԃ�ҋ@�i�K�X�����j
+                animator.SetBool("Attack", false); // Attack�A�j���[�V�������I��
+                animator.SetBool("is Running", false); // Idle��Ԃɖ߂�
+            }
+        }
+    }
 }
