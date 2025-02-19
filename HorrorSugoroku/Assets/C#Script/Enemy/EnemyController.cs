@@ -28,11 +28,11 @@ public class EnemyController : MonoBehaviour
     {
         if (isMoving)
         {
-            animator.SetBool("isRunning", true); // �ړ����̏ꍇ�A�A�j���[�V�����𑖂��Ԃɐݒ�
+            //animator.SetBool("isRunning", true); // �ړ����̏ꍇ�A�A�j���[�V�����𑖂��Ԃɐݒ�
         }
         else
         {
-            animator.SetBool("isRunning", false); // �ړ����Ă��Ȃ��ꍇ�A�A�j���[�V�������~��Ԃɐݒ�
+            //animator.SetBool("isRunning", false); // �ړ����Ă��Ȃ��ꍇ�A�A�j���[�V�������~��Ԃɐݒ�
         }
 
         mp = gameManager.mapPiece; // �Q�[���}�l�[�W���[����}�b�v�s�[�X�̐����擾
@@ -72,21 +72,6 @@ public class EnemyController : MonoBehaviour
             animator.SetBool("is Running", moving); // �ړ����̏ꍇ�A�A�j���[�V�����𑖂��Ԃɐݒ�
         }
         Debug.Log("SetMovement called with: " + moving); // �f�o�b�O���O�Ɉړ���Ԃ��o��
-    }
-
-    private IEnumerator AttackRoutine()
-    {
-        while (true)
-        {
-            yield return new WaitForSeconds(120f); // 2���ҋ@
-            if (animator != null && !animator.GetBool("is Running")) // is Running��false�̏ꍇ�̂�Attack�𔭓�
-            {
-                animator.SetBool("Attack", true); // Attack�A�j���[�V�������J�n
-                yield return new WaitForSeconds(1f); // �A�^�b�N���[�V�����̍Đ����Ԃ�ҋ@�i�K�X�����j
-                animator.SetBool("Attack", false); // Attack�A�j���[�V�������I��
-                animator.SetBool("is Running", false); // Idle��Ԃɖ߂�
-            }
-        }
     }
 
     private IEnumerator AttackRoutine()

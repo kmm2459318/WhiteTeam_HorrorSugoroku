@@ -61,8 +61,8 @@ public class EnemyLookAtPlayer : MonoBehaviour
 
         // �G�l�~�[�̈ړ���ԂɊ�Â��ăA�j���[�V�����𐧌�
         isMoving = moveDirection != Vector3.zero; // �ړ��������[���łȂ��ꍇ�͈ړ����Ɣ��f
-        animator.SetBool("isRunning", isMoving);
-        animator.SetBool("isIdle", !isMoving);
+        //animator.SetBool("isRunning", isMoving);
+        //animator.SetBool("isIdle", !isMoving);
     }
 
     public void SetDiscovery(bool isDiscovered)
