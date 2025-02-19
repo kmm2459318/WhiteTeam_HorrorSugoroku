@@ -3,7 +3,6 @@ using UnityEngine;
 public class PlayerNSEWCheck : MonoBehaviour
 {
     public bool masuCheck = false;
-    public Vector3 masuPos;
 
     void Start()
     {
@@ -31,7 +30,6 @@ public class PlayerNSEWCheck : MonoBehaviour
         {
             masuCheck = true;
             //Debug.Log("ëOêiâ¬î\");
-            masuPos = collision.gameObject.transform.position;
         }
         //masuCheck = true;
         //Debug.Log("OK");

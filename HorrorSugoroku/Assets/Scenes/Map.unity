@@ -399,6 +399,7 @@ MonoBehaviour:
   currentEnemyModel: {fileID: 1492082207}
   EnemyCopy: {fileID: 792993945}
   newEnemyModelPrefab: {fileID: 985214324}
+  enemyTransferManager: {fileID: 35047692}
 --- !u!114 &35047689
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -430,6 +431,7 @@ MonoBehaviour:
   turnStay: 0
   playerSaikoro: {fileID: 1599821573}
   curseSlider: {fileID: 146448896}
+  flashlightController: {fileID: 407118001}
 --- !u!4 &35047691
 Transform:
   m_ObjectHideFlags: 0
@@ -457,6 +459,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ba5168a1b988f2544981c30cd45d0f56, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  currentEnemyModel: {fileID: 1492082207}
+  newEnemyModelPrefab: {fileID: 985214324}
+  gameManager: {fileID: 35047688}
 --- !u!1 &49056666
 GameObject:
   m_ObjectHideFlags: 0
@@ -710,7 +715,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_SizeDelta: {x: 10, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &114641757
 MonoBehaviour:
@@ -870,10 +875,7 @@ MonoBehaviour:
   - {fileID: 1620170024}
   - {fileID: 1163355486}
   maxDashPoint: 300
-  defaultIncreaseAmount: 20
   dashIncreasePerTurn: 5
-  CountGauge: 0
-  dashPoint: 0
   gameManager: {fileID: 35047688}
   turnManager: {fileID: 35047690}
 --- !u!114 &146448897
@@ -1996,7 +1998,6 @@ MonoBehaviour:
   playerBody: {fileID: 852565734}
   mouseSensitivity: 250
   sensitivitySlider: {fileID: 0}
-  isMouseLocked: 1
 --- !u!114 &281751358
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2999,6 +3000,17 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 8625609145277694527, guid: e4e2d7ec9597f3f4f8c4547f23ca6538, type: 3}
   m_PrefabInstance: {fileID: 407117999}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &407118001 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 9067541579640885550, guid: e4e2d7ec9597f3f4f8c4547f23ca6538, type: 3}
+  m_PrefabInstance: {fileID: 407117999}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d56cadda7c63af049871dd2b26652c2d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &407999358
 GameObject:
   m_ObjectHideFlags: 0
@@ -3064,11 +3076,11 @@ MonoBehaviour:
   OptionCanvas: {fileID: 867115439}
   VolumeSlider: {fileID: 1232388574}
   VolumeImg: {fileID: 1708643389}
-  VolumeSprite: {fileID: 21300000, guid: 12d7b4d0a7b7a0c428d9a04180224ff1, type: 3}
-  VolumeMuteSprite: {fileID: -2078093348, guid: 1774e010358a815469f483f9dc00a064, type: 3}
+  VolumeSprite: {fileID: -2078093348, guid: 1774e010358a815469f483f9dc00a064, type: 3}
+  VolumeMuteSprite: {fileID: 21300000, guid: 12d7b4d0a7b7a0c428d9a04180224ff1, type: 3}
   Volume: 50
   SensitivitySlider: {fileID: 1280531841}
-  Sensitivity: 250
+  Sensitivity: 2
 --- !u!4 &413954078
 Transform:
   m_ObjectHideFlags: 0
@@ -5596,7 +5608,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   enemySmooth: {fileID: 792993948}
   enemyBodySmooth: {fileID: 0}
-  enemyBodySmoothsin: {fileID: 0}
   player: {fileID: 1265317264}
   ENorth: {fileID: 0}
   EWest: {fileID: 0}
@@ -5605,7 +5616,6 @@ MonoBehaviour:
   wallLayer:
     serializedVersion: 2
     m_Bits: 128
-  enemyidoutyu: 0
   discoveryBGM: {fileID: 8300000, guid: ea525edcd04e7914a8c09ad451cd6016, type: 3}
   undetectedBGM: {fileID: 8300000, guid: 57d9261537e7dd94ea2cb733b1a312af, type: 3}
   footstepSound: {fileID: 8300000, guid: 0a8c2e93afaf12d4e98b344d6a3e2687, type: 3}
@@ -5887,7 +5897,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_SizeDelta: {x: 10, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &838751967
 MonoBehaviour:
@@ -7785,7 +7795,7 @@ MonoBehaviour:
   ItemTile: {fileID: 2469074605850534854, guid: 73f89671aaa321140bb8cdc2ada4c725, type: 3}
   DirecTile: {fileID: 7448521663041143137, guid: 94f2b393423a6424fbc915338bc84201, type: 3}
   DebuffTile: {fileID: 7161172907520196943, guid: b946810fba866cc47b0383f360b65a06, type: 3}
-  CurseTile: {fileID: 0}
+  BatteryTile: {fileID: 4065743863140974350, guid: f675116b5e2e7504e8273935179e34ea, type: 3}
   DoorTile: {fileID: 1365980965}
   MapStartPosition: {x: 18, y: 5, z: -46}
   MapName: Area1
@@ -8077,9 +8087,9 @@ MonoBehaviour:
   m_HandleRect: {fileID: 2083538979}
   m_Direction: 0
   m_MinValue: 1
-  m_MaxValue: 300
+  m_MaxValue: 10
   m_WholeNumbers: 0
-  m_Value: 3
+  m_Value: 5
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -9168,7 +9178,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_SizeDelta: {x: 20, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1441606996
 MonoBehaviour:
@@ -13134,6 +13144,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bba5d8e34876e3b4f862e49b29fbff0c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  enemies:
+  - {fileID: 1492082207}
+  - {fileID: 792993945}
+  - {fileID: 0}
+  cutInImage: {fileID: 544266725}
+  cutInDuration: 2
+  gameOverSound: {fileID: 8300000, guid: 108a7f61328664b43ab7d149efe490cb, type: 3}
+  volume: 1
 --- !u!114 &2042766876
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -13335,7 +13353,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_SizeDelta: {x: 20, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &2083538980
 CanvasRenderer:

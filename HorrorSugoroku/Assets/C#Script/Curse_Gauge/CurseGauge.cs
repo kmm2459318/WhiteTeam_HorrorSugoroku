@@ -9,7 +9,6 @@ public class CurseSlider : MonoBehaviour
     [SerializeField] Slider DashGage;
     [SerializeField] SceneChanger3D sceneChanger;
     [SerializeField] GameObject CardCanvas;
-    private bool isCardCanvas = false; //CardCanvasの開閉状態
     [SerializeField] Button extraButton;
     [SerializeField] Button hideButton;
     [SerializeField] Button cursegiveButton;
@@ -19,7 +18,8 @@ public class CurseSlider : MonoBehaviour
 
     public int maxDashPoint = 100;
     public int defaultIncreaseAmount = 20; // デフォルトの増加量（CurseSlider 側の設定）
-    public int dashIncreasePerTurn = 5;
+      public int dashIncreasePerTurn = 5;
+
 
     public int CountGauge = 0;              //ゲームオーバーカウント
     public float dashPoint = 0;
@@ -70,6 +70,8 @@ public class CurseSlider : MonoBehaviour
             UpdateCountText();
         }
 
+      
+
         UpdateImageGauges();
 
         if (dashPoint >= nextShowCardThreshold)
@@ -85,13 +87,6 @@ public class CurseSlider : MonoBehaviour
                 EndTurnWithCardDisplay();
             }
         }
-
-        // CardCanvasが開いているときはカーソルを表示し、カメラ操作を無効化
-        if (isCardCanvas)
-        {
-            Cursor.lockState = CursorLockMode.None;
-            Cursor.visible = true;
-        }
     }
 
     private void EndTurnWithCardDisplay()
@@ -105,9 +100,10 @@ public class CurseSlider : MonoBehaviour
         dashPoint = Mathf.Min(dashPoint + amount, maxDashPoint);
         DashGage.value = dashPoint;
 
-        Debug.Log($"今の呪いゲージ量: {dashPoint}");
+        Debug.Log($"今の呪いゲージ量: {dashPoint}" );
     }
-
+    // **ターンごとの呪いゲージ増加**
+   
     public void IncreaseDashPointPerTurn()
     {
         IncreaseDashPoint(dashIncreasePerTurn);
@@ -134,16 +130,11 @@ public class CurseSlider : MonoBehaviour
 
     public IEnumerator ShowCardCanvas()
     {
-        isCardCanvas = true;
-
         if (CardCanvas != null)
         {
-            yield return new WaitForSeconds(1f);
+            CardCanvas.SetActive(true);
+            yield return new WaitForSeconds(1.0f);
             Time.timeScale = 0; // **ゲームを停止**
-            CardCanvas.SetActive(isCardCanvas);
-
-            Cursor.lockState = CursorLockMode.None;
-            Cursor.visible = true;
         }
     }
 
@@ -157,11 +148,7 @@ public class CurseSlider : MonoBehaviour
         if (CardCanvas != null)
         {
             CardCanvas.SetActive(false);
-            isCardCanvas = false;
             Time.timeScale = 1;
-
-            Cursor.lockState = CursorLockMode.Locked;
-            Cursor.visible = false;
         }
     }
 
@@ -180,10 +167,12 @@ public class CurseSlider : MonoBehaviour
         Time.timeScale = 1;
     }
 
+    
     private void UpdateCountText()
     {
         if (countText != null)
         {
+            //CountGauge が 2 以上の場合、カウントの代わりに「呪」を表示
             if (CountGauge >= 2)
             {
                 countText.text = "呪";

@@ -8,6 +8,7 @@ public class EnemyLookAtPlayer : MonoBehaviour
     private Vector3 moveDirection;
     private Animator animator; // アニメーターの参照
     private bool isMoving = false; // エネミーが移動中かどうかを示すフラグ
+    public Transform northTransform; // NorthオブジェクトのTransform
 
     void Start()
     {
@@ -15,6 +16,11 @@ public class EnemyLookAtPlayer : MonoBehaviour
         if (animator == null)
         {
             Debug.LogError("Animator component not found on the enemy object.");
+        }
+
+        if (northTransform == null)
+        {
+            Debug.LogError("North Transform is not assigned.");
         }
     }
 
@@ -49,9 +55,16 @@ public class EnemyLookAtPlayer : MonoBehaviour
             }
         }
 
+        // Northオブジェクトをエネミーの回転に追従させる
+        if (northTransform != null)
+        {
+            northTransform.position = transform.position; // Northオブジェクトの位置をエネミーの位置に合わせる
+            northTransform.rotation = Quaternion.Euler(0, transform.rotation.eulerAngles.y, 0); // Y軸のみで回転
+        }
+
         // エネミーの移動状態に基づいてアニメーションを制御
         isMoving = moveDirection != Vector3.zero; // 移動方向がゼロでない場合は移動中と判断
-        animator.SetBool("is Running", isMoving); // isRunningパラメータを設定
+        animator.SetBool("is Running", isMoving); // isRunningパラメータを移動状態に応じて設定
     }
 
     public void SetDiscovery(bool isDiscovered)

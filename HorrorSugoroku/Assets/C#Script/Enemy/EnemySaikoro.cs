@@ -2,7 +2,6 @@
 using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
-using SmoothigTransform;
 using UnityEngine.SceneManagement;
 
 public class EnemySaikoro : MonoBehaviour
@@ -21,14 +20,12 @@ public class EnemySaikoro : MonoBehaviour
     private bool ES = false;
     public LayerMask wallLayer; // 壁のレイヤー
     private int steps; // サイコロの目の数
-    public bool discovery = false;
+    private bool discovery = false;
     private bool dis = false;
-    private bool dis2 = false;
     public bool enemyidoutyu = false;
     Image image;
-    //public Text discoveryText; // 新しいText変数を追加
-    //public AudioClip discoveryBGM; // 発見時のBGM
-    //public AudioClip undetectedBGM; // 未発見時のBGM
+    public AudioClip discoveryBGM; // 発見時のBGM
+    public AudioClip undetectedBGM; // 未発見時のBGM
     private AudioSource audioSource; // 音声再生用のAudioSource
     public AudioClip footstepSound;// 足音のAudioClip
     public float idouspanTime;
@@ -61,6 +58,10 @@ public class EnemySaikoro : MonoBehaviour
         if (enemyLookAtPlayer == null)
         {
             Debug.LogError("EnemyLookAtPlayer component is not assigned or found on the enemy object.");
+        }
+        else
+        {
+            enemyLookAtPlayer.northTransform = ENorth.transform; // NorthオブジェクトのTransformを設定
         }
 
         if (enemyCloseMasu == null)
@@ -107,47 +108,31 @@ public class EnemySaikoro : MonoBehaviour
             return;
         }
 
-
         // プレイヤーが発見されたかをチェック
         if (Vector3.Distance(this.transform.position, player.transform.position) < mokushi)
         {
-            //if (discoveryText != null)
-            //{
-            //    Debug.Log("発見！");
-            //    discoveryText.text = "発見！"; // プレイヤーが近い場合、「発見！」を表示
-            //}
-
             // 発見時のBGMを流す
-            /*if (discoveryBGM != null && audioSource.clip != discoveryBGM)
+            if (discoveryBGM != null && audioSource.clip != discoveryBGM)
             {
                 audioSource.Stop(); // 現在のBGMを停止
                 audioSource.clip = discoveryBGM;
                 audioSource.Play(); // 発見時のBGMを再生
-            }*/
+            }
             discovery = true;
             enemyLookAtPlayer.SetDiscovery(true); // エネミーの体をプレイヤーの方向に向ける
-
-            //Debug.Log("発見！");
         }
         else
         {
-            //if (discoveryText != null)
-            //{
-            //    discoveryText.text = "未発見"; // プレイヤーが遠い場合、「未発見」を表示
-            //}
-
             // 未発見時のBGMを流す
-            /*if (undetectedBGM != null && audioSource.clip != undetectedBGM)
+            if (undetectedBGM != null && audioSource.clip != undetectedBGM)
             {
                 audioSource.Stop(); // 現在のBGMを停止
                 audioSource.clip = undetectedBGM;
                 audioSource.Play(); // 未発見時のBGMを再生
-            }*/
+            }
             discovery = false;
             dis = false;
             enemyLookAtPlayer.SetDiscovery(false); // エネミーの体をプレイヤーの方向に向けない
-
-            //Debug.Log("未発見");
         }
 
         if (playerSaikoro.exploring)
@@ -164,23 +149,28 @@ public class EnemySaikoro : MonoBehaviour
             idouspanTime = 0f;
         }
 
-        Debug.Log(dis2);
-
-        if (discovery || dis2)
+        if (discovery)
         {
             GameObject masu;
-            dis2 = true;
 
-            if (!discovery)
+            do
             {
                 masu = enemyCloseMasu.FindClosestMasu();
-                Debug.Log("夢");
+            } while (!discovery);
 
-                goToPos.x = masu.transform.position.x;
-                goToPos.z = masu.transform.position.z;
+            goToPos.x = masu.transform.position.x;
+            goToPos.z = masu.transform.position.z;
 
-                GoToMassChange(goToMass);
-                dis2 = false;
+            switch (goToMass)
+            {
+                case 1:
+                    goToPos.x += 2.0f; break;
+                case 2:
+                    goToPos.z += 2.0f; break;
+                case 3:
+                    goToPos.x -= 2.0f; break;
+                case 4:
+                    goToPos.z -= 2.0f; break;
             }
         }
 
@@ -188,11 +178,24 @@ public class EnemySaikoro : MonoBehaviour
             (goToPos.z + 0.1f > this.transform.position.z && goToPos.z - 0.1f < this.transform.position.z)) || (discovery && !dis))
         {
             Debug.Log("行先変更");
+            Debug.Log("Current Position: " + this.transform.position);
+            Debug.Log("Target Position: " + goToPos);
+            Debug.Log("Discovery: " + discovery);
+            Debug.Log("Dis: " + dis);
             dis = true;
             GoToMassChange(goToMass);
+
+            // Northが進む方向に向くように設定
+            Vector3 direction = (goToPos - this.transform.position).normalized;
+            if (direction != Vector3.zero)
+            {
+                Quaternion lookRotation = Quaternion.LookRotation(new Vector3(direction.x, 0, direction.z));
+                ENorth.transform.localPosition = new Vector3(18, 3.53f, -40); // Northの位置を固定
+                transform.rotation = Quaternion.Euler(0, lookRotation.eulerAngles.y, 0); // エネミーのモデルのY軸回転を設定
+                Debug.Log("ENorth rotation set to: " + lookRotation.eulerAngles);
+            }
         }
     }
-
     void GoToMassChange(int m)
     {
 
@@ -267,6 +270,8 @@ public class EnemySaikoro : MonoBehaviour
         Debug.Log("MoveTowardsPlayer called");
         isMoving = true; // 移動開始
         enemyLookAtPlayer.SetIsMoving(true); // エネミーの移動状態を設定
+        enemyController.SetMovement(true); // エネミーが動き始めたらisMovingをtrueに設定
+
         int initialSteps = steps;
         AudioClip currentBGM = audioSource.clip;
         bool isFootstepPlaying = false;
@@ -278,8 +283,6 @@ public class EnemySaikoro : MonoBehaviour
         {
             audioSource.Pause();
         }
-
-        enemyController.SetMovement(true); // エネミーが動き始めたらisMovingをtrueに設定
 
         if (!s2)
         {
@@ -365,16 +368,24 @@ public class EnemySaikoro : MonoBehaviour
                 // エネミーの移動方向を設定
                 enemyLookAtPlayer.SetMoveDirection(direction);
 
+                // Northが進む方向に向くように設定
+                if (direction != Vector3.zero)
+                {
+                    Quaternion lookRotation = Quaternion.LookRotation(direction);
+                    ENorth.transform.rotation = lookRotation;
+                    Debug.Log("ENorth rotation set to: " + lookRotation.eulerAngles);
+                }
+
                 Debug.Log("Enemy moved towards player. Steps remaining: " + steps);
 
                 // プレイヤーが発見されたかをチェック
                 if (Vector3.Distance(this.transform.position, player.transform.position) < mokushi)
                 {
-                    /*if (discoveryBGM != null && !audioSource.isPlaying) // 発見時のBGMを流す
+                    if (discoveryBGM != null && !audioSource.isPlaying) // 発見時のBGMを流す
                     {
                         audioSource.clip = discoveryBGM;
                         audioSource.Play();
-                    }*/
+                    }
                     discovery = true;
                     Debug.Log("発見！");
                 }
