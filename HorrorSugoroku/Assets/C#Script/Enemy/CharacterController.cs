@@ -15,11 +15,11 @@ public class CharacterController : MonoBehaviour
         Vector3 currentPosition = transform.position;
         if (Vector3.Distance(currentPosition, lastPosition) > 0.01f) // 0.01f‚Íè‡’l‚Å‚·
         {
-            animator.SetBool("isRunning", true);
+            animator.SetBool("is Running", true); // ˆÚ“®’†‚ÍisRunning‚ğtrue‚Éİ’è
         }
         else
         {
-            animator.SetBool("isRunning", false);
+            animator.SetBool("is Running", false); // ‘Ò‹@’†‚ÍisRunning‚ğfalse‚Éİ’è
         }
         lastPosition = currentPosition;
 

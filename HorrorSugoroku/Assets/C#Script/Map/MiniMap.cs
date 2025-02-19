@@ -47,9 +47,9 @@ public class MiniMap : MonoBehaviour
         }
 
         // マップのピースが3枚手に入ったらエネミーモデルを変更
-        if (Mapcount == 3)
+        if (Mapcount == 3 || Mapcount == 6)
         {
-            gameManager.ChangeEnemyModel();
+            gameManager.ChangeEnemyModel(Mapcount); // 引数を渡してメソッドを呼び出す
         }
     }
 }

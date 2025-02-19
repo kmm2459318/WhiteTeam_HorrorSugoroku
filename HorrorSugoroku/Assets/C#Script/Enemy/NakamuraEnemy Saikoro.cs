@@ -1,7 +1,9 @@
-﻿using UnityEngine;
+﻿using SmoothigTransform;
+using UnityEngine;
+using UnityEngine.UI;
 using System.Collections;
 using SmoothigTransform;
-using UnityEngine.UI;
+
 public class EnemySaikoroNakamura : MonoBehaviour
 {
     [SerializeField] SmoothTransform enemySmooth;

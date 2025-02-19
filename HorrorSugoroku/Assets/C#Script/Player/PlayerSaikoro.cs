@@ -50,7 +50,7 @@ public class PlayerSaikoro : MonoBehaviour
     private Transform Emasu;
     public GameObject PSouth;
     public GameObject Camera;
-    Vector3 lastPos = new Vector3(0, 0, 0);
+    Vector3 nnn = new Vector3(0, 0, 0);
     //Vector3 Pos;
     Vector3 Rotation;
     Vector3 Rot;
@@ -250,17 +250,24 @@ public class PlayerSaikoro : MonoBehaviour
         if ((exploring && Input.GetKeyDown(KeyCode.F)) || enemyEnd1)
         {
             enemyEnd1 = true;
-            exploring = false;
-            if ((lastPos.x + 0.0001f > Enemy.transform.position.x && lastPos.x - 0.0001f < Enemy.transform.position.x) &&
-            (lastPos.z + 0.0001f > Enemy.transform.position.z && lastPos.z - 0.0001f < Enemy.transform.position.z) &&
-            !targetScript.enemyidoutyu)
+
+            if (((nnn.x + 0.0001f > Enemy.transform.position.x && nnn.x - 0.0001f < Enemy.transform.position.x) &&
+            (nnn.z + 0.0001f > Enemy.transform.position.z && nnn.z - 0.0001f < Enemy.transform.position.z)) || enemyEnd2)
             {
-                enemyEnd1 = false;
-                targetScript.idouspanTime = 0f;
-                Debug.Log("探索モード終了、次のターンへ");
-                gameManager.NextTurn();
+                enemyEnd2 = true;
+
+                this.enemyendTime += Time.deltaTime;
+                if (enemyendTime > 4f)
+                {
+                    enemyEnd1 = false;
+                    enemyEnd2 = false;
+                    exploring = false;
+                    targetScript.idouspanTime = 0f;
+                    Debug.Log("探索モード終了、次のターンへ");
+                    gameManager.NextTurn();
+                }
             }
-            lastPos = Enemy.transform.position;
+            nnn = Enemy.transform.position;
         }
         // 探索中の判定をtrueにする
         // ボタン、スペースキーを押したときに探索の判定をfalseにする
