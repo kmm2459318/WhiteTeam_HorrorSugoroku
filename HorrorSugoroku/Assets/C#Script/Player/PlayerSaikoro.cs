@@ -2,6 +2,7 @@
 using UnityEngine.UI;
 using System.Collections;
 using SmoothigTransform;
+using UnityEngine.Rendering;
 
 public class PlayerSaikoro : MonoBehaviour
 {
@@ -462,6 +463,29 @@ public class PlayerSaikoro : MonoBehaviour
 
         saikorotyu = false;
         idoutyu = true;
+    }
+
+    public void Next()
+    {
+        enemyEnd1 = true;
+
+        if (((nnn.x + 0.0001f > Enemy.transform.position.x && nnn.x - 0.0001f < Enemy.transform.position.x) &&
+        (nnn.z + 0.0001f > Enemy.transform.position.z && nnn.z - 0.0001f < Enemy.transform.position.z)) || enemyEnd2)
+        {
+            enemyEnd2 = true;
+
+            this.enemyendTime += Time.deltaTime;
+            if (enemyendTime > 4f)
+            {
+                enemyEnd1 = false;
+                enemyEnd2 = false;
+                exploring = false;
+                targetScript.idouspanTime = 0f;
+                Debug.Log("探索モード終了、次のターンへ");
+                gameManager.NextTurn();
+            }
+        }
+        nnn = Enemy.transform.position;
     }
 
     public void StartRolling()
