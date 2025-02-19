@@ -1,6 +1,4 @@
-using Unity.VisualScripting.Antlr3.Runtime.Tree;
 using UnityEngine;
-using UnityEngine.Rendering;
 using UnityEngine.UI;
 
 public class Option : MonoBehaviour
@@ -25,7 +23,7 @@ public class Option : MonoBehaviour
 
         // 音量を初期化
         VolumeSlider.value = Volume;
-        AudioListener.volume = Volume / 100f;//ここの100fを消すと耳が死ぬ！(音が割れる)
+        AudioListener.volume = Volume / 100f;
 
         // カメラ感度を初期化
         SensitivitySlider.value = Sensitivity;
@@ -41,7 +39,7 @@ public class Option : MonoBehaviour
         // ボリュームが 0 ならミュートアイコンに変更
         VolumeImg.sprite = (AudioListener.volume == 0) ? VolumeMuteSprite : VolumeSprite;
 
-        //ESCキーで設定画面表示
+        // ESCキーで設定画面表示
         if (Input.GetKeyDown(KeyCode.Escape))
         {
             OpenOption();
@@ -51,7 +49,7 @@ public class Option : MonoBehaviour
     private void OnVolumeChanged(float value)
     {
         Volume = (int)value;
-        AudioListener.volume = Volume / 100f;//ここの100fを消すと耳が死ぬ！(音が割れる)
+        AudioListener.volume = Volume / 100f;
     }
 
     private void OnSensitivityChanged(float value)
@@ -71,6 +69,7 @@ public class Option : MonoBehaviour
             Cursor.lockState = CursorLockMode.None;
             Cursor.visible = true;
             cameraController.isMouseLocked = false;
+            cameraController.SetOptionOpen(true); // カメラのAltキー処理を無効化
             Time.timeScale = 0;
         }
         else
@@ -79,6 +78,7 @@ public class Option : MonoBehaviour
             Cursor.lockState = CursorLockMode.Locked;
             Cursor.visible = false;
             cameraController.isMouseLocked = true;
+            cameraController.SetOptionOpen(false); // カメラのAltキー処理を再開
             Time.timeScale = 1;
         }
     }
