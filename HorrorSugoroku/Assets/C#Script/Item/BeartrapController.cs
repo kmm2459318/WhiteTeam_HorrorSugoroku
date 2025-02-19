@@ -16,12 +16,17 @@ public class BeartrapController : MonoBehaviour
     {
         if (other.CompareTag("Enemy")) // タグがEnemyのオブジェクトとの接触をチェック
         {
-            // 反応した敵に対して処理を行う
             var enemy = other.GetComponent<EnemySaikoro>();
             if (enemy != null)
             {
-                enemy.isTrapped = true; // トラバサミにかかったときの処理
-                Debug.Log("敵がトラバサミにかかった！");
+                enemy.isTrapped = true; // �g���o�T�~�ɂ��������Ƃ��̏���
+                Debug.Log("�G���g���o�T�~�ɂ��������I");
+
+                // �􂢃Q�[�W��10����
+                if (curseSlider != null)
+                {
+                    curseSlider.IncreaseDashPoint(10);
+                }
             }
         }
     }
