@@ -32,13 +32,26 @@ public class GridCell : MonoBehaviour
     [SerializeField] private float volume = 1.0f; // 音量 (デフォルトは最大)
 
     private bool isGameOver = false;    // 重複処理防止用フラグ
+    private SubstitutedollController substitutedollController;
+    private BeartrapController beartrapController;
 
     public int n = 0;
     private PlayerInventory playerInventory;
-    void Start()
+  private  void Start()
     {
         playerInventory = FindObjectOfType<PlayerInventory>();
         curseSlider = FindObjectOfType<CurseSlider>(); // 呪いゲージを取得
+        substitutedollController = FindObjectOfType<SubstitutedollController>(); // 追加
+        beartrapController = FindObjectOfType<BeartrapController>(); // 追加
+        if (substitutedollController == null)
+        {
+            Debug.LogError("❌ SubstitutedollController がシーン内に見つかりません！");
+        }
+
+        if (beartrapController == null)
+        {
+            Debug.LogError("❌ BeartrapController がシーン内に見つかりません！");
+        }
         if (cursePanel != null)
         {
             cursePanel.SetActive(false);
@@ -95,11 +108,8 @@ public class GridCell : MonoBehaviour
                 Debug.Log($"{name}: ペナルティ効果発動！");
                 break;
             case "Item":
-                //if (cellEffect == "Item" && playerInventory != null)
-                //{
-                //    Debug.Log($"{name}:アイテムを獲得！");
-                //    playerInventory.AddItem("鍵"); // 鍵を追加
-                //}
+                Debug.Log($"{name}: アイテムマスに止まりました。");
+                GiveRandomItem();
                 break;
             case "Dires":
                 Debug.Log($"{name}:演出発動！");
@@ -292,6 +302,29 @@ public class GridCell : MonoBehaviour
         int randomEvent = Random.Range(0, 2);
 
         Debug.Log("デバフイベントB：アイテムが使えなくなった");
+    }
+   
+
+    private void GiveRandomItem()
+    {
+        // **アイテムコントローラーが見つからない場合は処理を中断**
+        if (substitutedollController == null || beartrapController == null)
+        {
+            Debug.LogError("❌ アイテムのコントローラーが見つかりません！処理をスキップします。");
+            return;
+        }
+
+        // 50% の確率でどちらかのアイテムを増やす
+        if (Random.value < 0.5f)
+        {
+            substitutedollController.AddItem();
+            Debug.Log("🎭 身代わり人形を獲得！");
+        }
+        else
+        {
+            beartrapController.AddItem();
+            Debug.Log("🪤 トラバサミを獲得！");
+        }
     }
 
 }

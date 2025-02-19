@@ -3,32 +3,43 @@ using UnityEngine.UI;
 
 public class SubstitutedollController : MonoBehaviour
 {
-    private static int substituteDollCount = 3; // ƒfƒoƒbƒO—p‚É3‚Â‚½‚¹‚é
-    public CurseSlider curseSlider; // ô‚¢ƒQ[ƒW‚ÌŠÇ—
+    private static int substituteDollCount = 3; // ï¿½fï¿½oï¿½bï¿½Oï¿½pï¿½ï¿½3ï¿½Âï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+    public CurseSlider curseSlider; // ï¿½ô‚¢ƒQï¿½[ï¿½Wï¿½ÌŠÇ—ï¿½
+    // ï¿½gï¿½ï¿½ï¿½ï¿½lï¿½`ï¿½Ìï¿½ï¿½ï¿½ï¿½ï¿½
+    private static int substituteDollCount ; // ï¿½fï¿½oï¿½bï¿½Oï¿½pï¿½ï¿½3ï¿½Âï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+    public int itemCount = 0; // ï¿½Aï¿½Cï¿½eï¿½ï¿½ï¿½Ìï¿½
+    public Button substituteDollButton; // ï¿½{ï¿½^ï¿½ï¿½ï¿½ï¿½ï¿½Aï¿½^ï¿½bï¿½`
 
     private void Start()
     {
-        Button button = GetComponent<Button>();
-        if (button != null)
+        if (substituteDollButton == null)
         {
-            button.onClick.AddListener(OnButtonPressed);
+            Debug.LogError("substituteDollButton ï¿½ï¿½ï¿½Aï¿½^ï¿½bï¿½`ï¿½ï¿½ï¿½ï¿½Ä‚ï¿½ï¿½Ü‚ï¿½ï¿½ï¿½I");
+            return;
         }
-        else
-        {
-            Debug.LogError("ButtonƒRƒ“ƒ|[ƒlƒ“ƒg‚ªƒAƒ^ƒbƒ`‚³‚ê‚Ä‚¢‚Ü‚¹‚ñI");
-        }
-    }
 
+        // ï¿½{ï¿½^ï¿½ï¿½ï¿½Ìƒï¿½ï¿½Xï¿½iï¿½[ï¿½ï¿½İ’ï¿½
+        substituteDollButton.onClick.AddListener(OnButtonPressed);
+
+        // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ô‚Åƒ{ï¿½^ï¿½ï¿½ï¿½Ì•\ï¿½ï¿½/ï¿½ï¿½\ï¿½ï¿½ï¿½ï¿½ï¿½Xï¿½V
+        UpdateButtonVisibility();
+    }
+    public void AddItem()
+    {
+        itemCount++;
+        substituteDollCount++;
+        Debug.Log("ï¿½gï¿½ï¿½ï¿½ï¿½lï¿½`ï¿½ï¿½1ï¿½Â‘ï¿½ï¿½ï¿½ï¿½Ü‚ï¿½ï¿½ï¿½ï¿½Iï¿½ï¿½ï¿½İ‚Ìï¿½: " + itemCount);
+    }
     private void OnButtonPressed()
     {
-        if (substituteDollCount > 0)
+        if( itemCount > 0)
         {
-            substituteDollCount--;
-            SceneChanger3D.hasSubstituteDoll = true;
+            substituteDollCount--;  // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ç‚·
+            SceneChanger3D.hasSubstituteDoll = true; // ï¿½gï¿½pï¿½ï¿½ï¿½ï¿½
 
-            Debug.Log("g‘ã‚í‚èlŒ`‚ğg—pI c‚è: " + substituteDollCount);
+            Debug.Log("ï¿½gï¿½ï¿½ï¿½ï¿½lï¿½`ï¿½ï¿½ï¿½gï¿½pï¿½I ï¿½cï¿½ï¿½: " + itemCount);
 
-            // ô‚¢ƒQ[ƒW‚ğ10‘‰Á
+            // ï¿½ô‚¢ƒQï¿½[ï¿½Wï¿½ï¿½10ï¿½ï¿½ï¿½ï¿½
             if (curseSlider != null)
             {
                 curseSlider.IncreaseDashPoint(10);
@@ -37,12 +48,63 @@ public class SubstitutedollController : MonoBehaviour
             if (substituteDollCount <= 0)
             {
                 Destroy(gameObject);
-                Debug.Log("g‘ã‚í‚èlŒ`‚ª‚È‚­‚È‚Á‚½I");
+                Debug.Log("ï¿½gï¿½ï¿½ï¿½ï¿½lï¿½`ï¿½ï¿½ï¿½È‚ï¿½ï¿½È‚ï¿½ï¿½ï¿½ï¿½I");
             }
+            // ï¿½{ï¿½^ï¿½ï¿½ï¿½Ì•\ï¿½ï¿½ï¿½ï¿½ï¿½Xï¿½V
+            UpdateButtonVisibility();
         }
         else
         {
-            Debug.Log("g‘ã‚í‚èlŒ`‚ª‚ ‚è‚Ü‚¹‚ñI");
+            Debug.Log("ï¿½gï¿½ï¿½ï¿½ï¿½lï¿½`ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ü‚ï¿½ï¿½ï¿½I");
         }
     }
+
+    private void UpdateButtonVisibility()
+    {
+        if (substituteDollButton != null)
+        {
+            substituteDollButton.gameObject.SetActive(itemCount > 0);
+        }
+    }
+    //private void Start()
+    //{
+    //    Button button = GetComponent<Button>();
+    //    if (button != null)
+    //    {
+    //        button.onClick.AddListener(OnButtonPressed);
+    //    }
+    //    else
+    //    {
+    //        Debug.LogError("Buttonï¿½Rï¿½ï¿½ï¿½|ï¿½[ï¿½lï¿½ï¿½ï¿½gï¿½ï¿½ï¿½Aï¿½^ï¿½bï¿½`ï¿½ï¿½ï¿½ï¿½Ä‚ï¿½ï¿½Ü‚ï¿½ï¿½ï¿½I");
+    //    }
+    //}
+
+    //private void OnButtonPressed()
+    //{
+    //    if (substituteDollCount > 0)
+    //    {
+    //        substituteDollCount--; // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ç‚·
+    //        SceneChanger3D.hasSubstituteDoll = true; // ï¿½gï¿½pï¿½ï¿½ï¿½ï¿½
+
+    //        Debug.Log("ï¿½gï¿½ï¿½ï¿½ï¿½lï¿½`ï¿½ï¿½ï¿½gï¿½pï¿½I ï¿½cï¿½ï¿½: " + substituteDollCount);
+    //        UpdateButtonVisibility();
+    //        if (substituteDollCount <= 0)
+    //        {
+    //            Destroy(gameObject); // 0ï¿½É‚È‚ï¿½ï¿½ï¿½ï¿½ï¿½{ï¿½^ï¿½ï¿½ï¿½ï¿½ï¿½íœ
+    //            Debug.Log("ï¿½gï¿½ï¿½ï¿½ï¿½lï¿½`ï¿½ï¿½ï¿½È‚ï¿½ï¿½È‚ï¿½ï¿½ï¿½ï¿½I");
+    //        }
+    //    }
+    //    else
+    //    {
+    //        Debug.Log("ï¿½gï¿½ï¿½ï¿½ï¿½lï¿½`ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ü‚ï¿½ï¿½ï¿½I");
+    //    }
+
+    //}
+    //private void UpdateButtonVisibility()
+    //{
+    //    if (substituteDollButton != null)
+    //    {
+    //        substituteDollButton.gameObject.SetActive(substituteDollCount > 0);
+    //    }
+    //}
 }
