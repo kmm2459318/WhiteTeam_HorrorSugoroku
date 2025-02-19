@@ -15,7 +15,7 @@ public class EnemyLookAtPlayer : MonoBehaviour
         animator = GetComponent<Animator>(); // �A�j���[�^�[�R���|�[�l���g���擾
         if (animator == null)
         {
-            Debug.LogError("Animator component not found on the enemy object.");
+            //Debug.LogError("Animator component not found on the enemy object.");
         }
 
         if (northTransform == null)
