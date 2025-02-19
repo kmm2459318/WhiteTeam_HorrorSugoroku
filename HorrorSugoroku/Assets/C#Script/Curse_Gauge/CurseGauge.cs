@@ -23,7 +23,7 @@ public class CurseSlider : MonoBehaviour
     [SerializeField] private Image[] ImageGages; // 画像ゲージ（下から上に増える）
 
     private float maxDashPoint = 100;
-    private float dashIncreasePerTurn = 0;
+    private float dashIncreasePerTurn = 5;
 
     public int CountGauge = 0;              //ゲームオーバーカウント
     public float dashPoint = 0;
@@ -62,17 +62,17 @@ public class CurseSlider : MonoBehaviour
         if (ArmButton != null)
         {
             ArmButton.onClick.RemoveAllListeners();
-            ArmButton.onClick.AddListener(() => { Arm_ButtonAction(); HideCardCanvas2(); });
+            ArmButton.onClick.AddListener(() => { ExtraButtonAction(); HideCardCanvas1(); });
         }
         if (LegButton != null)
         {
             LegButton.onClick.RemoveAllListeners();
-            LegButton.onClick.AddListener(() => { Leg_ButtonAction(); HideCardCanvas2(); });
+            LegButton.onClick.AddListener(() => { HideCardCanvasAndModifyDashIncrease(); HideCardCanvas1(); });
         }
         if (EyeButton != null)
         {
             EyeButton.onClick.RemoveAllListeners();
-            EyeButton.onClick.AddListener(() => { Eye_ButtonAction(); HideCardCanvas2(); });
+            EyeButton.onClick.AddListener(() => { CursegiveButtonAction(); HideCardCanvas1(); });
         }
 
         HideCardCanvas1();
@@ -83,7 +83,7 @@ public class CurseSlider : MonoBehaviour
     {
 
         
-         if (80 <= dashPoint && CardSelect1 == false)
+         if (80 <= dashPoint && dashPoint >= 100 && CardSelect1 == false)
         {
             CardSelect1 = true;
             StartCoroutine(ShowCardCanvas2());
@@ -184,7 +184,6 @@ public class CurseSlider : MonoBehaviour
         }
     }
 
-    //大きな呪い
     public IEnumerator ShowCardCanvas2()
     {
         if (CardCanvas2 != null)
@@ -195,7 +194,6 @@ public class CurseSlider : MonoBehaviour
         }
     }
 
-    //小さい呪い
     public IEnumerator ShowCardCanvas1()
     {
         if (CardCanvas1 != null)
@@ -206,7 +204,6 @@ public class CurseSlider : MonoBehaviour
         }
     }
 
-    //大きな呪い
     public void HideCardCanvas2()
     {
         if (CardCanvas2 != null)
@@ -216,7 +213,6 @@ public class CurseSlider : MonoBehaviour
         }
     }
 
-    //小さい呪い
     public void HideCardCanvas1()
     {
         if (CardCanvas1 != null)
@@ -226,13 +222,11 @@ public class CurseSlider : MonoBehaviour
         }
     }
 
-   　//小さい呪い
     public void ExtraButtonAction()
     {
         Debug.Log("Extra Button Clicked!");
     }
 
-    //小さい呪い
     public void HideCardCanvasAndModifyDashIncrease()
     {
         dashIncreasePerTurn += master_Curse.CurseSheet[1].TurnIncrease;
@@ -240,7 +234,6 @@ public class CurseSlider : MonoBehaviour
         Time.timeScale = 1;
     }
 
-    //小さい呪い
     public void CursegiveButtonAction()
     {
         dashPoint = Mathf.Min(dashPoint + 5, maxDashPoint);
@@ -249,24 +242,7 @@ public class CurseSlider : MonoBehaviour
         Time.timeScale = 1;
     }
 
-    //大きな呪い
-    public void Arm_ButtonAction()
-    {
-        Debug.Log("腕が落ちた");
-    }
-
-    //大きな呪い
-    public void Leg_ButtonAction()
-    {
-        Debug.Log("足が落ちた");
-    }
-
-    //大きな呪い
-    public void Eye_ButtonAction()
-    {
-        Debug.Log("目が落ちた");
-    }
-
+    
     private void UpdateCountText()
     {
         if (countText != null)
@@ -282,12 +258,10 @@ public class CurseSlider : MonoBehaviour
             }
         }
     }
-
-    public void IncreaseDashPoint(int amount)
+        
+    public void IncreaseDashPoint(int  dashPoint)
     {
-        dashPoint = Mathf.Min(dashPoint + amount, maxDashPoint);
-        DashGage.value = dashPoint;
-        Debug.Log("[CurseSlider] 呪いゲージ増加: " + amount + " 現在の値: " + dashPoint);
+        dashIncreasePerTurn += dashPoint;
     }
 
 
