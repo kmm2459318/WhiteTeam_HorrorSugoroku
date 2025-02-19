@@ -10,7 +10,6 @@ public class GridCell : MonoBehaviour
 {
     public string cellEffect = "Normal"; // マス目の効果（例: Normal, Bonus, Penalty）
     [SerializeField] private Master_Debuff DebuffSheet;
-    public CurseTile curseTile;
     public GameObject eventPanel; // UIのパネル
     public TextMeshProUGUI eventText; // UIのテキスト
     public GameObject cursePanel; // UIのパネル

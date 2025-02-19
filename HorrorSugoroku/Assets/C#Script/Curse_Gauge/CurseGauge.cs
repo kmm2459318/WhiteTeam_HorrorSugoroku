@@ -259,7 +259,11 @@ public class CurseSlider : MonoBehaviour
         }
     }
         
-    
+    public void IncreaseDashPoint(int  dashPoint)
+    {
+        dashIncreasePerTurn += dashPoint;
+    }
+
 
     private void GameOver()
     {
