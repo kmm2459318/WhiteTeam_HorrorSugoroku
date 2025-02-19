@@ -21,13 +21,14 @@ public class EnemySaikoro : MonoBehaviour
     private bool ES = false;
     public LayerMask wallLayer; // 壁のレイヤー
     private int steps; // サイコロの目の数
-    private bool discovery = false;
+    public bool discovery = false;
     private bool dis = false;
+    private bool dis2 = false;
     public bool enemyidoutyu = false;
     Image image;
     //public Text discoveryText; // 新しいText変数を追加
-    public AudioClip discoveryBGM; // 発見時のBGM
-    public AudioClip undetectedBGM; // 未発見時のBGM
+    //public AudioClip discoveryBGM; // 発見時のBGM
+    //public AudioClip undetectedBGM; // 未発見時のBGM
     private AudioSource audioSource; // 音声再生用のAudioSource
     public AudioClip footstepSound;// 足音のAudioClip
     public float idouspanTime;
@@ -117,12 +118,12 @@ public class EnemySaikoro : MonoBehaviour
             //}
 
             // 発見時のBGMを流す
-            if (discoveryBGM != null && audioSource.clip != discoveryBGM)
+            /*if (discoveryBGM != null && audioSource.clip != discoveryBGM)
             {
                 audioSource.Stop(); // 現在のBGMを停止
                 audioSource.clip = discoveryBGM;
                 audioSource.Play(); // 発見時のBGMを再生
-            }
+            }*/
             discovery = true;
             enemyLookAtPlayer.SetDiscovery(true); // エネミーの体をプレイヤーの方向に向ける
 
@@ -136,12 +137,12 @@ public class EnemySaikoro : MonoBehaviour
             //}
 
             // 未発見時のBGMを流す
-            if (undetectedBGM != null && audioSource.clip != undetectedBGM)
+            /*if (undetectedBGM != null && audioSource.clip != undetectedBGM)
             {
                 audioSource.Stop(); // 現在のBGMを停止
                 audioSource.clip = undetectedBGM;
                 audioSource.Play(); // 未発見時のBGMを再生
-            }
+            }*/
             discovery = false;
             dis = false;
             enemyLookAtPlayer.SetDiscovery(false); // エネミーの体をプレイヤーの方向に向けない
@@ -163,28 +164,23 @@ public class EnemySaikoro : MonoBehaviour
             idouspanTime = 0f;
         }
 
-        if (discovery)
+        Debug.Log(dis2);
+
+        if (discovery || dis2)
         {
             GameObject masu;
+            dis2 = true;
 
-            do
+            if (!discovery)
             {
                 masu = enemyCloseMasu.FindClosestMasu();
-            } while (!discovery);
+                Debug.Log("夢");
 
-            goToPos.x = masu.transform.position.x;
-            goToPos.z = masu.transform.position.z;
-            
-            switch (goToMass)
-            {
-                case 1:
-                    goToPos.x += 2.0f; break;
-                case 2:
-                    goToPos.z += 2.0f; break;
-                case 3:
-                    goToPos.x -= 2.0f; break;
-                case 4:
-                    goToPos.z -= 2.0f; break;
+                goToPos.x = masu.transform.position.x;
+                goToPos.z = masu.transform.position.z;
+
+                GoToMassChange(goToMass);
+                dis2 = false;
             }
         }
 
@@ -374,11 +370,11 @@ public class EnemySaikoro : MonoBehaviour
                 // プレイヤーが発見されたかをチェック
                 if (Vector3.Distance(this.transform.position, player.transform.position) < mokushi)
                 {
-                    if (discoveryBGM != null && !audioSource.isPlaying) // 発見時のBGMを流す
+                    /*if (discoveryBGM != null && !audioSource.isPlaying) // 発見時のBGMを流す
                     {
                         audioSource.clip = discoveryBGM;
                         audioSource.Play();
-                    }
+                    }*/
                     discovery = true;
                     Debug.Log("発見！");
                 }
