@@ -3,8 +3,8 @@ using UnityEngine.UI;
 
 public class SubstitutedollController : MonoBehaviour
 {
-    // 身代わり人形の所持数
     private static int substituteDollCount = 3; // デバッグ用に3つ持たせる
+    public CurseSlider curseSlider; // 呪いゲージの管理
 
     private void Start()
     {
@@ -23,14 +23,20 @@ public class SubstitutedollController : MonoBehaviour
     {
         if (substituteDollCount > 0)
         {
-            substituteDollCount--; // 所持数を減らす
-            SceneChanger3D.hasSubstituteDoll = true; // 使用判定
+            substituteDollCount--;
+            SceneChanger3D.hasSubstituteDoll = true;
 
             Debug.Log("身代わり人形を使用！ 残り: " + substituteDollCount);
 
+            // 呪いゲージを10増加
+            if (curseSlider != null)
+            {
+                curseSlider.IncreaseDashPoint(10);
+            }
+
             if (substituteDollCount <= 0)
             {
-                Destroy(gameObject); // 0になったらボタンを削除
+                Destroy(gameObject);
                 Debug.Log("身代わり人形がなくなった！");
             }
         }
