@@ -42,13 +42,21 @@ public class CurseSlider : MonoBehaviour
     [SerializeField] private FlashlightManager flashlightManager;
     [SerializeField] private Transform playerTransform;
     [SerializeField] private GameObject uiCanvas; // UI全体を管理するオブジェクト
-    
+
+    [SerializeField] private GameObject panel; // Panelオブジェクト
+    [SerializeField] private TextMeshProUGUI panelText; // Panel内のTextMeshProUGUI
+    [SerializeField] private GameObject cardCanvas2; // CardCanvas2オブジェクト
 
     void Start()
     {
         DashGage.maxValue = maxDashPoint;
         DashGage.value = dashPoint;
         ResetGaugeImages();
+        // 初期状態でPanelを非アクティブにする
+        if (panel != null)
+        {
+            panel.SetActive(false);
+        }
 
         if (extraButton != null)
         {
@@ -69,12 +77,21 @@ public class CurseSlider : MonoBehaviour
             HideCardCanvases(); // CardCanvas1とCardCanvas2を非アクティブにする
         }
 
-        if (ArmButton != null)
+
+        if (EyeButton != null)
         {
-            ArmButton.onClick.RemoveAllListeners();
-            ArmButton.onClick.AddListener(() => { ExtraButtonAction(); HideCardCanvases(); LimitDiceRoll(); });
+            EyeButton.onClick.RemoveAllListeners();
+            EyeButton.onClick.AddListener(() =>
+            {
+                CursegiveButtonAction();
+                HideCardCanvas1();
+                ApplyEyeEffect();
+                ShowPanelWithText("片目ヲ失っタ\n視界ノ半分ガミエなくなル"); // パネルを表示してテキストを設定
+                DeactivateCardCanvas2(); // CardCanvas2を非アクティブにする
+            });
             HideCardCanvases(); // CardCanvas1とCardCanvas2を非アクティブにする
         }
+
         if (LegButton != null)
         {
             LegButton.onClick.RemoveAllListeners();
@@ -84,15 +101,27 @@ public class CurseSlider : MonoBehaviour
                 HideCardCanvas1();
                 flashlightManager.DeactivateFlashlight(); // 懐中電灯を非アクティブにする
                 flashlightManager.PlaceFlashlightUnderPlayer(playerTransform); // 懐中電灯をプレイヤーの真下に配置
+                ShowPanelWithText("片手ヲ失っタ\n懐中電灯ガ使用できなクなっタ"); // パネルを表示してテキストを設定
+                DeactivateCardCanvas2(); // CardCanvas2を非アクティブにする
                 HideCardCanvases(); // CardCanvas1とCardCanvas2を非アクティブにする
             });
         }
-        if (EyeButton != null)
+
+        if (ArmButton != null)
         {
-            EyeButton.onClick.RemoveAllListeners();
-            EyeButton.onClick.AddListener(() => { CursegiveButtonAction(); HideCardCanvas1(); ApplyEyeEffect(); });
-            HideCardCanvases();// CardCanvas1とCardCanvas2を非アクティブにする
+            ArmButton.onClick.RemoveAllListeners();
+            ArmButton.onClick.AddListener(() =>
+            {
+                ExtraButtonAction();
+                HideCardCanvases();
+                LimitDiceRoll();
+                ShowPanelWithText("片足ヲ失っタ\nサイコロの出目ガ1,2,3シカ出ナイ"); // パネルを表示してテキストを設定
+                DeactivateCardCanvas2(); // CardCanvas2を非アクティブにする
+            });
+            HideCardCanvases(); // CardCanvas1とCardCanvas2を非アクティブにする
         }
+
+
 
         HideCardCanvas1();
         HideCardCanvas2();
@@ -101,8 +130,8 @@ public class CurseSlider : MonoBehaviour
     void Update()
     {
 
-        
-         if (80 <= dashPoint && dashPoint >= 100 && CardSelect1 == false)
+
+        if (80 <= dashPoint && dashPoint >= 100 && CardSelect1 == false)
         {
             CardSelect1 = true;
             StartCoroutine(ShowCardCanvas2());
@@ -129,7 +158,7 @@ public class CurseSlider : MonoBehaviour
             StartCoroutine(ShowCardCanvas1());
             Debug.Log("と");
         }
-       
+
 
         DashGage.value = dashPoint;
 
@@ -157,7 +186,7 @@ public class CurseSlider : MonoBehaviour
 
         UpdateImageGauges();
 
-       
+
 
 
         if (gameManager.isPlayerTurn && !saikorotyu)
@@ -281,7 +310,7 @@ public class CurseSlider : MonoBehaviour
         Time.timeScale = 1;
     }
 
-    
+
     private void UpdateCountText()
     {
         if (countText != null)
@@ -297,8 +326,8 @@ public class CurseSlider : MonoBehaviour
             }
         }
     }
-        
-    public void IncreaseDashPoint(int  dashPoint)
+
+    public void IncreaseDashPoint(int dashPoint)
     {
         dashIncreasePerTurn += dashPoint;
     }
@@ -306,13 +335,53 @@ public class CurseSlider : MonoBehaviour
 
     private void GameOver()
     {
-        
+
     }
     private void ApplyEyeEffect()
     {
         if (eyeEffectController != null)
         {
             eyeEffectController.ApplyEyeEffect();
+        }
+    }
+    private void ShowPanelWithText(string message)
+    {
+        if (panel != null)
+        {
+            panel.SetActive(true); // パネルを表示
+            TextMeshProUGUI panelText = panel.GetComponentInChildren<TextMeshProUGUI>();
+            if (panelText != null)
+            {
+                StartCoroutine(TypeText(panelText, message)); // コルーチンを開始
+                StartCoroutine(HidePanelAfterDelay(5f)); // 5秒後にパネルを非アクティブにするコルーチンを開始
+            }
+        }
+    }
+
+    private IEnumerator TypeText(TextMeshProUGUI textComponent, string message)
+    {
+        textComponent.text = ""; // テキストをクリア
+        foreach (char letter in message.ToCharArray())
+        {
+            textComponent.text += letter; // 一文字ずつ追加
+            yield return new WaitForSeconds(0.1f); // 0.1秒待機
+        }
+    }
+
+    private IEnumerator HidePanelAfterDelay(float delay)
+    {
+        yield return new WaitForSeconds(delay); // 指定された秒数待機
+        if (panel != null)
+        {
+            panel.SetActive(false); // パネルを非アクティブにする
+        }
+    }
+
+    private void DeactivateCardCanvas2()
+    {
+        if (cardCanvas2 != null)
+        {
+            cardCanvas2.SetActive(false); // CardCanvas2を非アクティブにする
         }
     }
 }

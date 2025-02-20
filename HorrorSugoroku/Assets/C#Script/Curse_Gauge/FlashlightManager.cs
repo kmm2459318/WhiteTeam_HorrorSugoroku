@@ -10,7 +10,7 @@ public class FlashlightManager : MonoBehaviour
         if (flashlightModel != null)
         {
             flashlightModel.SetActive(false);
-            Debug.Log("懐中電灯が非アクティブになりました");
+            
         }
     }
 
@@ -25,7 +25,6 @@ public class FlashlightManager : MonoBehaviour
             Quaternion rotation = Quaternion.Euler(0, 30, 0);
 
             Instantiate(flashlightPrefab, position, rotation);
-            Debug.Log("懐中電灯をプレイヤーの真下に配置し、向きを調整しました");
         }
     }
 }
