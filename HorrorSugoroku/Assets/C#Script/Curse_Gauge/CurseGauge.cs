@@ -10,6 +10,7 @@ public class CurseSlider : MonoBehaviour
     [SerializeField] SceneChanger3D sceneChanger;
     [SerializeField] GameObject CardCanvas1;
     [SerializeField] GameObject CardCanvas2;
+    [SerializeField] GameObject CardCanvas3;
     //小さい呪い
     [SerializeField] Button extraButton;
     [SerializeField] Button hideButton;
@@ -37,6 +38,12 @@ public class CurseSlider : MonoBehaviour
     private int nextShowCardThreshold = 20;
     // カード表示の閾値（20,40,60,80,100）
 
+    [SerializeField] private EyeEffectController eyeEffectController; // EyeEffectControllerの参照
+    [SerializeField] private FlashlightManager flashlightManager;
+    [SerializeField] private Transform playerTransform;
+    [SerializeField] private GameObject uiCanvas; // UI全体を管理するオブジェクト
+    
+
     void Start()
     {
         DashGage.maxValue = maxDashPoint;
@@ -47,32 +54,44 @@ public class CurseSlider : MonoBehaviour
         {
             extraButton.onClick.RemoveAllListeners();
             extraButton.onClick.AddListener(() => { ExtraButtonAction(); HideCardCanvas1(); });
+            HideCardCanvases(); // CardCanvas1とCardCanvas2を非アクティブにする
         }
         if (hideButton != null)
         {
             hideButton.onClick.RemoveAllListeners();
             hideButton.onClick.AddListener(() => { HideCardCanvasAndModifyDashIncrease(); HideCardCanvas1(); });
+            HideCardCanvases(); // CardCanvas1とCardCanvas2を非アクティブにする
         }
         if (cursegiveButton != null)
         {
             cursegiveButton.onClick.RemoveAllListeners();
             cursegiveButton.onClick.AddListener(() => { CursegiveButtonAction(); HideCardCanvas1(); });
+            HideCardCanvases(); // CardCanvas1とCardCanvas2を非アクティブにする
         }
 
         if (ArmButton != null)
         {
             ArmButton.onClick.RemoveAllListeners();
-            ArmButton.onClick.AddListener(() => { ExtraButtonAction(); HideCardCanvas1(); });
+            ArmButton.onClick.AddListener(() => { ExtraButtonAction(); HideCardCanvases(); LimitDiceRoll(); });
+            HideCardCanvases(); // CardCanvas1とCardCanvas2を非アクティブにする
         }
         if (LegButton != null)
         {
             LegButton.onClick.RemoveAllListeners();
-            LegButton.onClick.AddListener(() => { HideCardCanvasAndModifyDashIncrease(); HideCardCanvas1(); });
+            LegButton.onClick.AddListener(() =>
+            {
+                HideCardCanvasAndModifyDashIncrease();
+                HideCardCanvas1();
+                flashlightManager.DeactivateFlashlight(); // 懐中電灯を非アクティブにする
+                flashlightManager.PlaceFlashlightUnderPlayer(playerTransform); // 懐中電灯をプレイヤーの真下に配置
+                HideCardCanvases(); // CardCanvas1とCardCanvas2を非アクティブにする
+            });
         }
         if (EyeButton != null)
         {
             EyeButton.onClick.RemoveAllListeners();
-            EyeButton.onClick.AddListener(() => { CursegiveButtonAction(); HideCardCanvas1(); });
+            EyeButton.onClick.AddListener(() => { CursegiveButtonAction(); HideCardCanvas1(); ApplyEyeEffect(); });
+            HideCardCanvases();// CardCanvas1とCardCanvas2を非アクティブにする
         }
 
         HideCardCanvas1();
@@ -149,7 +168,27 @@ public class CurseSlider : MonoBehaviour
             }
         }
     }
-
+    private void LimitDiceRoll()
+    {
+        // PlayerSaikoroスクリプトのインスタンスを取得
+        PlayerSaikoro playerSaikoro = FindObjectOfType<PlayerSaikoro>();
+        if (playerSaikoro != null)
+        {
+            playerSaikoro.SetDiceRollRange(1, 3);
+        }
+    }
+    private void HideCardCanvases()
+    {
+        if (CardCanvas1 != null)
+        {
+            CardCanvas1.SetActive(false);
+        }
+        if (CardCanvas2 != null)
+        {
+            CardCanvas2.SetActive(false);
+        }
+        Time.timeScale = 1;
+    }
     private void EndTurnWithCardDisplay()
     {
         // すでにターンが終了している場合は何もしない
@@ -268,5 +307,12 @@ public class CurseSlider : MonoBehaviour
     private void GameOver()
     {
         
+    }
+    private void ApplyEyeEffect()
+    {
+        if (eyeEffectController != null)
+        {
+            eyeEffectController.ApplyEyeEffect();
+        }
     }
 }
