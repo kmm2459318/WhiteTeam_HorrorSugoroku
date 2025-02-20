@@ -252,7 +252,7 @@ public class GridCell : MonoBehaviour
         {
             // **呪い発動**
             Debug.Log($"{name}: 呪いが発動！");
-            curseSlider.IncreaseDashPoint(curseamout); // 呪いゲージ増加
+            //curseSlider.IncreaseDashPoint(curseamout); // 呪いゲージ増加
             ShowCurseUI("呪いが発動した！");
         }
         else if (randomValue <= curseChance + scareChance)

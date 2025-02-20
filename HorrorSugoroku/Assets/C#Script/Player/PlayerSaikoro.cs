@@ -50,6 +50,9 @@ public class PlayerSaikoro : MonoBehaviour
     public GameObject PSouth;
     public GameObject Camera;
     Vector3 lastPos = new Vector3(0, 0, 0);
+    private int minDiceValue = 1;
+    private int maxDiceValue = 6;
+    Vector3 nnn = new Vector3(0, 0, 0);
     //Vector3 Pos;
     Vector3 Rotation;
     Vector3 Rot;
@@ -188,6 +191,8 @@ public class PlayerSaikoro : MonoBehaviour
 
             //}
             //}
+           // サイコロの出目を制限
+            sai = Random.Range(minDiceValue, maxDiceValue + 1);
 
         }
      
@@ -460,5 +465,9 @@ public class PlayerSaikoro : MonoBehaviour
     {
         // このメソッドは空にしておくか、必要に応じて他の処理を追加します
     }
-
+    public void SetDiceRollRange(int min, int max)
+    {
+        minDiceValue = min;
+        maxDiceValue = max;
+    }
 }
