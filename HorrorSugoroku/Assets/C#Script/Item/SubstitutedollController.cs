@@ -1,48 +1,53 @@
+ï»¿using System;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class SubstitutedollController : MonoBehaviour
 {
-    // g‘ã‚í‚èlŒ`‚ÌŠ”
-    private static int substituteDollCount ; // ƒfƒoƒbƒO—p‚É3‚Â‚½‚¹‚é
-    public int itemCount = 0; // ƒAƒCƒeƒ€‚Ì”
-    public Button substituteDollButton; // ƒ{ƒ^ƒ“‚ğƒAƒ^ƒbƒ`
+    private static int substituteDollCount; // èº«ä»£ã‚ã‚Šäººå½¢ã®æ‰€æŒæ•°
+    private int itemCount = 3; // ã‚¢ã‚¤ãƒ†ãƒ ã®æ•°
+    public Button substituteDollButton; // ãƒœã‚¿ãƒ³ã‚’ã‚¢ã‚¿ãƒƒãƒ
+    public CurseSlider curseSlider; // å‘ªã„ã‚²ãƒ¼ã‚¸ã®ç®¡ç†
 
     private void Start()
     {
         if (substituteDollButton == null)
         {
-            Debug.LogError("substituteDollButton ‚ªƒAƒ^ƒbƒ`‚³‚ê‚Ä‚¢‚Ü‚¹‚ñI");
+            Debug.LogError("substituteDollButton ãŒã‚¢ã‚¿ãƒƒãƒã•ã‚Œã¦ã„ã¾ã›ã‚“ï¼");
             return;
         }
 
-        // ƒ{ƒ^ƒ“‚ÌƒŠƒXƒi[‚ğİ’è
         substituteDollButton.onClick.AddListener(OnButtonPressed);
-
-        // ‰Šúó‘Ô‚Åƒ{ƒ^ƒ“‚Ì•\¦/”ñ•\¦‚ğXV
         UpdateButtonVisibility();
     }
+
     public void AddItem()
     {
         itemCount++;
         substituteDollCount++;
-        Debug.Log("g‘ã‚í‚èlŒ`‚ª1‚Â‘‚¦‚Ü‚µ‚½IŒ»İ‚Ì”: " + itemCount);
+        Debug.Log("èº«ä»£ã‚ã‚Šäººå½¢ãŒ1ã¤å¢—ãˆã¾ã—ãŸï¼ç¾åœ¨ã®æ•°: " + itemCount);
     }
+
     private void OnButtonPressed()
     {
-        if( itemCount > 0)
+        if (itemCount > 0)
         {
-            substituteDollCount--;  // Š”‚ğŒ¸‚ç‚·
-            SceneChanger3D.hasSubstituteDoll = true; // g—p”»’è
+            substituteDollCount--;
+            SceneChanger3D.hasSubstituteDoll = true;
 
-            Debug.Log("g‘ã‚í‚èlŒ`‚ğg—pI c‚è: " + itemCount);
+            Debug.Log("èº«ä»£ã‚ã‚Šäººå½¢ã‚’ä½¿ç”¨ï¼ æ®‹ã‚Š: " + itemCount);
 
-            // ƒ{ƒ^ƒ“‚Ì•\¦‚ğXV
+            // âœ… å‘ªã„ã‚²ãƒ¼ã‚¸ã‚’10å¢—åŠ 
+            if (curseSlider != null)
+            {
+                curseSlider.IncreaseDashPoint(10);
+            }
+
             UpdateButtonVisibility();
         }
         else
         {
-            Debug.Log("g‘ã‚í‚èlŒ`‚ª‚ ‚è‚Ü‚¹‚ñI");
+            Debug.Log("èº«ä»£ã‚ã‚Šäººå½¢ãŒã‚ã‚Šã¾ã›ã‚“ï¼");
         }
     }
 
@@ -53,6 +58,14 @@ public class SubstitutedollController : MonoBehaviour
             substituteDollButton.gameObject.SetActive(itemCount > 0);
         }
     }
+
+    internal void IncreaseCurseForItemCurse()
+    {
+        throw new NotImplementedException();
+    }
+}
+
+
     //private void Start()
     //{
     //    Button button = GetComponent<Button>();
@@ -62,7 +75,7 @@ public class SubstitutedollController : MonoBehaviour
     //    }
     //    else
     //    {
-    //        Debug.LogError("ButtonƒRƒ“ƒ|[ƒlƒ“ƒg‚ªƒAƒ^ƒbƒ`‚³‚ê‚Ä‚¢‚Ü‚¹‚ñI");
+    //        Debug.LogError("Buttonã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆãŒã‚¢ã‚¿ãƒƒãƒã•ã‚Œã¦ã„ã¾ã›ã‚“ï¼");
     //    }
     //}
 
@@ -70,20 +83,20 @@ public class SubstitutedollController : MonoBehaviour
     //{
     //    if (substituteDollCount > 0)
     //    {
-    //        substituteDollCount--; // Š”‚ğŒ¸‚ç‚·
-    //        SceneChanger3D.hasSubstituteDoll = true; // g—p”»’è
+    //        substituteDollCount--; // æ‰€æŒæ•°ã‚’æ¸›ã‚‰ã™
+    //        SceneChanger3D.hasSubstituteDoll = true; // ä½¿ç”¨åˆ¤å®š
 
-    //        Debug.Log("g‘ã‚í‚èlŒ`‚ğg—pI c‚è: " + substituteDollCount);
+    //        Debug.Log("èº«ä»£ã‚ã‚Šäººå½¢ã‚’ä½¿ç”¨ï¼ æ®‹ã‚Š: " + substituteDollCount);
     //        UpdateButtonVisibility();
     //        if (substituteDollCount <= 0)
     //        {
-    //            Destroy(gameObject); // 0‚É‚È‚Á‚½‚çƒ{ƒ^ƒ“‚ğíœ
-    //            Debug.Log("g‘ã‚í‚èlŒ`‚ª‚È‚­‚È‚Á‚½I");
+    //            Destroy(gameObject); // 0ã«ãªã£ãŸã‚‰ãƒœã‚¿ãƒ³ã‚’å‰Šé™¤
+    //            Debug.Log("èº«ä»£ã‚ã‚Šäººå½¢ãŒãªããªã£ãŸï¼");
     //        }
     //    }
     //    else
     //    {
-    //        Debug.Log("g‘ã‚í‚èlŒ`‚ª‚ ‚è‚Ü‚¹‚ñI");
+    //        Debug.Log("èº«ä»£ã‚ã‚Šäººå½¢ãŒã‚ã‚Šã¾ã›ã‚“ï¼");
     //    }
 
     //}
@@ -94,4 +107,4 @@ public class SubstitutedollController : MonoBehaviour
     //        substituteDollButton.gameObject.SetActive(substituteDollCount > 0);
     //    }
     //}
-}
+
