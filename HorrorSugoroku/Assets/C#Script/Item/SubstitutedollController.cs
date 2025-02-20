@@ -1,12 +1,12 @@
-using UnityEngine;
+ï»¿using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 public class SubstitutedollController : MonoBehaviour
 {
-    // g‘ã‚í‚èlŒ`‚ÌŠ”
-    private static int substituteDollCount = 3; // ƒfƒoƒbƒO—p‚É3‚Â‚½‚¹‚é
-    public int itemCount = 0; // ƒAƒCƒeƒ€‚Ì”
-    public TMP_Text dollCountText; // ƒ{ƒ^ƒ“‚É•\¦‚·‚éƒeƒLƒXƒg
+    // èº«ä»£ã‚ã‚Šäººå½¢ã®æ‰€æŒæ•°
+    private static int substituteDollCount = 3; // ãƒ‡ãƒãƒƒã‚°ç”¨ã«3ã¤æŒãŸã›ã‚‹
+    public int itemCount = 0; // ã‚¢ã‚¤ãƒ†ãƒ ã®æ•°
+    public TMP_Text dollCountText; // ãƒœã‚¿ãƒ³ã«è¡¨ç¤ºã™ã‚‹ãƒ†ã‚­ã‚¹ãƒˆ
 
     private void Start()
     {
@@ -17,10 +17,10 @@ public class SubstitutedollController : MonoBehaviour
         }
         else
         {
-            Debug.LogError("ButtonƒRƒ“ƒ|[ƒlƒ“ƒg‚ªƒAƒ^ƒbƒ`‚³‚ê‚Ä‚¢‚Ü‚¹‚ñI");
+            Debug.LogError("Buttonã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆãŒã‚¢ã‚¿ãƒƒãƒã•ã‚Œã¦ã„ã¾ã›ã‚“ï¼");
         }
 
-        // ‰‰ñ‚ÌƒeƒLƒXƒgXV
+        // åˆå›ã®ãƒ†ã‚­ã‚¹ãƒˆæ›´æ–°
         UpdateDollCountText();
     }
 
@@ -28,23 +28,23 @@ public class SubstitutedollController : MonoBehaviour
     {
         itemCount++;
         substituteDollCount++;
-        Debug.Log("g‘ã‚í‚èlŒ`‚ª1‚Â‘‚¦‚Ü‚µ‚½IŒ»İ‚Ì”: " + substituteDollCount);
-        UpdateDollCountText(); // ƒeƒLƒXƒgXV
+        Debug.Log("èº«ä»£ã‚ã‚Šäººå½¢ãŒ1ã¤å¢—ãˆã¾ã—ãŸï¼ç¾åœ¨ã®æ•°: " + substituteDollCount);
+        UpdateDollCountText(); // ãƒ†ã‚­ã‚¹ãƒˆæ›´æ–°
     }
 
     private void OnButtonPressed()
     {
         if (substituteDollCount > 0)
         {
-            substituteDollCount--; // Š”‚ğŒ¸‚ç‚·
-            SceneChanger3D.hasSubstituteDoll = true; // g—p”»’è
+            substituteDollCount--; // æ‰€æŒæ•°ã‚’æ¸›ã‚‰ã™
+            SceneChanger3D.hasSubstituteDoll = true; // ä½¿ç”¨åˆ¤å®š
 
-            Debug.Log("g‘ã‚í‚èlŒ`‚ğg—pI c‚è: " + substituteDollCount);
-            UpdateDollCountText(); // ƒeƒLƒXƒgXV
+            Debug.Log("èº«ä»£ã‚ã‚Šäººå½¢ã‚’ä½¿ç”¨ï¼ æ®‹ã‚Š: " + substituteDollCount);
+            UpdateDollCountText(); // ãƒ†ã‚­ã‚¹ãƒˆæ›´æ–°
         }
         else
         {
-            Debug.Log("g‘ã‚í‚èlŒ`‚ª‚ ‚è‚Ü‚¹‚ñI");
+            Debug.Log("èº«ä»£ã‚ã‚Šäººå½¢ãŒã‚ã‚Šã¾ã›ã‚“ï¼");
         }
     }
 
@@ -52,11 +52,11 @@ public class SubstitutedollController : MonoBehaviour
     {
         if (dollCountText != null)
         {
-            dollCountText.text = "g‘ã‚í‚èlŒ`: " + substituteDollCount;
+            dollCountText.text = "èº«ä»£ã‚ã‚Šäººå½¢: " + substituteDollCount;
         }
         else
         {
-            Debug.LogError("dollCountText ‚ªİ’è‚³‚ê‚Ä‚¢‚Ü‚¹‚ñI");
+            Debug.LogError("dollCountText ãŒè¨­å®šã•ã‚Œã¦ã„ã¾ã›ã‚“ï¼");
         }
     }
 }

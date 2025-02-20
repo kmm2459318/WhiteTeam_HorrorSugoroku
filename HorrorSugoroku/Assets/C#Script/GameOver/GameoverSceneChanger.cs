@@ -34,9 +34,12 @@ public class SceneChanger3D : MonoBehaviour
 
         // 最初に音が鳴らないように、音を再生しない
         audioSource.Stop();
-
     }
 
+    void Update()
+    {
+        HandleGameOver2();
+    }
     //private void OnCollisionEnter(Collision collision)
     //{
     //    Debug.Log("AAAAAAAAAAAAAA");
@@ -47,19 +50,29 @@ public class SceneChanger3D : MonoBehaviour
     //}
 
     private void OnTriggerEnter(Collider other)
-    {
-        Debug.Log("AAAAAAAAAAAAAA");
+    { 
+        
         if (!isGameOver && enemies.Contains(other.gameObject) && (curseslider.CountGauge >= 2))
         {
             HandleGameOver();
-            Debug.Log("AAAAAAAAAAAAAA");
+
         }
-        else if(enemies.Contains(other.gameObject) && (curseslider.CountGauge < 3))
+
+        else if(enemies.Contains(other.gameObject) && (curseslider.CountGauge < 2))
         {
             CurseGaugeUP();
-            Debug.Log("AAAAAAAAAAAAAA");
         }
     }
+    public void HandleGameOver2()
+    {
+        Debug.Log("CountGauge: " + curseslider.CountGauge);
+        if (!isGameOver && (curseslider.CountGauge >= 2))
+        {
+            Debug.Log("CountGauge: " + curseslider.CountGauge);
+            HandleGameOver();
+        }
+    }
+
     // ゲームオーバー処理を判定するメソッド
     public void HandleGameOver()
     {

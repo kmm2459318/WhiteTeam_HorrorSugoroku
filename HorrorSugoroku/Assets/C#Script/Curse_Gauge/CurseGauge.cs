@@ -23,7 +23,7 @@ public class CurseSlider : MonoBehaviour
     [SerializeField] private Image[] ImageGages; // 画像ゲージ（下から上に増える）
 
     private float maxDashPoint = 100;
-    private float dashIncreasePerTurn = 5;
+    private float dashIncreasePerTurn = 0;
 
     public int CountGauge = 0;              //ゲームオーバーカウント
     public float dashPoint = 0;
@@ -62,21 +62,22 @@ public class CurseSlider : MonoBehaviour
         if (ArmButton != null)
         {
             ArmButton.onClick.RemoveAllListeners();
-            ArmButton.onClick.AddListener(() => { ExtraButtonAction(); HideCardCanvas1(); });
+            ArmButton.onClick.AddListener(() => { Arm_ButtonAction(); HideCardCanvas2(); });
         }
         if (LegButton != null)
         {
             LegButton.onClick.RemoveAllListeners();
-            LegButton.onClick.AddListener(() => { HideCardCanvasAndModifyDashIncrease(); HideCardCanvas1(); });
+            LegButton.onClick.AddListener(() => { Leg_ButtonAction(); HideCardCanvas2(); });
         }
         if (EyeButton != null)
         {
             EyeButton.onClick.RemoveAllListeners();
-            EyeButton.onClick.AddListener(() => { CursegiveButtonAction(); HideCardCanvas1(); });
+            EyeButton.onClick.AddListener(() => { Eye_ButtonAction(); HideCardCanvas2(); });
         }
 
         HideCardCanvas1();
         HideCardCanvas2();
+
     }
 
     void Update()
@@ -117,7 +118,7 @@ public class CurseSlider : MonoBehaviour
         // 100を超えた場合、ゲージリセット
         if (dashPoint >= maxDashPoint)
         {
-            Debug.Log("ポケポケ最高");
+           
             CountGauge++;
             dashPoint = 0;
             CardSelect1 = false;
@@ -125,7 +126,6 @@ public class CurseSlider : MonoBehaviour
             CardSelect3 = false;
             CardSelect4 = false;
             ResetGaugeImages();
-
             // 現在の CountGauge 値で、表示するテキスト表示を更新します。
             UpdateCountText();
         }
@@ -198,6 +198,7 @@ public class CurseSlider : MonoBehaviour
     {
         if (CardCanvas1 != null)
         {
+            Debug.Log("みやもと");
             CardCanvas1.SetActive(true);
             yield return new WaitForSeconds(1.0f);
             Time.timeScale = 0; // **ゲームを停止**
@@ -220,6 +221,21 @@ public class CurseSlider : MonoBehaviour
             CardCanvas1.SetActive(false);
             Time.timeScale = 1;
         }
+    }
+
+    public void Arm_ButtonAction()
+    {
+        Debug.Log("腕がなくなった");
+    }
+
+    public void Leg_ButtonAction()
+    {
+        Debug.Log("足がなくなった");
+    }
+
+    public void Eye_ButtonAction()
+    {
+        Debug.Log("目が落ちた");
     }
 
     public void ExtraButtonAction()
@@ -248,7 +264,7 @@ public class CurseSlider : MonoBehaviour
         if (countText != null)
         {
             //CountGauge が 2 以上の場合、カウントの代わりに「呪」を表示
-            if (CountGauge == 2)
+            if (CountGauge >= 2)
             {
                 countText.text = "呪";
             }
@@ -258,10 +274,12 @@ public class CurseSlider : MonoBehaviour
             }
         }
     }
-        
-    public void IncreaseDashPoint(int  dashPoint)
+
+    public void IncreaseDashPoint(int amount)
     {
-        dashIncreasePerTurn += dashPoint;
+        dashPoint = Mathf.Min(dashPoint + amount, maxDashPoint);
+        DashGage.value = dashPoint;
+        Debug.Log("[CurseSlider] 呪いゲージ増加: " + amount + " 現在の値: " + dashPoint);
     }
 
 

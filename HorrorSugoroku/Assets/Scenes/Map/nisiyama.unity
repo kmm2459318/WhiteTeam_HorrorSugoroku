@@ -2193,19 +2193,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 223507029}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 1632628218}
-        m_TargetAssemblyTypeName: CurseSlider, Assembly-CSharp
-        m_MethodName: CursegiveButtonAction
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
 --- !u!114 &223507029
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3125,19 +3113,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 276726758}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 1632628218}
-        m_TargetAssemblyTypeName: CurseSlider, Assembly-CSharp
-        m_MethodName: ExtraButtonAction
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
 --- !u!114 &276726758
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3705,6 +3681,9 @@ MonoBehaviour:
   playerSaikoro: {fileID: 0}
   playerInventory: {fileID: 0}
   gameManager: {fileID: 0}
+  Text: {fileID: 0}
+  Canvas: {fileID: 0}
+  cutInImage: {fileID: 0}
 --- !u!135 &314146373
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -5617,11 +5596,19 @@ PrefabInstance:
     - target: {fileID: 3670651007897774828, guid: 01e2d212890a0ba42a69fa33901ce4b7, type: 3}
       propertyPath: spawnPoint
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 2042766882}
+    - target: {fileID: 3670651007897774828, guid: 01e2d212890a0ba42a69fa33901ce4b7, type: 3}
+      propertyPath: curseSlider
+      value: 
+      objectReference: {fileID: 1632628218}
     - target: {fileID: 3670651007897774828, guid: 01e2d212890a0ba42a69fa33901ce4b7, type: 3}
       propertyPath: enemySaikoro
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 1492082208}
+    - target: {fileID: 3670651007897774828, guid: 01e2d212890a0ba42a69fa33901ce4b7, type: 3}
+      propertyPath: beartrapButton
+      value: 
+      objectReference: {fileID: 1860212981}
     - target: {fileID: 3670651007897774828, guid: 01e2d212890a0ba42a69fa33901ce4b7, type: 3}
       propertyPath: beartrapPrefab
       value: 
@@ -6288,6 +6275,9 @@ MonoBehaviour:
   playerSaikoro: {fileID: 0}
   playerInventory: {fileID: 0}
   gameManager: {fileID: 0}
+  Text: {fileID: 0}
+  Canvas: {fileID: 0}
+  cutInImage: {fileID: 0}
 --- !u!135 &532596139
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -7214,19 +7204,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 601141003}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 1632628218}
-        m_TargetAssemblyTypeName: CurseSlider, Assembly-CSharp
-        m_MethodName: HideCardCanvas
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
 --- !u!114 &601141003
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9317,6 +9295,9 @@ MonoBehaviour:
   playerSaikoro: {fileID: 0}
   playerInventory: {fileID: 0}
   gameManager: {fileID: 0}
+  Text: {fileID: 0}
+  Canvas: {fileID: 0}
+  cutInImage: {fileID: 0}
 --- !u!135 &808390687
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -10944,19 +10925,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 930804418}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 1632628218}
-        m_TargetAssemblyTypeName: CurseSlider, Assembly-CSharp
-        m_MethodName: HideCardCanvasAndModifyDashIncrease
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
 --- !u!114 &930804418
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -11681,6 +11650,14 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5571389889205491030, guid: cc7429b1a19f3b145bddafa519e3c674, type: 3}
+      propertyPath: curseSlider
+      value: 
+      objectReference: {fileID: 1632628218}
+    - target: {fileID: 5571389889205491030, guid: cc7429b1a19f3b145bddafa519e3c674, type: 3}
+      propertyPath: substituteDollButton
+      value: 
+      objectReference: {fileID: 2051101577}
     - target: {fileID: 7628177870289693198, guid: cc7429b1a19f3b145bddafa519e3c674, type: 3}
       propertyPath: m_fontAsset
       value: 
@@ -16917,19 +16894,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1596643580}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 1632628218}
-        m_TargetAssemblyTypeName: CurseSlider, Assembly-CSharp
-        m_MethodName: CursegiveButtonAction
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
 --- !u!114 &1596643580
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -18820,6 +18785,9 @@ MonoBehaviour:
   playerSaikoro: {fileID: 0}
   playerInventory: {fileID: 0}
   gameManager: {fileID: 0}
+  Text: {fileID: 0}
+  Canvas: {fileID: 0}
+  cutInImage: {fileID: 0}
 --- !u!135 &1719710178
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -20334,6 +20302,17 @@ Transform:
   - {fileID: 947771149}
   m_Father: {fileID: 732777267}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1860212981 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 3459393312471385697, guid: 01e2d212890a0ba42a69fa33901ce4b7, type: 3}
+  m_PrefabInstance: {fileID: 467097999}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1861827279
 GameObject:
   m_ObjectHideFlags: 0
@@ -21602,6 +21581,9 @@ MonoBehaviour:
   playerSaikoro: {fileID: 1599821573}
   playerInventory: {fileID: 2042766883}
   gameManager: {fileID: 35047688}
+  Text: {fileID: 0}
+  Canvas: {fileID: 0}
+  cutInImage: {fileID: 0}
 --- !u!1 &1976653323
 GameObject:
   m_ObjectHideFlags: 0
@@ -22240,6 +22222,17 @@ Transform:
   m_Children: []
   m_Father: {fileID: 292599516}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2051101577 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 650834329582602276, guid: cc7429b1a19f3b145bddafa519e3c674, type: 3}
+  m_PrefabInstance: {fileID: 971697936}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!4 &2052906168 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4613120221208975834, guid: f0d0397779fe1e343a9e10814bd84047, type: 3}
