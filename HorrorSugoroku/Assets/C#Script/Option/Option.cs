@@ -71,6 +71,7 @@ public class Option : MonoBehaviour
             Cursor.lockState = CursorLockMode.None;
             Cursor.visible = true;
             cameraController.isMouseLocked = false;
+            cameraController.SetOptionOpen(true);
             Time.timeScale = 0;
         }
         else
@@ -79,6 +80,7 @@ public class Option : MonoBehaviour
             Cursor.lockState = CursorLockMode.Locked;
             Cursor.visible = false;
             cameraController.isMouseLocked = true;
+            cameraController.SetOptionOpen(false);
             Time.timeScale = 1;
         }
     }
