@@ -10,11 +10,14 @@ public class GridCell : MonoBehaviour
 {
     public string cellEffect = "Normal"; // マス目の効果（例: Normal, Bonus, Penalty）
     [SerializeField] private Master_Debuff DebuffSheet;
-    public GameObject eventPanel; // UIのパネル
-    public TextMeshProUGUI eventText; // UIのテキスト
+    //public GameObject eventPanel; // UIのパネル
+    //public TextMeshProUGUI eventText; // UIのテキスト
     public GameObject cursePanel; // UIのパネル
     public TextMeshProUGUI curseText; // UIのテキスト
-    public Button closeButton; // UIを閉じるボタン
+    public GameObject itemPanel; // UIのパネル
+    public TextMeshProUGUI itemText; // UIのテキスト
+ //   public TMP_Text itemLogText;
+   // public Button closeButton; // UIを閉じるボタン
     public ItemPickup item;
     public string requiredItem = "鍵"; // 必要なアイテム
     private CurseSlider curseSlider;                                // public int gridCellIncreaseAmount = 20; // GridCell 側の呪いゲージ増加量
@@ -56,21 +59,26 @@ public class GridCell : MonoBehaviour
         {
             cursePanel.SetActive(false);
         }
+        if (itemPanel == null) Debug.LogError("❌ itemPanel がアタッチされていません！");
+      //  if (itemLogText == null) Debug.LogError("❌ itemLogText がアタッチされていません！");
+        if (itemPanel != null)
+        {
+            itemPanel.SetActive(false);
+        }
+        //if (closeButton != null)
+        //{
+        //    closeButton.onClick.AddListener(CloseEventUI);
+        //}
+        //playerInventory = FindObjectOfType<PlayerInventory>();
+        //if (eventPanel != null)
+        //{
+        //    eventPanel.SetActive(false);
+        //}
 
-        if (closeButton != null)
-        {
-            closeButton.onClick.AddListener(CloseEventUI);
-        }
-        playerInventory = FindObjectOfType<PlayerInventory>();
-        if (eventPanel != null)
-        {
-            eventPanel.SetActive(false);
-        }
-
-        if (closeButton != null)
-        {
-            closeButton.onClick.AddListener(CloseEventUI);
-        }
+        //if (closeButton != null)
+        //{
+        //    closeButton.onClick.AddListener(CloseEventUI);
+        //}
 
         Debug.Log("ID:" + DebuffSheet.DebuffSheet[n].ID);
         Debug.Log("イベント名:" + DebuffSheet.DebuffSheet[n].Name);
@@ -90,9 +98,10 @@ public class GridCell : MonoBehaviour
     //}
     void Update()
     {
-        // UI が表示されているときに スペースキーまたは G キーで閉じる
-        if (( cursePanel.activeSelf) && (Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.H)))
+        if (( cursePanel.activeSelf || itemPanel.activeSelf)
+         && (Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.H)))
         {
+            Debug.Log("🔘 スペースまたは H キーで UI を閉じる");
             CloseEventUI();
         }
     }
@@ -133,21 +142,21 @@ public class GridCell : MonoBehaviour
                 break;
         }
     }
-    void ShowEventUI(string message, float delay = 1.0f)
-    {
-        StartCoroutine(DelayedShowEventUI(message, delay));
-    }
-    IEnumerator DelayedShowEventUI(string message, float delay)
-    {
-        yield return new WaitForSeconds(delay);
-        if (eventPanel != null && eventText != null)
-        {
+    //void ShowEventUI(string message, float delay = 1.0f)
+    //{
+    //    StartCoroutine(DelayedShowEventUI(message, delay));
+    //}
+    //IEnumerator DelayedShowEventUI(string message, float delay)
+    //{
+    //    yield return new WaitForSeconds(delay);
+    //    if (eventPanel != null && eventText != null)
+    //    {
 
-            eventText.text = message;
-            eventPanel.SetActive(true);
-            Time.timeScale = 0; // **ゲームを停止**
-        }
-    }
+    //        eventText.text = message;
+    //        eventPanel.SetActive(true);
+    //        Time.timeScale = 0; // **ゲームを停止**
+    //    }
+    //}
     void ShowCurseUI(string message, float delay = 1.0f)
     {
         StartCoroutine(DelayedShowCurseUI(message, delay));
@@ -162,18 +171,47 @@ public class GridCell : MonoBehaviour
             Time.timeScale = 0; // **ゲームを一時停止**
         }
     }
-    
+   void ShowItemUI(string message, float delay = 2.0f)
+    {
+        StartCoroutine(DelayedShowItemUI(message, delay));
+    }
+    IEnumerator DelayedShowItemUI(string message, float delay)
+    {
+        yield return new WaitForSeconds(delay);
+        if (itemPanel != null && itemText != null)
+        {
+            itemText.text = message;
+           // itemLogText.text = message;
+            itemPanel.SetActive(true);
+            Time.timeScale = 0; // **ゲームを一時停止**
+        }
+    }
     void CloseEventUI()
     {
-        if (eventPanel != null)
-        {
-            eventPanel.SetActive(false);
-        }
-        if (cursePanel != null)
+        bool wasPaused = false;
+
+        //if (eventPanel != null && eventPanel.activeSelf)
+        //{
+        //    eventPanel.SetActive(false);
+        //    wasPaused = true;
+        //}
+        if (cursePanel != null && cursePanel.activeSelf)
         {
             cursePanel.SetActive(false);
+            wasPaused = true;
         }
-        Time.timeScale = 1; // **ゲームを再開**
+        if (itemPanel != null && itemPanel.activeSelf)
+        {
+            itemPanel.SetActive(false);
+            wasPaused = true;
+        }
+
+        // UIが開いていた場合のみTime.timeScaleを戻す
+        if (wasPaused)
+        {
+            Debug.Log("ゲーム再開！");
+            Time.timeScale = 1;
+        }
     }
     private void DisplayRandomEvent()
     {
@@ -189,34 +227,34 @@ public class GridCell : MonoBehaviour
         string selectedEvent = eventMessages[randomIndex];
         Debug.Log($"{name}: イベント発動！ {selectedEvent}");
 
-        ExecuteSelectedEvent(selectedEvent);
+        //ExecuteSelectedEvent(selectedEvent);
     }
 
-    private void ExecuteSelectedEvent(string eventMessage)
-    {
-        switch (eventMessage)
-        {
-            case "ドアが開きました！":
-                Debug.Log("ドアが開くイベントを実行します。");
-                ShowEventUI("The door opened"); // UIに表示
-                OpenDoor();
-                break;
-            case "クローゼットに隠れられる":
-                Debug.Log("クローゼットに隠れるイベントを実行します。");
-                ShowEventUI("クローゼットに隠れられる"); // UIに表示
-                SecretCloset();
-                break;
-            case "急に眠気がおそってきた。":
-                Debug.Log("眠気イベントを実行します。");
-                ShowEventUI("急に眠気がおそってきた。"); // UIに表示
-                SleepEvent();
-                break;
-            default:
-                Debug.Log("未知のイベントです。");
-                ShowEventUI("未知のイベント"); // UIに表示
-                break;
-        }
-    }
+    //private void ExecuteSelectedEvent(string eventMessage)
+    //{
+    //    switch (eventMessage)
+    //    {
+    //        case "ドアが開きました！":
+    //            Debug.Log("ドアが開くイベントを実行します。");
+    //            ShowEventUI("The door opened"); // UIに表示
+    //            OpenDoor();
+    //            break;
+    //        case "クローゼットに隠れられる":
+    //            Debug.Log("クローゼットに隠れるイベントを実行します。");
+    //            ShowEventUI("クローゼットに隠れられる"); // UIに表示
+    //            SecretCloset();
+    //            break;
+    //        case "急に眠気がおそってきた。":
+    //            Debug.Log("眠気イベントを実行します。");
+    //            ShowEventUI("急に眠気がおそってきた。"); // UIに表示
+    //            SleepEvent();
+    //            break;
+    //        default:
+    //            Debug.Log("未知のイベントです。");
+    //            ShowEventUI("未知のイベント"); // UIに表示
+    //            break;
+    //    }
+    //}
 
 
 
@@ -265,7 +303,7 @@ public class GridCell : MonoBehaviour
         {
             // **何も起こらない**
             Debug.Log($"{name}: 何も起こらなかった…");
-            ShowEventUI("…何も起こらなかった");
+            //ShowEventUI("…何も起こらなかった");
         }
     }
     private IEnumerator TriggerScareEffect()
@@ -303,28 +341,68 @@ public class GridCell : MonoBehaviour
 
         Debug.Log("デバフイベントB：アイテムが使えなくなった");
     }
-   
+
 
     private void GiveRandomItem()
     {
         // **アイテムコントローラーが見つからない場合は処理を中断**
         if (substitutedollController == null || beartrapController == null)
         {
+           
             Debug.LogError("❌ アイテムのコントローラーが見つかりません！処理をスキップします。");
+            ShowItemUI("❌ アイテムのコントローラーが見つかりません！");
             return;
         }
+
+        string logMessage;
 
         // 50% の確率でどちらかのアイテムを増やす
         if (Random.value < 0.5f)
         {
             substitutedollController.AddItem();
-            Debug.Log("🎭 身代わり人形を獲得！");
+            logMessage = "🎭 身代わり人形を獲得！";
         }
         else
         {
             beartrapController.AddItem();
-            Debug.Log("🪤 トラバサミを獲得！");
+            logMessage = "🪤 トラバサミを獲得！";
         }
+Debug.Log(logMessage);
+        ShowItemUI(logMessage);
+        
     }
 
+    //// ✅ UI にログを表示し、Canvas を有効化する
+    //private void ShowItemUI(string message)
+    //{
+    //    if (itemLogText != null)
+    //    {
+    //        itemLogText.text = message; // UI の Text を更新
+    //    }
+    //    else
+    //    {
+    //        Debug.LogError("❌ itemLogText が設定されていません！");
+    //    }
+
+    //    if (itemPanel != null)
+    //    {
+    //        //ShowItemUI( message,  = 1.0f);
+    //        //StartCoroutine(HideItemCanvasAfterDelay()); // ⏳ 3 秒後に非表示
+    //    }
+    //    else
+    //    {
+    //        Debug.LogError("❌ itemCanvas が設定されていません！");
+    //    }
+    //}
+
+    //// ✅ Canvas を 3 秒後に非表示にする
+    //private IEnumerator HideItemCanvasAfterDelay()
+    //{
+    //    yield return new WaitForSeconds(3f);
+    //    if (itemPanel != null)
+    //    {
+    //        itemPanel.SetActive(false);
+    //    }
+    //}
 }
+
