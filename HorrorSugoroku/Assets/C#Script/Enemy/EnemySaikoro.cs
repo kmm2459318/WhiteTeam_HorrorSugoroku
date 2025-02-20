@@ -60,10 +60,10 @@ public class EnemySaikoro : MonoBehaviour
         {
             Debug.LogError("EnemyLookAtPlayer component is not assigned or found on the enemy object.");
         }
-        else
+        /*else
         {
             enemyLookAtPlayer.northTransform = ENorth.transform; // NorthオブジェクトのTransformを設定
-        }
+        }*/
 
         // AudioSourceの取得
         audioSource = GetComponent<AudioSource>();
@@ -357,12 +357,12 @@ public class EnemySaikoro : MonoBehaviour
                 enemyLookAtPlayer.SetMoveDirection(direction);
 
                 // Northが進む方向に向くように設定
-                if (direction != Vector3.zero)
+                /*if (direction != Vector3.zero)
                 {
                     Quaternion lookRotation = Quaternion.LookRotation(direction);
                     ENorth.transform.rotation = lookRotation;
                     Debug.Log("ENorth rotation set to: " + lookRotation.eulerAngles);
-                }
+                }*/
 
                 Debug.Log("Enemy moved towards player. Steps remaining: " + steps);
 
