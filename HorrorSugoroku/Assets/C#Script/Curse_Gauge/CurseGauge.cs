@@ -15,7 +15,8 @@ public class CurseSlider : MonoBehaviour
     [SerializeField] Button extraButton;
     [SerializeField] Button hideButton;
     [SerializeField] Button cursegiveButton;
-    //大きな呪い
+
+    // 大きな呪い
     [SerializeField] Button ArmButton;
     [SerializeField] Button LegButton;
     [SerializeField] Button EyeButton;
@@ -26,7 +27,7 @@ public class CurseSlider : MonoBehaviour
     private float maxDashPoint = 100;
     private float dashIncreasePerTurn = 5;
 
-    public int CountGauge = 0;              //ゲームオーバーカウント
+    public int CountGauge = 0; // ゲームオーバーカウント
     public float dashPoint = 0;
     public GameManager gameManager;
     public TurnManager turnManager;
@@ -35,28 +36,18 @@ public class CurseSlider : MonoBehaviour
     private bool CardSelect2 = false;
     private bool CardSelect3 = false;
     private bool CardSelect4 = false;
-    private int nextShowCardThreshold = 20;
-    // カード表示の閾値（20,40,60,80,100）
 
     [SerializeField] private EyeEffectController eyeEffectController; // EyeEffectControllerの参照
     [SerializeField] private FlashlightManager flashlightManager;
     [SerializeField] private Transform playerTransform;
     [SerializeField] private GameObject uiCanvas; // UI全体を管理するオブジェクト
-
-    [SerializeField] private GameObject panel; // Panelオブジェクト
-    [SerializeField] private TextMeshProUGUI panelText; // Panel内のTextMeshProUGUI
-    [SerializeField] private GameObject cardCanvas2; // CardCanvas2オブジェクト
+    
 
     void Start()
     {
         DashGage.maxValue = maxDashPoint;
         DashGage.value = dashPoint;
         ResetGaugeImages();
-        // 初期状態でPanelを非アクティブにする
-        if (panel != null)
-        {
-            panel.SetActive(false);
-        }
 
         if (extraButton != null)
         {
@@ -77,21 +68,12 @@ public class CurseSlider : MonoBehaviour
             HideCardCanvases(); // CardCanvas1とCardCanvas2を非アクティブにする
         }
 
-
-        if (EyeButton != null)
+        if (ArmButton != null)
         {
-            EyeButton.onClick.RemoveAllListeners();
-            EyeButton.onClick.AddListener(() =>
-            {
-                CursegiveButtonAction();
-                HideCardCanvas1();
-                ApplyEyeEffect();
-                ShowPanelWithText("片目ヲ失っタ\n視界ノ半分ガミエなくなル"); // パネルを表示してテキストを設定
-                DeactivateCardCanvas2(); // CardCanvas2を非アクティブにする
-            });
+            ArmButton.onClick.RemoveAllListeners();
+            ArmButton.onClick.AddListener(() => { ExtraButtonAction(); HideCardCanvases(); LimitDiceRoll(); });
             HideCardCanvases(); // CardCanvas1とCardCanvas2を非アクティブにする
         }
-
         if (LegButton != null)
         {
             LegButton.onClick.RemoveAllListeners();
@@ -101,27 +83,15 @@ public class CurseSlider : MonoBehaviour
                 HideCardCanvas1();
                 flashlightManager.DeactivateFlashlight(); // 懐中電灯を非アクティブにする
                 flashlightManager.PlaceFlashlightUnderPlayer(playerTransform); // 懐中電灯をプレイヤーの真下に配置
-                ShowPanelWithText("片手ヲ失っタ\n懐中電灯ガ使用できなクなっタ"); // パネルを表示してテキストを設定
-                DeactivateCardCanvas2(); // CardCanvas2を非アクティブにする
                 HideCardCanvases(); // CardCanvas1とCardCanvas2を非アクティブにする
             });
         }
-
-        if (ArmButton != null)
+        if (EyeButton != null)
         {
-            ArmButton.onClick.RemoveAllListeners();
-            ArmButton.onClick.AddListener(() =>
-            {
-                ExtraButtonAction();
-                HideCardCanvases();
-                LimitDiceRoll();
-                ShowPanelWithText("片足ヲ失っタ\nサイコロの出目ガ1,2,3シカ出ナイ"); // パネルを表示してテキストを設定
-                DeactivateCardCanvas2(); // CardCanvas2を非アクティブにする
-            });
-            HideCardCanvases(); // CardCanvas1とCardCanvas2を非アクティブにする
+            EyeButton.onClick.RemoveAllListeners();
+            EyeButton.onClick.AddListener(() => { CursegiveButtonAction(); HideCardCanvas1(); ApplyEyeEffect(); });
+            HideCardCanvases();// CardCanvas1とCardCanvas2を非アクティブにする
         }
-
-
 
         HideCardCanvas1();
         HideCardCanvas2();
@@ -129,43 +99,32 @@ public class CurseSlider : MonoBehaviour
 
     void Update()
     {
-
-
         if (80 <= dashPoint && dashPoint >= 100 && CardSelect1 == false)
         {
             CardSelect1 = true;
             StartCoroutine(ShowCardCanvas2());
-            Debug.Log("み");
         }
-
         else if (60 <= dashPoint && dashPoint < 80 && CardSelect2 == false)
         {
             CardSelect2 = true;
             StartCoroutine(ShowCardCanvas1());
-            Debug.Log("や");
         }
-
         else if (40 <= dashPoint && dashPoint < 60 && CardSelect3 == false)
         {
             CardSelect3 = true;
             StartCoroutine(ShowCardCanvas1());
-            Debug.Log("も");
         }
-
         else if (20 <= dashPoint && dashPoint < 40 && CardSelect4 == false)
         {
             CardSelect4 = true;
             StartCoroutine(ShowCardCanvas1());
-            Debug.Log("と");
         }
-
 
         DashGage.value = dashPoint;
 
         // 100を超えた場合、ゲージリセット
         if (dashPoint >= maxDashPoint)
         {
-            Debug.Log("ポケポケ最高");
             CountGauge++;
             dashPoint = 0;
             CardSelect1 = false;
@@ -173,8 +132,6 @@ public class CurseSlider : MonoBehaviour
             CardSelect3 = false;
             CardSelect4 = false;
             ResetGaugeImages();
-
-            // 現在の CountGauge 値で、表示するテキスト表示を更新します。
             UpdateCountText();
         }
 
@@ -185,9 +142,6 @@ public class CurseSlider : MonoBehaviour
         }
 
         UpdateImageGauges();
-
-
-
 
         if (gameManager.isPlayerTurn && !saikorotyu)
         {
@@ -220,7 +174,6 @@ public class CurseSlider : MonoBehaviour
     }
     private void EndTurnWithCardDisplay()
     {
-        // すでにターンが終了している場合は何もしない
         if (!gameManager.isPlayerTurn) return;
     }
 
@@ -228,8 +181,6 @@ public class CurseSlider : MonoBehaviour
     {
         dashPoint = Mathf.Min(dashPoint + dashIncreasePerTurn, maxDashPoint);
         DashGage.value = dashPoint;
-
-        Debug.Log("今の呪いゲージ量: " + dashPoint);
     }
 
     private void UpdateImageGauges()
@@ -240,7 +191,7 @@ public class CurseSlider : MonoBehaviour
             float max = (i + 1) * 20;
             float fill = Mathf.Clamp01((dashPoint - min) / (max - min));
 
-            ImageGages[i].fillAmount = fill; // 下から上に向かってゲージが増える
+            ImageGages[i].fillAmount = fill;
         }
     }
 
@@ -248,7 +199,7 @@ public class CurseSlider : MonoBehaviour
     {
         foreach (Image img in ImageGages)
         {
-            img.fillAmount = 0; // 全ゲージをリセット
+            img.fillAmount = 0;
         }
     }
 
@@ -256,9 +207,11 @@ public class CurseSlider : MonoBehaviour
     {
         if (CardCanvas2 != null)
         {
+            Cursor.lockState = CursorLockMode.None;
+            Cursor.visible = true;
             CardCanvas2.SetActive(true);
             yield return new WaitForSeconds(1.0f);
-            Time.timeScale = 0; // **ゲームを停止**
+            Time.timeScale = 0;
         }
     }
 
@@ -266,9 +219,11 @@ public class CurseSlider : MonoBehaviour
     {
         if (CardCanvas1 != null)
         {
+            Cursor.lockState = CursorLockMode.None;
+            Cursor.visible = true;
             CardCanvas1.SetActive(true);
             yield return new WaitForSeconds(1.0f);
-            Time.timeScale = 0; // **ゲームを停止**
+            Time.timeScale = 0;
         }
     }
 
@@ -277,6 +232,8 @@ public class CurseSlider : MonoBehaviour
         if (CardCanvas2 != null)
         {
             CardCanvas2.SetActive(false);
+            Cursor.lockState = CursorLockMode.Locked;
+            Cursor.visible = false;
             Time.timeScale = 1;
         }
     }
@@ -286,19 +243,19 @@ public class CurseSlider : MonoBehaviour
         if (CardCanvas1 != null)
         {
             CardCanvas1.SetActive(false);
+            Cursor.lockState = CursorLockMode.Locked;
+            Cursor.visible = false;
             Time.timeScale = 1;
         }
     }
 
     public void ExtraButtonAction()
     {
-        Debug.Log("Extra Button Clicked!");
     }
 
     public void HideCardCanvasAndModifyDashIncrease()
     {
         dashIncreasePerTurn += master_Curse.CurseSheet[1].TurnIncrease;
-        Debug.Log("[CurseSlider] Dash Increase Per Turn set to: " + dashIncreasePerTurn);
         Time.timeScale = 1;
     }
 
@@ -306,16 +263,13 @@ public class CurseSlider : MonoBehaviour
     {
         dashPoint = Mathf.Min(dashPoint + 5, maxDashPoint);
         DashGage.value = dashPoint;
-        Debug.Log("[CursegiveButton] After: DashPoint = " + dashPoint);
         Time.timeScale = 1;
     }
-
 
     private void UpdateCountText()
     {
         if (countText != null)
         {
-            //CountGauge が 2 以上の場合、カウントの代わりに「呪」を表示
             if (CountGauge == 2)
             {
                 countText.text = "呪";
@@ -327,61 +281,14 @@ public class CurseSlider : MonoBehaviour
         }
     }
 
-    public void IncreaseDashPoint(int dashPoint)
-    {
-        dashIncreasePerTurn += dashPoint;
-    }
-
-
     private void GameOver()
     {
-
     }
     private void ApplyEyeEffect()
     {
         if (eyeEffectController != null)
         {
             eyeEffectController.ApplyEyeEffect();
-        }
-    }
-    private void ShowPanelWithText(string message)
-    {
-        if (panel != null)
-        {
-            panel.SetActive(true); // パネルを表示
-            TextMeshProUGUI panelText = panel.GetComponentInChildren<TextMeshProUGUI>();
-            if (panelText != null)
-            {
-                StartCoroutine(TypeText(panelText, message)); // コルーチンを開始
-                StartCoroutine(HidePanelAfterDelay(5f)); // 5秒後にパネルを非アクティブにするコルーチンを開始
-            }
-        }
-    }
-
-    private IEnumerator TypeText(TextMeshProUGUI textComponent, string message)
-    {
-        textComponent.text = ""; // テキストをクリア
-        foreach (char letter in message.ToCharArray())
-        {
-            textComponent.text += letter; // 一文字ずつ追加
-            yield return new WaitForSeconds(0.1f); // 0.1秒待機
-        }
-    }
-
-    private IEnumerator HidePanelAfterDelay(float delay)
-    {
-        yield return new WaitForSeconds(delay); // 指定された秒数待機
-        if (panel != null)
-        {
-            panel.SetActive(false); // パネルを非アクティブにする
-        }
-    }
-
-    private void DeactivateCardCanvas2()
-    {
-        if (cardCanvas2 != null)
-        {
-            cardCanvas2.SetActive(false); // CardCanvas2を非アクティブにする
         }
     }
 }
