@@ -300,25 +300,25 @@ public class EnemySaikoro : MonoBehaviour
                 {
                     if (direction == new Vector3(0, 0, 2.0f))
                     {
-                        enemyBodySmooth.TargetRotation = Quaternion.Euler(-90, 90, 0);
+                        enemyBodySmooth.TargetRotation = Quaternion.Euler(-90, 0, 0);
                         enemyBodySmoothsin.TargetRotation = Quaternion.Euler(0, 0, 0);
                         goToMass = 4;
                     }
                     else if (direction == new Vector3(0, 0, -2.0f))
                     {
-                        enemyBodySmooth.TargetRotation = Quaternion.Euler(-90, -90, 0);
+                        enemyBodySmooth.TargetRotation = Quaternion.Euler(-90, 180, 0);
                         enemyBodySmoothsin.TargetRotation = Quaternion.Euler(0, 180, 0);
                         goToMass = 2;
                     }
                     else if (direction == new Vector3(2.0f, 0, 0))
                     {
-                        enemyBodySmooth.TargetRotation = Quaternion.Euler(-90, 180, 0);
+                        enemyBodySmooth.TargetRotation = Quaternion.Euler(-90, 90, 0);
                         enemyBodySmoothsin.TargetRotation = Quaternion.Euler(0, 90, 0);
                         goToMass = 3;
                     }
                     else if (direction == new Vector3(-2.0f, 0, 0))
                     {
-                        enemyBodySmooth.TargetRotation = Quaternion.Euler(-90, 0, 0);
+                        enemyBodySmooth.TargetRotation = Quaternion.Euler(-90, -90, 0);
                         enemyBodySmoothsin.TargetRotation = Quaternion.Euler(0, -90, 0);
                         goToMass = 1;
                     }

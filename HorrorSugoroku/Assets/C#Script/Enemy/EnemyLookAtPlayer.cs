@@ -2,17 +2,17 @@ using UnityEngine;
 
 public class EnemyLookAtPlayer : MonoBehaviour
 {
-    public GameObject player; // �v���C���[�̃Q�[���I�u�W�F�N�g
-    public LayerMask wallLayer; // �ǂ̃��C���[
+    public GameObject player; // プレイヤーのゲームオブジェクト
+    public LayerMask wallLayer; // 壁のレイヤー
     private bool discovery = false;
     private Vector3 moveDirection;
-    private Animator animator; // �A�j���[�^�[�̎Q��
-    private bool isMoving = false; // �G�l�~�[���ړ������ǂ����������t���O
-    public Transform northTransform; // North�I�u�W�F�N�g��Transform
+    private Animator animator; // アニメーターの参照
+    private bool isMoving = false; // エネミーが移動中かどうかを示すフラグ
+    public Transform northTransform; // NorthオブジェクトのTransform
 
     void Start()
     {
-        animator = GetComponent<Animator>(); // �A�j���[�^�[�R���|�[�l���g���擾
+        animator = GetComponent<Animator>(); // アニメーターコンポーネントを取得
         if (animator == null)
         {
             //Debug.LogError("Animator component not found on the enemy object.");
@@ -28,39 +28,39 @@ public class EnemyLookAtPlayer : MonoBehaviour
     {
         if (discovery)
         {
-            // �v���C���[�̕����Ɍ���
+            // プレイヤーの方向に向く
             Vector3 directionToPlayer = (player.transform.position - transform.position).normalized;
             Quaternion lookRotation = Quaternion.LookRotation(new Vector3(directionToPlayer.x, 0, directionToPlayer.z));
             transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, Time.deltaTime * 5f);
         }
         else
         {
-            // �ړ������Ɍ���
+            // 移動方向に向く
             if (moveDirection != Vector3.zero)
             {
                 Quaternion lookRotation = Quaternion.LookRotation(new Vector3(moveDirection.x, 0, moveDirection.z));
                 transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, Time.deltaTime * 5f);
             }
 
-            // �ǂɓ��������ꍇ�ɕ����𔽓]
+            // 壁に当たった場合に方向を反転
             bool frontHit = Physics.CheckBox(transform.position, transform.localScale / 2, transform.rotation, wallLayer);
 
             if (frontHit)
             {
-                moveDirection = -moveDirection; // �����𔽓]
+                moveDirection = -moveDirection; // 方向を反転
                 Debug.Log("Wall detected at front, changing direction to: " + moveDirection);
             }
         }
 
-        // North�I�u�W�F�N�g���G�l�~�[�̉�]�ɒǏ]������
+        // Northオブジェクトをエネミーの回転に追従させる
         if (northTransform != null)
         {
-            northTransform.position = transform.position; // North�I�u�W�F�N�g�̈ʒu���G�l�~�[�̈ʒu�ɍ��킹��
-            northTransform.rotation = Quaternion.Euler(0, transform.rotation.eulerAngles.y, 0); // Y���݂̂ŉ�]
+            northTransform.position = transform.position; // Northオブジェクトの位置をエネミーの位置に合わせる
+            northTransform.rotation = Quaternion.Euler(0, transform.rotation.eulerAngles.y, 0); // Y軸のみで回転
         }
 
-        // �G�l�~�[�̈ړ���ԂɊ�Â��ăA�j���[�V�����𐧌�
-        isMoving = moveDirection != Vector3.zero; // �ړ��������[���łȂ��ꍇ�͈ړ����Ɣ��f
+        // エネミーの移動状態に基づいてアニメーションを制御
+        isMoving = moveDirection != Vector3.zero; // 移動方向がゼロでない場合は移動中と判断
         //animator.SetBool("isRunning", isMoving);
         //animator.SetBool("isIdle", !isMoving);
     }
@@ -73,7 +73,7 @@ public class EnemyLookAtPlayer : MonoBehaviour
     public void SetMoveDirection(Vector3 direction)
     {
         moveDirection = direction;
-        isMoving = moveDirection != Vector3.zero; // �ړ��������[���łȂ��ꍇ�͈ړ����Ɣ��f
+        isMoving = moveDirection != Vector3.zero; // 移動方向がゼロでない場合は移動中と判断
         Debug.Log("Move direction set to: " + direction);
     }
 
