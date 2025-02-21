@@ -2686,7 +2686,7 @@ Canvas:
   m_AdditionalShaderChannelsFlag: 0
   m_UpdateRectTransformForStandalone: 0
   m_SortingLayerID: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 2
   m_TargetDisplay: 0
 --- !u!1 &253035466
 GameObject:
@@ -4636,7 +4636,10 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 8625609145277694527, guid: e4e2d7ec9597f3f4f8c4547f23ca6538, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1340449924}
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 9007060156471777413, guid: e4e2d7ec9597f3f4f8c4547f23ca6538, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 407118002}
   m_SourcePrefab: {fileID: 100100000, guid: e4e2d7ec9597f3f4f8c4547f23ca6538, type: 3}
 --- !u!4 &407118000 stripped
 Transform:
@@ -4648,6 +4651,20 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 9007060156471777413, guid: e4e2d7ec9597f3f4f8c4547f23ca6538, type: 3}
   m_PrefabInstance: {fileID: 407117999}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &407118002
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 407118001}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: be27aeafa39f7e04f86f2dbc0983e98d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  flashlightModel: {fileID: 407118001}
+  flashlightPrefab: {fileID: 407118001}
 --- !u!1 &407999358
 GameObject:
   m_ObjectHideFlags: 0
@@ -9651,7 +9668,7 @@ Canvas:
   m_AdditionalShaderChannelsFlag: 25
   m_UpdateRectTransformForStandalone: 0
   m_SortingLayerID: 0
-  m_SortingOrder: -1
+  m_SortingOrder: 2
   m_TargetDisplay: 0
 --- !u!1 &838751965
 GameObject:
@@ -11889,7 +11906,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 1632628217}
         m_TargetAssemblyTypeName: 
         m_MethodName: 
         m_Mode: 1
@@ -13148,9 +13165,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1632628223}
-        m_TargetAssemblyTypeName: FlashlightManager, Assembly-CSharp
-        m_MethodName: DeactivateFlashlight
+      - m_Target: {fileID: 1489191935}
+        m_TargetAssemblyTypeName: EyeEffectController, Assembly-CSharp
+        m_MethodName: ApplyEyeEffect
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -13892,6 +13909,94 @@ Transform:
   - {fileID: 403050572}
   m_Father: {fileID: 1419902998}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1275020156
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1275020159}
+  - component: {fileID: 1275020158}
+  - component: {fileID: 1275020157}
+  - component: {fileID: 1275020160}
+  m_Layer: 0
+  m_Name: Sikai
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1275020157
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1275020156}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 2100000, guid: 46d30e1d3fac0e1468ba99e7648c62fb, type: 2}
+  m_Color: {r: 0, g: 0, b: 0, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Sprite: {fileID: 0}
+  m_Type: 0
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
+--- !u!222 &1275020158
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1275020156}
+  m_CullTransparentMesh: 1
+--- !u!224 &1275020159
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1275020156}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 12, y: 8, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1489191939}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 200, y: 0}
+  m_SizeDelta: {x: 100, y: 100}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!225 &1275020160
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1275020156}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!1 &1280531840
 GameObject:
   m_ObjectHideFlags: 0
@@ -14625,7 +14730,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1330931026
 RectTransform:
   m_ObjectHideFlags: 0
@@ -15869,6 +15974,123 @@ Transform:
   - {fileID: 1867235904}
   m_Father: {fileID: 203887838}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1489191934
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1489191939}
+  - component: {fileID: 1489191938}
+  - component: {fileID: 1489191937}
+  - component: {fileID: 1489191936}
+  - component: {fileID: 1489191935}
+  m_Layer: 0
+  m_Name: Sikai
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1489191935
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1489191934}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9798c65fe2332344dbc78a9454e03ee4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  blackOverlay: {fileID: 1275020156}
+  parentCanvas: {fileID: 1489191938}
+--- !u!114 &1489191936
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1489191934}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dc42784cf147c0c48a680349fa168899, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_IgnoreReversedGraphics: 1
+  m_BlockingObjects: 0
+  m_BlockingMask:
+    serializedVersion: 2
+    m_Bits: 4294967295
+--- !u!114 &1489191937
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1489191934}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0cd44c1031e13a943bb63640046fad76, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_UiScaleMode: 0
+  m_ReferencePixelsPerUnit: 100
+  m_ScaleFactor: 1
+  m_ReferenceResolution: {x: 800, y: 600}
+  m_ScreenMatchMode: 0
+  m_MatchWidthOrHeight: 0
+  m_PhysicalUnit: 3
+  m_FallbackScreenDPI: 96
+  m_DefaultSpriteDPI: 96
+  m_DynamicPixelsPerUnit: 1
+  m_PresetInfoIsWorld: 0
+--- !u!223 &1489191938
+Canvas:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1489191934}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_RenderMode: 0
+  m_Camera: {fileID: 0}
+  m_PlaneDistance: 100
+  m_PixelPerfect: 0
+  m_ReceivesEvents: 1
+  m_OverrideSorting: 0
+  m_OverridePixelPerfect: 0
+  m_SortingBucketNormalizedSize: 0
+  m_VertexColorAlwaysGammaSpace: 0
+  m_AdditionalShaderChannelsFlag: 0
+  m_UpdateRectTransformForStandalone: 0
+  m_SortingLayerID: 0
+  m_SortingOrder: 0
+  m_TargetDisplay: 0
+--- !u!224 &1489191939
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1489191934}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 0, y: 0, z: 0}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 1275020159}
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
+  m_Pivot: {x: 0, y: 0}
 --- !u!1001 &1492082204
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -17225,6 +17447,7 @@ MonoBehaviour:
   cameraChange: {fileID: 35047689}
   diceController: {fileID: 933503470}
   player: {fileID: 2042766877}
+  sai: 1
   saikorotyu: 0
   idoutyu: 0
   exploring: 0
@@ -17500,8 +17723,6 @@ GameObject:
   - component: {fileID: 1632628220}
   - component: {fileID: 1632628219}
   - component: {fileID: 1632628218}
-  - component: {fileID: 1632628224}
-  - component: {fileID: 1632628223}
   m_Layer: 5
   m_Name: CurseCanvas
   m_TagString: Untagged
@@ -17543,6 +17764,10 @@ MonoBehaviour:
   dashPoint: 0
   gameManager: {fileID: 35047688}
   turnManager: {fileID: 35047690}
+  sai: 1
+  eyeEffectController: {fileID: 1489191935}
+  flashlightManager: {fileID: 407118002}
+  playerTransform: {fileID: 2042766882}
 --- !u!114 &1632628219
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -17632,34 +17857,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0}
---- !u!114 &1632628223
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1632628217}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: be27aeafa39f7e04f86f2dbc0983e98d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  flashlightModel: {fileID: 407118001}
-  flashlightPrefab: {fileID: 407118001}
---- !u!114 &1632628224
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1632628217}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9798c65fe2332344dbc78a9454e03ee4, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  blackOverlay: {fileID: 1345031704}
-  parentCanvas: {fileID: 371697653}
 --- !u!1 &1634108735
 GameObject:
   m_ObjectHideFlags: 0
@@ -21371,7 +21568,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1632628223}
+      - m_Target: {fileID: 407118002}
         m_TargetAssemblyTypeName: FlashlightManager, Assembly-CSharp
         m_MethodName: PlaceFlashlightUnderPlayer
         m_Mode: 2
@@ -21383,7 +21580,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 1632628223}
+      - m_Target: {fileID: 407118002}
         m_TargetAssemblyTypeName: FlashlightManager, Assembly-CSharp
         m_MethodName: DeactivateFlashlight
         m_Mode: 1
@@ -23254,6 +23451,7 @@ SceneRoots:
   - {fileID: 344678375}
   - {fileID: 205025986}
   - {fileID: 1365980964}
+  - {fileID: 1489191939}
   - {fileID: 413954078}
   - {fileID: 446471556}
   - {fileID: 1769234140}
