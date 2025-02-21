@@ -1,68 +1,101 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
-using TMPro;
 
 public class BeartrapController : MonoBehaviour
 {
     public GameObject beartrapPrefab; // トラバサミのPrefab
     public Transform spawnPoint; // トラバサミを生成する場所
     public EnemySaikoro enemySaikoro; // EnemySaikoroへの参照
-    public int itemCount = 0; // アイテムの所持数
-    public TMP_Text beartrapCountText; // UIに表示するテキスト
+    public CurseSlider curseSlider; // 呪いゲージの管理
+    public Button beartrapButton; // ボタンをアタッチ
+    private int itemCount = 30; // アイテムの数
 
     private void Start()
     {
-        // 初回のテキスト更新
-        UpdateBeartrapCountText();
+        if (beartrapButton == null)
+        {
+            Debug.LogError("❌ beartrapButton がアタッチされていません！");
+            return;
+        }
+
+        beartrapButton.interactable = true;
+        beartrapButton.onClick.AddListener(OnButtonPressed);
+        UpdateButtonVisibility();
     }
 
     public void AddItem()
     {
         itemCount++;
-        Debug.Log("トラバサミが1つ増えました！現在の数: " + itemCount);
-        UpdateBeartrapCountText(); // UIを更新
+        Debug.Log("✅ トラバサミが1つ増えました！現在の数: " + itemCount);
+        UpdateButtonVisibility();
+    }
+
+    private void OnButtonPressed()
+    {
+        Debug.Log("🖱 トラバサミボタンが押されました！");
+
+        // ✅ 呪いゲージを10増加
+        if (curseSlider != null)
+        {
+            curseSlider.IncreaseDashPoint(10);
+            Debug.Log("🔮 呪いゲージが10増加！");
+        }
+        else
+        {
+            Debug.LogError("❌ curseSlider が設定されていません！");
+        }
     }
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("Enemy")) // タグがEnemyのオブジェクトとの接触をチェック
+        if (other.CompareTag("Enemy"))
         {
-            // 反応した敵に対して処理を行う
             var enemy = other.GetComponent<EnemySaikoro>();
             if (enemy != null)
             {
-                enemy.isTrapped = true; // トラバサミにかかったときの処理
-                Debug.Log("敵がトラバサミにかかった！");
+                enemy.isTrapped = true;
+                Debug.Log("🪤 敵がトラバサミにかかった！");
+
+                if (curseSlider != null)
+                {
+                    curseSlider.IncreaseDashPoint(10);
+                    Debug.Log("🔮 呪いゲージが10増加！");
+                }
             }
         }
     }
 
-    // ボタンを押すとトラバサミを生成するメソッド
     public void PlaceBeartrap()
     {
-        if (itemCount > 0)
+        if (itemCount <= 0)
         {
-            // トラバサミのPrefabを生成
-            Instantiate(beartrapPrefab, spawnPoint.position, Quaternion.identity);
-            itemCount--; // 所持数を減らす
-            Debug.Log("トラバサミを設置！ 残り: " + itemCount);
-            UpdateBeartrapCountText(); // UIを更新
+            Debug.LogWarning("⚠ トラバサミのアイテムがありません！");
+            return;
         }
-        else
+        if (beartrapPrefab == null)
         {
-            Debug.Log("トラバサミがありません！");
+            Debug.LogError("❌ Beartrapのプレハブが設定されていません！");
+            return;
         }
+        if (spawnPoint == null)
+        {
+            Debug.LogError("❌ Beartrapのスポーンポイントが設定されていません！");
+            return;
+        }
+
+        Instantiate(beartrapPrefab, spawnPoint.position, Quaternion.identity);
+        itemCount--;
+        Debug.Log("🪤 トラバサミを設置しました！ 残り: " + itemCount);
+        UpdateButtonVisibility();
     }
 
-    private void UpdateBeartrapCountText()
+    private void UpdateButtonVisibility()
     {
-        if (beartrapCountText != null)
+        if (beartrapButton != null)
         {
-            beartrapCountText.text = "トラバサミ: " + itemCount;
-        }
-        else
-        {
-            Debug.LogError("beartrapCountText が設定されていません！");
+            bool isVisible = itemCount > 0;
+            beartrapButton.gameObject.SetActive(isVisible);
+            Debug.Log("🖲 ボタンの表示状態を更新: " + isVisible);
         }
     }
 }

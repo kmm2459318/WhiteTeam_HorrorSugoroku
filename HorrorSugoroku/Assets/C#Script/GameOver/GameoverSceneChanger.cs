@@ -65,11 +65,11 @@ public class SceneChanger3D : MonoBehaviour
     }
     public void HandleGameOver2()
     {
-        Debug.Log("CountGauge: " + curseslider.CountGauge);
+        
         if (!isGameOver && (curseslider.CountGauge >= 2))
         {
             Debug.Log("CountGauge: " + curseslider.CountGauge);
-            HandleGameOver();
+            HandleGameOver();                                                    
         }
     }
 

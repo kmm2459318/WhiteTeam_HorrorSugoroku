@@ -1,62 +1,70 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
-using TMPro;
+
 public class SubstitutedollController : MonoBehaviour
 {
-    // 身代わり人形の所持数
-    private static int substituteDollCount = 3; // デバッグ用に3つ持たせる
+    private static int substituteDollCount; // 身代わり人形の所持数
     public int itemCount = 0; // アイテムの数
-    public TMP_Text dollCountText; // ボタンに表示するテキスト
+    public Button substituteDollButton; // ボタンをアタッチ
+    public CurseSlider curseSlider; // 呪いゲージの管理
 
     private void Start()
     {
-        Button button = GetComponent<Button>();
-        if (button != null)
+        if (substituteDollButton == null)
         {
-            button.onClick.AddListener(OnButtonPressed);
-        }
-        else
-        {
-            Debug.LogError("Buttonコンポーネントがアタッチされていません！");
+            Debug.LogError("❌ substituteDollButton がアタッチされていません！");
+            return;
         }
 
-        // 初回のテキスト更新
-        UpdateDollCountText();
+        // 💡 ボタンの interactable を true にしておく
+        substituteDollButton.interactable = true;
+
+        substituteDollButton.onClick.AddListener(OnButtonPressed);
+        UpdateButtonVisibility();
     }
 
     public void AddItem()
     {
         itemCount++;
         substituteDollCount++;
-        Debug.Log("身代わり人形が1つ増えました！現在の数: " + substituteDollCount);
-        UpdateDollCountText(); // テキスト更新
+        Debug.Log("✅ 身代わり人形が1つ増えました！現在の数: " + itemCount);
+        UpdateButtonVisibility();
     }
 
     private void OnButtonPressed()
     {
-        if (substituteDollCount > 0)
-        {
-            substituteDollCount--; // 所持数を減らす
-            SceneChanger3D.hasSubstituteDoll = true; // 使用判定
+        Debug.Log("🖱 ボタンが押されました！ itemCount: " + itemCount);
 
-            Debug.Log("身代わり人形を使用！ 残り: " + substituteDollCount);
-            UpdateDollCountText(); // テキスト更新
+        if (itemCount > 0)
+        {
+            substituteDollCount--;
+            itemCount--; // 🛠 itemCount を減らす
+            SceneChanger3D.hasSubstituteDoll = true;
+
+            Debug.Log("✨ 身代わり人形を使用！ 残り: " + itemCount);
+
+            // ✅ 呪いゲージを10増加
+            if (curseSlider != null)
+            {
+                Debug.Log("🔮 生命反応あり3 - 呪いゲージ増加");
+                curseSlider.IncreaseDashPoint(10);
+            }
+
+            UpdateButtonVisibility();
         }
         else
         {
-            Debug.Log("身代わり人形がありません！");
+            Debug.Log("⚠ 身代わり人形がありません！");
         }
     }
 
-    private void UpdateDollCountText()
+    private void UpdateButtonVisibility()
     {
-        if (dollCountText != null)
+        if (substituteDollButton != null)
         {
-            dollCountText.text = "身代わり人形: " + substituteDollCount;
-        }
-        else
-        {
-            Debug.LogError("dollCountText が設定されていません！");
+            bool isVisible = itemCount > 0;
+            substituteDollButton.gameObject.SetActive(isVisible);
+            Debug.Log("🖲 ボタンの表示状態を更新: " + isVisible);
         }
     }
 }
