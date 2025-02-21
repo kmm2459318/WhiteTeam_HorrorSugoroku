@@ -470,4 +470,22 @@ public class PlayerSaikoro : MonoBehaviour
         minDiceValue = min;
         maxDiceValue = max;
     }
+
+    public void NextTurn()
+    {
+        if (exploring){
+            enemyEnd = true;
+            exploring = false;
+            if ((lastPos.x + 0.0001f > Enemy.transform.position.x && lastPos.x - 0.0001f < Enemy.transform.position.x) &&
+            (lastPos.z + 0.0001f > Enemy.transform.position.z && lastPos.z - 0.0001f < Enemy.transform.position.z) &&
+            !targetScript.enemyidoutyu)
+            {
+                enemyEnd = false;
+                targetScript.idouspanTime = 0f;
+                Debug.Log("探索モード終了、次のターンへ");
+                gameManager.NextTurn();
+            }
+            lastPos = Enemy.transform.position;
+        }
+    }
 }
