@@ -201,6 +201,8 @@ public class CurseSlider : MonoBehaviour
     {
         if (CardCanvas2 != null)
         {
+            Cursor.lockState = CursorLockMode.None;
+            Cursor.visible = true;
             CardCanvas2.SetActive(true);
             yield return new WaitForSeconds(1.0f);
             Time.timeScale = 0; // **ゲームを停止**
@@ -211,6 +213,8 @@ public class CurseSlider : MonoBehaviour
     {
         if (CardCanvas1 != null)
         {
+            Cursor.lockState = CursorLockMode.None;
+            Cursor.visible = true;
             Debug.Log("みやもと");
             CardCanvas1.SetActive(true);
             yield return new WaitForSeconds(1.0f);
@@ -223,6 +227,8 @@ public class CurseSlider : MonoBehaviour
         if (CardCanvas2 != null)
         {
             CardCanvas2.SetActive(false);
+            Cursor.lockState = CursorLockMode.Locked;
+            Cursor.visible = false;
             Time.timeScale = 1;
         }
     }
@@ -232,6 +238,8 @@ public class CurseSlider : MonoBehaviour
         if (CardCanvas1 != null)
         {
             CardCanvas1.SetActive(false);
+            Cursor.lockState = CursorLockMode.Locked;
+            Cursor.visible = false;
             Time.timeScale = 1;
         }
     }
