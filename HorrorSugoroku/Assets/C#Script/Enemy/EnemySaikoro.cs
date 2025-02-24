@@ -19,6 +19,10 @@ public class EnemySaikoro : MonoBehaviour
     private bool EW = false;
     private bool EE = false;
     private bool ES = false;
+    private Transform Smasu;
+    private Transform Nmasu;
+    private Transform Wmasu;
+    private Transform Emasu;
     public LayerMask wallLayer; // 壁のレイヤー
     private int steps; // サイコロの目の数
     public bool discovery = false;
@@ -93,6 +97,10 @@ public class EnemySaikoro : MonoBehaviour
         EW = EWest.GetComponent<PlayerNSEWCheck>().masuCheck;
         EE = EEast.GetComponent<PlayerNSEWCheck>().masuCheck;
         ES = ESouth.GetComponent<PlayerNSEWCheck>().masuCheck;
+        Nmasu = ENorth.GetComponent<PlayerCloseMass>().GetClosestObject();
+        Wmasu = EWest.GetComponent<PlayerCloseMass>().GetClosestObject();
+        Emasu = EEast.GetComponent<PlayerCloseMass>().GetClosestObject();
+        Smasu = ESouth.GetComponent<PlayerCloseMass>().GetClosestObject();
 
         if (gameManager.IsPlayerTurn())
         {

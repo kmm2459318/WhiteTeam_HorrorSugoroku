@@ -1,48 +1,60 @@
-using UnityEngine;
+ï»¿using UnityEngine;
 using UnityEngine.UI;
 
 public class SubstitutedollController : MonoBehaviour
 {
-    // g‘ã‚í‚èlŒ`‚ÌŠ”
-    private static int substituteDollCount ; // ƒfƒoƒbƒO—p‚É3‚Â‚½‚¹‚é
-    public int itemCount = 0; // ƒAƒCƒeƒ€‚Ì”
-    public Button substituteDollButton; // ƒ{ƒ^ƒ“‚ğƒAƒ^ƒbƒ`
+    private static int substituteDollCount; // èº«ä»£ã‚ã‚Šäººå½¢ã®æ‰€æŒæ•°
+    public int itemCount = 0; // ã‚¢ã‚¤ãƒ†ãƒ ã®æ•°
+    public Button substituteDollButton; // ãƒœã‚¿ãƒ³ã‚’ã‚¢ã‚¿ãƒƒãƒ
+    public CurseSlider curseSlider; // å‘ªã„ã‚²ãƒ¼ã‚¸ã®ç®¡ç†
 
     private void Start()
     {
         if (substituteDollButton == null)
         {
-            Debug.LogError("substituteDollButton ‚ªƒAƒ^ƒbƒ`‚³‚ê‚Ä‚¢‚Ü‚¹‚ñI");
+            Debug.LogError("âŒ substituteDollButton ãŒã‚¢ã‚¿ãƒƒãƒã•ã‚Œã¦ã„ã¾ã›ã‚“ï¼");
             return;
         }
 
-        // ƒ{ƒ^ƒ“‚ÌƒŠƒXƒi[‚ğİ’è
-        substituteDollButton.onClick.AddListener(OnButtonPressed);
+        // ğŸ’¡ ãƒœã‚¿ãƒ³ã® interactable ã‚’ true ã«ã—ã¦ãŠã
+        substituteDollButton.interactable = true;
 
-        // ‰Šúó‘Ô‚Åƒ{ƒ^ƒ“‚Ì•\¦/”ñ•\¦‚ğXV
+        substituteDollButton.onClick.AddListener(OnButtonPressed);
         UpdateButtonVisibility();
     }
+
     public void AddItem()
     {
         itemCount++;
         substituteDollCount++;
-        Debug.Log("g‘ã‚í‚èlŒ`‚ª1‚Â‘‚¦‚Ü‚µ‚½IŒ»İ‚Ì”: " + itemCount);
+        Debug.Log("âœ… èº«ä»£ã‚ã‚Šäººå½¢ãŒ1ã¤å¢—ãˆã¾ã—ãŸï¼ç¾åœ¨ã®æ•°: " + itemCount);
+        UpdateButtonVisibility();
     }
+
     private void OnButtonPressed()
     {
-        if( itemCount > 0)
+        Debug.Log("ğŸ–± ãƒœã‚¿ãƒ³ãŒæŠ¼ã•ã‚Œã¾ã—ãŸï¼ itemCount: " + itemCount);
+
+        if (itemCount > 0)
         {
-            substituteDollCount--;  // Š”‚ğŒ¸‚ç‚·
-            SceneChanger3D.hasSubstituteDoll = true; // g—p”»’è
+            substituteDollCount--;
+            itemCount--; // ğŸ›  itemCount ã‚’æ¸›ã‚‰ã™
+            SceneChanger3D.hasSubstituteDoll = true;
 
-            Debug.Log("g‘ã‚í‚èlŒ`‚ğg—pI c‚è: " + itemCount);
+            Debug.Log("âœ¨ èº«ä»£ã‚ã‚Šäººå½¢ã‚’ä½¿ç”¨ï¼ æ®‹ã‚Š: " + itemCount);
 
-            // ƒ{ƒ^ƒ“‚Ì•\¦‚ğXV
+            // âœ… å‘ªã„ã‚²ãƒ¼ã‚¸ã‚’10å¢—åŠ 
+            if (curseSlider != null)
+            {
+                Debug.Log("ğŸ”® ç”Ÿå‘½åå¿œã‚ã‚Š3 - å‘ªã„ã‚²ãƒ¼ã‚¸å¢—åŠ ");
+                curseSlider.IncreaseDashPoint(10);
+            }
+
             UpdateButtonVisibility();
         }
         else
         {
-            Debug.Log("g‘ã‚í‚èlŒ`‚ª‚ ‚è‚Ü‚¹‚ñI");
+            Debug.Log("âš  èº«ä»£ã‚ã‚Šäººå½¢ãŒã‚ã‚Šã¾ã›ã‚“ï¼");
         }
     }
 
@@ -50,48 +62,9 @@ public class SubstitutedollController : MonoBehaviour
     {
         if (substituteDollButton != null)
         {
-            substituteDollButton.gameObject.SetActive(itemCount > 0);
+            bool isVisible = itemCount > 0;
+            substituteDollButton.gameObject.SetActive(isVisible);
+            Debug.Log("ğŸ–² ãƒœã‚¿ãƒ³ã®è¡¨ç¤ºçŠ¶æ…‹ã‚’æ›´æ–°: " + isVisible);
         }
     }
-    //private void Start()
-    //{
-    //    Button button = GetComponent<Button>();
-    //    if (button != null)
-    //    {
-    //        button.onClick.AddListener(OnButtonPressed);
-    //    }
-    //    else
-    //    {
-    //        Debug.LogError("ButtonƒRƒ“ƒ|[ƒlƒ“ƒg‚ªƒAƒ^ƒbƒ`‚³‚ê‚Ä‚¢‚Ü‚¹‚ñI");
-    //    }
-    //}
-
-    //private void OnButtonPressed()
-    //{
-    //    if (substituteDollCount > 0)
-    //    {
-    //        substituteDollCount--; // Š”‚ğŒ¸‚ç‚·
-    //        SceneChanger3D.hasSubstituteDoll = true; // g—p”»’è
-
-    //        Debug.Log("g‘ã‚í‚èlŒ`‚ğg—pI c‚è: " + substituteDollCount);
-    //        UpdateButtonVisibility();
-    //        if (substituteDollCount <= 0)
-    //        {
-    //            Destroy(gameObject); // 0‚É‚È‚Á‚½‚çƒ{ƒ^ƒ“‚ğíœ
-    //            Debug.Log("g‘ã‚í‚èlŒ`‚ª‚È‚­‚È‚Á‚½I");
-    //        }
-    //    }
-    //    else
-    //    {
-    //        Debug.Log("g‘ã‚í‚èlŒ`‚ª‚ ‚è‚Ü‚¹‚ñI");
-    //    }
-
-    //}
-    //private void UpdateButtonVisibility()
-    //{
-    //    if (substituteDollButton != null)
-    //    {
-    //        substituteDollButton.gameObject.SetActive(substituteDollCount > 0);
-    //    }
-    //}
 }

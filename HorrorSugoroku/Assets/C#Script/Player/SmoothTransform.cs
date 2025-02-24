@@ -20,7 +20,7 @@ namespace SmoothigTransform
             var p = 1 - Mathf.Pow(0.1f, Time.deltaTime / PosFact); // ˆÊ’u•âŠÔ—p
             var r = 1 - Mathf.Pow(0.1f, Time.deltaTime / RotFact); // ‰ñ“]•âŠÔ—p
 
-            transform.localPosition = Vector3.Lerp(transform.localPosition, SnapToGrid(TargetPosition), p);
+            transform.localPosition = Vector3.Lerp(transform.localPosition, TargetPosition, p);
 
             // YŽ²‚Ì‰ñ“]‚Ì‚Ý‚ð•âŠÔ
             Quaternion currentRotation = transform.localRotation;
@@ -28,11 +28,11 @@ namespace SmoothigTransform
             transform.localRotation = Quaternion.Lerp(currentRotation, targetRotation, r);
         }
 
-        private Vector3 SnapToGrid(Vector3 position)
+        /*private Vector3 SnapToGrid(Vector3 position)
         {
             float snappedX = Mathf.Round(position.x / 2f) * 2f;
             float snappedZ = Mathf.Round(position.z / 2f) * 2f;
             return new Vector3(snappedX, position.y, snappedZ);
-        }
+        }*/
     }
 }

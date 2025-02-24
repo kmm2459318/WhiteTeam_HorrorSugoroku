@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -10,13 +11,11 @@ public class CurseSlider : MonoBehaviour
     [SerializeField] SceneChanger3D sceneChanger;
     [SerializeField] GameObject CardCanvas1;
     [SerializeField] GameObject CardCanvas2;
-    [SerializeField] GameObject CardCanvas3;
     //小さい呪い
     [SerializeField] Button extraButton;
     [SerializeField] Button hideButton;
     [SerializeField] Button cursegiveButton;
-
-    // 大きな呪い
+    //大きな呪い
     [SerializeField] Button ArmButton;
     [SerializeField] Button LegButton;
     [SerializeField] Button EyeButton;
@@ -27,7 +26,7 @@ public class CurseSlider : MonoBehaviour
     private float maxDashPoint = 100;
     private float dashIncreasePerTurn = 5;
 
-    public int CountGauge = 0; // ゲームオーバーカウント
+    public int CountGauge = 0;              //ゲームオーバーカウント
     public float dashPoint = 0;
     public GameManager gameManager;
     public TurnManager turnManager;
@@ -36,152 +35,141 @@ public class CurseSlider : MonoBehaviour
     private bool CardSelect2 = false;
     private bool CardSelect3 = false;
     private bool CardSelect4 = false;
+    private bool CardSelect5 = false;
+
+    // ボタンの使用状態を管理
+    private bool isArmButtonUsed = false;
+    private bool isLegButtonUsed = false;
+    private bool isEyeButtonUsed = false;
+    public int sai = 1; // ランダムなサイコロの値（publicに変更）
 
     [SerializeField] private EyeEffectController eyeEffectController; // EyeEffectControllerの参照
-    [SerializeField] private FlashlightManager flashlightManager;
-    [SerializeField] private Transform playerTransform;
-    [SerializeField] private GameObject uiCanvas; // UI全体を管理するオブジェクト
-    
+    [SerializeField] private FlashlightManager flashlightManager; // FlashlightManagerの参照
+    [SerializeField] private Transform playerTransform; // プレイヤーのTransform
+    private PlayerSaikoro playerSaikoro; // PlayerSaikoroクラスのインスタンスを保持するフィールド
+
+    private int nextShowCardThreshold = 20;
+    // カード表示の閾値（20,40,60,80,100）
 
     void Start()
     {
         DashGage.maxValue = maxDashPoint;
         DashGage.value = dashPoint;
         ResetGaugeImages();
+        // PlayerSaikoroクラスのインスタンスを取得
+        playerSaikoro = FindObjectOfType<PlayerSaikoro>();
 
         if (extraButton != null)
         {
             extraButton.onClick.RemoveAllListeners();
             extraButton.onClick.AddListener(() => { ExtraButtonAction(); HideCardCanvas1(); });
-            HideCardCanvases(); // CardCanvas1とCardCanvas2を非アクティブにする
         }
         if (hideButton != null)
         {
             hideButton.onClick.RemoveAllListeners();
             hideButton.onClick.AddListener(() => { HideCardCanvasAndModifyDashIncrease(); HideCardCanvas1(); });
-            HideCardCanvases(); // CardCanvas1とCardCanvas2を非アクティブにする
         }
         if (cursegiveButton != null)
         {
             cursegiveButton.onClick.RemoveAllListeners();
             cursegiveButton.onClick.AddListener(() => { CursegiveButtonAction(); HideCardCanvas1(); });
-            HideCardCanvases(); // CardCanvas1とCardCanvas2を非アクティブにする
         }
 
         if (ArmButton != null)
         {
             ArmButton.onClick.RemoveAllListeners();
-            ArmButton.onClick.AddListener(() => { ExtraButtonAction(); HideCardCanvases(); LimitDiceRoll(); });
-            HideCardCanvases(); // CardCanvas1とCardCanvas2を非アクティブにする
+            ArmButton.onClick.AddListener(() => { Arm_ButtonAction(); HideCardCanvas2(); });
+            ArmButton.onClick.AddListener(() => { flashlightManager.DeactivateFlashlight(); }); // 追加
         }
+
         if (LegButton != null)
         {
             LegButton.onClick.RemoveAllListeners();
-            LegButton.onClick.AddListener(() =>
-            {
-                HideCardCanvasAndModifyDashIncrease();
-                HideCardCanvas1();
-                flashlightManager.DeactivateFlashlight(); // 懐中電灯を非アクティブにする
-                flashlightManager.PlaceFlashlightUnderPlayer(playerTransform); // 懐中電灯をプレイヤーの真下に配置
-                HideCardCanvases(); // CardCanvas1とCardCanvas2を非アクティブにする
-            });
+            LegButton.onClick.AddListener(() => { Leg_ButtonAction(); HideCardCanvas2(); });
+            LegButton.onClick.AddListener(() => { DivideDiceRoll(); }); // 追加
         }
         if (EyeButton != null)
         {
             EyeButton.onClick.RemoveAllListeners();
-            EyeButton.onClick.AddListener(() => { CursegiveButtonAction(); HideCardCanvas1(); ApplyEyeEffect(); });
-            HideCardCanvases();// CardCanvas1とCardCanvas2を非アクティブにする
+            EyeButton.onClick.AddListener(() => { Eye_ButtonAction(); HideCardCanvas2(); });
+            EyeButton.onClick.AddListener(() => { eyeEffectController.ApplyEyeEffect(); }); // 追加
         }
 
         HideCardCanvas1();
         HideCardCanvas2();
     }
 
+    private void ExtraButtonAction()
+    {
+        throw new NotImplementedException();
+    }
+
+    public void HideCardCanvasAndModifyDashIncrease()
+    {
+        dashIncreasePerTurn += master_Curse.CurseSheet[1].TurnIncrease;
+        Debug.Log("[CurseSlider] Dash Increase Per Turn set to: " + dashIncreasePerTurn);
+        Time.timeScale = 1;
+    }
+
     void Update()
     {
-        if (80 <= dashPoint && dashPoint >= 100 && CardSelect1 == false)
+        if (100 <= dashPoint && CardSelect1 == false)
         {
             CardSelect1 = true;
             StartCoroutine(ShowCardCanvas2());
         }
-        else if (60 <= dashPoint && dashPoint < 80 && CardSelect2 == false)
+        else if (80 <= dashPoint && dashPoint < 100 && CardSelect2 == false)
         {
             CardSelect2 = true;
             StartCoroutine(ShowCardCanvas1());
         }
-        else if (40 <= dashPoint && dashPoint < 60 && CardSelect3 == false)
+        else if (60 <= dashPoint && dashPoint < 80 && CardSelect3 == false)
         {
             CardSelect3 = true;
             StartCoroutine(ShowCardCanvas1());
         }
-        else if (20 <= dashPoint && dashPoint < 40 && CardSelect4 == false)
+        else if (40 <= dashPoint && dashPoint < 60 && CardSelect4 == false)
         {
             CardSelect4 = true;
+            StartCoroutine(ShowCardCanvas1());
+        }
+        else if (20 <= dashPoint && dashPoint < 40 && CardSelect5 == false)
+        {
+            CardSelect5 = true;
             StartCoroutine(ShowCardCanvas1());
         }
 
         DashGage.value = dashPoint;
 
-        // 100を超えた場合、ゲージリセット
         if (dashPoint >= maxDashPoint)
         {
+
             CountGauge++;
             dashPoint = 0;
             CardSelect1 = false;
             CardSelect2 = false;
             CardSelect3 = false;
             CardSelect4 = false;
+            CardSelect5 = false;
             ResetGaugeImages();
             UpdateCountText();
         }
 
-        // 300を超えた場合、ゲームオーバー画面へ遷移
-        if (CountGauge == 3)
-        {
-            GameOver();
-        }
+        
 
         UpdateImageGauges();
-
-        if (gameManager.isPlayerTurn && !saikorotyu)
-        {
-            if (Input.GetKeyDown(KeyCode.E))
-            {
-                EndTurnWithCardDisplay();
-            }
-        }
-    }
-    private void LimitDiceRoll()
-    {
-        // PlayerSaikoroスクリプトのインスタンスを取得
-        PlayerSaikoro playerSaikoro = FindObjectOfType<PlayerSaikoro>();
-        if (playerSaikoro != null)
-        {
-            playerSaikoro.SetDiceRollRange(1, 3);
-        }
-    }
-    private void HideCardCanvases()
-    {
-        if (CardCanvas1 != null)
-        {
-            CardCanvas1.SetActive(false);
-        }
-        if (CardCanvas2 != null)
-        {
-            CardCanvas2.SetActive(false);
-        }
-        Time.timeScale = 1;
-    }
-    private void EndTurnWithCardDisplay()
-    {
-        if (!gameManager.isPlayerTurn) return;
     }
 
+    
     public void IncreaseDashPointPerTurn()
     {
         dashPoint = Mathf.Min(dashPoint + dashIncreasePerTurn, maxDashPoint);
         DashGage.value = dashPoint;
+
+        Debug.Log("今の呪いゲージ量: " + dashPoint);
     }
+
+
 
     private void UpdateImageGauges()
     {
@@ -190,7 +178,6 @@ public class CurseSlider : MonoBehaviour
             float min = i * 20;
             float max = (i + 1) * 20;
             float fill = Mathf.Clamp01((dashPoint - min) / (max - min));
-
             ImageGages[i].fillAmount = fill;
         }
     }
@@ -210,6 +197,9 @@ public class CurseSlider : MonoBehaviour
             Cursor.lockState = CursorLockMode.None;
             Cursor.visible = true;
             CardCanvas2.SetActive(true);
+            ArmButton.interactable = !isArmButtonUsed;
+            LegButton.interactable = !isLegButtonUsed;
+            EyeButton.interactable = !isEyeButtonUsed;
             yield return new WaitForSeconds(1.0f);
             Time.timeScale = 0;
         }
@@ -219,9 +209,10 @@ public class CurseSlider : MonoBehaviour
     {
         if (CardCanvas1 != null)
         {
-            Cursor.lockState = CursorLockMode.None;
-            Cursor.visible = true;
             CardCanvas1.SetActive(true);
+            ArmButton.interactable = !isArmButtonUsed;
+            LegButton.interactable = !isLegButtonUsed;
+            EyeButton.interactable = !isEyeButtonUsed;
             yield return new WaitForSeconds(1.0f);
             Time.timeScale = 0;
         }
@@ -249,13 +240,35 @@ public class CurseSlider : MonoBehaviour
         }
     }
 
-    public void ExtraButtonAction()
+   public void Arm_ButtonAction()
     {
+        Debug.Log("腕がなくなった");
+        ArmButton.interactable = false;
+        ArmButton.gameObject.SetActive(false); // ボタンを非表示にする
+        isArmButtonUsed = true;
     }
+
+    public void Leg_ButtonAction()
+    {
+        Debug.Log("足がなくなった");
+        LegButton.interactable = false;
+        LegButton.gameObject.SetActive(false); // ボタンを非表示にする
+        isLegButtonUsed = true;
+    }
+
+    public void Eye_ButtonAction()
+    {
+        Debug.Log("目が落ちた");
+        EyeButton.interactable = false;
+        EyeButton.gameObject.SetActive(false); // ボタンを非表示にする
+        isEyeButtonUsed = true;
+    }
+
 
     public void HideCardCanvasAndModifyDashIncrease()
     {
         dashIncreasePerTurn += master_Curse.CurseSheet[1].TurnIncrease;
+        Debug.Log("[CurseSlider] Dash Increase Per Turn set to: " + dashIncreasePerTurn);
         Time.timeScale = 1;
     }
 
@@ -263,32 +276,44 @@ public class CurseSlider : MonoBehaviour
     {
         dashPoint = Mathf.Min(dashPoint + 5, maxDashPoint);
         DashGage.value = dashPoint;
+        Debug.Log("[CursegiveButton] After: DashPoint = " + dashPoint);
         Time.timeScale = 1;
     }
+
 
     private void UpdateCountText()
     {
         if (countText != null)
         {
-            if (CountGauge == 2)
-            {
-                countText.text = "呪";
-            }
-            else
-            {
-                countText.text = (3 - CountGauge).ToString();
-            }
+            countText.text = (CountGauge >= 2) ? "呪" : (3 - CountGauge).ToString();
         }
     }
 
-    private void GameOver()
+    public void IncreaseDashPoint(int amount)
     {
+        dashPoint = Mathf.Min(dashPoint + amount, maxDashPoint);
+        DashGage.value = dashPoint;
+        Debug.Log("[CurseSlider] 呪いゲージ増加: " + amount + " 現在の値: " + dashPoint);
     }
-    private void ApplyEyeEffect()
+
+    public void CursegiveButtonAction()
     {
-        if (eyeEffectController != null)
+        dashPoint = Mathf.Min(dashPoint + 5, maxDashPoint);
+        DashGage.value = dashPoint;
+        Debug.Log("[CursegiveButton] After: DashPoint = " + dashPoint);
+        Time.timeScale = 1;
+    }
+    private void DivideDiceRoll()
+    {
+        if (playerSaikoro != null)
         {
-            eyeEffectController.ApplyEyeEffect();
+            // サイコロの出目を2で割って切り捨て
+            playerSaikoro.sai = Mathf.FloorToInt(playerSaikoro.sai / 2.0f);
+            Debug.Log("サイコロの出目を2で割って切り捨てた結果: " + playerSaikoro.sai);
+        }
+        else
+        {
+            Debug.LogError("PlayerSaikoroのインスタンスが見つかりませんでした。");
         }
     }
 }
