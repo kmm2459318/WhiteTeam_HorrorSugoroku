@@ -31,6 +31,17 @@ public class EyeEffectController : MonoBehaviour
         {
             parentCanvas.gameObject.SetActive(true); // 親Canvasをアクティブにする
             blackOverlay.SetActive(true); // 黒いオーバーレイを表示
+
+            // canvasGroupが設定されていない場合は再度取得
+            if (canvasGroup == null)
+            {
+                canvasGroup = blackOverlay.GetComponent<CanvasGroup>();
+                if (canvasGroup == null)
+                {
+                    canvasGroup = blackOverlay.AddComponent<CanvasGroup>();
+                }
+            }
+
             StartCoroutine(FadeIn());
         }
         else
@@ -57,5 +68,4 @@ public class EyeEffectController : MonoBehaviour
             yield return null;
         }
     }
-
 }

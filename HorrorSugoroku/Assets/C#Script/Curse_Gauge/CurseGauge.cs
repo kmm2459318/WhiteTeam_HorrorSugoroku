@@ -41,12 +41,23 @@ public class CurseSlider : MonoBehaviour
     private bool isArmButtonUsed = false;
     private bool isLegButtonUsed = false;
     private bool isEyeButtonUsed = false;
+    public int sai = 1; // ランダムなサイコロの値（publicに変更）
+
+    [SerializeField] private EyeEffectController eyeEffectController; // EyeEffectControllerの参照
+    [SerializeField] private FlashlightManager flashlightManager; // FlashlightManagerの参照
+    [SerializeField] private Transform playerTransform; // プレイヤーのTransform
+    private PlayerSaikoro playerSaikoro; // PlayerSaikoroクラスのインスタンスを保持するフィールド
+
+    private int nextShowCardThreshold = 20;
+    // カード表示の閾値（20,40,60,80,100）
 
     void Start()
     {
         DashGage.maxValue = maxDashPoint;
         DashGage.value = dashPoint;
         ResetGaugeImages();
+        // PlayerSaikoroクラスのインスタンスを取得
+        playerSaikoro = FindObjectOfType<PlayerSaikoro>();
 
         if (extraButton != null)
         {
@@ -68,16 +79,20 @@ public class CurseSlider : MonoBehaviour
         {
             ArmButton.onClick.RemoveAllListeners();
             ArmButton.onClick.AddListener(() => { Arm_ButtonAction(); HideCardCanvas2(); });
+            ArmButton.onClick.AddListener(() => { flashlightManager.DeactivateFlashlight(); }); // 追加
         }
+
         if (LegButton != null)
         {
             LegButton.onClick.RemoveAllListeners();
             LegButton.onClick.AddListener(() => { Leg_ButtonAction(); HideCardCanvas2(); });
+            LegButton.onClick.AddListener(() => { DivideDiceRoll(); }); // 追加
         }
         if (EyeButton != null)
         {
             EyeButton.onClick.RemoveAllListeners();
             EyeButton.onClick.AddListener(() => { Eye_ButtonAction(); HideCardCanvas2(); });
+            EyeButton.onClick.AddListener(() => { eyeEffectController.ApplyEyeEffect(); }); // 追加
         }
 
         HideCardCanvas1();
@@ -128,6 +143,7 @@ public class CurseSlider : MonoBehaviour
 
         if (dashPoint >= maxDashPoint)
         {
+
             CountGauge++;
             dashPoint = 0;
             CardSelect1 = false;
@@ -178,6 +194,8 @@ public class CurseSlider : MonoBehaviour
     {
         if (CardCanvas2 != null)
         {
+            Cursor.lockState = CursorLockMode.None;
+            Cursor.visible = true;
             CardCanvas2.SetActive(true);
             ArmButton.interactable = !isArmButtonUsed;
             LegButton.interactable = !isLegButtonUsed;
@@ -205,6 +223,8 @@ public class CurseSlider : MonoBehaviour
         if (CardCanvas2 != null)
         {
             CardCanvas2.SetActive(false);
+            Cursor.lockState = CursorLockMode.Locked;
+            Cursor.visible = false;
             Time.timeScale = 1;
         }
     }
@@ -214,6 +234,8 @@ public class CurseSlider : MonoBehaviour
         if (CardCanvas1 != null)
         {
             CardCanvas1.SetActive(false);
+            Cursor.lockState = CursorLockMode.Locked;
+            Cursor.visible = false;
             Time.timeScale = 1;
         }
     }
@@ -243,6 +265,22 @@ public class CurseSlider : MonoBehaviour
     }
 
 
+    public void HideCardCanvasAndModifyDashIncrease()
+    {
+        dashIncreasePerTurn += master_Curse.CurseSheet[1].TurnIncrease;
+        Debug.Log("[CurseSlider] Dash Increase Per Turn set to: " + dashIncreasePerTurn);
+        Time.timeScale = 1;
+    }
+
+    public void CursegiveButtonAction()
+    {
+        dashPoint = Mathf.Min(dashPoint + 5, maxDashPoint);
+        DashGage.value = dashPoint;
+        Debug.Log("[CursegiveButton] After: DashPoint = " + dashPoint);
+        Time.timeScale = 1;
+    }
+
+
     private void UpdateCountText()
     {
         if (countText != null)
@@ -264,5 +302,18 @@ public class CurseSlider : MonoBehaviour
         DashGage.value = dashPoint;
         Debug.Log("[CursegiveButton] After: DashPoint = " + dashPoint);
         Time.timeScale = 1;
+    }
+    private void DivideDiceRoll()
+    {
+        if (playerSaikoro != null)
+        {
+            // サイコロの出目を2で割って切り捨て
+            playerSaikoro.sai = Mathf.FloorToInt(playerSaikoro.sai / 2.0f);
+            Debug.Log("サイコロの出目を2で割って切り捨てた結果: " + playerSaikoro.sai);
+        }
+        else
+        {
+            Debug.LogError("PlayerSaikoroのインスタンスが見つかりませんでした。");
+        }
     }
 }

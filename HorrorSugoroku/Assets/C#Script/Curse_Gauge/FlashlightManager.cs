@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class FlashlightManager : MonoBehaviour
 {
-    [SerializeField] private GameObject flashlightModel; // 懐中電灯のモデル
+    [SerializeField] public GameObject flashlightModel; // 懐中電灯のモデルをpublicに変更
     [SerializeField] private GameObject flashlightPrefab; // 懐中電灯のプレハブ
 
     public void DeactivateFlashlight()
@@ -10,7 +10,11 @@ public class FlashlightManager : MonoBehaviour
         if (flashlightModel != null)
         {
             flashlightModel.SetActive(false);
-            
+            Debug.Log("懐中電灯を非アクティブにしました");
+        }
+        else
+        {
+            Debug.LogError("flashlightModelが設定されていません");
         }
     }
 
@@ -24,7 +28,12 @@ public class FlashlightManager : MonoBehaviour
             // 回転を指定する（例: 30度傾ける）
             Quaternion rotation = Quaternion.Euler(0, 30, 0);
 
+            Debug.Log("懐中電灯を配置します: " + position);
             Instantiate(flashlightPrefab, position, rotation);
+        }
+        else
+        {
+            Debug.LogError("flashlightPrefabが設定されていません");
         }
     }
 }
