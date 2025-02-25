@@ -264,14 +264,6 @@ public class CurseSlider : MonoBehaviour
         isEyeButtonUsed = true;
     }
 
-
-    public void HideCardCanvasAndModifyDashIncrease()
-    {
-        dashIncreasePerTurn += master_Curse.CurseSheet[1].TurnIncrease;
-        Debug.Log("[CurseSlider] Dash Increase Per Turn set to: " + dashIncreasePerTurn);
-        Time.timeScale = 1;
-    }
-
     public void CursegiveButtonAction()
     {
         dashPoint = Mathf.Min(dashPoint + 5, maxDashPoint);
@@ -294,14 +286,6 @@ public class CurseSlider : MonoBehaviour
         dashPoint = Mathf.Min(dashPoint + amount, maxDashPoint);
         DashGage.value = dashPoint;
         Debug.Log("[CurseSlider] 呪いゲージ増加: " + amount + " 現在の値: " + dashPoint);
-    }
-
-    public void CursegiveButtonAction()
-    {
-        dashPoint = Mathf.Min(dashPoint + 5, maxDashPoint);
-        DashGage.value = dashPoint;
-        Debug.Log("[CursegiveButton] After: DashPoint = " + dashPoint);
-        Time.timeScale = 1;
     }
     private void DivideDiceRoll()
     {
