@@ -26,11 +26,17 @@ public class GridCell : MonoBehaviour
     [SerializeField] private int nothingChance = 20; // 何も起こらない確率（％）
 
     [SerializeField] private int curseamout = 10;//呪いの増加量の調整
+    public Image cutInImage; // カットイン画像
+    private Sprite loadedSprite;
+    public AudioSource audioSource; // 音声
+   // private AudioClip gameOverSound;
 
-    [SerializeField] private Image cutInImage; // カットイン画像
+
     [SerializeField] private float cutInDuration = 2.0f; // カットインの表示時間（秒）
     [SerializeField] private AudioClip gameOverSound; // ゲームオーバー時のサウンド
-    private AudioSource audioSource; // 音声再生用のAudioSource
+                                                      //[SerializeField] private string imageObjectName = "CutInImage"; // 画像のオブジェクト名
+                                                      //[SerializeField] private string audioObjectName = "GameAudioSource"; // AudioSource のオブジェクト名
+   // private AudioSource gameOverSound; // 音声再生用のAudioSource
 
     [SerializeField] private float volume = 1.0f; // 音量 (デフォルトは最大)
 
@@ -46,6 +52,71 @@ public class GridCell : MonoBehaviour
         curseSlider = FindObjectOfType<CurseSlider>(); // 呪いゲージを取得
         substitutedollController = FindObjectOfType<SubstitutedollController>(); // 追加
         beartrapController = FindObjectOfType<BeartrapController>(); // 追加
+        cursePanel = GameObject.Find("CurseCanvasUI");
+        curseText = GameObject.Find("CurseText")?.GetComponent<TextMeshProUGUI>();
+        itemPanel = GameObject.Find("ItemCanvasUI");
+        itemText = GameObject.Find("Text Item")?.GetComponent<TextMeshProUGUI>();
+        cutInImage = GameObject.Find("ImageCurse")?.GetComponent<Image>();
+        audioSource = GameObject.Find("Mamono_aaa")?.GetComponent<AudioSource>();
+        GameObject[] allGameObjects = Resources.FindObjectsOfTypeAll<GameObject>();
+
+        foreach (GameObject obj in allGameObjects)
+        {
+            if (obj.name == "CurseCanvasUI")
+            {
+                cursePanel = obj;
+            }
+            if (obj.name == "CurseText")
+            {
+                curseText = obj.GetComponent<TextMeshProUGUI>();
+            }
+        }
+        foreach (GameObject obj in allGameObjects)
+        {
+            if (obj.name == "ItemCanvasUI")
+            {
+                itemPanel = obj;
+            }
+            if (obj.name == "Text Item")
+            {
+                itemText = obj.GetComponent<TextMeshProUGUI>();
+            }
+        }
+        audioSource = gameObject.AddComponent<AudioSource>(); // AudioSourceを追加
+
+        // "Resources/Sounds/GameOverSound" にあるAudioClipを取得
+        gameOverSound = Resources.Load<AudioClip>("Mamono_aaa");
+        // "Resources/Images/CutInImage" にある画像を取得
+        loadedSprite = Resources.Load<Sprite>("Images/CutInImage");
+
+        if (loadedSprite != null)
+        {
+            Debug.Log("🖼 画像ロード成功！");
+            cutInImage.sprite = loadedSprite; // UIに画像をセット
+        }
+        else
+        {
+            Debug.Log("⚠️ 画像が見つかりません！");
+        }
+        // デバッグ用表示
+        Debug.Log($"cursePanel: {cursePanel}");
+        Debug.Log($"curseText: {curseText}");
+       
+        // UI が見つからない場合、警告を出す
+        if (cursePanel == null) Debug.LogWarning("CursePanel が見つかりません");
+        if (curseText == null) Debug.LogWarning("CurseText が見つかりません");
+        if (itemPanel == null) Debug.LogWarning("ItemCanvasUI が見つかりません");
+        if (itemText == null) Debug.LogWarning("ItemText が見つかりません");
+        if (cutInImage == null) Debug.LogWarning("ImageCurse が見つかりません");
+        if (audioSource == null) Debug.LogWarning("Mamono_aaa の AudioSource が見つかりません");
+        // エラーチェック
+        //if (cutInImage == null)
+        //    Debug.LogError($"❌ {imageObjectName} が見つかりません！");
+
+        //if (audioSource == null)
+        //    Debug.LogError($"❌ {audioObjectName} が見つかりません！");
+
+
         if (substitutedollController == null)
         {
             Debug.LogError("❌ SubstitutedollController がシーン内に見つかりません！");
@@ -98,6 +169,8 @@ public class GridCell : MonoBehaviour
     //}
     void Update()
     {
+       
+        
         if (( cursePanel.activeSelf || itemPanel.activeSelf)
          && (Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.H)))
         {
@@ -105,6 +178,9 @@ public class GridCell : MonoBehaviour
             CloseEventUI();
         }
     }
+    
+
+   
     public void ExecuteEvent()
     {
         switch (cellEffect)
@@ -290,7 +366,7 @@ public class GridCell : MonoBehaviour
         {
             // **呪い発動**
             Debug.Log($"{name}: 呪いが発動！");
-            //curseSlider.IncreaseDashPoint(curseamout); // 呪いゲージ増加
+            curseSlider.IncreaseDashPoint(curseamout); // 呪いゲージ増加
             ShowCurseUI("呪いが発動した！");
         }
         else if (randomValue <= curseChance + scareChance)

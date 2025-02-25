@@ -4739,7 +4739,6 @@ MonoBehaviour:
   VolumeMuteSprite: {fileID: 21300000, guid: 12d7b4d0a7b7a0c428d9a04180224ff1, type: 3}
   Volume: 50
   SensitivitySlider: {fileID: 1280531841}
-  Sensitivity: 200
 --- !u!4 &413954078
 Transform:
   m_ObjectHideFlags: 0
@@ -11798,7 +11797,7 @@ GameObject:
   - component: {fileID: 990565278}
   - component: {fileID: 990565280}
   m_Layer: 16
-  m_Name: Card 1
+  m_Name: LegButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -11906,13 +11905,25 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1632628217}
-        m_TargetAssemblyTypeName: 
-        m_MethodName: 
+      - m_Target: {fileID: 1752009205}
+        m_TargetAssemblyTypeName: DiceRangeManager, Assembly-CSharp
+        m_MethodName: EnableDivideRoll
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: 
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 1632628218}
+        m_TargetAssemblyTypeName: CurseSlider, Assembly-CSharp
+        m_MethodName: Leg_ButtonAction
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
@@ -13057,7 +13068,7 @@ GameObject:
   - component: {fileID: 1159594665}
   - component: {fileID: 1159594667}
   m_Layer: 5
-  m_Name: Card 3
+  m_Name: EyeButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -13168,6 +13179,18 @@ MonoBehaviour:
       - m_Target: {fileID: 1489191935}
         m_TargetAssemblyTypeName: EyeEffectController, Assembly-CSharp
         m_MethodName: ApplyEyeEffect
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 1632628218}
+        m_TargetAssemblyTypeName: CurseSlider, Assembly-CSharp
+        m_MethodName: Eye_ButtonAction
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -17466,6 +17489,7 @@ MonoBehaviour:
   PSouth: {fileID: 1634108735}
   Camera: {fileID: 281751355}
   diceRollSound: {fileID: 8300000, guid: 6a56dbaa8882712448b97d7b74897986, type: 3}
+  diceRangeManager: {fileID: 1752009205}
 --- !u!1 &1600012933
 GameObject:
   m_ObjectHideFlags: 0
@@ -17750,8 +17774,8 @@ MonoBehaviour:
   extraButton: {fileID: 276726757}
   hideButton: {fileID: 930804417}
   cursegiveButton: {fileID: 223507028}
-  ArmButton: {fileID: 990565280}
-  LegButton: {fileID: 1935866448}
+  ArmButton: {fileID: 1935866448}
+  LegButton: {fileID: 990565280}
   EyeButton: {fileID: 1159594667}
   master_Curse: {fileID: 11400000, guid: 43eba0261dc753c4da194da800dd3109, type: 2}
   ImageGages:
@@ -17760,6 +17784,7 @@ MonoBehaviour:
   - {fileID: 592987741}
   - {fileID: 960122215}
   - {fileID: 1203024023}
+  eyeButtonText: {fileID: 1381808356}
   CountGauge: 0
   dashPoint: 0
   gameManager: {fileID: 35047688}
@@ -17768,6 +17793,9 @@ MonoBehaviour:
   eyeEffectController: {fileID: 1489191935}
   flashlightManager: {fileID: 407118002}
   playerTransform: {fileID: 2042766882}
+  diceRangeManager: {fileID: 1752009205}
+  diceController: {fileID: 933503470}
+  eyeButtonCanvas: {fileID: 205025985}
 --- !u!114 &1632628219
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -19429,6 +19457,50 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 0.4, y: 0.37, z: 0.4}
   m_Center: {x: 2.01, y: -0.86, z: 0}
+--- !u!1 &1752009204
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1752009206}
+  - component: {fileID: 1752009205}
+  m_Layer: 0
+  m_Name: LegManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1752009205
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1752009204}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a572b48cce9e59c46ba9d42d8d3bcb6c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!4 &1752009206
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1752009204}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 806, y: 353.5, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1752333868
 GameObject:
   m_ObjectHideFlags: 0
@@ -21460,7 +21532,7 @@ GameObject:
   - component: {fileID: 1935866446}
   - component: {fileID: 1935866448}
   m_Layer: 16
-  m_Name: Card 2
+  m_Name: ArmButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -21583,6 +21655,18 @@ MonoBehaviour:
       - m_Target: {fileID: 407118002}
         m_TargetAssemblyTypeName: FlashlightManager, Assembly-CSharp
         m_MethodName: DeactivateFlashlight
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 1632628218}
+        m_TargetAssemblyTypeName: CurseSlider, Assembly-CSharp
+        m_MethodName: Arm_ButtonAction
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -23455,3 +23539,4 @@ SceneRoots:
   - {fileID: 413954078}
   - {fileID: 446471556}
   - {fileID: 1769234140}
+  - {fileID: 1752009206}

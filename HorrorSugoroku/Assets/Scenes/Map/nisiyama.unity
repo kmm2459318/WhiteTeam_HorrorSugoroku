@@ -4722,7 +4722,6 @@ MonoBehaviour:
   VolumeMuteSprite: {fileID: 21300000, guid: 12d7b4d0a7b7a0c428d9a04180224ff1, type: 3}
   Volume: 50
   SensitivitySlider: {fileID: 1280531841}
-  Sensitivity: 200
 --- !u!4 &413954078
 Transform:
   m_ObjectHideFlags: 0
@@ -11564,6 +11563,34 @@ PrefabInstance:
       propertyPath: m_Sprite
       value: 
       objectReference: {fileID: 21300000, guid: d0a2f2c068931464c978cb8ce16681e0, type: 3}
+    - target: {fileID: 650834329582602276, guid: cc7429b1a19f3b145bddafa519e3c674, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 650834329582602276, guid: cc7429b1a19f3b145bddafa519e3c674, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 650834329582602276, guid: cc7429b1a19f3b145bddafa519e3c674, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 971697940}
+    - target: {fileID: 650834329582602276, guid: cc7429b1a19f3b145bddafa519e3c674, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 650834329582602276, guid: cc7429b1a19f3b145bddafa519e3c674, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: OnButtonPressed
+      objectReference: {fileID: 0}
+    - target: {fileID: 650834329582602276, guid: cc7429b1a19f3b145bddafa519e3c674, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: SubstitutedollController, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 650834329582602276, guid: cc7429b1a19f3b145bddafa519e3c674, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
     - target: {fileID: 3113390486746831993, guid: cc7429b1a19f3b145bddafa519e3c674, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -11711,6 +11738,17 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &971697940 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 5571389889205491030, guid: cc7429b1a19f3b145bddafa519e3c674, type: 3}
+  m_PrefabInstance: {fileID: 971697936}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 01e48e88e1e1a1e4b81a60509f366e03, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!114 &982131600 stripped
@@ -15172,11 +15210,11 @@ PrefabInstance:
       objectReference: {fileID: 2042766883}
     - target: {fileID: 3935777693798284481, guid: e7694a3e0cb325d4ea72b29e8c3350e9, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -167.25496
+      value: -62
       objectReference: {fileID: 0}
     - target: {fileID: 3935777693798284481, guid: e7694a3e0cb325d4ea72b29e8c3350e9, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -0.000030517578
+      value: -4
       objectReference: {fileID: 0}
     - target: {fileID: 3935777693798284481, guid: e7694a3e0cb325d4ea72b29e8c3350e9, type: 3}
       propertyPath: m_LocalPosition.z
@@ -17267,6 +17305,7 @@ MonoBehaviour:
   cameraChange: {fileID: 35047689}
   diceController: {fileID: 933503470}
   player: {fileID: 2042766877}
+  sai: 1
   saikorotyu: 0
   idoutyu: 0
   exploring: 0
@@ -17585,6 +17624,10 @@ MonoBehaviour:
   dashPoint: 0
   gameManager: {fileID: 35047688}
   turnManager: {fileID: 35047690}
+  sai: 1
+  eyeEffectController: {fileID: 0}
+  flashlightManager: {fileID: 0}
+  playerTransform: {fileID: 0}
 --- !u!114 &1632628219
 MonoBehaviour:
   m_ObjectHideFlags: 0

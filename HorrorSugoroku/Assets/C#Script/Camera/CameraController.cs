@@ -17,11 +17,9 @@ public class CameraController : MonoBehaviour
 
     void Start()
     {
-        // カメラを開始時にマウスをロック
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
 
-        // スライダーの初期値を設定し、リスナーを登録
         if (sensitivitySlider != null)
         {
             sensitivitySlider.minValue = 0.1f;
@@ -37,13 +35,12 @@ public class CameraController : MonoBehaviour
 
         if (isMouseLocked)
         {
-            HandleMouseLook(); // マウスでの視点移動
+            HandleMouseLook();
         }
     }
 
     private void HandleMouseLock()
     {
-        // オプションメニューが開いている間は Alt キーの処理を無効化
         if (isOptionOpen)
         {
             return;
@@ -72,7 +69,7 @@ public class CameraController : MonoBehaviour
         xRotation = Mathf.Clamp(xRotation, lowerLookLimit, upperLookLimit);
         yRotation += mouseX;
 
-        transform.localRotation = Quaternion.Euler(xRotation, yRotation, 0f);  // 上下回転
+        transform.localRotation = Quaternion.Euler(xRotation, yRotation, 0f);
     }
 
     private void OnSensitivityChanged(float value)
@@ -80,7 +77,6 @@ public class CameraController : MonoBehaviour
         sensitivityMultiplier = value;
     }
 
-    // オプション画面の開閉状態を更新する
     public void SetOptionOpen(bool state)
     {
         isOptionOpen = state;
