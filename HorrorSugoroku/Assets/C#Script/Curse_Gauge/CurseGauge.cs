@@ -56,6 +56,10 @@ public class CurseSlider : MonoBehaviour
     private int nextShowCardThreshold = 20;
     // カード表示の閾値（20,40,60,80,100）
 
+    //小さい呪い、大きい呪いどちらを表示しているかの判定
+    private bool isCardCanvas1 = false;
+    private bool isCardCanvas2 = false;
+
     void Start()
     {
         DashGage.maxValue = maxDashPoint;
@@ -117,7 +121,52 @@ public class CurseSlider : MonoBehaviour
 
     void Update()
     {
-        if (100 <= dashPoint && CardSelect1 == false)
+        //小さい呪い画面表示でASDキーで押せるようにする
+        if (isCardCanvas1)
+        {
+            if (Input.GetKeyDown(KeyCode.A) && extraButton != null)
+            {
+                extraButton.onClick.Invoke();
+                isCardCanvas1 = false;
+            }
+
+            if (Input.GetKeyDown(KeyCode.S) && hideButton != null)
+            {
+                hideButton.onClick.Invoke();
+                isCardCanvas1 = false;
+            }
+
+            if (Input.GetKeyDown(KeyCode.D) && cursegiveButton != null)
+            {
+                cursegiveButton.onClick.Invoke();
+                isCardCanvas1 = false;
+            }
+        }
+
+        //大きい呪い画面表示でASDキーで押せるようにする
+        if (isCardCanvas2)
+        {
+            if (Input.GetKeyDown(KeyCode.A) && ArmButton != null)
+            {
+                ArmButton.onClick.Invoke();
+                isCardCanvas2 = false;
+            }
+
+            if (Input.GetKeyDown(KeyCode.S) && LegButton != null)
+            {
+                LegButton.onClick.Invoke();
+                isCardCanvas2 = false;
+            }
+
+            if (Input.GetKeyDown(KeyCode.D) && EyeButton != null)
+            {
+                EyeButton.onClick.Invoke();
+                isCardCanvas2 = false;
+            }
+        }
+
+
+        if (80 <= dashPoint && dashPoint >= 100 && CardSelect1 == false)
         {
             CardSelect1 = true;
             StartCoroutine(ShowCardCanvas2());
@@ -198,14 +247,15 @@ public class CurseSlider : MonoBehaviour
     {
         if (CardCanvas2 != null)
         {
-            Cursor.lockState = CursorLockMode.None;
-            Cursor.visible = true;
+            //Cursor.lockState = CursorLockMode.None;
+            //Cursor.visible = true;
             CardCanvas2.SetActive(true);
             ArmButton.interactable = !isArmButtonUsed;
             LegButton.interactable = !isLegButtonUsed;
             EyeButton.interactable = !isEyeButtonUsed;
             yield return new WaitForSeconds(1.0f);
-            Time.timeScale = 0;
+            Time.timeScale = 0; // **ゲームを停止**
+            isCardCanvas2 = true;
         }
     }
 
@@ -218,7 +268,8 @@ public class CurseSlider : MonoBehaviour
             LegButton.interactable = !isLegButtonUsed;
             EyeButton.interactable = !isEyeButtonUsed;
             yield return new WaitForSeconds(1.0f);
-            Time.timeScale = 0;
+            Time.timeScale = 0; // **ゲームを停止**
+            isCardCanvas1 = true;
         }
     }
 
@@ -350,20 +401,17 @@ public class CurseSlider : MonoBehaviour
         DashGage.value = dashPoint;
         Debug.Log("[CurseSlider] 呪いゲージ増加: " + amount + " 現在の値: " + dashPoint);
     }
-
-
-    //private void DivideDiceRoll()
-    //{
-    //    if (playerSaikoro != null)
-    //    {
-    //        // サイコロの出目を2で割って切り捨て
-    //        playerSaikoro.sai = diceRangeManager.DivideDiceRoll(playerSaikoro.sai);
-    //        Debug.Log("サイコロの出目を2で割って切り捨てた結果: " + playerSaikoro.sai);
-    //    }
-    //    else
-    //    {
-    //        Debug.LogError("PlayerSaikoroのインスタンスが見つかりませんでした。");
-    //    }
-    //}
-
+    private void DivideDiceRoll()
+    {
+        if (playerSaikoro != null)
+        {
+            // サイコロの出目を2で割って切り捨て
+            playerSaikoro.sai = Mathf.FloorToInt(playerSaikoro.sai / 2.0f);
+            Debug.Log("サイコロの出目を2で割って切り捨てた結果: " + playerSaikoro.sai);
+        }
+        else
+        {
+            Debug.LogError("PlayerSaikoroのインスタンスが見つかりませんでした。");
+        }
+    }
 }
