@@ -19,6 +19,10 @@ public class DiceController : MonoBehaviour
     [SerializeField] private float throwForceMultiplier = 2f; // 投げる力の調整
     [SerializeField] SmoothTransform smo;
 
+    private int minDiceValue = 1;
+    private int maxDiceValue = 6;
+    private bool legButtonEffect = false; // LegButtonの効果を管理するフラグ
+
     void Start()
     {
         rb = GetComponent<Rigidbody>();
@@ -31,22 +35,12 @@ public class DiceController : MonoBehaviour
             // 左クリックでサイコロをつかむ
             if (Input.GetKey(KeyCode.Space) && !hasBeenThrown)
             {
-                //Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-                //if (Physics.Raycast(ray, out RaycastHit hit))
-                //{
-                //if (hit.collider.gameObject == gameObject)
-                //{
                 smo.enabled = true;
                 smo.PosFact = 0.1f;
                 isHeld = true;
                 isStopped = false;
                 hasBeenThrown = false;
-                //initialMousePosition = Input.mousePosition;
                 rb.isKinematic = true; // 物理挙動を停止
-                                       //}
-                                       //}
-                                       //}
-                                       //}
             }
 
             // 左クリックを離してサイコロを投げる
@@ -60,8 +54,6 @@ public class DiceController : MonoBehaviour
                 rb.isKinematic = false; // 物理挙動を再開
                 smo.enabled = false;
 
-                // マウス移動量から力を計算
-                //Vector3 mouseDelta = Input.mousePosition - initialMousePosition;
                 Vector3 throwForce = new Vector3(Random.Range(0, 40) / 10, 100, Random.Range(0, 40) / 10) * throwForceMultiplier;
                 rb.AddForce(throwForce);
                 rb.AddTorque(Random.insideUnitSphere * 500f); // ランダムな回転力
@@ -70,19 +62,8 @@ public class DiceController : MonoBehaviour
             // サイコロをつかんでいる間
             if (isHeld)
             {
-                // マウス位置に追従
-                //Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-                //if (Physics.Raycast(ray, out RaycastHit hit))
-                //{
-                //Vector3 targetPosition = transform.position;
-                //targetPosition.y = 5f; // Y座標の上限を5に制限
-                //transform.position = targetPosition;
                 smo.TargetPosition = new Vector3(0f, 5f, -3.363407f);
-                //smo.TargetPosition.y = 5.0f;
-                //smo.TargetPosition.z = -f;
-                //}
 
-                // ランダム回転
                 float rotationSpeed = 300f;
                 transform.Rotate(Random.Range(-rotationSpeed, rotationSpeed) * Time.deltaTime,
                                  Random.Range(-rotationSpeed, rotationSpeed) * Time.deltaTime,
@@ -96,7 +77,6 @@ public class DiceController : MonoBehaviour
 
                 if (timeSinceThrown >= stopCheckDelay && !isStopped)
                 {
-                    // サイコロが停止しているか確認
                     if (rb.linearVelocity.magnitude < stopThreshold && rb.angularVelocity.magnitude < stopThreshold)
                     {
                         isStopped = true;
@@ -130,12 +110,19 @@ public class DiceController : MonoBehaviour
             }
         }
 
-        return topFace != null ? int.Parse(topFace.name) : -1;
+        int faceValue = topFace != null ? int.Parse(topFace.name) : -1;
+
+        // LegButtonの効果が有効な場合、出目を1,2,3に制限
+        if (legButtonEffect && faceValue > 3)
+        {
+            faceValue = Random.Range(1, 4);
+        }
+
+        return faceValue;
     }
 
     private void OnCollisionEnter(Collision collision)
     {
-        // 衝突時はまだ停止していないとみなす
         isStopped = false;
     }
 
@@ -145,5 +132,18 @@ public class DiceController : MonoBehaviour
         hasBeenThrown = false;
         isHeld = false;
         isStopped = false;
+    }
+
+    // サイコロの出目の範囲を設定
+    public void SetDiceRollRange(int min, int max)
+    {
+        minDiceValue = min;
+        maxDiceValue = max;
+    }
+
+    // LegButtonの効果を設定
+    public void SetLegButtonEffect(bool isActive)
+    {
+        legButtonEffect = isActive;
     }
 }

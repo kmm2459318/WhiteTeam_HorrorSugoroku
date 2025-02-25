@@ -72,20 +72,21 @@ public class Option : MonoBehaviour
             Cursor.lockState = CursorLockMode.None;
             Cursor.visible = true;
             cameraController.isMouseLocked = false;
-            cameraController.SetOptionOpen(true); // Altキー無効化
+            cameraController.SetOptionOpen(true);
             Time.timeScale = 0;
         }
         else
         {
             // オプションを閉じる → カーソルを確実に非表示にする
             cameraController.isMouseLocked = true;
-            cameraController.SetOptionOpen(false); // Altキー有効化
+            cameraController.SetOptionOpen(false);
 
-            // まずマウスをロックする
+            // Altキーの影響をリセット
+            ResetAltKeyState();
+
+            // マウスをロックし、確実にカーソルを非表示にする
             Cursor.lockState = CursorLockMode.Locked;
-
-            // 少し遅れてカーソルを非表示にする（確実に消えるように）
-            Invoke(nameof(HideCursor), 0.02f);
+            Invoke(nameof(HideCursor), 0.02f);  // 0.02秒遅延して確実にカーソルを非表示
 
             Time.timeScale = 1;
         }
@@ -96,7 +97,11 @@ public class Option : MonoBehaviour
         Cursor.visible = false;
     }
 
-    // CameraController でオプションの開閉状態を取得するためのメソッド
+    private void ResetAltKeyState()
+    {
+        Input.ResetInputAxes();
+    }
+
     public bool IsOptionOpen()
     {
         return isOptionOpen;
