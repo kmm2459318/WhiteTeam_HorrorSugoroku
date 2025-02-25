@@ -23,7 +23,7 @@ public class CurseSlider : MonoBehaviour
     [SerializeField] private Image[] ImageGages; // 画像ゲージ（下から上に増える）
 
     private float maxDashPoint = 100;
-    public float dashIncreasePerTurn = 10;
+    private float dashIncreasePerTurn = 5;
 
     public int CountGauge = 0;              //ゲームオーバーカウント
     public float dashPoint = 0;
