@@ -65,6 +65,9 @@ public class PlayerSaikoro : MonoBehaviour
     private AudioSource audioSource; // AudioSource to play sound
     public AudioClip diceRollSound; // The sound to play when the dice rolls
 
+    public DiceRangeManager diceRangeManager; // DiceRangeManagerへの参照
+    private bool legButtonEffect = false; // LegButtonの効果を管理するフラグ
+
     [System.Obsolete]
     void Start()
     {
@@ -72,9 +75,18 @@ public class PlayerSaikoro : MonoBehaviour
         cameraChange.Change();
         // プレイヤーシーンがロードされる際に、EnemySaikoroを探して参照を保持
         targetScript = FindObjectOfType<EnemySaikoro>();
+        // DiceRangeManagerのインスタンスを取得
+        // 他の初期化コード...
+        diceRangeManager = FindObjectOfType<DiceRangeManager>();
+        diceController = FindObjectOfType<DiceController>(); // DiceControllerの参照を取得
 
-        // サイコロのImageを保持
-        image = saikoro.GetComponent<Image>();
+        if (diceController == null)
+        {
+            Debug.LogError("DiceController is not assigned and could not be found in the scene.");
+        }
+    
+    // サイコロのImageを保持
+    image = saikoro.GetComponent<Image>();
 
         saikoro.SetActive(false);
 
@@ -195,8 +207,32 @@ public class PlayerSaikoro : MonoBehaviour
             sai = Random.Range(minDiceValue, maxDiceValue + 1);
 
         }
-     
-    
+        // サイコロ振る
+
+        // サイコロ振る
+        if (saikorotyu)
+        {
+            sai = RollDiceWithLegEffect();
+            Debug.Log("最終的なサイコロの出目: " + sai);
+
+            // サイコロの出目に応じてスプライトを更新
+            switch (sai)
+            {
+                case 1:
+                    image.sprite = s1; break;
+                case 2:
+                    image.sprite = s2; break;
+                case 3:
+                    image.sprite = s3; break;
+                case 4:
+                    image.sprite = s4; break;
+                case 5:
+                    image.sprite = s5; break;
+                case 6:
+                    image.sprite = s6; break;
+            }
+        }
+
         //移動処理　【北：１、西：２、東：３、南：４】
         if (idoutyu)
         {
@@ -487,5 +523,30 @@ public class PlayerSaikoro : MonoBehaviour
             }
             lastPos = Enemy.transform.position;
         }
+    }
+    public void SetLegButtonEffect(bool isActive)
+    {
+        legButtonEffect = isActive;
+    }
+
+    public int RollDiceWithLegEffect()
+    {
+        int roll = Random.Range(minDiceValue, maxDiceValue + 1);
+        if (legButtonEffect)
+        {
+            switch (roll)
+            {
+                case 4:
+                    roll = 1;
+                    break;
+                case 5:
+                    roll = 2;
+                    break;
+                case 6:
+                    roll = 3;
+                    break;
+            }
+        }
+        return roll;
     }
 }
