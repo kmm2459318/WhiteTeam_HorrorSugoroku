@@ -34,4 +34,10 @@ public class SubstitutedollController : MonoBehaviour
             Debug.Log("⚠ 身代わり人形の使用上限に達しました！");
         }
     }
+    public void AddItem()
+    {
+        itemCount++;
+        Debug.Log("身代わり人形が1つ増えました！現在の数: " + itemCount);
+        UseSubstituteDoll();
+    }
 }
