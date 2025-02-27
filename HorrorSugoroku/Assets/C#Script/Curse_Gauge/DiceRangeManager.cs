@@ -4,7 +4,7 @@ public class DiceRangeManager : MonoBehaviour
 {
     private int minDiceValue = 1;
     private int maxDiceValue = 6;
-    private bool shouldTransformRoll = false; // サイコロの出目を変換するかどうかのフラグ
+    private bool shouldTransformRoll = false;
 
     public void SetDiceRollRange(int min, int max)
     {
