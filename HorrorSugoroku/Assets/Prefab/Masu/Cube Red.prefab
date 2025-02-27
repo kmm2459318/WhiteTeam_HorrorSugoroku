@@ -66,7 +66,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: a708f2ecc80909e43930365b719cc612, type: 2}
+  - {fileID: 2100000, guid: e2455cd16e4390541a0439094a18abda, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -192,7 +192,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: a708f2ecc80909e43930365b719cc612, type: 2}
+  - {fileID: 2100000, guid: e2455cd16e4390541a0439094a18abda, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -318,7 +318,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: a708f2ecc80909e43930365b719cc612, type: 2}
+  - {fileID: 2100000, guid: e2455cd16e4390541a0439094a18abda, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -389,10 +389,10 @@ GameObject:
   - component: {fileID: 7360832063563205206}
   - component: {fileID: 8741870528243454730}
   - component: {fileID: 392363684780667251}
-  - component: {fileID: 412273338825683494}
+  - component: {fileID: 807446687689896330}
   - component: {fileID: 3844098710942129867}
   m_Layer: 0
-  m_Name: Cube Green
+  m_Name: Cube Red
   m_TagString: masu
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -470,7 +470,7 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!114 &412273338825683494
+--- !u!114 &807446687689896330
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -484,18 +484,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cellEffect: Normal
   DebuffSheet: {fileID: 0}
-  eventPanel: {fileID: 0}
-  eventText: {fileID: 0}
   cursePanel: {fileID: 0}
   curseText: {fileID: 0}
-  closeButton: {fileID: 0}
+  itemPanel: {fileID: 0}
+  itemText: {fileID: 0}
   item: {fileID: 0}
   requiredItem: "\u9375"
   curseChance: 50
   scareChance: 30
   nothingChance: 20
+  hiruChance: 50
   curseamout: 10
+  hirueamout: 10
   cutInImage: {fileID: 0}
+  audioSource: {fileID: 0}
   cutInDuration: 2
   gameOverSound: {fileID: 0}
   volume: 1
@@ -519,7 +521,7 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 1, y: 1, z: 1}
+  m_Size: {x: 1, y: 34, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &9180031842096458207
 GameObject:
@@ -587,7 +589,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: a708f2ecc80909e43930365b719cc612, type: 2}
+  - {fileID: 2100000, guid: e2455cd16e4390541a0439094a18abda, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
