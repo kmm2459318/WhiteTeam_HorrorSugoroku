@@ -21,11 +21,13 @@ public class GridCell : MonoBehaviour
     public ItemPickup item;
     public string requiredItem = "鍵"; // 必要なアイテム
     private CurseSlider curseSlider;                                // public int gridCellIncreaseAmount = 20; // GridCell 側の呪いゲージ増加量
-    [SerializeField] private int curseChance = 50;  // 呪いの発生確率（％）
+   // [SerializeField] private int curseChance = 50;  // 呪いの発生確率（％）
     [SerializeField] private int scareChance = 30;  // 驚かしイベントの発生確率（％）
     [SerializeField] private int nothingChance = 20; // 何も起こらない確率（％）
+   // [SerializeField] private int hiruChance = 50;  // 呪いの回復確率（％）
 
     [SerializeField] private int curseamout = 10;//呪いの増加量の調整
+    [SerializeField] private int hirueamout = 10;//呪いの回復量の調整
     public Image cutInImage; // カットイン画像
     private Sprite loadedSprite;
     public AudioSource audioSource; // 音声
@@ -84,19 +86,25 @@ public class GridCell : MonoBehaviour
         }
         audioSource = gameObject.AddComponent<AudioSource>(); // AudioSourceを追加
 
-        // "Resources/Sounds/GameOverSound" にあるAudioClipを取得
-        gameOverSound = Resources.Load<AudioClip>("Mamono_aaa");
-        // "Resources/Images/CutInImage" にある画像を取得
-        loadedSprite = Resources.Load<Sprite>("Images/CutInImage");
+        // 非アクティブなオブジェクトも含めて Image を探す
+        Image[] allImages = FindObjectsOfType<Image>(true);
 
-        if (loadedSprite != null)
+        foreach (Image img in allImages)
         {
-            Debug.Log("🖼 画像ロード成功！");
-            cutInImage.sprite = loadedSprite; // UIに画像をセット
+            if (img.gameObject.name == "ImageCurse") // 名前で指定
+            {
+                cutInImage = img;
+                break;
+            }
+        }
+
+        if (cutInImage != null)
+        {
+            Debug.Log("✅ 非アクティブな ImageCurse を取得しました！");
         }
         else
         {
-            Debug.Log("⚠️ 画像が見つかりません！");
+            Debug.Log("⚠️ ImageCurse が見つかりません！");
         }
         // デバッグ用表示
         Debug.Log($"cursePanel: {cursePanel}");
@@ -218,21 +226,7 @@ public class GridCell : MonoBehaviour
                 break;
         }
     }
-    //void ShowEventUI(string message, float delay = 1.0f)
-    //{
-    //    StartCoroutine(DelayedShowEventUI(message, delay));
-    //}
-    //IEnumerator DelayedShowEventUI(string message, float delay)
-    //{
-    //    yield return new WaitForSeconds(delay);
-    //    if (eventPanel != null && eventText != null)
-    //    {
-
-    //        eventText.text = message;
-    //        eventPanel.SetActive(true);
-    //        Time.timeScale = 0; // **ゲームを停止**
-    //    }
-    //}
+    
     void ShowCurseUI(string message, float delay = 1.0f)
     {
         StartCoroutine(DelayedShowCurseUI(message, delay));
@@ -289,22 +283,22 @@ public class GridCell : MonoBehaviour
             Time.timeScale = 1;
         }
     }
-    private void DisplayRandomEvent()
-    {
-        string[] eventMessages = {
-            "ドアが開きました！",
-            "クローゼットに隠れられる",
-            "急に眠気がおそってきた。"
-        };
+    //private void DisplayRandomEvent()
+    //{
+    //    string[] eventMessages = {
+    //        "ドアが開きました！",
+    //        "クローゼットに隠れられる",
+    //        "急に眠気がおそってきた。"
+    //    };
 
-        System.Random random = new System.Random();
-        int randomIndex = random.Next(eventMessages.Length);
+    //    System.Random random = new System.Random();
+    //    int randomIndex = random.Next(eventMessages.Length);
 
-        string selectedEvent = eventMessages[randomIndex];
-        Debug.Log($"{name}: イベント発動！ {selectedEvent}");
+    //    string selectedEvent = eventMessages[randomIndex];
+    //    Debug.Log($"{name}: イベント発動！ {selectedEvent}");
 
-        //ExecuteSelectedEvent(selectedEvent);
-    }
+    //    //ExecuteSelectedEvent(selectedEvent);
+    //}
 
     //private void ExecuteSelectedEvent(string eventMessage)
     //{
@@ -358,23 +352,38 @@ public class GridCell : MonoBehaviour
         Debug.Log($"プレイヤーが {name} に到達しました。現在の位置: {transform.position}");
     }
 
+
+     void DisplayRandomEvent()
+    {
+        // **呪い発動**
+        Debug.Log($"{name}: 呪いが発動！");
+        curseSlider.DecreaseDashPoint(hirueamout); // 呪いゲージ増加
+        ShowCurseUI("呪いが発動した！");
+    }
+
+
+    void DeBuh()
+    {
+        // **呪い発動**
+        Debug.Log($"{name}: 呪いが発動！");
+        curseSlider.IncreaseDashPoint(curseamout); // 呪いゲージ増加
+        ShowCurseUI("呪いが発動した！");
+    }
+
+
     private void ExecuteCurseEvent()
     {
         int randomValue = Random.Range(1, 101); // 1〜100の乱数を生成
 
-        if (randomValue <= curseChance)
-        {
-            // **呪い発動**
-            Debug.Log($"{name}: 呪いが発動！");
-            curseSlider.IncreaseDashPoint(curseamout); // 呪いゲージ増加
-            ShowCurseUI("呪いが発動した！");
-        }
-        else if (randomValue <= curseChance + scareChance)
+        if (randomValue <= scareChance)
+       
         {
             // **驚かしイベント発動**
             Debug.Log($"{name}: 驚かしイベントが発生！");
             StartCoroutine(TriggerScareEffect());
         }
+       
+       
         else
         {
             // **何も起こらない**
@@ -411,12 +420,7 @@ public class GridCell : MonoBehaviour
             cutInImage.gameObject.SetActive(false); // 画像を非表示
         }
     }
-        void DeBuh()
-    {
-        int randomEvent = Random.Range(0, 2);
-
-        Debug.Log("デバフイベントB：アイテムが使えなくなった");
-    }
+     
 
 
     private void GiveRandomItem()
