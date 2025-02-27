@@ -6824,7 +6824,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 71f61d25c9598a74290f598e97887df3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerBody: {fileID: 0}
+  playerBody: {fileID: 2042766882}
   mouseSensitivity: 250
   sensitivitySlider: {fileID: 0}
   isMouseLocked: 1
@@ -9323,7 +9323,6 @@ Transform:
   - {fileID: 1632628222}
   - {fileID: 1148075106}
   - {fileID: 1330931026}
-  - {fileID: 731502594}
   - {fileID: 1024014645}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -13730,7 +13729,7 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1504868141}
-  m_Father: {fileID: 446471556}
+  m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -18887,6 +18886,26 @@ PrefabInstance:
       propertyPath: m_LocalPosition.z
       value: -24.142
       objectReference: {fileID: 0}
+    - target: {fileID: 8613521617490152328, guid: beef3bcde1610f04aa96275436147bb9, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8613533020111912740, guid: beef3bcde1610f04aa96275436147bb9, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8613563355717194510, guid: beef3bcde1610f04aa96275436147bb9, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8613746536143251606, guid: beef3bcde1610f04aa96275436147bb9, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8614253529715268222, guid: beef3bcde1610f04aa96275436147bb9, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects:
     - {fileID: 8604417094735626246, guid: beef3bcde1610f04aa96275436147bb9, type: 3}
@@ -19309,6 +19328,7 @@ MonoBehaviour:
   stopThreshold: 0.05
   throwForceMultiplier: 2
   smo: {fileID: 933503471}
+  diceRangeManager: {fileID: 0}
 --- !u!114 &933503471
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -20796,7 +20816,7 @@ GameObject:
   - component: {fileID: 990565278}
   - component: {fileID: 990565280}
   m_Layer: 16
-  m_Name: Card 1
+  m_Name: Leg
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -23156,7 +23176,7 @@ GameObject:
   - component: {fileID: 1159594665}
   - component: {fileID: 1159594667}
   m_Layer: 5
-  m_Name: Card 3
+  m_Name: Eye
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -26251,7 +26271,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1330931026
 RectTransform:
   m_ObjectHideFlags: 0
@@ -31380,7 +31400,7 @@ MonoBehaviour:
   playerTransform: {fileID: 2042766882}
   diceRangeManager: {fileID: 1024014644}
   diceController: {fileID: 933503470}
-  eyeButtonCanvas: {fileID: 1504868137}
+  eyeButtonCanvas: {fileID: 731502589}
 --- !u!114 &1632628219
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -36751,7 +36771,7 @@ GameObject:
   - component: {fileID: 1935866446}
   - component: {fileID: 1935866448}
   m_Layer: 16
-  m_Name: Card 2
+  m_Name: Arm
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -40994,6 +41014,7 @@ SceneRoots:
   - {fileID: 1365980964}
   - {fileID: 413954078}
   - {fileID: 446471556}
+  - {fileID: 731502594}
   - {fileID: 1769234140}
   - {fileID: 712998648}
   - {fileID: 2105703632}
