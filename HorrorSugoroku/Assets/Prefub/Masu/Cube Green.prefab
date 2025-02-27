@@ -477,25 +477,27 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6697206057811729497}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: be09e6e834c73cf45949ac4e256e91ba, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   cellEffect: Normal
   DebuffSheet: {fileID: 0}
-  eventPanel: {fileID: 0}
-  eventText: {fileID: 0}
   cursePanel: {fileID: 0}
   curseText: {fileID: 0}
-  closeButton: {fileID: 0}
+  itemPanel: {fileID: 0}
+  itemText: {fileID: 0}
   item: {fileID: 0}
   requiredItem: "\u9375"
   curseChance: 50
   scareChance: 30
   nothingChance: 20
+  hiruChance: 50
   curseamout: 10
+  hirueamout: 10
   cutInImage: {fileID: 0}
+  audioSource: {fileID: 0}
   cutInDuration: 2
   gameOverSound: {fileID: 0}
   volume: 1
@@ -519,7 +521,7 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 1, y: 1, z: 1}
+  m_Size: {x: 1, y: 34, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &9180031842096458207
 GameObject:
