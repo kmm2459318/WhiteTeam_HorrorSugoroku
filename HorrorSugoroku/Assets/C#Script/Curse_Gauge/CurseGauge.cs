@@ -60,6 +60,8 @@ public class CurseSlider : MonoBehaviour
     private bool isCardCanvas1 = false;
     private bool isCardCanvas2 = false;
 
+    [SerializeField] private HeelCurseGage heelCurseGage; // HeelCurseGageの参照を追加
+
     void Start()
     {
         DashGage.maxValue = maxDashPoint;
