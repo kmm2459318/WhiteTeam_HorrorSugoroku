@@ -19,6 +19,8 @@ public class DiceController : MonoBehaviour
     [SerializeField] private float throwForceMultiplier = 2f; // 投げる力の調整
     [SerializeField] SmoothTransform smo;
 
+    public DiceRangeManager diceRangeManager;
+    
     private int minDiceValue = 1;
     private int maxDiceValue = 6;
     private bool legButtonEffect = false; // LegButtonの効果を管理するフラグ
@@ -26,6 +28,9 @@ public class DiceController : MonoBehaviour
     void Start()
     {
         rb = GetComponent<Rigidbody>();
+        diceRangeManager = FindObjectOfType<DiceRangeManager>();
+        diceRangeManager.SetDiceRollRange(1, 6);
+        diceRangeManager.EnableTransformRoll();
     }
 
     void Update()

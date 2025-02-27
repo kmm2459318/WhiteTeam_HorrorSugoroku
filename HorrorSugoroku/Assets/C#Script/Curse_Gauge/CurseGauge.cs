@@ -332,8 +332,13 @@ public class CurseSlider : MonoBehaviour
         // サイコロの出目を1から3に設定
         diceRangeManager.SetDiceRollRange(1, 3);
         diceController.SetDiceRollRange(1, 3); // DiceControllerにも範囲を設定
-        playerSaikoro.SetLegButtonEffect(true); // LegButtonの効果を有効にする
+        diceRangeManager.EnableTransformRoll(); // 出目の変換を有効にする
+        diceController.SetLegButtonEffect(true); // DiceControllerの効果を有効にする
+        playerSaikoro.SetLegButtonEffect(true); // PlayerSaikoroの効果を有効にする
         HideCardCanvas2();
+
+        // カメラの位置を低くする
+        Camera.main.GetComponent<CameraController>().OnLegButtonPressed();
 
         // Canvasをアクティブにしてテキストを一文字ずつ表示
         if (eyeButtonText != null && eyeButtonCanvas != null && !isDisplayingText)
@@ -342,7 +347,6 @@ public class CurseSlider : MonoBehaviour
             StartCoroutine(DisplayTextOneByOne("片足ヲ失っタ。\nサイコロが1,2,3しか出ナイ。", eyeButtonText, 0.1f));
         }
     }
-
     public void Eye_ButtonAction()
     {
         Debug.Log("目が落ちた");
