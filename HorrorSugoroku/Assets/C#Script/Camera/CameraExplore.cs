@@ -10,12 +10,12 @@ public class CameraExplore : MonoBehaviour
     public TextMeshProUGUI exploreText;
     public float moveSpeed = 3f;
     public float exploreRadius = 2f;
-    public float returnDuration = 0.5f;
+    public float returnDuration = 0.5f; // 元の位置・向きに戻る時間
 
     private bool isExploring = false;
     private Transform currentExploreTarget;
-    private Vector3 originalCameraPosition;
-    private Quaternion originalCameraRotation; // 探索前のカメラの向きを保存
+    private Vector3 originalCameraPosition; // 探索前のカメラ位置を保存
+    private Quaternion originalCameraRotation; // 探索前のカメラ向きを保存
     private Coroutine returnCoroutine;
 
     void Start()
@@ -109,7 +109,8 @@ public class CameraExplore : MonoBehaviour
             if (currentExploreTarget != null)
             {
                 isExploring = true;
-                originalCameraRotation = playerCamera.rotation; // 探索前のカメラの向きを保存
+                originalCameraPosition = playerCamera.position; // 探索前のカメラ位置を保存
+                originalCameraRotation = playerCamera.rotation; // 探索前のカメラ向きを保存
 
                 exploreText.gameObject.SetActive(true);
                 exploreText.text = "[Qで探索をやめる]";
@@ -120,16 +121,19 @@ public class CameraExplore : MonoBehaviour
     IEnumerator ReturnCameraSmooth()
     {
         float elapsed = 0;
-        Quaternion startRot = playerCamera.rotation; // 今のカメラの向きを保存
+        Vector3 startPos = playerCamera.position; // 現在のカメラ位置を取得
+        Quaternion startRot = playerCamera.rotation; // 現在のカメラ向きを取得
 
         while (elapsed < returnDuration)
         {
             elapsed += Time.deltaTime;
             float t = elapsed / returnDuration;
-            playerCamera.rotation = Quaternion.Slerp(startRot, originalCameraRotation, t); // 探索前の向きに戻す
+            playerCamera.position = Vector3.Lerp(startPos, originalCameraPosition, t); // 元の位置に補間
+            playerCamera.rotation = Quaternion.Slerp(startRot, originalCameraRotation, t); // 元の向きに補間
             yield return null;
         }
 
-        playerCamera.rotation = originalCameraRotation; // 最後にしっかり元の向きに戻す
+        playerCamera.position = originalCameraPosition; // 最終的に正確な位置に戻す
+        playerCamera.rotation = originalCameraRotation; // 最終的に正確な向きに戻す
     }
 }
