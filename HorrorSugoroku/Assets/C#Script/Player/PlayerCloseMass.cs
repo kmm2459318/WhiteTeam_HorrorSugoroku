@@ -42,7 +42,7 @@ public class PlayerCloseMass : MonoBehaviour
                 closestObject = obj;
             }
         }
-        Debug.Log(closestObject);
+
         return closestObject;
     }
 }
