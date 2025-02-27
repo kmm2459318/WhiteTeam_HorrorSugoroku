@@ -222,6 +222,12 @@ public class CurseSlider : MonoBehaviour
         Debug.Log("今の呪いゲージ量: " + dashPoint);
     }
 
+    public void DecreaseDashPoint(int amount)
+    {
+        dashPoint = Mathf.Max(dashPoint - amount, 0);
+        DashGage.value = dashPoint;
+        Debug.Log("[CurseSlider] 呪いゲージ減少: " + amount + " 現在の値: " + dashPoint);
+    }
 
 
     private void UpdateImageGauges()
