@@ -16,6 +16,7 @@ public class GameManager : MonoBehaviour
     public PlayerSaikoro playerSaikoro;
     public EnemySaikoro enemySaikoro;
     public EnemySaikoro enemyCopySaikoro;
+    public CutIn cutIn;
 
     public GameObject currentEnemyModel; // 現在のエネミーモデル
     public GameObject EnemyCopy; // コピーエネミーモデル
