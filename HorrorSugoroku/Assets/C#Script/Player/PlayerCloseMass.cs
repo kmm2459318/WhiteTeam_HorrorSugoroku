@@ -6,7 +6,7 @@ public class PlayerCloseMass : MonoBehaviour
     private List<Transform> objectsInTrigger = new List<Transform>();
     public string targetTag = "masu"; // 取得したいオブジェクトのタグ
 
-    private void OnTriggerEnter(Collider other)
+    private void OnTriggerStay(Collider other)
     {
         // "masu" タグを持つオブジェクトのみリストに追加
         if (other.CompareTag(targetTag) && !objectsInTrigger.Contains(other.transform))
@@ -42,7 +42,7 @@ public class PlayerCloseMass : MonoBehaviour
                 closestObject = obj;
             }
         }
-
+        Debug.Log(closestObject);
         return closestObject;
     }
 }
