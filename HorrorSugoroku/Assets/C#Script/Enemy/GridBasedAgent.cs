@@ -1,9 +1,11 @@
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
 public class GridBasedAgent : MonoBehaviour
 {
-    /*public Transform target; // ターゲットオブジェクト
+    public Transform target; // ターゲットオブジェクト
     public float waitTime = 1.0f; // 各マスでの待機時間
     public float gridSize = 1.0f; // マス目のサイズ
 
@@ -83,5 +85,5 @@ public class GridBasedAgent : MonoBehaviour
         yield return new WaitForSeconds(waitTime); // 指定の時間待機
         agent.isStopped = false; // エージェントの移動を再開
         isWaiting = false;
-    }*/
+    }
 }

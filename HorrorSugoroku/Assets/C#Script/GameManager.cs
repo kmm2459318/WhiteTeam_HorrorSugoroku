@@ -3,6 +3,7 @@ using TMPro;
 using System.Collections;
 using UnityEngine.SceneManagement;
 using SmoothigTransform;
+using UnityEngine.AI;
 
 public class GameManager : MonoBehaviour
 {
@@ -16,6 +17,7 @@ public class GameManager : MonoBehaviour
     public PlayerSaikoro playerSaikoro;
     public EnemySaikoro enemySaikoro;
     public EnemySaikoro enemyCopySaikoro;
+    public NavMeshAgent agent;
     public CutIn cutIn;
 
     public GameObject currentEnemyModel; // 現在のエネミーモデル
@@ -27,6 +29,7 @@ public class GameManager : MonoBehaviour
 
     private void Start()
     {
+        agent.enabled = false;
         UpdateTurnText(); // 初期ターン表示
         playerSaikoro.StartRolling(); // プレイヤーのターンを開始
     }
@@ -104,6 +107,7 @@ public class GameManager : MonoBehaviour
 
         if (isPlayerTurn)
         {
+            //agent.enabled = false;
             // サイコロを振る
             playerSaikoro.DiceRoll();
 
@@ -114,6 +118,7 @@ public class GameManager : MonoBehaviour
         }
         else
         {
+            //agent.enabled = true;
             // 新しいエネミーにアクセス先を変更
             if (enemySaikoro != null)
             {

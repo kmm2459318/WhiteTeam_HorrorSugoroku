@@ -10,6 +10,7 @@ public class PlayerSaikoro : MonoBehaviour
     public DiceController diceController;
     [SerializeField] SmoothTransform player;
     private EnemySaikoro targetScript; // コマンドを受け取るEnemySaikoro
+    public EnemyStop enemyStop;
     public int sai = 1; // ランダムなサイコロの値
     public bool saikorotyu = false; // サイコロを振っているか
     public bool idoutyu = false;
@@ -290,16 +291,12 @@ public class PlayerSaikoro : MonoBehaviour
         {
             enemyEnd = true;
             exploring = false;
-            if ((lastPos.x + 0.0001f > Enemy.transform.position.x && lastPos.x - 0.0001f < Enemy.transform.position.x) &&
-            (lastPos.z + 0.0001f > Enemy.transform.position.z && lastPos.z - 0.0001f < Enemy.transform.position.z) &&
-            !targetScript.enemyidoutyu)
-            {
+            //if (enemyStop.rideMasu)
+            //{
                 enemyEnd = false;
-                targetScript.idouspanTime = 0f;
                 Debug.Log("探索モード終了、次のターンへ");
                 gameManager.NextTurn();
-            }
-            lastPos = Enemy.transform.position;
+            //}
         }
         // 探索中の判定をtrueにする
         // ボタン、スペースキーを押したときに探索の判定をfalseにする
@@ -385,7 +382,7 @@ public class PlayerSaikoro : MonoBehaviour
         detame = sai;
         saikoro.SetActive(true);
         // プレイヤーのサイコロの結果に応じてEnemyのサイコロ範囲を決定
-        targetScript.RollEnemyDice();
+        //targetScript.RollEnemyDice();
 
         i += sai;
         PlayerPrefs.SetInt("move", i);
@@ -504,7 +501,7 @@ public class PlayerSaikoro : MonoBehaviour
         maxDiceValue = max;
     }
 
-    public void NextTurn()
+    /*public void NextTurn()
     {
         if (exploring){
             enemyEnd = true;
@@ -520,7 +517,7 @@ public class PlayerSaikoro : MonoBehaviour
             }
             lastPos = Enemy.transform.position;
         }
-    }
+    }*/
     public void SetLegButtonEffect(bool isActive)
     {
         legButtonEffect = isActive;
