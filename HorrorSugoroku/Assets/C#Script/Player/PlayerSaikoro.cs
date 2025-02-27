@@ -7,7 +7,6 @@ public class PlayerSaikoro : MonoBehaviour
 {
     public GameManager gameManager; // GameManagerへの参照
     public TurnManager turnManager; // TurnManagerへの参照
-    public CameraChange cameraChange;
     public DiceController diceController;
     [SerializeField] SmoothTransform player;
     private EnemySaikoro targetScript; // コマンドを受け取るEnemySaikoro
@@ -73,7 +72,7 @@ public class PlayerSaikoro : MonoBehaviour
     void Start()
     {
         turnManager = FindObjectOfType<TurnManager>();
-        cameraChange.Change();
+        
         // プレイヤーシーンがロードされる際に、EnemySaikoroを探して参照を保持
         targetScript = FindObjectOfType<EnemySaikoro>();
         // DiceRangeManagerのインスタンスを取得
@@ -374,12 +373,10 @@ public class PlayerSaikoro : MonoBehaviour
     public void DiceRoll()
     {
         saikorotyu = true;
-        cameraChange.Change();
     }
 
     public void DiceAfter(int n)
     {
-        cameraChange.Change();
 
         sai = n;
         detame = sai;

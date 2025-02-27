@@ -18,6 +18,7 @@ public class GameManager : MonoBehaviour
     public EnemySaikoro enemySaikoro;
     public EnemySaikoro enemyCopySaikoro;
     public NavMeshAgent agent;
+    public CutIn cutIn;
 
     public GameObject currentEnemyModel; // 現在のエネミーモデル
     public GameObject EnemyCopy; // コピーエネミーモデル
