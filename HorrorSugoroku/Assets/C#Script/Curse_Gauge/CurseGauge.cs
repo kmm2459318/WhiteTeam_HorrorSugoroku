@@ -25,7 +25,7 @@ public class CurseSlider : MonoBehaviour
     [SerializeField] private TextMeshProUGUI eyeButtonText;
 
     private float maxDashPoint = 100;
-    private float dashIncreasePerTurn = 5;
+    private float dashIncreasePerTurn = 2;
 
     public int CountGauge = 0;              //ゲームオーバーカウント
     public float dashPoint = 0;
@@ -57,8 +57,8 @@ public class CurseSlider : MonoBehaviour
     // カード表示の閾値（20,40,60,80,100）
 
     //小さい呪い、大きい呪いどちらを表示しているかの判定
-    private bool isCardCanvas1 = false;
-    private bool isCardCanvas2 = false;
+    public bool isCardCanvas1 = false;
+    public bool isCardCanvas2 = false;
 
     void Start()
     {
@@ -249,13 +249,13 @@ public class CurseSlider : MonoBehaviour
         {
             //Cursor.lockState = CursorLockMode.None;
             //Cursor.visible = true;
+            isCardCanvas2 = true;
             CardCanvas2.SetActive(true);
             ArmButton.interactable = !isArmButtonUsed;
             LegButton.interactable = !isLegButtonUsed;
             EyeButton.interactable = !isEyeButtonUsed;
             yield return new WaitForSeconds(1.0f);
             Time.timeScale = 0; // **ゲームを停止**
-            isCardCanvas2 = true;
         }
     }
 
@@ -263,13 +263,13 @@ public class CurseSlider : MonoBehaviour
     {
         if (CardCanvas1 != null)
         {
+            isCardCanvas1 = true;
             CardCanvas1.SetActive(true);
             ArmButton.interactable = !isArmButtonUsed;
             LegButton.interactable = !isLegButtonUsed;
             EyeButton.interactable = !isEyeButtonUsed;
             yield return new WaitForSeconds(1.0f);
             Time.timeScale = 0; // **ゲームを停止**
-            isCardCanvas1 = true;
         }
     }
 
