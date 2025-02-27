@@ -46,7 +46,7 @@ public class BeartrapController : MonoBehaviour
         }
     }
 
-    private void OnTriggerEnter(Collider other)
+    /*private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Enemy"))
         {
@@ -63,7 +63,7 @@ public class BeartrapController : MonoBehaviour
                 }
             }
         }
-    }
+    }*/
 
     public void PlaceBeartrap()
     {

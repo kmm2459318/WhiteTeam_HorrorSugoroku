@@ -35,7 +35,7 @@ public class EnemySaikoro : MonoBehaviour
     private AudioSource audioSource; // 音声再生用のAudioSource
     public AudioClip footstepSound;// 足音のAudioClip
     public float idouspanTime;
-    Vector3 goToPos = new Vector3(18, 0, -36);
+    Vector3 goToPos = new Vector3(0f, 0, -1.65f);
     private int goToMass = 2;
     public EnemyController enemyController;
     public GameManager gameManager; // GameManagerの参照
@@ -85,6 +85,8 @@ public class EnemySaikoro : MonoBehaviour
         Debug.Log("ESouth: " + ESouth);
         Debug.Log("enemySmooth: " + enemySmooth);
         Debug.Log("enemyBodySmooth: " + enemyBodySmooth);
+
+        ES = true;
     }
     void Update()
     {
@@ -202,19 +204,19 @@ public class EnemySaikoro : MonoBehaviour
         switch (a)
         {
             case 1:
-                goToPos += new Vector3(2f, 0, 0);
+                goToPos = Emasu.transform.position;
                 goToMass = 3; break;
             case 2:
-                goToPos += new Vector3(0, 0, 2f);
+                goToPos = Nmasu.transform.position;
                 goToMass = 4; break;
             case 3:
-                goToPos += new Vector3(-2f, 0, 0);
+                goToPos = Wmasu.transform.position;
                 goToMass = 1; break;
             case 4:
-                goToPos += new Vector3(0, 0, -2f);
+                goToPos = Smasu.transform.position;
                 goToMass = 2; break;
         }
-        Debug.Log(goToPos);
+        Debug.Log("gotopos" + goToPos);
     }
 
     public IEnumerator RollEnemyDice()
@@ -335,7 +337,17 @@ public class EnemySaikoro : MonoBehaviour
                 }
                 Debug.Log(goToMass);
 
-                enemySmooth.TargetPosition += direction * 1.0f; // 2.0f単位で移動
+                switch (goToMass)
+                {
+                    case 4:
+                        enemySmooth.TargetPosition = Nmasu.transform.position; break;
+                    case 2:
+                        enemySmooth.TargetPosition = Smasu.transform.position; break;
+                    case 3:
+                        enemySmooth.TargetPosition = Emasu.transform.position; break;
+                    case 1:
+                        enemySmooth.TargetPosition = Wmasu.transform.position; break;
+                }
 
                 if (s1)
                 {

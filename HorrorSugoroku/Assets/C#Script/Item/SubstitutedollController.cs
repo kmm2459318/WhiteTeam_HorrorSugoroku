@@ -1,47 +1,26 @@
 ﻿using UnityEngine;
-using UnityEngine.UI;
 
 public class SubstitutedollController : MonoBehaviour
 {
-    private static int substituteDollCount; // 身代わり人形の所持数
-    public int itemCount = 0; // アイテムの数
-    public Button substituteDollButton; // ボタンをアタッチ
+    private int itemCount = 3; // 初期値を3に設定
+    private int useCount = 0; // 使用回数
+    private const int maxUsage = 3; // 使用上限
     public CurseSlider curseSlider; // 呪いゲージの管理
 
     private void Start()
     {
-        if (substituteDollButton == null)
-        {
-            Debug.LogError("❌ substituteDollButton がアタッチされていません！");
-            return;
-        }
-
-        // 💡 ボタンの interactable を true にしておく
-        substituteDollButton.interactable = true;
-
-        substituteDollButton.onClick.AddListener(OnButtonPressed);
-        UpdateButtonVisibility();
+        Debug.Log($"🎭 身代わり人形を{itemCount}つ持っています！");
     }
 
-    public void AddItem()
+    public void UseSubstituteDoll()
     {
-        itemCount++;
-        substituteDollCount++;
-        Debug.Log("✅ 身代わり人形が1つ増えました！現在の数: " + itemCount);
-        UpdateButtonVisibility();
-    }
-
-    private void OnButtonPressed()
-    {
-        Debug.Log("🖱 ボタンが押されました！ itemCount: " + itemCount);
-
-        if (itemCount > 0)
+        if (useCount < maxUsage)
         {
-            substituteDollCount--;
-            itemCount--; // 🛠 itemCount を減らす
+            useCount++;
+            itemCount--;
             SceneChanger3D.hasSubstituteDoll = true;
 
-            Debug.Log("✨ 身代わり人形を使用！ 残り: " + itemCount);
+            Debug.Log($"✨ 身代わり人形を使用！ 残り: {itemCount} 使用回数: {useCount}/{maxUsage}");
 
             // ✅ 呪いゲージを10増加
             if (curseSlider != null)
@@ -49,22 +28,16 @@ public class SubstitutedollController : MonoBehaviour
                 Debug.Log("🔮 生命反応あり3 - 呪いゲージ増加");
                 curseSlider.IncreaseDashPoint(10);
             }
-
-            UpdateButtonVisibility();
         }
         else
         {
-            Debug.Log("⚠ 身代わり人形がありません！");
+            Debug.Log("⚠ 身代わり人形の使用上限に達しました！");
         }
     }
-
-    private void UpdateButtonVisibility()
+    public void AddItem()
     {
-        if (substituteDollButton != null)
-        {
-            bool isVisible = itemCount > 0;
-            substituteDollButton.gameObject.SetActive(isVisible);
-            Debug.Log("🖲 ボタンの表示状態を更新: " + isVisible);
-        }
+        itemCount++;
+        Debug.Log("身代わり人形が1つ増えました！現在の数: " + itemCount);
+        UseSubstituteDoll();
     }
 }

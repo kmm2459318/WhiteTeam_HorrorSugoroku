@@ -6,7 +6,7 @@ public class EnemyController : MonoBehaviour
     private Animator animator; // �A�j���[�^�[�R���|�[�l���g
     private bool isMoving; // �ړ������ǂ����������t���O
     public GameManager gameManager; // �Q�[���}�l�[�W���[�ւ̎Q��
-    public EnemySaikoro enemySaikoro; // �G�L�����N�^�[�̃T�C�R���ւ̎Q��
+    //public EnemySaikoro enemySaikoro; // �G�L�����N�^�[�̃T�C�R���ւ̎Q��
     int mp = 0; // �}�b�v�s�[�X�̐�
     float mo = 3f; // �ړ����x
     int id = 1; // �G�L�����N�^�[��ID
@@ -14,11 +14,6 @@ public class EnemyController : MonoBehaviour
     void Start()
     {
         animator = GetComponent<Animator>(); // �A�j���[�^�[�R���|�[�l���g�̎擾
-
-        if (enemySaikoro == null)
-        {
-            Debug.LogError("enemySaikoro is not assigned.");
-        }
 
         // AttackRoutine�R���[�`�����J�n
         StartCoroutine(AttackRoutine());
@@ -46,13 +41,13 @@ public class EnemyController : MonoBehaviour
         {
             mo = 8f;
             id = 2;
-            enemySaikoro.skill1 = true; // �X�L��1��L���ɂ���
+            //enemySaikoro.skill1 = true; // �X�L��1��L���ɂ���
         }
         else if (mp < 9) // �R�i�K
         {
             mo = 10f;
             id = 3;
-            enemySaikoro.skill2 = true; // �X�L��2��L���ɂ���
+            //enemySaikoro.skill2 = true; // �X�L��2��L���ɂ���
         }
         else // �ڂ��i��
         {
@@ -60,8 +55,8 @@ public class EnemyController : MonoBehaviour
             id = 4;
         }
 
-        enemySaikoro.mokushi = mo; // �T�C�R���̈ړ����x��ݒ�
-        enemySaikoro.idoukagen = id; // �T�C�R����ID��ݒ�
+        //enemySaikoro.mokushi = mo; // �T�C�R���̈ړ����x��ݒ�
+        //enemySaikoro.idoukagen = id; // �T�C�R����ID��ݒ�
     }
 
     public void SetMovement(bool moving)

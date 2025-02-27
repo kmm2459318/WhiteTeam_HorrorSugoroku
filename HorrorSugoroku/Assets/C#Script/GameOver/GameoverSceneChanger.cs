@@ -52,7 +52,7 @@ public class SceneChanger3D : MonoBehaviour
     private void OnTriggerEnter(Collider other)
     { 
         
-        if (!isGameOver && enemies.Contains(other.gameObject) && (curseslider.CountGauge >= 2))
+        if (!isGameOver && enemies.Contains(other.gameObject))
         {
             HandleGameOver();
 
@@ -82,17 +82,17 @@ public class SceneChanger3D : MonoBehaviour
             hasSubstituteDoll = false; // 身代わり人形を消費
             Debug.Log("身代わり人形が発動！ゲームオーバーを回避！");
         }
-        else
+        else              
         {
             StartCoroutine(ShowCutInAndGoToGameover()); // ゲームオーバー処理を実行
-        }
-    }
-
+        }                                              
+    }        
+                
     // カットイン画像を表示してからゲームオーバーシーンに遷移する処理
     private IEnumerator ShowCutInAndGoToGameover()
     {
         isGameOver = true; // 重複処理防止用フラグ
-
+                                                     
         // 他のUI要素（テキストなど）を非表示にする
         HideAllUI(); // UI非表示処理を実行
 
@@ -101,14 +101,14 @@ public class SceneChanger3D : MonoBehaviour
         {
             cutInImage.gameObject.SetActive(true); // 画像を表示
         }
-
+                                                                 
         // ゲームオーバーサウンドを再生
         if (gameOverSound != null && audioSource != null)
         {
             audioSource.clip = gameOverSound; // サウンドを設定
             audioSource.Play(); // 音を鳴らす
         }
-
+                                                                 
         // 指定された時間だけ待機
         yield return new WaitForSeconds(cutInDuration);
 

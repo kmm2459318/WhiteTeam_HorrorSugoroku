@@ -15,13 +15,15 @@ public class CameraController : MonoBehaviour
     public bool isMouseLocked = true;  // マウスロック状態
     private bool isOptionOpen = false;  // オプションメニューの開閉状態
 
+    // 新しく追加するフィールド
+    private Vector3 initialCameraPosition;
+    private bool isLegButtonPressed = false;
+
     void Start()
     {
-        // カメラを開始時にマウスをロック
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
 
-        // スライダーの初期値を設定し、リスナーを登録
         if (sensitivitySlider != null)
         {
             sensitivitySlider.minValue = 0.1f;
@@ -29,6 +31,9 @@ public class CameraController : MonoBehaviour
             sensitivitySlider.value = sensitivityMultiplier;
             sensitivitySlider.onValueChanged.AddListener(OnSensitivityChanged);
         }
+
+        // カメラの初期位置を保存
+        initialCameraPosition = transform.localPosition;
     }
 
     void Update()
@@ -37,13 +42,18 @@ public class CameraController : MonoBehaviour
 
         if (isMouseLocked)
         {
-            HandleMouseLook(); // マウスでの視点移動
+            HandleMouseLook();
+        }
+
+        // LegButtonが押されたときに視点を低くする
+        if (isLegButtonPressed)
+        {
+            LowerCameraPosition();
         }
     }
 
     private void HandleMouseLock()
     {
-        // オプションメニューが開いている間は Alt キーの処理を無効化
         if (isOptionOpen)
         {
             return;
@@ -72,7 +82,8 @@ public class CameraController : MonoBehaviour
         xRotation = Mathf.Clamp(xRotation, lowerLookLimit, upperLookLimit);
         yRotation += mouseX;
 
-        transform.localRotation = Quaternion.Euler(xRotation, yRotation, 0f);  // 上下回転
+        transform.localRotation = Quaternion.Euler(xRotation, 0f, 0f);
+        playerBody.Rotate(Vector3.up * mouseX);
     }
 
     private void OnSensitivityChanged(float value)
@@ -80,9 +91,20 @@ public class CameraController : MonoBehaviour
         sensitivityMultiplier = value;
     }
 
-    // オプション画面の開閉状態を更新する
     public void SetOptionOpen(bool state)
     {
         isOptionOpen = state;
+    }
+
+    // カメラの位置を低くするメソッド
+    private void LowerCameraPosition()
+    {
+        transform.localPosition = new Vector3(initialCameraPosition.x, initialCameraPosition.y - 0.5f, initialCameraPosition.z);
+    }
+
+    // LegButtonが押されたときに呼び出されるメソッド
+    public void OnLegButtonPressed()
+    {
+        isLegButtonPressed = true;
     }
 }

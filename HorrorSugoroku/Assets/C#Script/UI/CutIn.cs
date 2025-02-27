@@ -5,6 +5,7 @@ using System.Collections;
 public class CutIn : MonoBehaviour
 {
     public GameManager gameManager;
+    public CurseSlider curseSlider;
 
     [SerializeField] private TextMeshProUGUI TEXT;
     [SerializeField, Header("フェイドイン")]
@@ -14,12 +15,14 @@ public class CutIn : MonoBehaviour
     [SerializeField, Header("表示時間")]
     public float DisplayTime = 1.5f; // 完全に表示する時間
 
-    public GameObject Text;
+    public GameObject Text_CutIn;
     private bool previousTurnState = false; // 前回のターン状態
+    private bool isExecutingFade = false;  // `FadeIn()` を1回だけ呼び出すためのフラグ
+
 
     void Start()
     {
-        Text.SetActive(false);
+        Text_CutIn.SetActive(false);
         TEXT.text = "";
         TEXT.color = new Color(1.0f, 1.0f, 1.0f, 0.0f); // 完全に透明
         previousTurnState = gameManager.isPlayerTurn; // 初期状態を保存
@@ -27,21 +30,34 @@ public class CutIn : MonoBehaviour
 
     void Update()
     {
-        // `isPlayerTurn` が true に変わったときに 1 回だけ `NextTurn()` を実行
-        if (gameManager.isPlayerTurn && !previousTurnState)
+        if (!isExecutingFade && curseSlider.isCardCanvas1 == false && curseSlider.isCardCanvas2 == false)
         {
-            Text.SetActive(true);
-            StartCoroutine(FadeIn());
+            //DICE TURN表示
+            if (gameManager.isPlayerTurn && !previousTurnState)
+            {
+                isExecutingFade = true; // フェード処理中にする
+                Text_CutIn.SetActive(true);
+                StartCoroutine(FadeIn());
+            }
+            //SEARCH TURN表示
+            else if (!gameManager.isPlayerTurn && previousTurnState)
+            {
+                isExecutingFade = true; // フェード処理中にする
+                Text_CutIn.SetActive(true);
+                StartCoroutine(FadeIn());
+            }
         }
 
-        // 現在の状態を更新
+        //現在の状態を更新
         previousTurnState = gameManager.isPlayerTurn;
     }
 
     // フェイドインの処理
-    IEnumerator FadeIn()
-    {
-        TEXT.text = "PLAYER TURN";
+    public IEnumerator FadeIn()
+    { 
+        Text_CutIn.SetActive(true);
+        TEXT.text = gameManager.isPlayerTurn ? "DICE TURN" : "SEARCH TURN";
+
         float elapsedTime = 0f;
 
         while (elapsedTime < FadeInTime)
@@ -73,6 +89,9 @@ public class CutIn : MonoBehaviour
 
         TEXT.color = new Color(1, 1, 1, 0); // 完全に透明
         TEXT.text = ""; // フェードアウト後テキストを消す
-        Text.SetActive(false);
+        Text_CutIn.SetActive(false);
+
+        isExecutingFade = false;
+        Debug.Log("FadeOut 完了: isExecutingFade を false にリセット");
     }
 }

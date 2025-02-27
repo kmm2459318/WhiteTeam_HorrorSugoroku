@@ -7,10 +7,10 @@ public class PlayerSaikoro : MonoBehaviour
 {
     public GameManager gameManager; // GameManagerへの参照
     public TurnManager turnManager; // TurnManagerへの参照
-    public CameraChange cameraChange;
     public DiceController diceController;
     [SerializeField] SmoothTransform player;
     private EnemySaikoro targetScript; // コマンドを受け取るEnemySaikoro
+    public EnemyStop enemyStop;
     public int sai = 1; // ランダムなサイコロの値
     public bool saikorotyu = false; // サイコロを振っているか
     public bool idoutyu = false;
@@ -65,16 +65,28 @@ public class PlayerSaikoro : MonoBehaviour
     private AudioSource audioSource; // AudioSource to play sound
     public AudioClip diceRollSound; // The sound to play when the dice rolls
 
+    public DiceRangeManager diceRangeManager; // DiceRangeManagerへの参照
+    private bool legButtonEffect = false; // LegButtonの効果を管理するフラグ
+
     [System.Obsolete]
     void Start()
     {
         turnManager = FindObjectOfType<TurnManager>();
-        cameraChange.Change();
+        
         // プレイヤーシーンがロードされる際に、EnemySaikoroを探して参照を保持
         targetScript = FindObjectOfType<EnemySaikoro>();
+        // DiceRangeManagerのインスタンスを取得
+        // 他の初期化コード...
+        diceRangeManager = FindObjectOfType<DiceRangeManager>();
+        diceController = FindObjectOfType<DiceController>(); // DiceControllerの参照を取得
 
-        // サイコロのImageを保持
-        image = saikoro.GetComponent<Image>();
+        if (diceController == null)
+        {
+            Debug.LogError("DiceController is not assigned and could not be found in the scene.");
+        }
+    
+    // サイコロのImageを保持
+    image = saikoro.GetComponent<Image>();
 
         saikoro.SetActive(false);
 
@@ -195,8 +207,32 @@ public class PlayerSaikoro : MonoBehaviour
             sai = Random.Range(minDiceValue, maxDiceValue + 1);
 
         }
-     
-    
+        // サイコロ振る
+
+        // サイコロ振る
+        if (saikorotyu)
+        {
+            sai = RollDiceWithLegEffect();
+            Debug.Log("最終的なサイコロの出目: " + sai);
+
+            // サイコロの出目に応じてスプライトを更新
+            switch (sai)
+            {
+                case 1:
+                    image.sprite = s1; break;
+                case 2:
+                    image.sprite = s2; break;
+                case 3:
+                    image.sprite = s3; break;
+                case 4:
+                    image.sprite = s4; break;
+                case 5:
+                    image.sprite = s5; break;
+                case 6:
+                    image.sprite = s6; break;
+            }
+        }
+
         //移動処理　【北：１、西：２、東：３、南：４】
         if (idoutyu)
         {
@@ -255,16 +291,12 @@ public class PlayerSaikoro : MonoBehaviour
         {
             enemyEnd = true;
             exploring = false;
-            if ((lastPos.x + 0.0001f > Enemy.transform.position.x && lastPos.x - 0.0001f < Enemy.transform.position.x) &&
-            (lastPos.z + 0.0001f > Enemy.transform.position.z && lastPos.z - 0.0001f < Enemy.transform.position.z) &&
-            !targetScript.enemyidoutyu)
-            {
+            //if (enemyStop.rideMasu)
+            //{
                 enemyEnd = false;
-                targetScript.idouspanTime = 0f;
                 Debug.Log("探索モード終了、次のターンへ");
                 gameManager.NextTurn();
-            }
-            lastPos = Enemy.transform.position;
+            //}
         }
         // 探索中の判定をtrueにする
         // ボタン、スペースキーを押したときに探索の判定をfalseにする
@@ -341,18 +373,16 @@ public class PlayerSaikoro : MonoBehaviour
     public void DiceRoll()
     {
         saikorotyu = true;
-        cameraChange.Change();
     }
 
     public void DiceAfter(int n)
     {
-        cameraChange.Change();
 
         sai = n;
         detame = sai;
         saikoro.SetActive(true);
         // プレイヤーのサイコロの結果に応じてEnemyのサイコロ範囲を決定
-        targetScript.RollEnemyDice();
+        //targetScript.RollEnemyDice();
 
         i += sai;
         PlayerPrefs.SetInt("move", i);
@@ -471,7 +501,7 @@ public class PlayerSaikoro : MonoBehaviour
         maxDiceValue = max;
     }
 
-    public void NextTurn()
+    /*public void NextTurn()
     {
         if (exploring){
             enemyEnd = true;
@@ -487,5 +517,30 @@ public class PlayerSaikoro : MonoBehaviour
             }
             lastPos = Enemy.transform.position;
         }
+    }*/
+    public void SetLegButtonEffect(bool isActive)
+    {
+        legButtonEffect = isActive;
+    }
+
+    public int RollDiceWithLegEffect()
+    {
+        int roll = Random.Range(minDiceValue, maxDiceValue + 1);
+        if (legButtonEffect)
+        {
+            switch (roll)
+            {
+                case 4:
+                    roll = 1;
+                    break;
+                case 5:
+                    roll = 2;
+                    break;
+                case 6:
+                    roll = 3;
+                    break;
+            }
+        }
+        return roll;
     }
 }
