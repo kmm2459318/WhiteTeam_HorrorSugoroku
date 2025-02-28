@@ -21,6 +21,10 @@ public class CameraExplore : MonoBehaviour
     void Start()
     {
         exploreText.gameObject.SetActive(false);
+
+        // カメラの初期向きを保存
+        originalCameraRotation = playerCamera.rotation;
+
         foreach (GameObject obj in GameObject.FindGameObjectsWithTag("ExploreTarget"))
         {
             exploreTargets.Add(obj.transform);
@@ -39,6 +43,7 @@ public class CameraExplore : MonoBehaviour
             ToggleExplore();
         }
 
+        // 探索中だけカメラをターゲットに動かす
         if (isExploring)
         {
             MoveCameraToTarget();
@@ -86,8 +91,8 @@ public class CameraExplore : MonoBehaviour
     {
         if (currentExploreTarget != null)
         {
+            // 位置だけ補間する（回転はCameraControllerに任せる）
             playerCamera.position = Vector3.Lerp(playerCamera.position, currentExploreTarget.position, Time.deltaTime * moveSpeed);
-            playerCamera.rotation = Quaternion.Slerp(playerCamera.rotation, currentExploreTarget.rotation, Time.deltaTime * moveSpeed);
         }
     }
 
@@ -98,10 +103,13 @@ public class CameraExplore : MonoBehaviour
             isExploring = false;
             exploreText.gameObject.SetActive(false);
 
+            // もし補間が動いていたら停止
             if (returnCoroutine != null)
             {
                 StopCoroutine(returnCoroutine);
+                returnCoroutine = null;
             }
+
             returnCoroutine = StartCoroutine(ReturnCameraSmooth());
         }
         else
@@ -109,8 +117,8 @@ public class CameraExplore : MonoBehaviour
             if (currentExploreTarget != null)
             {
                 isExploring = true;
-                originalCameraPosition = playerCamera.position; // 探索前のカメラ位置を保存
-                originalCameraRotation = playerCamera.rotation; // 探索前のカメラ向きを保存
+                originalCameraPosition = playerCamera.position;
+                originalCameraRotation = playerCamera.rotation;
 
                 exploreText.gameObject.SetActive(true);
                 exploreText.text = "[Qで探索をやめる]";
@@ -121,19 +129,26 @@ public class CameraExplore : MonoBehaviour
     IEnumerator ReturnCameraSmooth()
     {
         float elapsed = 0;
-        Vector3 startPos = playerCamera.position; // 現在のカメラ位置を取得
-        Quaternion startRot = playerCamera.rotation; // 現在のカメラ向きを取得
+        Vector3 startPos = playerCamera.position;
+        Quaternion startRot = playerCamera.rotation;
 
         while (elapsed < returnDuration)
         {
+            // 途中でプレイヤーがカメラを動かしたら補間を止める
+            if (Input.GetMouseButton(1) || Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.S) || Input.GetKey(KeyCode.D))
+            {
+                break;
+            }
+
             elapsed += Time.deltaTime;
             float t = elapsed / returnDuration;
-            playerCamera.position = Vector3.Lerp(startPos, originalCameraPosition, t); // 元の位置に補間
-            playerCamera.rotation = Quaternion.Slerp(startRot, originalCameraRotation, t); // 元の向きに補間
+            playerCamera.position = Vector3.Lerp(startPos, originalCameraPosition, t);
+            playerCamera.rotation = Quaternion.Slerp(startRot, originalCameraRotation, t);
             yield return null;
         }
 
-        playerCamera.position = originalCameraPosition; // 最終的に正確な位置に戻す
-        playerCamera.rotation = originalCameraRotation; // 最終的に正確な向きに戻す
+        // 最終的な位置・向きをセット
+        playerCamera.position = originalCameraPosition;
+        playerCamera.rotation = originalCameraRotation;
     }
 }
