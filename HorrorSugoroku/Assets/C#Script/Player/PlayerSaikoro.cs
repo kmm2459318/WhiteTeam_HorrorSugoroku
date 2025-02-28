@@ -291,12 +291,12 @@ public class PlayerSaikoro : MonoBehaviour
         {
             enemyEnd = true;
             exploring = false;
-            //if (enemyStop.rideMasu)
-            //{
+            if (enemyStop.rideMasu)
+            {
                 enemyEnd = false;
                 Debug.Log("探索モード終了、次のターンへ");
                 gameManager.NextTurn();
-            //}
+            }
         }
         // 探索中の判定をtrueにする
         // ボタン、スペースキーを押したときに探索の判定をfalseにする

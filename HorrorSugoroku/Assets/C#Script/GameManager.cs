@@ -107,7 +107,7 @@ public class GameManager : MonoBehaviour
 
         if (isPlayerTurn)
         {
-            //agent.enabled = false;
+            agent.enabled = false;
             // サイコロを振る
             playerSaikoro.DiceRoll();
 
@@ -118,7 +118,7 @@ public class GameManager : MonoBehaviour
         }
         else
         {
-            //agent.enabled = true;
+            agent.enabled = true;
             // 新しいエネミーにアクセス先を変更
             if (enemySaikoro != null)
             {
