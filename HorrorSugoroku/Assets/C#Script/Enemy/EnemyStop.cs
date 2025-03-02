@@ -3,56 +3,64 @@ using UnityEngine;
 public class EnemyStop : MonoBehaviour
 {
     public GameManager gameManager;
-    public GameObject ENorth;
-    public GameObject EWest;
-    public GameObject EEast;
-    public GameObject ESouth;
-    private bool EN = false; // �G�̓�����k
-    private bool EW = false;
-    private bool EE = false;
-    private bool ES = false;
-    private Transform Smasu;
-    private Transform Nmasu;
-    private Transform Wmasu;
-    private Transform Emasu;
-    Vector3 ms = GameObject.Find("masu").transform.position;
+    public string targetTag = "masu";  // �Ώۂ̃^�O
+    public float threshold = 0.1f; // �ǂꂭ�炢�̌덷�����e���邩
     public bool rideMasu = false;
+    private Animator animator; // Animator�R���|�[�l���g
 
     void Start()
     {
-        
+        animator = GetComponent<Animator>(); // Animator�R���|�[�l���g���擾
     }
 
     void Update()
     {
-        if (ENorth == null) Debug.LogError("ENorth is not assigned.");
-        if (EWest == null) Debug.LogError("EWest is not assigned.");
-        if (EEast == null) Debug.LogError("EEast is not assigned.");
-        if (ESouth == null) Debug.LogError("ESouth is not assigned.");
+        CheckPositionMatch();
 
-        EN = ENorth.GetComponent<PlayerNSEWCheck>().masuCheck;
-        EW = EWest.GetComponent<PlayerNSEWCheck>().masuCheck;
-        EE = EEast.GetComponent<PlayerNSEWCheck>().masuCheck;
-        ES = ESouth.GetComponent<PlayerNSEWCheck>().masuCheck;
-        Nmasu = ENorth.GetComponent<PlayerCloseMass>().GetClosestObject();
-        Wmasu = EWest.GetComponent<PlayerCloseMass>().GetClosestObject();
-        Emasu = EEast.GetComponent<PlayerCloseMass>().GetClosestObject();
-        Smasu = ESouth.GetComponent<PlayerCloseMass>().GetClosestObject();
-
-        if (!gameManager.isPlayerTurn)
-        {
-
-        }
-
-        if (((ms.x + 0.1f > this.transform.position.x && ms.x - 0.1f < this.transform.position.x) &&
+         if (((ms.x + 0.1f > this.transform.position.x && ms.x - 0.1f < this.transform.position.x) &&
             (ms.z + 0.1f > this.transform.position.z && ms.z - 0.1f < this.transform.position.z)))
         {
-            Debug.Log("�}�X�ɏ����");
+            Debug.Log("マスに乗った");
             rideMasu = true;
+            animator.SetBool("isIdle", true); // Idleアニメーションを再生
+            animator.SetBool("is Running", false); // Runアニメーションを停止
         }
         else
         {
             rideMasu = false;
+            animator.SetBool("isIdle", false); // Idleアニメーションを停止
+            animator.SetBool("is Running", true); // Runアニメーションを再生
         }
+    }
+}
+    }
+
+    private void CheckPositionMatch()
+    {
+        GameObject[] masuObjects = GameObject.FindGameObjectsWithTag(targetTag);
+
+        foreach (GameObject masu in masuObjects)
+        {
+            Vector3 targetPos = masu.transform.position;
+            Vector3 currentPos = transform.position;
+
+            // X��Z���W���قڈ�v���Ă��邩����
+            if (Mathf.Abs(currentPos.x - targetPos.x) < threshold && Mathf.Abs(currentPos.z - targetPos.z) < threshold && Mathf.Abs(currentPos.y - targetPos.y) < 1f)
+            {
+                OnMatched(masu);
+                break; // ��v����I�u�W�F�N�g�����������烋�[�v�𔲂���
+            }
+            else
+            {
+                rideMasu = false;
+            }
+        }
+    }
+
+    private void OnMatched(GameObject masu)
+    {
+        Debug.Log($"��v: {masu.name} �� {gameObject.name}");
+        rideMasu = true;
+        // �����ɏ�����ǉ��i��F�A�j���[�V�����Đ��A�X�R�A���Z�Ȃǁj
     }
 }
