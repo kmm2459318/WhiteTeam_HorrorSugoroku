@@ -1,5 +1,4 @@
 using UnityEngine;
-using System.Collections;
 
 public class EyeEffectController : MonoBehaviour
 {
@@ -23,6 +22,15 @@ public class EyeEffectController : MonoBehaviour
         {
             Debug.LogError("blackOverlayが設定されていません");
         }
+
+        if (parentCanvas != null)
+        {
+            parentCanvas.gameObject.SetActive(false); // 親Canvasを初期状態で非表示にする
+        }
+        else
+        {
+            Debug.LogError("parentCanvasが設定されていません");
+        }
     }
 
     public void ApplyEyeEffect()
@@ -42,30 +50,12 @@ public class EyeEffectController : MonoBehaviour
                 }
             }
 
-            StartCoroutine(FadeIn());
+            // フェードインなしで完全に表示された状態にする
+            canvasGroup.alpha = 1;
         }
         else
         {
             Debug.LogError("blackOverlayまたはparentCanvasが設定されていません");
-        }
-    }
-
-    private IEnumerator FadeIn()
-    {
-        if (canvasGroup == null)
-        {
-            Debug.LogError("canvasGroupが設定されていません");
-            yield break;
-        }
-
-        float duration = 1.0f; // フェードインの時間（秒）
-        float elapsedTime = 0f;
-
-        while (elapsedTime < duration)
-        {
-            elapsedTime += Time.deltaTime;
-            canvasGroup.alpha = Mathf.Clamp01(elapsedTime / duration);
-            yield return null;
         }
     }
 }

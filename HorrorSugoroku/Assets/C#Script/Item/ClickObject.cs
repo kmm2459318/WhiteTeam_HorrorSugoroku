@@ -34,17 +34,20 @@ public class ClickObject : MonoBehaviour
     void Update()
     {
         if (Input.GetMouseButtonDown(0)) // 左クリック
-        {
+        {Debug.Log("aaa");
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
             RaycastHit hit;
 
             if (Physics.Raycast(ray, out hit)) // レイキャストでオブジェクトを判定
             {
+                Debug.Log("ii");
                 if (hit.collider.CompareTag("Item") || hit.collider.CompareTag("Key") || hit.collider.CompareTag("Map")) // タグが "Item" "Key" "Map"の場合
                 {
+                    Debug.Log("uu");
                     // idoutyuがfalseのときのみクリック可能
                     if (!playerSaikoro.idoutyu)
                     {
+                        Debug.Log("ee");
                         float distance = Vector3.Distance(Camera.main.transform.position, hit.collider.transform.position);
 
                         if (distance <= 3f) // カメラからの距離が3以下の場合
@@ -104,7 +107,7 @@ public class ClickObject : MonoBehaviour
     }
     void ExecuteScriptA(GameObject clickedItem)
     {
-        string itemName = "鍵";  // **固定で「鍵」にする**
+        string itemName = "食堂の鍵";  // **固定で「鍵」にする**
         Debug.Log(itemName + " を入手しました");
 
         if (playerInventory != null)
