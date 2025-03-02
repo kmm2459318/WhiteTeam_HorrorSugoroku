@@ -25,7 +25,7 @@ public class CurseSlider : MonoBehaviour
     [SerializeField] private TextMeshProUGUI eyeButtonText;
 
     private float maxDashPoint = 100;
-    private float dashIncreasePerTurn = 2;
+    private float dashIncreasePerTurn = 5;
 
     public int CountGauge = 0;              //ゲームオーバーカウント
     public float dashPoint = 0;
