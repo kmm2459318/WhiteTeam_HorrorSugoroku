@@ -25,7 +25,7 @@ public class CurseSlider : MonoBehaviour
     [SerializeField] private TextMeshProUGUI eyeButtonText;
 
     private float maxDashPoint = 100;
-    private float dashIncreasePerTurn = 2;
+    private float dashIncreasePerTurn = 5;
 
     public int CountGauge = 0;              //ゲームオーバーカウント
     public float dashPoint = 0;
@@ -319,15 +319,40 @@ public class CurseSlider : MonoBehaviour
         // 懐中電灯を非アクティブにする
         flashlightManager.DeactivateFlashlight();
 
+        // カメラの回転を有効にする
+        EnableCameraRotation();
+
         // Canvasをアクティブにしてテキストを一文字ずつ表示
         if (eyeButtonText != null && eyeButtonCanvas != null && !isDisplayingText)
         {
             StartCoroutine(ActivateCanvasForDuration(eyeButtonCanvas, 5f));
             StartCoroutine(DisplayTextOneByOne("片手ヲ失っタ。\n懐中電灯が使えナイ。", eyeButtonText, 0.1f));
         }
+
+        // カメラの回転を有効にする
+        Camera.main.GetComponent<CameraController>().enabled = true;
     }
 
-    private bool isLegButtonClicked = false;
+    public void Eye_ButtonAction()
+    {
+        Debug.Log("目が落ちた");
+        EyeButton.interactable = false;
+        EyeButton.gameObject.SetActive(false); // ボタンを非表示にする
+        isEyeButtonUsed = true;
+
+        // カメラの回転を有効にする
+        EnableCameraRotation();
+
+        // Canvasをアクティブにしてテキストを一文字ずつ表示
+        if (eyeButtonText != null && eyeButtonCanvas != null && !isDisplayingText)
+        {
+            StartCoroutine(ActivateCanvasForDuration(eyeButtonCanvas, 5f));
+            StartCoroutine(DisplayTextOneByOne("片目ヲ失っタ。", eyeButtonText, 0.1f));
+        }
+
+        // カメラの回転を有効にする
+        Camera.main.GetComponent<CameraController>().enabled = true;
+    }
 
     public void Leg_ButtonAction()
     {
@@ -348,25 +373,26 @@ public class CurseSlider : MonoBehaviour
         // カメラの位置を低くする
         Camera.main.GetComponent<CameraController>().OnLegButtonPressed();
 
+        // カメラの回転を有効にする
+        EnableCameraRotation();
+
         // Canvasをアクティブにしてテキストを一文字ずつ表示
         if (eyeButtonText != null && eyeButtonCanvas != null && !isDisplayingText)
         {
             StartCoroutine(ActivateCanvasForDuration(eyeButtonCanvas, 5f));
             StartCoroutine(DisplayTextOneByOne("片足ヲ失っタ。\nサイコロが1,2,3しか出ナイ。", eyeButtonText, 0.1f));
         }
-    }
-    public void Eye_ButtonAction()
-    {
-        Debug.Log("目が落ちた");
-        EyeButton.interactable = false;
-        EyeButton.gameObject.SetActive(false); // ボタンを非表示にする
-        isEyeButtonUsed = true;
 
-        // Canvasをアクティブにしてテキストを一文字ずつ表示
-        if (eyeButtonText != null && eyeButtonCanvas != null && !isDisplayingText)
+        // カメラの回転を有効にする
+        Camera.main.GetComponent<CameraController>().enabled = true;
+    }
+
+    private void EnableCameraRotation()
+    {
+        var cameraController = Camera.main.GetComponent<CameraController>();
+        if (cameraController != null)
         {
-            StartCoroutine(ActivateCanvasForDuration(eyeButtonCanvas, 5f));
-            StartCoroutine(DisplayTextOneByOne("片目ヲ失っタ。", eyeButtonText, 0.1f));
+            cameraController.enabled = true; // カメラの回転を有効にする
         }
     }
 
