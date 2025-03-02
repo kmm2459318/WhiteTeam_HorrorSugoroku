@@ -180,38 +180,6 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b49b9a8db2c43234c9f54eceb2d87d1a, type: 3}
---- !u!1 &430464027 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 351470479648269991, guid: a4250938d1fd4b24ca9e7db4eac1d741, type: 3}
-  m_PrefabInstance: {fileID: 2078479132}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &430464029 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 1606678732527434861, guid: a4250938d1fd4b24ca9e7db4eac1d741, type: 3}
-  m_PrefabInstance: {fileID: 2078479132}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 430464027}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &430464032
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 430464027}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 26382c03d88a6f1448036bcf25d37724, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  ImageGages: []
-  resetButton: {fileID: 430464029}
-  DashGage: {fileID: 1010333993}
-  curseslider: {fileID: 2078479133}
 --- !u!1001 &970252870
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -277,17 +245,6 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 2d67a601cc3509b468abd068b5a6dda3, type: 3}
---- !u!114 &1010333993 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 670889733939792538, guid: a4250938d1fd4b24ca9e7db4eac1d741, type: 3}
-  m_PrefabInstance: {fileID: 2078479132}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 67db9e8f0e2ae9c40bc1e2b64352a6b4, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1001 &1244127661
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -456,10 +413,6 @@ PrefabInstance:
     - target: {fileID: 295361525904721794, guid: 94164073e6c8c9c4f9079377efebf116, type: 3}
       propertyPath: m_Name
       value: UI
-      objectReference: {fileID: 0}
-    - target: {fileID: 295361525904721794, guid: 94164073e6c8c9c4f9079377efebf116, type: 3}
-      propertyPath: m_IsActive
-      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2088784008618679132, guid: 94164073e6c8c9c4f9079377efebf116, type: 3}
       propertyPath: player
@@ -1047,22 +1000,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 1606678732527434861, guid: a4250938d1fd4b24ca9e7db4eac1d741, type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
-      value: 
-      objectReference: {fileID: 430464032}
-    - target: {fileID: 1606678732527434861, guid: a4250938d1fd4b24ca9e7db4eac1d741, type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: ResetGages
-      objectReference: {fileID: 0}
-    - target: {fileID: 1606678732527434861, guid: a4250938d1fd4b24ca9e7db4eac1d741, type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
-      value: HeelCurseGage, Assembly-CSharp
-      objectReference: {fileID: 0}
-    - target: {fileID: 1606678732527434861, guid: a4250938d1fd4b24ca9e7db4eac1d741, type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
-      value: UnityEngine.Object, UnityEngine
-      objectReference: {fileID: 0}
     - target: {fileID: 2144469381326782902, guid: a4250938d1fd4b24ca9e7db4eac1d741, type: 3}
       propertyPath: m_Name
       value: 'Curse '
@@ -1107,14 +1044,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 3027048708890003117, guid: a4250938d1fd4b24ca9e7db4eac1d741, type: 3}
-      propertyPath: m_AnchoredPosition.x
-      value: -848
-      objectReference: {fileID: 0}
-    - target: {fileID: 3027048708890003117, guid: a4250938d1fd4b24ca9e7db4eac1d741, type: 3}
-      propertyPath: m_AnchoredPosition.y
-      value: 291
-      objectReference: {fileID: 0}
     - target: {fileID: 5273168521386660615, guid: a4250938d1fd4b24ca9e7db4eac1d741, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
@@ -1135,10 +1064,6 @@ PrefabInstance:
       propertyPath: eyeButtonText
       value: 
       objectReference: {fileID: 1275807977}
-    - target: {fileID: 8276875798039258901, guid: a4250938d1fd4b24ca9e7db4eac1d741, type: 3}
-      propertyPath: heelCurseGage
-      value: 
-      objectReference: {fileID: 0}
     - target: {fileID: 8276875798039258901, guid: a4250938d1fd4b24ca9e7db4eac1d741, type: 3}
       propertyPath: diceController
       value: 
@@ -1166,10 +1091,7 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 351470479648269991, guid: a4250938d1fd4b24ca9e7db4eac1d741, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 430464032}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a4250938d1fd4b24ca9e7db4eac1d741, type: 3}
 --- !u!114 &2078479133 stripped
 MonoBehaviour:
