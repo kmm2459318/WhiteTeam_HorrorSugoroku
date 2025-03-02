@@ -365,9 +365,9 @@ public class GridCell : MonoBehaviour
     void DeBuh()
     {
         // **呪い発動**
-        Debug.Log($"{name}: 呪いが発動！");
+        Debug.Log($"{name}: 呪いが浄化された");
         curseSlider.IncreaseDashPoint(curseamout); // 呪いゲージ増加
-        ShowCurseUI("呪いが発動した！");
+        ShowCurseUI("呪いが減った！");
     }
 
 

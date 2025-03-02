@@ -1,4 +1,5 @@
 using System.Collections;
+using TMPro;
 using Unity.VisualScripting.Antlr3.Runtime;
 using UnityEngine;
 using UnityEngine.UI;
@@ -12,9 +13,11 @@ public class Door : MonoBehaviour
 
     private Transform player; // プレイヤーの Transform
     public PlayerInventory playerInventory; // プレイヤーのインベントリ参照
-    public string requiredItem = "鍵"; // 必要なアイテム
+    public string requiredItem ; // 必要なアイテム
 
-    public GameObject doorUI; // UIのパネル（Inspector で設定）
+  
+    public GameObject doorPanel; // UIのパネル
+    public TextMeshProUGUI doorText; // UIのテキスト
     public Button okButton;   // OKボタン
     public Button cancelButton; // キャンセルボタン
     void Start()
@@ -26,9 +29,9 @@ public class Door : MonoBehaviour
         playerInventory = player.GetComponent<PlayerInventory>();
 
 
-        if (doorUI != null)
+        if (doorPanel != null)
         {
-            doorUI.SetActive(false); // 最初はUIを非表示
+            doorPanel.SetActive(false); // 最初はUIを非表示
         }
         // ボタンのクリックイベントを登録
         //if (okButton != null)
@@ -45,7 +48,7 @@ public class Door : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.G)) // 「E」キーでドアを開ける/閉める
         {
-            if (doorUI.activeSelf)
+            if (doorPanel.activeSelf)
             {
               //  Debug.Log("aaa");
                 //CloseDoor(); // ドアを閉める
@@ -66,7 +69,7 @@ public class Door : MonoBehaviour
                  if (!isOpen)
                 {
                     // 鍵を持っているかどうかチェック
-                    if (playerInventory != null && playerInventory.HasItem("鍵"))
+                    if (playerInventory != null && playerInventory.HasItem(requiredItem))
                     {
 
                         //  ShowDoorUI();
@@ -79,7 +82,7 @@ public class Door : MonoBehaviour
                 }
             }
         }
-       
+
 
         //void ShowDoorUI()
         //{
@@ -90,18 +93,36 @@ public class Door : MonoBehaviour
         //    }
         //}
 
-        void CloseUI()
+        IEnumerator ClosUI(string message, float delay)
         {
+            yield return new WaitForSeconds(delay);
             //Debug.Log("iii");
-            if (doorUI != null)
+            if (doorPanel != null || doorText != null)
             {
                // Debug.Log("uuu");
-                doorUI.SetActive(false);
+                doorPanel.SetActive(false);
+                doorText.text = message;
                 isOpen = false;
                 Time.timeScale = 1; // ゲームを再開
             }
         }
+        void CloseUI()
+        {
+            bool wasPaused = false;
 
+            if (doorPanel != null && doorPanel.activeSelf)
+            {
+                doorPanel.SetActive(false);
+                wasPaused = true;
+            }
+
+            // UIが開いていた場合のみTime.timeScaleを戻す
+            if (wasPaused)
+            {
+                Debug.Log("ゲーム再開！");
+                Time.timeScale = 1;
+            }
+        }
         //void OpenDoorConfirmed()
         //{
         //    CloseUI(); // UIを閉じる
@@ -112,9 +133,9 @@ public class Door : MonoBehaviour
         void OpenDoorConfirmed()
         {
             OpenDoor(); // ドアを開く
-            if (doorUI != null)
+            if (doorPanel != null)
             {
-                doorUI.SetActive(true);
+                doorPanel.SetActive(true);
                // Time.timeScale = 0;
             }
           
