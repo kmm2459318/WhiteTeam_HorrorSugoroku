@@ -65,7 +65,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: cdb52b4ef41174d478710d80d94dcbfe, type: 3}
+  m_Sprite: {fileID: 21300000, guid: e9dae9e7b42026c4caf956202026e8c6, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -162,6 +162,7 @@ GameObject:
   - component: {fileID: 4806737996189281746}
   - component: {fileID: 4351600747442868253}
   - component: {fileID: 1606678732527434861}
+  - component: {fileID: 7782629078141953956}
   m_Layer: 5
   m_Name: HeelButton
   m_TagString: Untagged
@@ -184,10 +185,10 @@ RectTransform:
   - {fileID: 1655459655496057583}
   m_Father: {fileID: 7590767300622300723}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -1262.2151, y: 140.55743}
-  m_SizeDelta: {x: 131.83, y: 74.3355}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 150, y: -130}
+  m_SizeDelta: {x: 100, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &4806737996189281746
 CanvasRenderer:
@@ -271,18 +272,34 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 351470479648269991}
-        m_TargetAssemblyTypeName: 
-        m_MethodName: 
+      - m_Target: {fileID: 7782629078141953956}
+        m_TargetAssemblyTypeName: HeelCurseGage, Assembly-CSharp
+        m_MethodName: ResetGages
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: 
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!114 &7782629078141953956
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 351470479648269991}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 26382c03d88a6f1448036bcf25d37724, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ImageGages: []
+  resetButton: {fileID: 1606678732527434861}
+  DashGage: {fileID: 670889733939792538}
+  curseslider: {fileID: 8276875798039258901}
 --- !u!1 &406681332834876954
 GameObject:
   m_ObjectHideFlags: 0
@@ -810,7 +827,7 @@ GameObject:
   - component: {fileID: 7631183412132914796}
   - component: {fileID: 9081190118111713535}
   m_Layer: 5
-  m_Name: Card 3
+  m_Name: eye
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1351,7 +1368,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &6434816513945329667
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1361,14 +1378,14 @@ RectTransform:
   m_GameObject: {fileID: 4378054404772888819}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 12, y: 8, z: 1}
+  m_LocalScale: {x: 18, y: 8, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 5935672774696929366}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0.5}
   m_AnchorMax: {x: 1, y: 0.5}
-  m_AnchoredPosition: {x: -373.65057, y: 16.946}
+  m_AnchoredPosition: {x: -600, y: 16.946}
   m_SizeDelta: {x: 65.9418, y: 139.24}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &1134851490985087351
@@ -1584,7 +1601,7 @@ GameObject:
   - component: {fileID: 3929766977042175564}
   - component: {fileID: 8889179047494444745}
   m_Layer: 16
-  m_Name: Card 2
+  m_Name: Leg
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1607,7 +1624,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchoredPosition: {x: -250, y: 0}
   m_SizeDelta: {x: 100, y: 180}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &2400081822255240584
@@ -1866,7 +1883,7 @@ GameObject:
   - component: {fileID: 576193377845411575}
   - component: {fileID: 866401712917012563}
   m_Layer: 16
-  m_Name: Card 1
+  m_Name: Arm
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1889,7 +1906,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -250, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 100, y: 180}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &9142103526798864049
@@ -2063,7 +2080,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: e9dae9e7b42026c4caf956202026e8c6, type: 3}
+  m_Sprite: {fileID: 21300000, guid: cdb52b4ef41174d478710d80d94dcbfe, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -2413,8 +2430,8 @@ MonoBehaviour:
   extraButton: {fileID: 6219711027631275214}
   hideButton: {fileID: 4765795410495556392}
   cursegiveButton: {fileID: 193027950168104280}
-  ArmButton: {fileID: 866401712917012563}
-  LegButton: {fileID: 8889179047494444745}
+  ArmButton: {fileID: 8889179047494444745}
+  LegButton: {fileID: 866401712917012563}
   EyeButton: {fileID: 9081190118111713535}
   master_Curse: {fileID: 11400000, guid: 43eba0261dc753c4da194da800dd3109, type: 2}
   ImageGages:
@@ -2434,10 +2451,10 @@ MonoBehaviour:
   playerTransform: {fileID: 0}
   diceRangeManager: {fileID: 2360240391043722587}
   diceController: {fileID: 0}
-  eyeButtonCanvas: {fileID: 4378054404772888819}
+  eyeButtonCanvas: {fileID: 2479986096985364939}
   isCardCanvas1: 0
   isCardCanvas2: 0
-  heelCurseGage: {fileID: 0}
+  heelCurseGage: {fileID: 7782629078141953956}
 --- !u!1 &7488916837706052065
 GameObject:
   m_ObjectHideFlags: 0
@@ -3247,7 +3264,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &7850860951697607226
 RectTransform:
   m_ObjectHideFlags: 0
