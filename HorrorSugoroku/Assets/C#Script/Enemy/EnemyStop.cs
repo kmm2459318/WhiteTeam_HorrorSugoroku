@@ -17,10 +17,11 @@ public class EnemyStop : MonoBehaviour
     private Transform Emasu;
     Vector3 ms = GameObject.Find("masu").transform.position;
     public bool rideMasu = false;
+    private Animator animator; // Animatorコンポーネント
 
     void Start()
     {
-        
+        animator = GetComponent<Animator>(); // Animatorコンポーネントを取得
     }
 
     void Update()
@@ -49,10 +50,14 @@ public class EnemyStop : MonoBehaviour
         {
             Debug.Log("マスに乗った");
             rideMasu = true;
+            animator.SetBool("isIdle", true); // Idleアニメーションを再生
+            animator.SetBool("is Running", false); // Runアニメーションを停止
         }
         else
         {
             rideMasu = false;
+            animator.SetBool("isIdle", false); // Idleアニメーションを停止
+            animator.SetBool("is Running", true); // Runアニメーションを再生
         }
     }
 }
