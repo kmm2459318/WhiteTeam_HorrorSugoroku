@@ -3,23 +3,36 @@ using UnityEngine;
 public class EnemyStop : MonoBehaviour
 {
     public GameManager gameManager;
-    public string targetTag = "masu";  // ‘ÎÛ‚Ìƒ^ƒO
-    public float threshold = 0.1f; // ‚Ç‚ê‚­‚ç‚¢‚ÌŒë·‚ğ‹–—e‚·‚é‚©
+    public string targetTag = "masu";  // ï¿½ÎÛ‚Ìƒ^ï¿½O
+    public float threshold = 0.1f; // ï¿½Ç‚ê‚­ï¿½ç‚¢ï¿½ÌŒë·ï¿½ï¿½ï¿½ï¿½ï¿½eï¿½ï¿½ï¿½é‚©
     public bool rideMasu = false;
+    private Animator animator; // Animatorï¿½Rï¿½ï¿½ï¿½|ï¿½[ï¿½lï¿½ï¿½ï¿½g
 
     void Start()
     {
-        
+        animator = GetComponent<Animator>(); // Animatorï¿½Rï¿½ï¿½ï¿½|ï¿½[ï¿½lï¿½ï¿½ï¿½gï¿½ï¿½ï¿½æ“¾
     }
 
     void Update()
     {
         CheckPositionMatch();
 
-        if (!gameManager.isPlayerTurn)
+         if (((ms.x + 0.1f > this.transform.position.x && ms.x - 0.1f < this.transform.position.x) &&
+            (ms.z + 0.1f > this.transform.position.z && ms.z - 0.1f < this.transform.position.z)))
         {
-
+            Debug.Log("ãƒã‚¹ã«ä¹—ã£ãŸ");
+            rideMasu = true;
+            animator.SetBool("isIdle", true); // Idleã‚¢ãƒ‹ãƒ¡ãƒ¼ã‚·ãƒ§ãƒ³ã‚’å†ç”Ÿ
+            animator.SetBool("is Running", false); // Runã‚¢ãƒ‹ãƒ¡ãƒ¼ã‚·ãƒ§ãƒ³ã‚’åœæ­¢
         }
+        else
+        {
+            rideMasu = false;
+            animator.SetBool("isIdle", false); // Idleã‚¢ãƒ‹ãƒ¡ãƒ¼ã‚·ãƒ§ãƒ³ã‚’åœæ­¢
+            animator.SetBool("is Running", true); // Runã‚¢ãƒ‹ãƒ¡ãƒ¼ã‚·ãƒ§ãƒ³ã‚’å†ç”Ÿ
+        }
+    }
+}
     }
 
     private void CheckPositionMatch()
@@ -31,11 +44,11 @@ public class EnemyStop : MonoBehaviour
             Vector3 targetPos = masu.transform.position;
             Vector3 currentPos = transform.position;
 
-            // X‚ÆZÀ•W‚ª‚Ù‚Úˆê’v‚µ‚Ä‚¢‚é‚©”»’è
+            // Xï¿½ï¿½Zï¿½ï¿½ï¿½Wï¿½ï¿½ï¿½Ù‚Úˆï¿½vï¿½ï¿½ï¿½Ä‚ï¿½ï¿½é‚©ï¿½ï¿½ï¿½ï¿½
             if (Mathf.Abs(currentPos.x - targetPos.x) < threshold && Mathf.Abs(currentPos.z - targetPos.z) < threshold && Mathf.Abs(currentPos.y - targetPos.y) < 1f)
             {
                 OnMatched(masu);
-                break; // ˆê’v‚·‚éƒIƒuƒWƒFƒNƒg‚ªŒ©‚Â‚©‚Á‚½‚çƒ‹[ƒv‚ğ”²‚¯‚é
+                break; // ï¿½ï¿½vï¿½ï¿½ï¿½ï¿½Iï¿½uï¿½Wï¿½Fï¿½Nï¿½gï¿½ï¿½ï¿½ï¿½ï¿½Â‚ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½çƒ‹ï¿½[ï¿½vï¿½ğ”²‚ï¿½ï¿½ï¿½
             }
             else
             {
@@ -46,8 +59,8 @@ public class EnemyStop : MonoBehaviour
 
     private void OnMatched(GameObject masu)
     {
-        Debug.Log($"ˆê’v: {masu.name} ‚Æ {gameObject.name}");
+        Debug.Log($"ï¿½ï¿½v: {masu.name} ï¿½ï¿½ {gameObject.name}");
         rideMasu = true;
-        // ‚±‚±‚Éˆ—‚ğ’Ç‰Ái—áFƒAƒjƒ[ƒVƒ‡ƒ“Ä¶AƒXƒRƒA‰ÁZ‚È‚Çj
+        // ï¿½ï¿½ï¿½ï¿½ï¿½Éï¿½ï¿½ï¿½ï¿½ï¿½Ç‰ï¿½ï¿½iï¿½ï¿½Fï¿½Aï¿½jï¿½ï¿½ï¿½[ï¿½Vï¿½ï¿½ï¿½ï¿½ï¿½Äï¿½ï¿½Aï¿½Xï¿½Rï¿½Aï¿½ï¿½ï¿½Zï¿½È‚Çj
     }
 }
