@@ -530,14 +530,14 @@ public class EnemySaikoro : MonoBehaviour
     {
         if (animator != null)
         {
-            animator.SetBool("isRunning", false);
+            animator.SetBool("is Running", false);
         }
     }
     public void SetRun()
     {
         if (animator != null)
         {
-            animator.SetBool("isRunning", true);
+            animator.SetBool("is Running", true);
         }
     }
 
@@ -546,7 +546,7 @@ public class EnemySaikoro : MonoBehaviour
     {
         if (animator != null)
         {
-            if (animator.GetBool("isRunning"))
+            if (animator.GetBool("is Running"))
             {
                 return "Run";
             }
@@ -565,11 +565,11 @@ public class EnemySaikoro : MonoBehaviour
         {
             if (state == "Run")
             {
-                animator.SetBool("isRunning", true);
+                animator.SetBool("is Running", true);
             }
             else
             {
-                animator.SetBool("isRunning", false);
+                animator.SetBool("is Running", false);
             }
         }
     }
