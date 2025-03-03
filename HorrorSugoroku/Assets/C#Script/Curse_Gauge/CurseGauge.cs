@@ -26,7 +26,8 @@ public class CurseSlider : MonoBehaviour
     [SerializeField] private TextMeshProUGUI eyeButtonText;
 
     private float maxDashPoint = 100;
-    private float dashIncreasePerTurn = 5;
+    private float dashIncreasePerTurn = 20;
+    private int curseincrease = 0;
 
     public int CountGauge = 0;              //ゲームオーバーカウント
     public float dashPoint = 0;
@@ -113,14 +114,15 @@ public class CurseSlider : MonoBehaviour
 
     private void ExtraButtonAction()
     {
-        throw new NotImplementedException();
+        Debug.Log("aaa");
     }
 
     public void HideCardCanvasAndModifyDashIncrease()
     {
-        dashIncreasePerTurn += master_Curse.CurseSheet[1].TurnIncrease;
-        Debug.Log("[CurseSlider] Dash Increase Per Turn set to: " + dashIncreasePerTurn);
+        curseincrease += master_Curse.CurseSheet[1].TurnIncrease;
+        Debug.Log("[CurseSlider] Dash Increase Per Turn set to: " + curseincrease);
         Time.timeScale = 1;
+        
     }
 
     void Update()
@@ -128,10 +130,11 @@ public class CurseSlider : MonoBehaviour
         //小さい呪い画面表示でASDキーで押せるようにする
         if (isCardCanvas1)
         {
-            if (Input.GetKeyDown(KeyCode.A) && extraButton != null)
+            if (Input.GetKeyDown(KeyCode.A) && extraButton != null && extraButton.interactable)
             {
                 extraButton.onClick.Invoke();
                 isCardCanvas1 = false;
+
             }
 
             if (Input.GetKeyDown(KeyCode.S) && hideButton != null)
@@ -226,12 +229,7 @@ public class CurseSlider : MonoBehaviour
         Debug.Log("今の呪いゲージ量: " + dashPoint);
     }
 
-    public void DecreaseDashPoint(int amount)
-    {
-        dashPoint = Mathf.Max(dashPoint - amount, 0);
-        DashGage.value = dashPoint;
-        Debug.Log("[CurseSlider] 呪いゲージ減少: " + amount + " 現在の値: " + dashPoint);
-    }
+   
 
 
     private void UpdateImageGauges()
@@ -434,7 +432,15 @@ public class CurseSlider : MonoBehaviour
 
     public void IncreaseDashPoint(int amount)
     {
-        dashPoint = Mathf.Min(dashPoint + amount, maxDashPoint);
+        dashPoint = Mathf.Max(dashPoint - amount, 0);
+        DashGage.value = dashPoint;
+        Debug.Log("[CurseSlider] 呪いゲージ減少: " + amount + " 現在の値: " + dashPoint);
+       
+    }
+    // 呪い増加
+    public void DecreaseDashPoint(int amount)
+    {
+        dashPoint = Mathf.Min(dashPoint + amount + curseincrease, maxDashPoint);
         DashGage.value = dashPoint;
         Debug.Log("[CurseSlider] 呪いゲージ増加: " + amount + " 現在の値: " + dashPoint);
     }
