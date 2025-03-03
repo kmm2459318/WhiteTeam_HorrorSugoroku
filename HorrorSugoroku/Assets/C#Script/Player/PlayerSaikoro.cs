@@ -12,7 +12,7 @@ public class PlayerSaikoro : MonoBehaviour
     private EnemySaikoro targetScript; // コマンドを受け取るEnemySaikoro
     public EnemyStop enemyStop;
     public int sai = 1; // ランダムなサイコロの値
-    public bool saikorotyu = false; // サイコロを振っているか
+    public bool saikorotyu = true; // サイコロを振っているか
     public bool idoutyu = false;
     public bool exploring = false; // 探索中の判定（追加）
     private bool magarityu = false;
@@ -29,6 +29,7 @@ public class PlayerSaikoro : MonoBehaviour
     private bool PE = false;
     private bool PS = false;
     private int[] lastAction = new int[7]; // 前の行動の記録【北：１、西：２、東：３、南：４】
+    private int lastaction;
     private int mesen = 1; //目線【北：１、西：２、東：３、南：４】
     private float Pkakudo = 0; //プレイヤーのＹ軸角度
     public Sprite s1;
@@ -236,6 +237,17 @@ public class PlayerSaikoro : MonoBehaviour
         //移動処理　【北：１、西：２、東：３、南：４】
         if (idoutyu)
         {
+            Debug.Log(lastaction);
+            if (((!PW && !PN && !PE && lastaction == 1) ||
+                (!PW && !PS && !PN && lastaction == 2) ||
+                (!PN && !PS && !PE && lastaction == 3) ||
+                (!PW && !PS && !PE && lastaction == 4)) && 
+                !idouspan)
+            {
+                Debug.Log("行き止まり");
+                sai = 0;
+            }
+
            // Debug.Log(Rot.y);
             if (Input.GetKeyDown(KeyCode.W) && !idouspan) {
                 idouspan = true;
@@ -262,7 +274,7 @@ public class PlayerSaikoro : MonoBehaviour
             }
 
             this.idouspanTime += Time.deltaTime;
-            if (idouspanTime > player.PosFact)
+            if (idouspanTime > player.PosFact + 0.5f)
             {
                 idouspanTime = 0f;
                 idouspan = false;
@@ -295,6 +307,7 @@ public class PlayerSaikoro : MonoBehaviour
             {
                 enemyEnd = false;
                 Debug.Log("探索モード終了、次のターンへ");
+                lastaction = 0;
                 gameManager.NextTurn();
             }
         }
@@ -424,7 +437,7 @@ public class PlayerSaikoro : MonoBehaviour
             case 4: m = 1; break;
         }
 
-        if (lastAction[detame - sai] == m)
+        if (lastaction == m)
         {
             idou(n, true);
         }
@@ -454,7 +467,7 @@ public class PlayerSaikoro : MonoBehaviour
                 case 4: player.TargetPosition = Smasu.transform.position + new Vector3(0, 1.15f, 0); break; // 南に移動
             }
 
-            lastAction[detame - sai + 1] = n; // 来た方向を記憶
+            lastaction = n; // 来た方向を記憶
             Debug.Log(detame - sai + 1 + ":" + lastAction[detame - sai + 1]);
             sai--;
         }

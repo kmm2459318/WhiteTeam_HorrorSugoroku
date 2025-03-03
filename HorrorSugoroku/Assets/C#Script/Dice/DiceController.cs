@@ -9,6 +9,7 @@ public class DiceController : MonoBehaviour
     private bool hasBeenThrown = false;
     private float timeSinceThrown = 0f;
     public int result = 0;
+    public GameManager gameManager; // GameManagerへの参照
     public PlayerSaikoro player;
     [SerializeField] private Transform[] faces;
     private float stopCheckDelay = 1f;
@@ -40,60 +41,63 @@ public class DiceController : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetKey(KeyCode.Space) && !hasBeenThrown)
+        if (player.saikorotyu)
         {
-            smo.enabled = true;
-            smo.PosFact = 0.1f;
-            isHeld = true;
-            isStopped = false;
-            hasBeenThrown = false;
-            rb.isKinematic = true;
-            transform.position = new Vector3(parentTransform.position.x, 5f, parentTransform.position.z);
-        }
-
-        if (Input.GetKeyUp(KeyCode.Space) && isHeld)
-        {
-            isHeld = false;
-            hasBeenThrown = true;
-            isStopped = false;
-            timeSinceThrown = 0f;
-
-            rb.isKinematic = false;
-            smo.enabled = false;
-
-            Vector3 throwForce = new Vector3(Random.Range(-2f, 2f), 10f, Random.Range(-2f, 2f)) * throwForceMultiplier;
-            rb.AddForce(throwForce, ForceMode.Impulse);
-            rb.AddTorque(Random.insideUnitSphere * 500f);
-        }
-
-        if (isHeld)
-        {
-            transform.position = new Vector3(parentTransform.position.x, 5f, parentTransform.position.z);
-            float rotationSpeed = 300f;
-            transform.Rotate(Random.Range(-rotationSpeed, rotationSpeed) * Time.deltaTime,
-                             Random.Range(-rotationSpeed, rotationSpeed) * Time.deltaTime,
-                             Random.Range(-rotationSpeed, rotationSpeed) * Time.deltaTime);
-        }
-
-        if (hasBeenThrown)
-        {
-            timeSinceThrown += Time.deltaTime;
-
-            if (timeSinceThrown >= stopCheckDelay && !isStopped)
+            if (Input.GetKey(KeyCode.Space) && !hasBeenThrown)
             {
-                if (rb.linearVelocity.magnitude < stopThreshold && rb.angularVelocity.magnitude < stopThreshold)
-                {
-                    isStopped = true;
-                    result = GetTopFace();
-                    if (result != -1)
-                    {
-                        Debug.Log($"出た目: {result}");
-                        ResetDiceState();
-                        player.DiceAfter(result);
+                smo.enabled = true;
+                smo.PosFact = 0.1f;
+                isHeld = true;
+                isStopped = false;
+                hasBeenThrown = false;
+                rb.isKinematic = true;
+                transform.position = new Vector3(parentTransform.position.x, 5f, parentTransform.position.z);
+            }
 
-                        // **投げた後の移動処理開始**
-                        targetPosition = parentTransform.position + new Vector3(-6.5f, 1f, 3f);
-                        moveToTarget = true;
+            if (Input.GetKeyUp(KeyCode.Space) && isHeld)
+            {
+                isHeld = false;
+                hasBeenThrown = true;
+                isStopped = false;
+                timeSinceThrown = 0f;
+
+                rb.isKinematic = false;
+                smo.enabled = false;
+
+                Vector3 throwForce = new Vector3(Random.Range(-2f, 2f), 10f, Random.Range(-2f, 2f)) * throwForceMultiplier;
+                rb.AddForce(throwForce, ForceMode.Impulse);
+                rb.AddTorque(Random.insideUnitSphere * 500f);
+            }
+
+            if (isHeld)
+            {
+                transform.position = new Vector3(parentTransform.position.x, 5f, parentTransform.position.z);
+                float rotationSpeed = 300f;
+                transform.Rotate(Random.Range(-rotationSpeed, rotationSpeed) * Time.deltaTime,
+                                 Random.Range(-rotationSpeed, rotationSpeed) * Time.deltaTime,
+                                 Random.Range(-rotationSpeed, rotationSpeed) * Time.deltaTime);
+            }
+
+            if (hasBeenThrown)
+            {
+                timeSinceThrown += Time.deltaTime;
+
+                if (timeSinceThrown >= stopCheckDelay && !isStopped)
+                {
+                    if (rb.linearVelocity.magnitude < stopThreshold && rb.angularVelocity.magnitude < stopThreshold)
+                    {
+                        isStopped = true;
+                        result = GetTopFace();
+                        if (result != -1)
+                        {
+                            Debug.Log($"出た目: {result}");
+                            ResetDiceState();
+                            player.DiceAfter(result);
+
+                            // **投げた後の移動処理開始**
+                            targetPosition = parentTransform.position + new Vector3(-6.5f, 0f, 3f);
+                            moveToTarget = true;
+                        }
                     }
                 }
             }
@@ -105,7 +109,8 @@ public class DiceController : MonoBehaviour
             transform.position = Vector3.Lerp(transform.position, targetPosition, Time.deltaTime * moveSpeed);
 
             // ある程度近づいたら移動終了
-            if (Vector3.Distance(transform.position, targetPosition) < 0.1f)
+            if (Mathf.Abs(targetPosition.x - transform.position.x) < 0.1f 
+                && Mathf.Abs(targetPosition.z - transform.position.z) < 0.1f)
             {
                 transform.position = targetPosition;
                 moveToTarget = false;
