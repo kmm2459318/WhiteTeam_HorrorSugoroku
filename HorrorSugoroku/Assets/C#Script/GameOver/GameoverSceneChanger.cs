@@ -36,10 +36,7 @@ public class SceneChanger3D : MonoBehaviour
         audioSource.Stop();
     }
 
-    void Update()
-    {
-        HandleGameOver2();
-    }
+  
     //private void OnCollisionEnter(Collision collision)
     //{
     //    Debug.Log("AAAAAAAAAAAAAA");
@@ -63,15 +60,7 @@ public class SceneChanger3D : MonoBehaviour
             CurseGaugeUP();
         }
     }
-    public void HandleGameOver2()
-    {
-        
-        if (!isGameOver && (curseslider.CountGauge >= 2))
-        {
-            Debug.Log("CountGauge: " + curseslider.CountGauge);
-            HandleGameOver();                                                    
-        }
-    }
+   
 
     // ゲームオーバー処理を判定するメソッド
     public void HandleGameOver()
