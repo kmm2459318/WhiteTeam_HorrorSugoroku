@@ -39,7 +39,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 153200984708539672}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 4fa1ae9f0b8223e4da4596db43686c52, type: 3}
   m_Name: 
@@ -68,6 +68,7 @@ GameObject:
   - component: {fileID: 6909762398967604565}
   - component: {fileID: 4583118870614796425}
   - component: {fileID: 7654118492523666984}
+  - component: {fileID: 1383187825277734290}
   - component: {fileID: 6700426803218984859}
   m_Layer: 0
   m_Name: PlayerC
@@ -85,7 +86,7 @@ Transform:
   m_GameObject: {fileID: 1561701990267013035}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 1.2, z: -12.9}
+  m_LocalPosition: {x: 0.17, y: 0.99, z: -13.08}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 1
   m_Children:
@@ -356,6 +357,22 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &1383187825277734290
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1561701990267013035}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e3d14e71f338fc547b276e502d74c415, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  detectionDistance: 2
+  doorLayer:
+    serializedVersion: 2
+    m_Bits: 1
 --- !u!114 &6700426803218984859
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -368,7 +385,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 55466a5950d71ed42839e33258d14179, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  items: []
+  items:
+  - "\u98DF\u5802\u306E\u9375"
 --- !u!1 &2127038024270144164
 GameObject:
   m_ObjectHideFlags: 0
@@ -1327,7 +1345,7 @@ MonoBehaviour:
   enemyStop: {fileID: 0}
   sai: 1
   saikorotyu: 0
-  idoutyu: 0
+  idoutyu: 1
   exploring: 0
   s1: {fileID: 21300000, guid: 48857b2fd6bca22478e90a6a898c1438, type: 3}
   s2: {fileID: 21300000, guid: ef67102a90008f240a3d709b350a091b, type: 3}
