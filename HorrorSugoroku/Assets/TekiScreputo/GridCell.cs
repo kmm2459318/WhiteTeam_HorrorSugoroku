@@ -16,29 +16,29 @@ public class GridCell : MonoBehaviour
     public TextMeshProUGUI curseText; // UIのテキスト
     public GameObject itemPanel; // UIのパネル
     public TextMeshProUGUI itemText; // UIのテキスト
- //   public TMP_Text itemLogText;
-   // public Button closeButton; // UIを閉じるボタン
+                                     //   public TMP_Text itemLogText;
+                                     // public Button closeButton; // UIを閉じるボタン
     public ItemPickup item;
     public string requiredItem = "鍵"; // 必要なアイテム
     private CurseSlider curseSlider;                                // public int gridCellIncreaseAmount = 20; // GridCell 側の呪いゲージ増加量
-   // [SerializeField] private int curseChance = 50;  // 呪いの発生確率（％）
+                                                                    // [SerializeField] private int curseChance = 50;  // 呪いの発生確率（％）
     [SerializeField] private int scareChance = 30;  // 驚かしイベントの発生確率（％）
     [SerializeField] private int nothingChance = 20; // 何も起こらない確率（％）
-   // [SerializeField] private int hiruChance = 50;  // 呪いの回復確率（％）
+                                                     // [SerializeField] private int hiruChance = 50;  // 呪いの回復確率（％）
 
     [SerializeField] private int curseamout = 10;//呪いの増加量の調整
     [SerializeField] private int hirueamout = 10;//呪いの回復量の調整
     public Image cutInImage; // カットイン画像
     private Sprite loadedSprite;
     public AudioSource audioSource; // 音声
-   // private AudioClip gameOverSound;
+                                    // private AudioClip gameOverSound;
 
 
     [SerializeField] private float cutInDuration = 2.0f; // カットインの表示時間（秒）
     [SerializeField] private AudioClip gameOverSound; // ゲームオーバー時のサウンド
                                                       //[SerializeField] private string imageObjectName = "CutInImage"; // 画像のオブジェクト名
                                                       //[SerializeField] private string audioObjectName = "GameAudioSource"; // AudioSource のオブジェクト名
-   // private AudioSource gameOverSound; // 音声再生用のAudioSource
+                                                      // private AudioSource gameOverSound; // 音声再生用のAudioSource
 
     [SerializeField] private float volume = 1.0f; // 音量 (デフォルトは最大)
 
@@ -48,7 +48,8 @@ public class GridCell : MonoBehaviour
 
     public int n = 0;
     private PlayerInventory playerInventory;
-  private  void Start()
+    
+    private void Start()
     {
         playerInventory = FindObjectOfType<PlayerInventory>();
         curseSlider = FindObjectOfType<CurseSlider>(); // 呪いゲージを取得
@@ -109,7 +110,7 @@ public class GridCell : MonoBehaviour
         // デバッグ用表示
         Debug.Log($"cursePanel: {cursePanel}");
         Debug.Log($"curseText: {curseText}");
-       
+
         // UI が見つからない場合、警告を出す
         if (cursePanel == null) Debug.LogWarning("CursePanel が見つかりません");
         if (curseText == null) Debug.LogWarning("CurseText が見つかりません");
@@ -139,7 +140,7 @@ public class GridCell : MonoBehaviour
             cursePanel.SetActive(false);
         }
         if (itemPanel == null) Debug.LogError("❌ itemPanel がアタッチされていません！");
-      //  if (itemLogText == null) Debug.LogError("❌ itemLogText がアタッチされていません！");
+        //  if (itemLogText == null) Debug.LogError("❌ itemLogText がアタッチされていません！");
         if (itemPanel != null)
         {
             itemPanel.SetActive(false);
@@ -177,18 +178,15 @@ public class GridCell : MonoBehaviour
     //}
     void Update()
     {
-       
-        
-        if (( cursePanel.activeSelf || itemPanel.activeSelf)
+
+
+        if ((cursePanel.activeSelf || itemPanel.activeSelf)
          && (Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.H)))
         {
             Debug.Log("🔘 スペースまたは H キーで UI を閉じる");
             CloseEventUI();
         }
     }
-    
-
-   
     public void ExecuteEvent()
     {
         switch (cellEffect)
@@ -215,7 +213,7 @@ public class GridCell : MonoBehaviour
 
                 break;
             case "Curse":
-              //  Debug.Log($"{name}: 呪いゲージが増えた。");
+                //  Debug.Log($"{name}: 呪いゲージが増えた。");
                 Debug.Log($"{name}: 呪いマスに到達。ランダムイベントを発動します。");
                 ExecuteCurseEvent();
 
@@ -226,7 +224,7 @@ public class GridCell : MonoBehaviour
                 break;
         }
     }
-    
+
     void ShowCurseUI(string message, float delay = 1.0f)
     {
         StartCoroutine(DelayedShowCurseUI(message, delay));
@@ -241,7 +239,7 @@ public class GridCell : MonoBehaviour
             Time.timeScale = 0; // **ゲームを一時停止**
         }
     }
-   void ShowItemUI(string message, float delay = 2.0f)
+    void ShowItemUI(string message, float delay = 2.0f)
     {
         StartCoroutine(DelayedShowItemUI(message, delay));
     }
@@ -251,7 +249,7 @@ public class GridCell : MonoBehaviour
         if (itemPanel != null && itemText != null)
         {
             itemText.text = message;
-           // itemLogText.text = message;
+            // itemLogText.text = message;
             itemPanel.SetActive(true);
             Time.timeScale = 0; // **ゲームを一時停止**
         }
@@ -351,9 +349,7 @@ public class GridCell : MonoBehaviour
     {
         Debug.Log($"プレイヤーが {name} に到達しました。現在の位置: {transform.position}");
     }
-
-
-     void DisplayRandomEvent()
+    void DisplayRandomEvent()
     {
         // **呪い発動**
         Debug.Log($"{name}: 呪いが発動！");
@@ -369,21 +365,19 @@ public class GridCell : MonoBehaviour
         curseSlider.IncreaseDashPoint(curseamout); // 呪いゲージ増加
         ShowCurseUI("呪いが減った！");
     }
-
-
     private void ExecuteCurseEvent()
     {
         int randomValue = Random.Range(1, 101); // 1〜100の乱数を生成
 
         if (randomValue <= scareChance)
-       
+
         {
             // **驚かしイベント発動**
             Debug.Log($"{name}: 驚かしイベントが発生！");
             StartCoroutine(TriggerScareEffect());
         }
-       
-       
+
+
         else
         {
             // **何も起こらない**
@@ -396,7 +390,7 @@ public class GridCell : MonoBehaviour
         isGameOver = true; // 重複処理防止用フラグ
 
         // 他のUI要素（テキストなど）を非表示にする
-       // HideAllUI(); // UI非表示処理を実行
+        // HideAllUI(); // UI非表示処理を実行
 
         // カットイン画像を表示
         if (cutInImage != null)
@@ -420,7 +414,7 @@ public class GridCell : MonoBehaviour
             cutInImage.gameObject.SetActive(false); // 画像を非表示
         }
     }
-     
+
 
 
     private void GiveRandomItem()
@@ -428,7 +422,7 @@ public class GridCell : MonoBehaviour
         // **アイテムコントローラーが見つからない場合は処理を中断**
         if (substitutedollController == null || beartrapController == null)
         {
-           
+
             Debug.LogError("❌ アイテムのコントローラーが見つかりません！処理をスキップします。");
             ShowItemUI("❌ アイテムのコントローラーが見つかりません！");
             return;
@@ -447,11 +441,42 @@ public class GridCell : MonoBehaviour
             beartrapController.AddItem();
             logMessage = "🪤 トラバサミを獲得！";
         }
-Debug.Log(logMessage);
+        Debug.Log(logMessage);
         ShowItemUI(logMessage);
-        
+
+    }
+    public void SetVisibility(bool isVisible)
+    {
+        // アクティブ状態は維持しつつ、レンダラーを有効/無効にする
+        Renderer renderer = GetComponent<Renderer>();
+        if (renderer != null)
+        {
+            renderer.enabled = isVisible;
+        }
+
+        // 子オブジェクトのレンダラーも有効/無効にする
+        foreach (Renderer childRenderer in GetComponentsInChildren<Renderer>())
+        {
+            childRenderer.enabled = isVisible;
+        }
     }
 
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag("DetectionBox"))
+        {
+            SetVisibility(true);
+        }
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.CompareTag("DetectionBox"))
+        {
+            SetVisibility(false);
+        }
+    }
+}
     //// ✅ UI にログを表示し、Canvas を有効化する
     //private void ShowItemUI(string message)
     //{
@@ -484,5 +509,3 @@ Debug.Log(logMessage);
     //        itemPanel.SetActive(false);
     //    }
     //}
-}
-

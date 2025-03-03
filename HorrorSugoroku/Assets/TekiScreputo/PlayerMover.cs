@@ -1,5 +1,4 @@
 using UnityEngine;
-using System.Collections;
 
 public class PlayerMover : MonoBehaviour
 {
@@ -8,6 +7,8 @@ public class PlayerMover : MonoBehaviour
     private GridCell targetCell;        // プレイヤーが次に到達するセル
     private bool wasMoving = false;     // 前回の移動状態
 
+    private GameObject detectionBox;    // 四角いオブジェクト
+
     void Start()
     {
         // 必要なスクリプトを自動取得
@@ -15,6 +16,15 @@ public class PlayerMover : MonoBehaviour
         {
             playerSaikoro = GetComponent<PlayerSaikoro>();
         }
+
+        // 四角いオブジェクトを作成してプレイヤーにアタッチ
+        detectionBox = new GameObject("DetectionBox");
+        detectionBox.transform.SetParent(transform);
+        detectionBox.transform.localPosition = Vector3.zero;
+        detectionBox.transform.localScale = new Vector3(3, 3, 3); // サイズを調整済み
+        BoxCollider boxCollider = detectionBox.AddComponent<BoxCollider>();
+        boxCollider.isTrigger = true;
+        detectionBox.tag = "DetectionBox"; // タグを設定
     }
 
     void Update()
