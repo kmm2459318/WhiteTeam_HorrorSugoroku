@@ -28,8 +28,6 @@ public class EnemyStop : MonoBehaviour
             Vector3 targetPos = masu.transform.position;
             Vector3 currentPos = transform.position;
 
-            Debug.Log(masu.transform.position);
-
             if (Mathf.Abs(currentPos.x - targetPos.x) < threshold
                 && Mathf.Abs(currentPos.z - targetPos.z) < threshold
                 && Mathf.Abs(currentPos.y - targetPos.y) < 1f)

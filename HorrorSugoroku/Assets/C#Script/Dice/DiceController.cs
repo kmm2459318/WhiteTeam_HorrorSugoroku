@@ -19,9 +19,6 @@ public class DiceController : MonoBehaviour
     public DiceRangeManager diceRangeManager;
     private Transform parentTransform;
     private Vector3 initialPosition;
-    private Vector3 targetPosition; // サイコロ移動後の位置
-    private bool moveToTarget = false; // 移動フラグ
-    private float moveSpeed = 2f; // 移動速度
 
     private int minDiceValue = 1;
     private int maxDiceValue = 6;
@@ -40,6 +37,7 @@ public class DiceController : MonoBehaviour
 
     void Update()
     {
+        // サイコロ投げる処理
         if (Input.GetKey(KeyCode.Space) && !hasBeenThrown)
         {
             smo.enabled = true;
@@ -66,15 +64,6 @@ public class DiceController : MonoBehaviour
             rb.AddTorque(Random.insideUnitSphere * 500f);
         }
 
-        if (isHeld)
-        {
-            transform.position = new Vector3(parentTransform.position.x, 5f, parentTransform.position.z);
-            float rotationSpeed = 300f;
-            transform.Rotate(Random.Range(-rotationSpeed, rotationSpeed) * Time.deltaTime,
-                             Random.Range(-rotationSpeed, rotationSpeed) * Time.deltaTime,
-                             Random.Range(-rotationSpeed, rotationSpeed) * Time.deltaTime);
-        }
-
         if (hasBeenThrown)
         {
             timeSinceThrown += Time.deltaTime;
@@ -88,27 +77,16 @@ public class DiceController : MonoBehaviour
                     if (result != -1)
                     {
                         Debug.Log($"出た目: {result}");
-                        ResetDiceState();
                         player.DiceAfter(result);
 
-                        // **投げた後の移動処理開始**
-                        targetPosition = parentTransform.position + new Vector3(-6.5f, 1f, 3f);
-                        moveToTarget = true;
+                        // **DiceRotationを有効化**
+                        DiceRotation diceRotation = GetComponent<DiceRotation>();
+                        if (diceRotation != null)
+                        {
+                            diceRotation.StartRotation();
+                        }
                     }
                 }
-            }
-        }
-
-        // サイコロを画面左上へ移動
-        if (moveToTarget)
-        {
-            transform.position = Vector3.Lerp(transform.position, targetPosition, Time.deltaTime * moveSpeed);
-
-            // ある程度近づいたら移動終了
-            if (Vector3.Distance(transform.position, targetPosition) < 0.1f)
-            {
-                transform.position = targetPosition;
-                moveToTarget = false;
             }
         }
     }
