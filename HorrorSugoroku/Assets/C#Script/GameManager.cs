@@ -27,11 +27,15 @@ public class GameManager : MonoBehaviour
 
     private int playerTurnCount = 0; // プレイヤーのターン数をカウントする変数
 
+    private MiniMap miniMap; // MiniMap クラスのインスタンス
+
     private void Start()
     {
         agent.enabled = false;
         UpdateTurnText(); // 初期ターン表示
         playerSaikoro.StartRolling(); // プレイヤーのターンを開始
+
+        miniMap = FindObjectOfType<MiniMap>(); // MiniMap クラスのインスタンスを取得
     }
 
     private void Update()
@@ -66,6 +70,7 @@ public class GameManager : MonoBehaviour
             ChangeEnemyModel(mapPiece); // 引数を渡してメソッドを呼び出す
         }
     }
+
     public void ChangeEnemyModel(int mapPieceCount)
     {
         Animator currentAnimator = currentEnemyModel.GetComponent<Animator>();
@@ -132,10 +137,17 @@ public class GameManager : MonoBehaviour
             }
         }
     }
+
     public void MpPlus()
     {
         mapPiece++;
-        Debug.Log(mapPiece);
+        Debug.Log("地図のかけらを獲得");
+
+        // MiniMap を更新
+        if (miniMap != null)
+        {
+            miniMap.UpdateMiniMap();
+        }
     }
 
     private void UpdateTurnText()

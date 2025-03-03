@@ -451,6 +451,11 @@ Debug.Log(logMessage);
         ShowItemUI(logMessage);
         
     }
+    public void SetVisibility(bool isVisible)
+    {
+        gameObject.SetActive(isVisible);
+        Debug.Log($"{name} の表示状態を {isVisible} に設定しました。");
+    }
 
     //// ✅ UI にログを表示し、Canvas を有効化する
     //private void ShowItemUI(string message)

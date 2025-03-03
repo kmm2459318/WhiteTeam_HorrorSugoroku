@@ -9,18 +9,13 @@ public class ClickTest : MonoBehaviour
         if (n)
         {
             Debug.Log("触れたよ！");
+            n = false; // フラグをリセット
         }
     }
 
-    private void OnTriggerStay(Collider collision)
+    private void OnMouseDown()
     {
-        if (collision.tag == ("Object"))
-        {
-            Debug.Log("触れてる！");
-            if (Input.GetMouseButtonDown(0))
-            {
-                n = true;
-            }
-        }
+        Debug.Log("オブジェクトがクリックされました！");
+        n = true;
     }
 }
