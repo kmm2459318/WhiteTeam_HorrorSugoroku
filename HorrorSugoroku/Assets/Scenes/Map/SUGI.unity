@@ -414,6 +414,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: UI
       objectReference: {fileID: 0}
+    - target: {fileID: 1343131285262092570, guid: 94164073e6c8c9c4f9079377efebf116, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2088784008618679132, guid: 94164073e6c8c9c4f9079377efebf116, type: 3}
       propertyPath: player
       value: 
@@ -474,10 +478,17 @@ PrefabInstance:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 1714048263}
+    - target: {fileID: 8882700851060441189, guid: 94164073e6c8c9c4f9079377efebf116, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 1343131285262092570, guid: 94164073e6c8c9c4f9079377efebf116, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1762868458}
   m_SourcePrefab: {fileID: 100100000, guid: 94164073e6c8c9c4f9079377efebf116, type: 3}
 --- !u!114 &1275807972 stripped
 MonoBehaviour:
@@ -796,6 +807,36 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1762868456 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 5782424298516981941, guid: 94164073e6c8c9c4f9079377efebf116, type: 3}
+  m_PrefabInstance: {fileID: 1275807971}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!1 &1762868457 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1343131285262092570, guid: 94164073e6c8c9c4f9079377efebf116, type: 3}
+  m_PrefabInstance: {fileID: 1275807971}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1762868458
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1762868457}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 01e48e88e1e1a1e4b81a60509f366e03, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  curseSlider: {fileID: 2078479133}
+  Possessions: {fileID: 1762868456}
 --- !u!1 &1856522218
 GameObject:
   m_ObjectHideFlags: 0

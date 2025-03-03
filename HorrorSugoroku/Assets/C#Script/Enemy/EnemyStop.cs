@@ -46,7 +46,7 @@ public class EnemyStop : MonoBehaviour
 
         if (!gameManager.isPlayerTurn)
         {
-
+            
         }
 
         if (((ms.x + 0.1f > this.transform.position.x && ms.x - 0.1f < this.transform.position.x) &&
