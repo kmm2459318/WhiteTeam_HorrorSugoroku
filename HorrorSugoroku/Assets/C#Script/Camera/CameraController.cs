@@ -14,6 +14,7 @@ public class CameraController : MonoBehaviour
     private float yRotation = 0f;  // カメラの現在の左右回転
     public bool isMouseLocked = true;  // マウスロック状態
     private bool isOptionOpen = false;  // オプションメニューの開閉状態
+    public static bool isExploring = false;
 
     // 新しく追加するフィールド
     private Vector3 initialCameraPosition;
@@ -50,6 +51,19 @@ public class CameraController : MonoBehaviour
         {
             LowerCameraPosition();
         }
+
+        if (isExploring) return; // 探索中はカメラ操作を無効化
+
+        HandleMouseLock();
+        if (isMouseLocked)
+        {
+            HandleMouseLook();
+        }
+
+        if (isLegButtonPressed)
+        {
+            LowerCameraPosition();
+        }
     }
 
     private void HandleMouseLock()
@@ -78,12 +92,15 @@ public class CameraController : MonoBehaviour
         float mouseY = Input.GetAxis("Mouse Y") * mouseSensitivity * sensitivityMultiplier * Time.deltaTime;
         float mouseX = Input.GetAxis("Mouse X") * mouseSensitivity * sensitivityMultiplier * Time.deltaTime;
 
+        // 上下の回転（X軸）
         xRotation -= mouseY;
         xRotation = Mathf.Clamp(xRotation, lowerLookLimit, upperLookLimit);
-        yRotation += mouseX;
 
-        transform.localRotation = Quaternion.Euler(xRotation, 0f, 0f);
+        // 左右の回転（Y軸）
         playerBody.Rotate(Vector3.up * mouseX);
+
+        // カメラの回転を適用（X軸のみ）
+        transform.localRotation = Quaternion.Euler(xRotation, 0f, 0f);
     }
 
     private void OnSensitivityChanged(float value)

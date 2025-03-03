@@ -7,21 +7,25 @@ public class DiceController : MonoBehaviour
     private bool isHeld = false;
     private bool isStopped = false;
     private bool hasBeenThrown = false;
-    private Vector3 initialMousePosition;
     private float timeSinceThrown = 0f;
     public int result = 0;
     public PlayerSaikoro player;
-    [SerializeField] private Transform[] faces; // サイコロの面の空オブジェクト
-    [SerializeField] private float stopCheckDelay = 1f; // 停止判定の猶予時間
-    [SerializeField] private float stopThreshold = 0.05f; // 停止判定の速度閾値
-    [SerializeField] private float throwForceMultiplier = 2f; // 投げる力の調整
+    [SerializeField] private Transform[] faces;
+    private float stopCheckDelay = 1f;
+    private float stopThreshold = 0.05f;
+    private float throwForceMultiplier = 0.8f;
     [SerializeField] SmoothTransform smo;
 
     public DiceRangeManager diceRangeManager;
-    
+    private Transform parentTransform;
+    private Vector3 initialPosition;
+    private Vector3 targetPosition; // サイコロ移動後の位置
+    private bool moveToTarget = false; // 移動フラグ
+    private float moveSpeed = 2f; // 移動速度
+
     private int minDiceValue = 1;
     private int maxDiceValue = 6;
-    private bool legButtonEffect = false; // LegButtonの効果を管理するフラグ
+    private bool legButtonEffect = false;
 
     void Start()
     {
@@ -29,12 +33,13 @@ public class DiceController : MonoBehaviour
         diceRangeManager = FindObjectOfType<DiceRangeManager>();
         diceRangeManager.SetDiceRollRange(1, 6);
         diceRangeManager.EnableTransformRoll();
+        parentTransform = transform.parent;
+        initialPosition = transform.position;
+        transform.position = new Vector3(parentTransform.position.x, initialPosition.y + 0.5f, parentTransform.position.z);
     }
 
     void Update()
     {
-
-        // 左クリックでサイコロをつかむ
         if (Input.GetKey(KeyCode.Space) && !hasBeenThrown)
         {
             smo.enabled = true;
@@ -42,10 +47,10 @@ public class DiceController : MonoBehaviour
             isHeld = true;
             isStopped = false;
             hasBeenThrown = false;
-            rb.isKinematic = true; // 物理挙動を停止
+            rb.isKinematic = true;
+            transform.position = new Vector3(parentTransform.position.x, 5f, parentTransform.position.z);
         }
 
-        // 左クリックを離してサイコロを投げる
         if (Input.GetKeyUp(KeyCode.Space) && isHeld)
         {
             isHeld = false;
@@ -53,26 +58,23 @@ public class DiceController : MonoBehaviour
             isStopped = false;
             timeSinceThrown = 0f;
 
-            rb.isKinematic = false; // 物理挙動を再開
+            rb.isKinematic = false;
             smo.enabled = false;
 
-            Vector3 throwForce = new Vector3(Random.Range(0, 40) / 10, 100, Random.Range(0, 40) / 10) * throwForceMultiplier;
-            rb.AddForce(throwForce);
-            rb.AddTorque(Random.insideUnitSphere * 500f); // ランダムな回転力
+            Vector3 throwForce = new Vector3(Random.Range(-2f, 2f), 10f, Random.Range(-2f, 2f)) * throwForceMultiplier;
+            rb.AddForce(throwForce, ForceMode.Impulse);
+            rb.AddTorque(Random.insideUnitSphere * 500f);
         }
 
-        // サイコロをつかんでいる間
         if (isHeld)
         {
-            smo.TargetPosition = new Vector3(0f, 5f, -3.363407f);
-
+            transform.position = new Vector3(parentTransform.position.x, 5f, parentTransform.position.z);
             float rotationSpeed = 300f;
             transform.Rotate(Random.Range(-rotationSpeed, rotationSpeed) * Time.deltaTime,
                              Random.Range(-rotationSpeed, rotationSpeed) * Time.deltaTime,
                              Random.Range(-rotationSpeed, rotationSpeed) * Time.deltaTime);
         }
 
-        // 投げた後の停止判定
         if (hasBeenThrown)
         {
             timeSinceThrown += Time.deltaTime;
@@ -86,15 +88,31 @@ public class DiceController : MonoBehaviour
                     if (result != -1)
                     {
                         Debug.Log($"出た目: {result}");
-                        ResetDiceState(); // 判定後に状態をリセット
+                        ResetDiceState();
                         player.DiceAfter(result);
+
+                        // **投げた後の移動処理開始**
+                        targetPosition = parentTransform.position + new Vector3(-6.5f, 1f, 3f);
+                        moveToTarget = true;
                     }
                 }
             }
         }
+
+        // サイコロを画面左上へ移動
+        if (moveToTarget)
+        {
+            transform.position = Vector3.Lerp(transform.position, targetPosition, Time.deltaTime * moveSpeed);
+
+            // ある程度近づいたら移動終了
+            if (Vector3.Distance(transform.position, targetPosition) < 0.1f)
+            {
+                transform.position = targetPosition;
+                moveToTarget = false;
+            }
+        }
     }
 
-    // 一番Y座標が高い面を取得
     private int GetTopFace()
     {
         if (faces == null || faces.Length == 0) return -1;
@@ -113,7 +131,6 @@ public class DiceController : MonoBehaviour
 
         int faceValue = topFace != null ? int.Parse(topFace.name) : -1;
 
-        // LegButtonの効果が有効な場合、出目を1,2,3に制限
         if (legButtonEffect && faceValue > 3)
         {
             faceValue = Random.Range(1, 4);
@@ -127,7 +144,6 @@ public class DiceController : MonoBehaviour
         isStopped = false;
     }
 
-    // サイコロの状態をリセット
     private void ResetDiceState()
     {
         hasBeenThrown = false;
@@ -135,14 +151,12 @@ public class DiceController : MonoBehaviour
         isStopped = false;
     }
 
-    // サイコロの出目の範囲を設定
     public void SetDiceRollRange(int min, int max)
     {
         minDiceValue = min;
         maxDiceValue = max;
     }
 
-    // LegButtonの効果を設定
     public void SetLegButtonEffect(bool isActive)
     {
         legButtonEffect = isActive;
