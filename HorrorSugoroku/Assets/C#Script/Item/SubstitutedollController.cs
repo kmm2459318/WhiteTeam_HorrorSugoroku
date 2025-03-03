@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using TMPro;
+using UnityEngine;
 
 public class SubstitutedollController : MonoBehaviour
 {
@@ -7,8 +8,11 @@ public class SubstitutedollController : MonoBehaviour
     private const int maxUsage = 3; // 使用上限
     public CurseSlider curseSlider; // 呪いゲージの管理
 
+    public TextMeshProUGUI Possessions;
+
     private void Start()
     {
+        Possessions.text = itemCount.ToString();
         Debug.Log($"🎭 身代わり人形を{itemCount}つ持っています！");
     }
 
@@ -38,6 +42,7 @@ public class SubstitutedollController : MonoBehaviour
     {
         itemCount++;
         Debug.Log("身代わり人形が1つ増えました！現在の数: " + itemCount);
+        Possessions.text = itemCount.ToString();
         UseSubstituteDoll();
     }
 }

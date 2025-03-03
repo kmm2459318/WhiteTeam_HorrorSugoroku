@@ -3,6 +3,7 @@ using System.Collections;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using static UnityEditor.PlayerSettings;
 
 public class CurseSlider : MonoBehaviour
 {
@@ -32,6 +33,7 @@ public class CurseSlider : MonoBehaviour
     public float dashPoint = 0;
     public GameManager gameManager;
     public TurnManager turnManager;
+    public CutIn cutIn;
     private bool saikorotyu;
     private bool CardSelect1 = false;
     private bool CardSelect2 = false;
@@ -213,12 +215,12 @@ public class CurseSlider : MonoBehaviour
             UpdateCountText();
         }
 
-        
+
 
         UpdateImageGauges();
     }
 
-    
+
     public void IncreaseDashPointPerTurn()
     {
         dashPoint = Mathf.Min(dashPoint + dashIncreasePerTurn, maxDashPoint);
@@ -249,33 +251,47 @@ public class CurseSlider : MonoBehaviour
         }
     }
 
-    public IEnumerator ShowCardCanvas2()
-    {
-        if (CardCanvas2 != null)
-        {
-            //Cursor.lockState = CursorLockMode.None;
-            //Cursor.visible = true;
-            isCardCanvas2 = true;
-            CardCanvas2.SetActive(true);
-            ArmButton.interactable = !isArmButtonUsed;
-            LegButton.interactable = !isLegButtonUsed;
-            EyeButton.interactable = !isEyeButtonUsed;
-            yield return new WaitForSeconds(1.0f);
-            Time.timeScale = 0; // **ゲームを停止**
-        }
-    }
-
     public IEnumerator ShowCardCanvas1()
     {
+        Debug.Log("ShowCardCanvas1() が呼ばれました");
         if (CardCanvas1 != null)
         {
             isCardCanvas1 = true;
             CardCanvas1.SetActive(true);
+            Debug.Log("CardCanvas1 をアクティブにしました");
+
             ArmButton.interactable = !isArmButtonUsed;
             LegButton.interactable = !isLegButtonUsed;
             EyeButton.interactable = !isEyeButtonUsed;
+
             yield return new WaitForSeconds(1.0f);
             Time.timeScale = 0; // **ゲームを停止**
+        }
+        else
+        {
+            Debug.LogError("CardCanvas1 が null です");
+        }
+    }
+
+    public IEnumerator ShowCardCanvas2()
+    {
+        Debug.Log("ShowCardCanvas2() が呼ばれました");
+        if (CardCanvas2 != null)
+        {
+            isCardCanvas2 = true;
+            CardCanvas2.SetActive(true);
+            Debug.Log("CardCanvas2 をアクティブにしました");
+
+            ArmButton.interactable = !isArmButtonUsed;
+            LegButton.interactable = !isLegButtonUsed;
+            EyeButton.interactable = !isEyeButtonUsed;
+
+            yield return new WaitForSeconds(1.0f);
+            Time.timeScale = 0; // **ゲームを停止**
+        }
+        else
+        {
+            Debug.LogError("CardCanvas2 が null です");
         }
     }
 
@@ -287,6 +303,7 @@ public class CurseSlider : MonoBehaviour
             Cursor.lockState = CursorLockMode.Locked;
             Cursor.visible = false;
             Time.timeScale = 1;
+            StartCoroutine(WaitThenShowCutIn());
         }
     }
 
@@ -298,7 +315,15 @@ public class CurseSlider : MonoBehaviour
             Cursor.lockState = CursorLockMode.Locked;
             Cursor.visible = false;
             Time.timeScale = 1;
+            StartCoroutine(WaitThenShowCutIn());
         }
+    }
+
+    private IEnumerator WaitThenShowCutIn()
+    {
+        // フレーム待機または少しの遅延を入れて、全てがリセットされるのを待つ
+        yield return null;
+        StartCoroutine(cutIn.ShowCutIn());
     }
 
     private bool isArmButtonClicked = false;
@@ -317,40 +342,15 @@ public class CurseSlider : MonoBehaviour
         // 懐中電灯を非アクティブにする
         flashlightManager.DeactivateFlashlight();
 
-        // カメラの回転を有効にする
-        EnableCameraRotation();
-
         // Canvasをアクティブにしてテキストを一文字ずつ表示
         if (eyeButtonText != null && eyeButtonCanvas != null && !isDisplayingText)
         {
             StartCoroutine(ActivateCanvasForDuration(eyeButtonCanvas, 5f));
             StartCoroutine(DisplayTextOneByOne("片手ヲ失っタ。\n懐中電灯が使えナイ。", eyeButtonText, 0.1f));
         }
-
-        // カメラの回転を有効にする
-        Camera.main.GetComponent<CameraController>().enabled = true;
     }
 
-    public void Eye_ButtonAction()
-    {
-        Debug.Log("目が落ちた");
-        EyeButton.interactable = false;
-        EyeButton.gameObject.SetActive(false); // ボタンを非表示にする
-        isEyeButtonUsed = true;
-
-        // カメラの回転を有効にする
-        EnableCameraRotation();
-
-        // Canvasをアクティブにしてテキストを一文字ずつ表示
-        if (eyeButtonText != null && eyeButtonCanvas != null && !isDisplayingText)
-        {
-            StartCoroutine(ActivateCanvasForDuration(eyeButtonCanvas, 5f));
-            StartCoroutine(DisplayTextOneByOne("片目ヲ失っタ。", eyeButtonText, 0.1f));
-        }
-
-        // カメラの回転を有効にする
-        Camera.main.GetComponent<CameraController>().enabled = true;
-    }
+    private bool isLegButtonClicked = false;
 
     public void Leg_ButtonAction()
     {
@@ -371,26 +371,25 @@ public class CurseSlider : MonoBehaviour
         // カメラの位置を低くする
         Camera.main.GetComponent<CameraController>().OnLegButtonPressed();
 
-        // カメラの回転を有効にする
-        EnableCameraRotation();
-
         // Canvasをアクティブにしてテキストを一文字ずつ表示
         if (eyeButtonText != null && eyeButtonCanvas != null && !isDisplayingText)
         {
             StartCoroutine(ActivateCanvasForDuration(eyeButtonCanvas, 5f));
             StartCoroutine(DisplayTextOneByOne("片足ヲ失っタ。\nサイコロが1,2,3しか出ナイ。", eyeButtonText, 0.1f));
         }
-
-        // カメラの回転を有効にする
-        Camera.main.GetComponent<CameraController>().enabled = true;
     }
-
-    private void EnableCameraRotation()
+    public void Eye_ButtonAction()
     {
-        var cameraController = Camera.main.GetComponent<CameraController>();
-        if (cameraController != null)
+        Debug.Log("目が落ちた");
+        EyeButton.interactable = false;
+        EyeButton.gameObject.SetActive(false); // ボタンを非表示にする
+        isEyeButtonUsed = true;
+
+        // Canvasをアクティブにしてテキストを一文字ずつ表示
+        if (eyeButtonText != null && eyeButtonCanvas != null && !isDisplayingText)
         {
-            cameraController.enabled = true; // カメラの回転を有効にする
+            StartCoroutine(ActivateCanvasForDuration(eyeButtonCanvas, 5f));
+            StartCoroutine(DisplayTextOneByOne("片目ヲ失っタ。", eyeButtonText, 0.1f));
         }
     }
 
@@ -457,5 +456,11 @@ public class CurseSlider : MonoBehaviour
         {
             Debug.LogError("PlayerSaikoroのインスタンスが見つかりませんでした。");
         }
+    }
+
+    //呪いカード、大きい呪いが表示しているかの判定を返す
+    public bool IsCardCanvasActive()
+    {
+        return CardCanvas1.activeSelf || CardCanvas2.activeSelf;
     }
 }

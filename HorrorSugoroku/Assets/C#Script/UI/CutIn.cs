@@ -17,8 +17,9 @@ public class CutIn : MonoBehaviour
 
     public GameObject Text_CutIn;
     private bool previousTurnState = false; // 前回のターン状態
-    private bool isExecutingFade = false;  // `FadeIn()` を1回だけ呼び出すためのフラグ
-
+    private bool isExecutingFade = false;  // フェード処理中フラグ
+    private bool isTurnChangedDuringFade = false; // フェード中にターンが変わったか
+    private bool needsNextFadeIn = false;  // 次のフェードインが必要か
 
     void Start()
     {
@@ -30,38 +31,59 @@ public class CutIn : MonoBehaviour
 
     void Update()
     {
-        if (!isExecutingFade && curseSlider.isCardCanvas1 == false && curseSlider.isCardCanvas2 == false)
+        // カードが表示中なら待機
+        if (!isExecutingFade && !curseSlider.isCardCanvas1 && !curseSlider.isCardCanvas2)
         {
-            //DICE TURN表示
-            if (gameManager.isPlayerTurn && !previousTurnState)
+            if (gameManager.isPlayerTurn != previousTurnState)
             {
-                isExecutingFade = true; // フェード処理中にする
-                Text_CutIn.SetActive(true);
-                StartCoroutine(FadeIn());
-            }
-            //SEARCH TURN表示
-            else if (!gameManager.isPlayerTurn && previousTurnState)
-            {
-                isExecutingFade = true; // フェード処理中にする
-                Text_CutIn.SetActive(true);
-                StartCoroutine(FadeIn());
+                isExecutingFade = true;
+                StartCoroutine(ShowCutIn());
             }
         }
+        else if (isExecutingFade && gameManager.isPlayerTurn != previousTurnState)
+        {
+            // フェード中にターンが変わったら即座にフェードアウトし、新しいターンの表示を予約
+            isTurnChangedDuringFade = true;
+            needsNextFadeIn = true;
+        }
 
-        //現在の状態を更新
         previousTurnState = gameManager.isPlayerTurn;
     }
 
-    // フェイドインの処理
-    public IEnumerator FadeIn()
-    { 
+    // カードキャンバスが閉じるまで待機してからフェードインを開始
+    public IEnumerator ShowCutIn()
+    {
+        Debug.Log("ShowCutIn() 開始: カードキャンバスの状態を確認");
+
+        // カードキャンバスが非表示になるのを待機
+        yield return StartCoroutine(WaitForCardCanvasToClose());
+
+        // Text_CutInがアクティブであることを確認
         Text_CutIn.SetActive(true);
+
+        Debug.Log("カードキャンバスが閉じたのでText_CutInを表示");
+
+        // プレイヤーターンに応じて表示するテキストを設定
         TEXT.text = gameManager.isPlayerTurn ? "DICE TURN" : "SEARCH TURN";
 
-        float elapsedTime = 0f;
+        StartCoroutine(FadeIn());
+    }
 
+    // フェードイン処理
+    public IEnumerator FadeIn()
+    {
+        Debug.Log("FadeIn 開始: 表示する文字 = " + TEXT.text);
+
+        float elapsedTime = 0f;
         while (elapsedTime < FadeInTime)
         {
+            if (isTurnChangedDuringFade)
+            {
+                isTurnChangedDuringFade = false;
+                StartCoroutine(FadeOut());
+                yield break;
+            }
+
             float alpha = elapsedTime / FadeInTime; // 0 → 1 に変化
             TEXT.color = new Color(1, 1, 1, alpha);
             elapsedTime += Time.deltaTime;
@@ -69,14 +91,28 @@ public class CutIn : MonoBehaviour
         }
 
         TEXT.color = new Color(1, 1, 1, 1); // 完全に表示
-        yield return new WaitForSeconds(DisplayTime); // 表示時間待機
+
+        float displayTime = 0f;
+        while (displayTime < DisplayTime)
+        {
+            if (isTurnChangedDuringFade)
+            {
+                isTurnChangedDuringFade = false;
+                StartCoroutine(FadeOut());
+                yield break;
+            }
+            displayTime += Time.deltaTime;
+            yield return null;
+        }
 
         StartCoroutine(FadeOut());
     }
 
-    // フェイドアウトの処理
+    // フェードアウト処理
     IEnumerator FadeOut()
     {
+        Debug.Log("FadeOut 開始");
+
         float elapsedTime = 0f;
 
         while (elapsedTime < FadeOutTime)
@@ -88,10 +124,32 @@ public class CutIn : MonoBehaviour
         }
 
         TEXT.color = new Color(1, 1, 1, 0); // 完全に透明
-        TEXT.text = ""; // フェードアウト後テキストを消す
+        TEXT.text = "";
         Text_CutIn.SetActive(false);
 
         isExecutingFade = false;
-        Debug.Log("FadeOut 完了: isExecutingFade を false にリセット");
+
+        Debug.Log("FadeOut 完了");
+
+        // フェードアウト後に次のフェードインが必要なら実行
+        if (needsNextFadeIn)
+        {
+            needsNextFadeIn = false;
+            isExecutingFade = true;
+            StartCoroutine(ShowCutIn());
+        }
+    }
+
+    // CardCanvas1 または CardCanvas2 が閉じるまで待機
+    private IEnumerator WaitForCardCanvasToClose()
+    {
+        Debug.Log("WaitForCardCanvasToClose() 開始");
+
+        while (curseSlider.isCardCanvas1 || curseSlider.isCardCanvas2)
+        {
+            yield return null; // 1フレーム待機
+        }
+
+        Debug.Log("WaitForCardCanvasToClose() 完了: カードキャンバスが閉じた");
     }
 }
