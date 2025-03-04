@@ -25,6 +25,7 @@ public class Door : MonoBehaviour
     //public Button cancelButton; // キャンセルボタン
 
     public GameObject hiddenArea; // 表示したいマス（ドアが開くと表示）
+    public Animator leftOpenAnimator; // LeftOpenを設定する別のオブジェクトのアニメーター
     void Start()
     {
         player = GameObject.FindGameObjectWithTag("Player").transform;
@@ -94,6 +95,12 @@ public class Door : MonoBehaviour
             doorAnimatorLeft.SetBool("isOpen", true);
         }
 
+        if (leftOpenAnimator != null)
+        {
+            leftOpenAnimator.SetBool("LeftOpen", true); // LeftOpenをtrueに設定
+            StartCoroutine(ResetLeftOpen()); // 30秒後にLeftOpenをfalseにするコルーチンを開始
+        }
+
         isOpen = true;
         Debug.Log($"{requiredItem} のドアが開きました");
 
@@ -105,5 +112,16 @@ public class Door : MonoBehaviour
         }
 
         Destroy(gameObject); // ドアオブジェクトを削除
+    }
+    
+
+    // 30秒後にLeftOpenをfalseにするコルーチン
+    IEnumerator ResetLeftOpen()
+    {
+        yield return new WaitForSeconds(30f);
+        if (doorAnimatorLeft != null)
+        {
+            doorAnimatorLeft.SetBool("LeftOpen", false);
+        }
     }
 }

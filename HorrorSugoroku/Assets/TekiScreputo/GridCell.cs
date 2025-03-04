@@ -167,6 +167,9 @@ public class GridCell : MonoBehaviour
         Debug.Log("アイテムを付与するかの判定:" + DebuffSheet.DebuffSheet[n].ItemGive);
         Debug.Log("アイテムが使えなくなるかの判定:" + DebuffSheet.DebuffSheet[n].ItemGive);
         Debug.Log("アイテムが使えないターン数:" + DebuffSheet.DebuffSheet[n].ItemGive);
+        // 初期状態でセルを非表示にする
+        SetVisibility(false);
+
     }
     //void Update()
     //{
@@ -445,35 +448,30 @@ public class GridCell : MonoBehaviour
         ShowItemUI(logMessage);
 
     }
-    public void SetVisibility(bool isVisible)
-    {
-        // アクティブ状態は維持しつつ、レンダラーを有効/無効にする
-        Renderer renderer = GetComponent<Renderer>();
-        if (renderer != null)
-        {
-            renderer.enabled = isVisible;
-        }
-
-        // 子オブジェクトのレンダラーも有効/無効にする
-        foreach (Renderer childRenderer in GetComponentsInChildren<Renderer>())
-        {
-            childRenderer.enabled = isVisible;
-        }
-    }
-
     private void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("DetectionBox"))
+        if (other.CompareTag("HanteiBox"))
         {
+            Debug.Log($"🔍 {name} と HanteiBox が衝突しました。");
             SetVisibility(true);
         }
     }
 
     private void OnTriggerExit(Collider other)
     {
-        if (other.CompareTag("DetectionBox"))
+        if (other.CompareTag("HanteiBox"))
         {
+            Debug.Log($"🔍 {name} と HanteiBox の衝突が解除されました。");
             SetVisibility(false);
+        }
+    }
+
+    public void SetVisibility(bool isVisible)
+    {
+        // 子オブジェクトの Renderer を有効/無効にする
+        foreach (Renderer childRenderer in GetComponentsInChildren<Renderer>())
+        {
+            childRenderer.enabled = isVisible;
         }
     }
 }
