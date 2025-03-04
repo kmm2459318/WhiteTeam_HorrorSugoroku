@@ -4,31 +4,24 @@ public class DiceRotation : MonoBehaviour
 {
     private Quaternion targetRotation;
     private float rotationSpeed = 10f;
-    private float moveSpeed = 5f; // 移動速度
-
+    private int dice;
     [SerializeField] private PlayerSaikoro playerSaikoro;
     private bool shouldRotate = false;
-    private bool shouldMoveToSide = false;
-    private bool shouldMoveToCenter = false;
 
-    private Vector3 centerPosition;
-    private Vector3 sidePosition = new Vector3(-6.5f, 1f, -3f);
-
+    // 出目ごとの回転 (上を向く面を基準)
     private Vector3[] faceRotations = new Vector3[]
     {
-        new Vector3(-90, 0, 0),
-        new Vector3(0, 0, 0),
-        new Vector3(0, 0, -90),
-        new Vector3(0, 0, 90),
-        new Vector3(180, 180, 0),
-        new Vector3(90, 0, 0)
+        new Vector3(-90, 0, 0),  // 1の面が上
+        new Vector3(0, 0, 0),    // 2の面が上
+        new Vector3(0, 0, -90),  // 3の面が上
+        new Vector3(0, 0, 90),   // 4の面が上
+        new Vector3(180, 180, 0),// 5の面が上
+        new Vector3(90, 0, 0)    // 6の面が上
     };
 
     void Start()
     {
         targetRotation = transform.rotation;
-        centerPosition = transform.position;
-        Debug.Log("初期位置: " + centerPosition);
     }
 
     void Update()
@@ -37,75 +30,36 @@ public class DiceRotation : MonoBehaviour
         {
             RotateDice();
         }
-        else if (shouldMoveToSide)
-        {
-            MoveToSide();
-        }
-        else if (shouldMoveToCenter)
-        {
-            MoveToCenter();
-        }
     }
 
     private void RotateDice()
     {
-        if (playerSaikoro != null)
+        if (dice < 1 || dice > 6)
         {
-            int faceValue = playerSaikoro.sai;
-            if (faceValue >= 1 && faceValue <= 6)
-            {
-                targetRotation = Quaternion.Euler(faceRotations[faceValue - 1]);
-            }
+            Debug.LogWarning("不正なサイコロの出目: " + dice);
+            shouldRotate = false;
+            return;
         }
 
-        if (Quaternion.Angle(transform.rotation, targetRotation) > 0.1f)
-        {
-            transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.deltaTime * rotationSpeed);
-        }
-        else
+        // 出目に対応する回転角度を取得
+        targetRotation = Quaternion.Euler(faceRotations[dice - 1]);
+
+        // スムーズに回転させる
+        transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.deltaTime * rotationSpeed);
+
+        // 目標の角度にほぼ到達したら回転を停止
+        if (Quaternion.Angle(transform.rotation, targetRotation) < 0.1f)
         {
             transform.rotation = targetRotation;
             shouldRotate = false;
-            shouldMoveToSide = true; // 回転完了後に端へ移動
-            Debug.Log("回転完了 → 端へ移動開始");
+            Debug.Log("回転完了: " + dice);
         }
     }
 
-    private void MoveToSide()
+    public void GetDiceNumber(int sai)
     {
-        Debug.Log("移動中 (端へ): " + transform.position);
-        transform.position = Vector3.MoveTowards(transform.position, sidePosition, Time.deltaTime * moveSpeed);
-
-        if (Vector3.Distance(transform.position, sidePosition) < 0.1f)
-        {
-            transform.position = sidePosition;
-            shouldMoveToSide = false;
-            Debug.Log("端への移動完了");
-        }
-    }
-
-    private void MoveToCenter()
-    {
-        Debug.Log("移動中 (中央へ): " + transform.position);
-        transform.position = Vector3.MoveTowards(transform.position, centerPosition, Time.deltaTime * moveSpeed);
-
-        if (Vector3.Distance(transform.position, centerPosition) < 0.1f)
-        {
-            transform.position = centerPosition;
-            shouldMoveToCenter = false;
-            Debug.Log("中央への移動完了");
-        }
-    }
-
-    public void StartRotation()
-    {
-        shouldRotate = true;
-        Debug.Log("サイコロ回転開始");
-    }
-
-    public void ResetToCenter()
-    {
-        shouldMoveToCenter = true;
-        Debug.Log("中央へ戻す処理開始");
+        shouldRotate = true;  // 回転を開始
+        dice = sai;
+        Debug.Log($"受け取った出目: {dice}");
     }
 }
