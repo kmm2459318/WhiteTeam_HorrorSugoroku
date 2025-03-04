@@ -10,9 +10,12 @@ public class ClickObject : MonoBehaviour
     [SerializeField] public TextMeshProUGUI Text;
     [SerializeField] public GameObject Canvas;
     [SerializeField] private Image cutInImage; // カットイン画像
+
     //  public string itemName = "鍵"; // 鍵の名前
     void Start()
     {
+
+
         // 自動で `PlayerInventory` を取得
         playerInventory = FindObjectOfType<PlayerInventory>();
 
@@ -33,8 +36,6 @@ public class ClickObject : MonoBehaviour
     }
     void Update()
     {
-        if (Input.GetMouseButtonDown(0)) // 左クリック
-        {Debug.Log("aaa");
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
             RaycastHit hit;
 
@@ -50,11 +51,12 @@ public class ClickObject : MonoBehaviour
                         Debug.Log("ee");
                         float distance = Vector3.Distance(Camera.main.transform.position, hit.collider.transform.position);
 
-                        if (distance <= 3f) // カメラからの距離が3以下の場合
-                        {
-                            // 🎲 ランダムでスクリプトA または B を実行
-                           // int randomChoice = Random.Range(0, 4);
-
+                    if (distance <= 3f) // カメラからの距離が3以下の場合
+                    {
+                        // 🎲 ランダムでスクリプトA または B を実行
+                        // int randomChoice = Random.Range(0, 4);
+                        if (Input.GetMouseButtonDown(0))
+                        { // 左クリック
                             if (hit.collider.CompareTag("Key"))
                             {
                                 ExecuteScriptA(hit.collider.gameObject); // スクリプトAを実行（アイテム取得）
@@ -94,9 +96,9 @@ public class ClickObject : MonoBehaviour
                             Destroy(hit.collider.gameObject);
                         }
                     }
+                    }
                 }
             }
-        }
         if (Canvas.active == true)
         {
             if (Input.GetKeyDown(KeyCode.Space))
