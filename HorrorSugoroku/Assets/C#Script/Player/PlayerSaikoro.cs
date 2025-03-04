@@ -60,6 +60,7 @@ public class PlayerSaikoro : MonoBehaviour
     int i;
     Image image;
 
+
     int movesum;
 
     // AudioSource and AudioClip variables for dice roll sound
@@ -448,14 +449,12 @@ public class PlayerSaikoro : MonoBehaviour
     }
 
     //移動
+    [SerializeField] private AudioSource footstepSound; // 足音のAudioSource
+
     void idou(int n, bool back)
     {
         // 現在のPlayerのY軸の値を保持
-        //Pos = Player.transform.position;
-
-
-
-        //Player.transform.position = Pos; // 移動
+        // Pos = Player.transform.position;
 
         if (!back)
         {
@@ -467,11 +466,29 @@ public class PlayerSaikoro : MonoBehaviour
                 case 4: player.TargetPosition = Smasu.transform.position + new Vector3(0, 1.15f, 0); break; // 南に移動
             }
 
+            // 足音を鳴らす
+            if (footstepSound != null)
+            {
+                footstepSound.Play();
+                StartCoroutine(StopFootstepSound()); // 1秒後に止める
+            }
+            else
+            {
+                Debug.LogWarning("Footstep sound is not assigned.");
+            }
+
             lastaction = n; // 来た方向を記憶
             Debug.Log(detame - sai + 1 + ":" + lastAction[detame - sai + 1]);
             sai--;
         }
     }
+
+    IEnumerator StopFootstepSound()
+    {
+        yield return new WaitForSeconds(1f); // 1秒待つ
+        footstepSound.Stop();               // 音を止める
+    }
+
 
     private IEnumerator RollDice()
     {
