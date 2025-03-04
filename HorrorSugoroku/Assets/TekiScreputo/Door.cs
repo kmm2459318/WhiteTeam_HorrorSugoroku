@@ -1,89 +1,59 @@
-using System.Collections;
+ï»¿using System.Collections;
 using TMPro;
 using Unity.VisualScripting.Antlr3.Runtime;
 using UnityEngine;
 using UnityEngine.UI;
+using System.Collections.Generic; // ãƒªã‚¹ãƒˆã‚’ä½¿ã†ãŸã‚ã«è¿½åŠ 
+
 
 public class Door : MonoBehaviour
 {
-    public Animator doorAnimator; // ƒhƒA‚ÌƒAƒjƒ[ƒ^[
+    public Animator doorAnimator; // ãƒ‰ã‚¢ã®ã‚¢ãƒ‹ãƒ¡ãƒ¼ã‚¿ãƒ¼
     public Animator doorAnimatorLeft;
     public float interactionRange = 3f;
-    private bool isOpen = false; // ƒhƒA‚Ìó‘Ô
+    private bool isOpen = false; // ãƒ‰ã‚¢ã®çŠ¶æ…‹
 
+    private Transform player; // ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã® Transform
+    public PlayerInventory playerInventory; // ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã®ã‚¤ãƒ³ãƒ™ãƒ³ãƒˆãƒªå‚ç…§
+    public string requiredItem = ""; // å¿…è¦ãªã‚¢ã‚¤ãƒ†ãƒ ï¼ˆ""ãªã‚‰éµä¸è¦ï¼‰
 
-    private Transform player; // ƒvƒŒƒCƒ„[‚Ì Transform
-    public PlayerInventory playerInventory; // ƒvƒŒƒCƒ„[‚ÌƒCƒ“ƒxƒ“ƒgƒŠQÆ
-    public string requiredItem; // •K—v‚ÈƒAƒCƒeƒ€
+    public GameObject doorPanel; // UIã®ãƒ‘ãƒãƒ«
+    public TextMeshProUGUI doorText; // UIã®ãƒ†ã‚­ã‚¹ãƒˆ
+    public float messageDisplayTime = 2f; // ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ã‚’è¡¨ç¤ºã™ã‚‹æ™‚é–“
 
+    public GameObject hiddenArea; // éš ã‚ŒãŸã‚¨ãƒªã‚¢ï¼ˆãƒ‰ã‚¢ãŒé–‹ãã¨è¡¨ç¤ºï¼‰
+    // ğŸ”¹ [Inspectorã§è¨­å®šå¯èƒ½] éµã‚’æ¶ˆè²»ã—ãªã„ãƒ‰ã‚¢ã‹ã©ã†ã‹
+    [Header("éµã‚’æ¶ˆè²»ã—ãªã„ãƒ‰ã‚¢")]
+    public bool noKeyConsume = false;
 
-    public GameObject doorPanel; // UI‚Ìƒpƒlƒ‹
-    public TextMeshProUGUI doorText; // UI‚ÌƒeƒLƒXƒg
-    public float messageDisplayTime = 2f; // ƒƒbƒZ[ƒW‚ğ•\¦‚·‚éŠÔi•bj
-    //public TextMeshProUGUI messgeText;
-    //public Button okButton;   // OKƒ{ƒ^ƒ“
-    //public Button cancelButton; // ƒLƒƒƒ“ƒZƒ‹ƒ{ƒ^ƒ“
-
-    public GameObject hiddenArea; // •\¦‚µ‚½‚¢ƒ}ƒXiƒhƒA‚ªŠJ‚­‚Æ•\¦j
     void Start()
     {
         player = GameObject.FindGameObjectWithTag("Player").transform;
         playerInventory = player.GetComponent<PlayerInventory>();
 
-        if (doorPanel != null)
-        {
-            doorPanel.SetActive(false); // Å‰‚ÍUI‚ğ”ñ•\¦
-        }
-
-        if (hiddenArea != null)
-        {
-            hiddenArea.SetActive(false); // Å‰‚Í‰B‚ê‚½ƒGƒŠƒA‚ğ”ñ•\¦
-        }
+        if (doorPanel != null) doorPanel.SetActive(false);
+        if (hiddenArea != null) hiddenArea.SetActive(false);
     }
+
     void Update()
     {
         float distance = Vector3.Distance(player.position, transform.position);
 
-        if (distance <= interactionRange && Input.GetKeyDown(KeyCode.G)) // GƒL[‚ÅƒhƒA‚ğŠJ‚¯‚é
+        if (Input.GetKeyDown(KeyCode.G) && distance <= interactionRange)
         {
             if (!isOpen)
             {
-                if (playerInventory != null && playerInventory.HasItem(requiredItem))
+                // éµãŒå¿…è¦ãªãƒ‰ã‚¢ã‹ãƒã‚§ãƒƒã‚¯
+                if (string.IsNullOrEmpty(requiredItem) || (playerInventory != null && playerInventory.HasItem(requiredItem)))
                 {
-                    OpenDoorConfirmed(); // Œ®‚ğg‚Á‚ÄƒhƒA‚ğŠJ‚­
+                    OpenDoor();
                 }
                 else
                 {
-                    Debug.Log("Œ®‚ª‚ ‚è‚Ü‚¹‚ñB"); // Œ®‚ª‚È‚¯‚ê‚ÎŠJ‚¯‚ç‚ê‚È‚¢
+                    ShowMessage("éµãŒã‚ã‚Šã¾ã›ã‚“");
                 }
             }
         }
-    }
-    // UI‚ğ•\¦‚µ‚Äˆê’èŠÔŒã‚É•Â‚¶‚é
-    IEnumerator ShowMessageAndCloseUI(string message, float delay)
-    {
-        if (doorPanel != null)
-        {
-            doorPanel.SetActive(true);
-        }
-
-        if (doorText != null)
-        {
-            doorText.text = message;
-        }
-
-        yield return new WaitForSeconds(delay);
-
-        if (doorPanel != null)
-        {
-            doorPanel.SetActive(false);
-        }
-    }
-    // ƒhƒA‚ğŠJ‚¯‚éƒƒ\ƒbƒh
-    void OpenDoorConfirmed()
-    {
-        OpenDoor(); // ƒhƒA‚ğŠJ‚­
-        playerInventory.RemoveItem(requiredItem); // Œ®‚ğƒCƒ“ƒxƒ“ƒgƒŠ‚©‚çíœ
     }
 
     void OpenDoor()
@@ -95,15 +65,31 @@ public class Door : MonoBehaviour
         }
 
         isOpen = true;
-        Debug.Log($"{requiredItem} ‚ÌƒhƒA‚ªŠJ‚«‚Ü‚µ‚½");
+        ShowMessage("ãƒ‰ã‚¢ãŒé–‹ãã¾ã—ãŸ");
 
-        StartCoroutine(ShowMessageAndCloseUI($"{requiredItem} ‚ÌƒhƒA‚ªŠJ‚«‚Ü‚µ‚½", messageDisplayTime));
-
-        if (hiddenArea != null)
+        // ğŸ”¹ ã€ŒéµãŒå¿…è¦ã€ã‹ã¤ã€Œéµã‚’æ¶ˆè²»ã—ãªã„è¨­å®šã§ãªã„ã€å ´åˆã®ã¿æ¶ˆè²»
+        if (!string.IsNullOrEmpty(requiredItem) && !noKeyConsume)
         {
-            hiddenArea.SetActive(true);
+            playerInventory.RemoveItem(requiredItem); // éµã‚’æ¶ˆè²»
         }
 
-        Destroy(gameObject); // ƒhƒAƒIƒuƒWƒFƒNƒg‚ğíœ
+        if (hiddenArea != null) hiddenArea.SetActive(true);
+        Destroy(gameObject, messageDisplayTime); // UIã‚’é–‰ã˜ã‚‹æ™‚é–“å¾Œã«ãƒ‰ã‚¢ã‚’å‰Šé™¤
+    }
+
+    void ShowMessage(string message)
+    {
+        if (doorPanel != null && doorText != null)
+        {
+            doorPanel.SetActive(true);
+            doorText.text = message;
+            StartCoroutine(HideMessage());
+        }
+    }
+
+    IEnumerator HideMessage()
+    {
+        yield return new WaitForSeconds(messageDisplayTime);
+        if (doorPanel != null) doorPanel.SetActive(false);
     }
 }

@@ -18,7 +18,7 @@ public class GridCell : MonoBehaviour
     public TextMeshProUGUI itemText; // UIのテキスト
                                      //   public TMP_Text itemLogText;
                                      // public Button closeButton; // UIを閉じるボタン
-    public ItemPickup item;
+    //public ItemPickup item;
     public string requiredItem = "鍵"; // 必要なアイテム
     private CurseSlider curseSlider;                                // public int gridCellIncreaseAmount = 20; // GridCell 側の呪いゲージ増加量
                                                                     // [SerializeField] private int curseChance = 50;  // 呪いの発生確率（％）
