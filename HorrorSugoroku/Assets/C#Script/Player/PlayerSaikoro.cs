@@ -2,10 +2,12 @@
 using UnityEngine.UI;
 using System.Collections;
 using SmoothigTransform;
+using System;
 using System.Collections.Generic;
 
 public class PlayerSaikoro : MonoBehaviour
 {
+    public DiceRotation diceRotation;
     public GameManager gameManager; // GameManagerへの参照
     public TurnManager turnManager; // TurnManagerへの参照
     public DiceController diceController;
@@ -71,6 +73,8 @@ public class PlayerSaikoro : MonoBehaviour
 
     int movesum;
 
+    int number;
+
     // AudioSource and AudioClip variables for dice roll sound
     private AudioSource audioSource; // AudioSource to play sound
     public AudioClip diceRollSound; // The sound to play when the dice rolls
@@ -82,7 +86,7 @@ public class PlayerSaikoro : MonoBehaviour
     void Start()
     {
         turnManager = FindObjectOfType<TurnManager>();
-        
+
         // プレイヤーシーンがロードされる際に、EnemySaikoroを探して参照を保持
         targetScript = FindObjectOfType<EnemySaikoro>();
         // DiceRangeManagerのインスタンスを取得
@@ -94,9 +98,9 @@ public class PlayerSaikoro : MonoBehaviour
         {
             Debug.LogError("DiceController is not assigned and could not be found in the scene.");
         }
-    
-    // サイコロのImageを保持
-    image = saikoro.GetComponent<Image>();
+
+        // サイコロのImageを保持
+        image = saikoro.GetComponent<Image>();
 
         saikoro.SetActive(false);
 
@@ -182,7 +186,7 @@ public class PlayerSaikoro : MonoBehaviour
 
 
         if (!saikorotyu && !idoutyu && gameManager.isPlayerTurn)
-        { 
+        {
             if (Input.GetKeyDown(KeyCode.Space))
             {
                 turnManager.NextTurn();
@@ -215,8 +219,8 @@ public class PlayerSaikoro : MonoBehaviour
 
             //}
             //}
-           // サイコロの出目を制限
-            sai = Random.Range(minDiceValue, maxDiceValue + 1);
+            // サイコロの出目を制限
+            sai = UnityEngine.Random.Range(minDiceValue, maxDiceValue + 1);
 
         }
         // サイコロ振る
@@ -252,15 +256,16 @@ public class PlayerSaikoro : MonoBehaviour
             if (((!PW && !PN && !PE && lastaction == 1) ||
                 (!PW && !PS && !PN && lastaction == 2) ||
                 (!PN && !PS && !PE && lastaction == 3) ||
-                (!PW && !PS && !PE && lastaction == 4)) && 
+                (!PW && !PS && !PE && lastaction == 4)) &&
                 !idouspan)
             {
                 Debug.Log("行き止まり");
                 sai = 0;
             }
 
-           // Debug.Log(Rot.y);
-            if (Input.GetKeyDown(KeyCode.W) && !idouspan) {
+            // Debug.Log(Rot.y);
+            if (Input.GetKeyDown(KeyCode.W) && !idouspan)
+            {
                 idouspan = true;
                 if (PN && (Rot.y >= 0f && Rot.y < 45f) || (Rot.y >= 315f && Rot.y < 360f))
                 {
@@ -514,6 +519,7 @@ public class PlayerSaikoro : MonoBehaviour
             Debug.Log(detame - sai + 1 + ":" + lastAction[detame - sai + 1]);
             walkCount++;
             sai--;
+            diceRotation.GetDiceNumber(sai);
         }
     }
 
@@ -522,7 +528,7 @@ public class PlayerSaikoro : MonoBehaviour
         saikoro.SetActive(true);
         for (int i = 0; i < 10; i++) // 10回ランダムに目を表示
         {
-            sai = Random.Range(1, 7);
+            sai = UnityEngine.Random.Range(1, 7);
             switch (sai)
             {
                 case 1:
@@ -582,7 +588,7 @@ public class PlayerSaikoro : MonoBehaviour
 
     public int RollDiceWithLegEffect()
     {
-        int roll = Random.Range(minDiceValue, maxDiceValue + 1);
+        int roll = UnityEngine.Random.Range(minDiceValue, maxDiceValue + 1);
         if (legButtonEffect)
         {
             switch (roll)
