@@ -9,13 +9,13 @@ public class DiceController : MonoBehaviour
     private bool hasBeenThrown = false;
     private float timeSinceThrown = 0f;
     public int result = 0;
+    public GameManager gameManager; // GameManagerへの参照
     public PlayerSaikoro player;
     [SerializeField] private Transform[] faces;
     private float stopCheckDelay = 1f;
     private float stopThreshold = 0.05f;
     private float throwForceMultiplier = 0.8f;
-    [SerializeField] private SmoothTransform smo;
-    [SerializeField] private DiceRotation diceRotation; // インスペクターで設定
+    [SerializeField] SmoothTransform smo;
 
     public DiceRangeManager diceRangeManager;
     private Transform parentTransform;
@@ -28,30 +28,9 @@ public class DiceController : MonoBehaviour
     void Start()
     {
         rb = GetComponent<Rigidbody>();
-
-        // DiceRangeManager の設定
         diceRangeManager = FindObjectOfType<DiceRangeManager>();
-        if (diceRangeManager != null)
-        {
-            diceRangeManager.SetDiceRollRange(1, 6);
-            diceRangeManager.EnableTransformRoll();
-        }
-        else
-        {
-            Debug.LogError("DiceRangeManager がシーン内に見つかりません！");
-        }
-
-        // DiceRotation の取得（インスペクター設定がなければ自動で探す）
-        if (diceRotation == null)
-        {
-            diceRotation = FindObjectOfType<DiceRotation>();
-            if (diceRotation == null)
-            {
-                Debug.LogError("DiceRotation がシーン内に見つかりません！");
-            }
-        }
-
-        // 初期位置設定
+        diceRangeManager.SetDiceRollRange(1, 6);
+        diceRangeManager.EnableTransformRoll();
         parentTransform = transform.parent;
         initialPosition = transform.position;
         transform.position = new Vector3(parentTransform.position.x, initialPosition.y + 0.5f, parentTransform.position.z);
@@ -59,7 +38,7 @@ public class DiceController : MonoBehaviour
 
     void Update()
     {
-        // スペースキーを押し続けている間、サイコロを持つ
+        // サイコロ投げる処理
         if (Input.GetKey(KeyCode.Space) && !hasBeenThrown)
         {
             smo.enabled = true;
@@ -71,7 +50,6 @@ public class DiceController : MonoBehaviour
             transform.position = new Vector3(parentTransform.position.x, 5f, parentTransform.position.z);
         }
 
-        // スペースキーを離したら投げる
         if (Input.GetKeyUp(KeyCode.Space) && isHeld)
         {
             isHeld = false;
@@ -87,7 +65,6 @@ public class DiceController : MonoBehaviour
             rb.AddTorque(Random.insideUnitSphere * 500f);
         }
 
-        // サイコロが止まったかどうかをチェック
         if (hasBeenThrown)
         {
             timeSinceThrown += Time.deltaTime;
@@ -98,29 +75,37 @@ public class DiceController : MonoBehaviour
                 {
                     isStopped = true;
                     result = GetTopFace();
-
-                    if (diceRotation != null) // Null チェックを追加
-                    {
-                        diceRotation.GetDiceNumber(result);
-                    }
-                    else
-                    {
-                        Debug.LogError("diceRotation が設定されていません！");
-                    }
-
                     if (result != -1)
                     {
                         Debug.Log($"出た目: {result}");
                         player.DiceAfter(result);
+
+                        // **DiceRotationを有効化**
+                        DiceRotation diceRotation = GetComponent<DiceRotation>();
+                        if (diceRotation != null)
+                        {
+                            diceRotation.StartRotation();
+                        }
                     }
                 }
             }
         }
+
+        // サイコロを画面左上へ移動
+        if (moveToTarget)
+        {
+            transform.position = Vector3.Lerp(transform.position, targetPosition, Time.deltaTime * moveSpeed);
+
+            // ある程度近づいたら移動終了
+            if (Mathf.Abs(targetPosition.x - transform.position.x) < 0.1f 
+                && Mathf.Abs(targetPosition.z - transform.position.z) < 0.1f)
+            {
+                transform.position = targetPosition;
+                moveToTarget = false;
+            }
+        }
     }
 
-    /// <summary>
-    /// 最も上にある面の数値を取得する
-    /// </summary>
     private int GetTopFace()
     {
         if (faces == null || faces.Length == 0) return -1;
@@ -147,17 +132,11 @@ public class DiceController : MonoBehaviour
         return faceValue;
     }
 
-    /// <summary>
-    /// 衝突時にサイコロの停止状態を解除
-    /// </summary>
     private void OnCollisionEnter(Collision collision)
     {
         isStopped = false;
     }
 
-    /// <summary>
-    /// サイコロの状態をリセットする
-    /// </summary>
     private void ResetDiceState()
     {
         hasBeenThrown = false;
@@ -165,18 +144,12 @@ public class DiceController : MonoBehaviour
         isStopped = false;
     }
 
-    /// <summary>
-    /// サイコロの出目範囲を設定
-    /// </summary>
     public void SetDiceRollRange(int min, int max)
     {
         minDiceValue = min;
         maxDiceValue = max;
     }
 
-    /// <summary>
-    /// 足ボタンの効果を設定
-    /// </summary>
     public void SetLegButtonEffect(bool isActive)
     {
         legButtonEffect = isActive;
