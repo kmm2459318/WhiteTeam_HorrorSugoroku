@@ -10,6 +10,8 @@ public class EnemySaikoro : MonoBehaviour
     [SerializeField] SmoothTransform enemySmooth;
     [SerializeField] SmoothTransform enemyBodySmooth;
     [SerializeField] SmoothTransform enemyBodySmoothsin;
+    [SerializeField] private AudioSource footstepSound; // 足音のAudioSource
+
     public GameObject player;
     public GameObject ENorth;
     public GameObject EWest;
@@ -33,7 +35,6 @@ public class EnemySaikoro : MonoBehaviour
     //public AudioClip discoveryBGM; // 発見時のBGM
     //public AudioClip undetectedBGM; // 未発見時のBGM
     private AudioSource audioSource; // 音声再生用のAudioSource
-    public AudioClip footstepSound;// 足音のAudioClip
     public float idouspanTime;
     Vector3 goToPos = new Vector3(0f, 0, -1.65f);
     private int goToMass = 2;
@@ -276,6 +277,23 @@ public class EnemySaikoro : MonoBehaviour
 
         if (audioSource.isPlaying)
         {
+
+            // 足音を鳴らす
+            if (footstepSound != null)
+            {
+                footstepSound.Play();
+                StartCoroutine(StopFootstepSound()); // 1秒後に止める
+            }
+            else
+            {
+                Debug.LogWarning("Footstep sound is not assigned.");
+            }
+
+            IEnumerator StopFootstepSound()
+            {
+                yield return new WaitForSeconds(1f); // 1秒待つ
+                footstepSound.Stop();               // 音を止める
+            }
             audioSource.Pause();
         }
 
@@ -366,12 +384,6 @@ public class EnemySaikoro : MonoBehaviour
                     steps--;
                 }
 
-                // 足音が鳴っていない場合、鳴らす
-                if (footstepSound != null && !isFootstepPlaying)
-                {
-                    audioSource.PlayOneShot(footstepSound, footstepVolume); // 足音を鳴らす
-                    isFootstepPlaying = true; // 足音再生フラグを立てる
-                }
 
                 // エネミーの移動方向を設定
                 enemyLookAtPlayer.SetMoveDirection(direction);

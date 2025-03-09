@@ -26,6 +26,15 @@ public class Door : MonoBehaviour
     [Header("鍵を消費しないドア")]
     public bool noKeyConsume = false;
 
+    public GameObject doorPanel; // UI�̃p�l��
+    public TextMeshProUGUI doorText; // UI�̃e�L�X�g
+    public float messageDisplayTime = 2f; // ���b�Z�[�W���\�����鎞�ԁi�b�j
+    //public TextMeshProUGUI messgeText;
+    //public Button okButton;   // OK�{�^��
+    //public Button cancelButton; // �L�����Z���{�^��
+
+    public GameObject hiddenArea; // �\���������}�X�i�h�A���J���ƕ\���j
+    public Animator leftOpenAnimator; // LeftOpen���ݒ肷���ʂ̃I�u�W�F�N�g�̃A�j���[�^�[
     void Start()
     {
         player = GameObject.FindGameObjectWithTag("Player").transform;
@@ -64,6 +73,12 @@ public class Door : MonoBehaviour
             doorAnimatorLeft.SetBool("isOpen", true);
         }
 
+        if (leftOpenAnimator != null)
+        {
+            leftOpenAnimator.SetBool("LeftOpen", true); // LeftOpen��true�ɐݒ�
+            StartCoroutine(ResetLeftOpen()); // 30�b����LeftOpen��false�ɂ����R���[�`�����J�n
+        }
+
         isOpen = true;
         ShowMessage("ドアが開きました");
 
@@ -91,5 +106,17 @@ public class Door : MonoBehaviour
     {
         yield return new WaitForSeconds(messageDisplayTime);
         if (doorPanel != null) doorPanel.SetActive(false);
+    }
+}
+    
+
+    // 30�b����LeftOpen��false�ɂ����R���[�`��
+    IEnumerator ResetLeftOpen()
+    {
+        yield return new WaitForSeconds(30f);
+        if (doorAnimatorLeft != null)
+        {
+            doorAnimatorLeft.SetBool("LeftOpen", false);
+        }
     }
 }

@@ -14,6 +14,8 @@ public class ClickObject : MonoBehaviour
    // public float interactDistance = 1f; // **インタラクト可能な距離**
     void Start()
     {
+
+
         // 自動で `PlayerInventory` を取得
         playerInventory = FindObjectOfType<PlayerInventory>();
 
@@ -34,8 +36,6 @@ public class ClickObject : MonoBehaviour
     }
     void Update()
     {
-        if (Input.GetMouseButtonDown(0)) // 左クリック
-        {Debug.Log("aaa");
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
             RaycastHit hit;
 
@@ -54,6 +54,28 @@ public class ClickObject : MonoBehaviour
                         if (IsLookingAtObject(hit.collider.gameObject)) // **視線の方向にあるか確認**
                         {
                             //if (!itemPickedUp) // **二重処理防止**
+                        Debug.Log("ee");
+                        float distance = Vector3.Distance(Camera.main.transform.position, hit.collider.transform.position);
+
+                    if (distance <= 3f) // カメラからの距離が3以下の場合
+                    {
+                        // 🎲 ランダムでスクリプトA または B を実行
+                        // int randomChoice = Random.Range(0, 4);
+                        if (Input.GetMouseButtonDown(0))
+                        { // 左クリック
+                            if (hit.collider.CompareTag("Key"))
+                            {
+                                ExecuteScriptA(hit.collider.gameObject); // スクリプトAを実行（アイテム取得）
+                            }
+                            else if (hit.collider.CompareTag("Map"))
+                            {
+                                ExecuteScriptB(); // スクリプトBを実行（例：敵を召喚）
+                            }
+                            else if (hit.collider.CompareTag("Item"))
+                            {
+                                ExecuteScriptC(); // スクリプトBを実行（例：敵を召喚）
+                            }
+                            //else if (randomChoice == 2)
                             //{
                             //    itemPickedUp = true; // **アイテム取得済みにする**
                             //                         // 🎲 ランダムでスクリプトA または B を実行
@@ -99,9 +121,9 @@ public class ClickObject : MonoBehaviour
                            // }
                         }
                     }
+                    }
                 }
             }
-        }
         if (Canvas.active == true)
         {
             if (Input.GetKeyDown(KeyCode.Space))
