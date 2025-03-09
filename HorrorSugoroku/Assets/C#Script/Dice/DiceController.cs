@@ -9,6 +9,7 @@ public class DiceController : MonoBehaviour
     private bool hasBeenThrown = false;
     private float timeSinceThrown = 0f;
     public int result = 0;
+    public GameManager gameManager; // GameManagerへの参照
     public PlayerSaikoro player;
     [SerializeField] private Transform[] faces;
     private float stopCheckDelay = 1f;
@@ -87,6 +88,20 @@ public class DiceController : MonoBehaviour
                         }
                     }
                 }
+            }
+        }
+
+        // サイコロを画面左上へ移動
+        if (moveToTarget)
+        {
+            transform.position = Vector3.Lerp(transform.position, targetPosition, Time.deltaTime * moveSpeed);
+
+            // ある程度近づいたら移動終了
+            if (Mathf.Abs(targetPosition.x - transform.position.x) < 0.1f 
+                && Mathf.Abs(targetPosition.z - transform.position.z) < 0.1f)
+            {
+                transform.position = targetPosition;
+                moveToTarget = false;
             }
         }
     }

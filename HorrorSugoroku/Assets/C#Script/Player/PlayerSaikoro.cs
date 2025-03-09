@@ -2,9 +2,12 @@
 using UnityEngine.UI;
 using System.Collections;
 using SmoothigTransform;
+using System;
+using System.Collections.Generic;
 
 public class PlayerSaikoro : MonoBehaviour
 {
+    public DiceRotation diceRotation;
     public GameManager gameManager; // GameManagerへの参照
     public TurnManager turnManager; // TurnManagerへの参照
     public DiceController diceController;
@@ -12,12 +15,14 @@ public class PlayerSaikoro : MonoBehaviour
     private EnemySaikoro targetScript; // コマンドを受け取るEnemySaikoro
     public EnemyStop enemyStop;
     public int sai = 1; // ランダムなサイコロの値
+    private int walkCount = 0; // 進んだ回数
     public bool saikorotyu = true; // サイコロを振っているか
     public bool idoutyu = false;
     public bool exploring = false; // 探索中の判定（追加）
     private bool magarityu = false;
     private bool idouspan = false;
     private bool enemyEnd = false;
+    private float posFactZ = 0;
     private float saikoroTime = 0; // サイコロの時間の計測
     private float magariTime = 0; // 曲がりの時間の計測
     private float idouspanTime = 0;
@@ -48,6 +53,12 @@ public class PlayerSaikoro : MonoBehaviour
     private Transform Nmasu;
     private Transform Wmasu;
     private Transform Emasu;
+    public Transform startMasu;
+    private List<Transform> parentTransform = new List<Transform>();
+    //private Transform parentTransform;
+    private Transform nextDarkMasu;
+    public Material darkMaterial;
+    public Material neonMaterial;
     public GameObject PSouth;
     public GameObject Camera;
     Vector3 lastPos = new Vector3(0, 0, 0);
@@ -63,6 +74,8 @@ public class PlayerSaikoro : MonoBehaviour
 
     int movesum;
 
+    int number;
+
     // AudioSource and AudioClip variables for dice roll sound
     private AudioSource audioSource; // AudioSource to play sound
     public AudioClip diceRollSound; // The sound to play when the dice rolls
@@ -74,7 +87,7 @@ public class PlayerSaikoro : MonoBehaviour
     void Start()
     {
         turnManager = FindObjectOfType<TurnManager>();
-        
+
         // プレイヤーシーンがロードされる際に、EnemySaikoroを探して参照を保持
         targetScript = FindObjectOfType<EnemySaikoro>();
         // DiceRangeManagerのインスタンスを取得
@@ -86,9 +99,9 @@ public class PlayerSaikoro : MonoBehaviour
         {
             Debug.LogError("DiceController is not assigned and could not be found in the scene.");
         }
-    
-    // サイコロのImageを保持
-    image = saikoro.GetComponent<Image>();
+
+        // サイコロのImageを保持
+        image = saikoro.GetComponent<Image>();
 
         saikoro.SetActive(false);
 
@@ -129,6 +142,8 @@ public class PlayerSaikoro : MonoBehaviour
         {
             Debug.LogError("DiceRollSound AudioClip is not assigned.");
         }
+
+        nextDarkMasu = startMasu;
 
         // スプライトのサイズを変更
         ChangeSpriteSize(s1, new Vector2(200, 200));
@@ -172,7 +187,7 @@ public class PlayerSaikoro : MonoBehaviour
 
 
         if (!saikorotyu && !idoutyu && gameManager.isPlayerTurn)
-        { 
+        {
             if (Input.GetKeyDown(KeyCode.Space))
             {
                 turnManager.NextTurn();
@@ -205,8 +220,8 @@ public class PlayerSaikoro : MonoBehaviour
 
             //}
             //}
-           // サイコロの出目を制限
-            sai = Random.Range(minDiceValue, maxDiceValue + 1);
+            // サイコロの出目を制限
+            sai = UnityEngine.Random.Range(minDiceValue, maxDiceValue + 1);
 
         }
         // サイコロ振る
@@ -242,15 +257,16 @@ public class PlayerSaikoro : MonoBehaviour
             if (((!PW && !PN && !PE && lastaction == 1) ||
                 (!PW && !PS && !PN && lastaction == 2) ||
                 (!PN && !PS && !PE && lastaction == 3) ||
-                (!PW && !PS && !PE && lastaction == 4)) && 
+                (!PW && !PS && !PE && lastaction == 4)) &&
                 !idouspan)
             {
                 Debug.Log("行き止まり");
                 sai = 0;
             }
 
-           // Debug.Log(Rot.y);
-            if (Input.GetKeyDown(KeyCode.W) && !idouspan) {
+            // Debug.Log(Rot.y);
+            if (Input.GetKeyDown(KeyCode.W) && !idouspan)
+            {
                 idouspan = true;
                 if (PN && (Rot.y >= 0f && Rot.y < 45f) || (Rot.y >= 315f && Rot.y < 360f))
                 {
@@ -274,8 +290,9 @@ public class PlayerSaikoro : MonoBehaviour
                 }
             }
 
+
             this.idouspanTime += Time.deltaTime;
-            if (idouspanTime > player.PosFact + 0.5f)
+            if (idouspanTime > player.PosFact + posFactZ)
             {
                 idouspanTime = 0f;
                 idouspan = false;
@@ -283,10 +300,18 @@ public class PlayerSaikoro : MonoBehaviour
 
             if (sai < 1)
             {
+                //MasuColorChange(neonMaterial);
+                for (int i = 0; i < walkCount; i++)
+                {
+                    MasuColorChange(neonMaterial, parentTransform[i]);
+                }
+
+                parentTransform = new List<Transform>();
                 idoutyu = false;
                 turnManager.turnStay = false;
                 turnManager.TurnCurse();
                 saikoro.SetActive(false);
+                walkCount = 0;
 
                 // プレイヤーの動き終了
                 // プレイヤーの移動が終了したら探索モードに入る
@@ -297,6 +322,8 @@ public class PlayerSaikoro : MonoBehaviour
                     gameManager.NextTurn();
                 }
             }
+
+            Debug.Log(nextDarkMasu);
         }
 
         // Fキーを押したら探索を終了し、次のターンへ
@@ -406,11 +433,13 @@ public class PlayerSaikoro : MonoBehaviour
 
         if (sai >= 1 && sai <= 3)
         {
-            player.PosFact = 0.9f;
+            player.PosFact = 0.7f;
+            posFactZ = 1.3f;
         }
         else
         {
             player.PosFact = 0.2f;
+            posFactZ = 0.6f;
         }
     }
 
@@ -454,16 +483,37 @@ public class PlayerSaikoro : MonoBehaviour
     void idou(int n, bool back)
     {
         // 現在のPlayerのY軸の値を保持
-        // Pos = Player.transform.position;
+        //Pos = Player.transform.position;
+
+        //Player.transform.position = Pos; // 移動
 
         if (!back)
         {
             switch (n)
             {
-                case 1: player.TargetPosition = Nmasu.transform.position + new Vector3(0, 1.15f, 0); break; // 北に移動
-                case 2: player.TargetPosition = Wmasu.transform.position + new Vector3(0, 1.15f, 0); break; // 西に移動
-                case 3: player.TargetPosition = Emasu.transform.position + new Vector3(0, 1.15f, 0); break; // 東に移動
-                case 4: player.TargetPosition = Smasu.transform.position + new Vector3(0, 1.15f, 0); break; // 南に移動
+                case 1:
+                    //MasuColorChange(neonMaterial);
+                    parentTransform.Add(nextDarkMasu);
+                    nextDarkMasu = Nmasu;
+                    player.TargetPosition = Nmasu.transform.position + new Vector3(0, 1.15f, 0); break; // 北に移動
+                case 2:
+                    //MasuColorChange(neonMaterial);
+                    //parentTransform = nextDarkMasu;
+                    parentTransform.Add(nextDarkMasu);
+                    nextDarkMasu = Wmasu;
+                    player.TargetPosition = Wmasu.transform.position + new Vector3(0, 1.15f, 0); break; // 西に移動
+                case 3:
+                    //MasuColorChange(neonMaterial);
+                    //parentTransform = nextDarkMasu;
+                    parentTransform.Add(nextDarkMasu);
+                    nextDarkMasu = Emasu;
+                    player.TargetPosition = Emasu.transform.position + new Vector3(0, 1.15f, 0); break; // 東に移動
+                case 4:
+                    //MasuColorChange(neonMaterial);
+                    //parentTransform = nextDarkMasu;
+                    parentTransform.Add(nextDarkMasu);
+                    nextDarkMasu = Smasu;
+                    player.TargetPosition = Smasu.transform.position + new Vector3(0, 1.15f, 0); break; // 南に移動
             }
 
             // 足音を鳴らす
@@ -477,9 +527,13 @@ public class PlayerSaikoro : MonoBehaviour
                 Debug.LogWarning("Footstep sound is not assigned.");
             }
 
+            MasuColorChange(darkMaterial, parentTransform[detame - sai]);
+            Debug.Log("天井の研ナ〇コが気になって眠れない");
             lastaction = n; // 来た方向を記憶
             Debug.Log(detame - sai + 1 + ":" + lastAction[detame - sai + 1]);
+            walkCount++;
             sai--;
+            diceRotation.GetDiceNumber(sai);
         }
     }
 
@@ -495,7 +549,7 @@ public class PlayerSaikoro : MonoBehaviour
         saikoro.SetActive(true);
         for (int i = 0; i < 10; i++) // 10回ランダムに目を表示
         {
-            sai = Random.Range(1, 7);
+            sai = UnityEngine.Random.Range(1, 7);
             switch (sai)
             {
                 case 1:
@@ -555,7 +609,7 @@ public class PlayerSaikoro : MonoBehaviour
 
     public int RollDiceWithLegEffect()
     {
-        int roll = Random.Range(minDiceValue, maxDiceValue + 1);
+        int roll = UnityEngine.Random.Range(minDiceValue, maxDiceValue + 1);
         if (legButtonEffect)
         {
             switch (roll)
@@ -572,5 +626,25 @@ public class PlayerSaikoro : MonoBehaviour
             }
         }
         return roll;
+    }
+
+    private void MasuColorChange(Material n, Transform transform)
+    {
+        if (transform == null)
+        {
+            return;
+        }
+
+        // 子オブジェクトの4つの子オブジェクトを取得してマテリアルを変更
+        for (int i = 0; i < transform.childCount && i < 4; i++)
+        {
+            Transform grandChild = transform.GetChild(i);
+            Renderer renderer = grandChild.GetComponent<Renderer>();
+
+            if (renderer != null)
+            {
+                renderer.material = n;
+            }
+        }
     }
 }

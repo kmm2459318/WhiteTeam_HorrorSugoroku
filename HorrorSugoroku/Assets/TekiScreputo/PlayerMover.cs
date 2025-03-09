@@ -1,71 +1,74 @@
-using UnityEngine;
+ï»¿using UnityEngine;
 
 public class PlayerMover : MonoBehaviour
 {
-    public PlayerSaikoro playerSaikoro; // ƒTƒCƒRƒƒXƒNƒŠƒvƒg
-    private GridCell currentCell;       // ƒvƒŒƒCƒ„[‚ªˆÚ“®Š®—¹‚µ‚½ƒZƒ‹
-    private GridCell targetCell;        // ƒvƒŒƒCƒ„[‚ªŸ‚É“’B‚·‚éƒZƒ‹
-    private bool wasMoving = false;     // ‘O‰ñ‚ÌˆÚ“®ó‘Ô
+    public PlayerSaikoro playerSaikoro; // ã‚µã‚¤ã‚³ãƒ­ã‚¹ã‚¯ãƒªãƒ—ãƒˆ
+    private GridCell currentCell;       // ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ãŒç§»å‹•å®Œäº†ã—ãŸã‚»ãƒ«
+    private GridCell targetCell;        // ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ãŒæ¬¡ã«åˆ°é”ã™ã‚‹ã‚»ãƒ«
+    private bool wasMoving = false;     // å‰å›ã®ç§»å‹•çŠ¶æ…‹
 
-    private GameObject detectionBox;    // lŠp‚¢ƒIƒuƒWƒFƒNƒg
+    public GameObject HanteiBox;    // å››è§’ã„ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆï¼ˆæ—¢ã«å­˜åœ¨ã™ã‚‹ã‚‚ã®ã‚’ä½¿ç”¨ï¼‰
 
     void Start()
     {
-        // •K—v‚ÈƒXƒNƒŠƒvƒg‚ğ©“®æ“¾
+        // å¿…è¦ãªã‚¹ã‚¯ãƒªãƒ—ãƒˆã‚’è‡ªå‹•å–å¾—
         if (playerSaikoro == null)
         {
             playerSaikoro = GetComponent<PlayerSaikoro>();
         }
 
-        // lŠp‚¢ƒIƒuƒWƒFƒNƒg‚ğì¬‚µ‚ÄƒvƒŒƒCƒ„[‚ÉƒAƒ^ƒbƒ`
-        detectionBox = new GameObject("DetectionBox");
-        detectionBox.transform.SetParent(transform);
-        detectionBox.transform.localPosition = Vector3.zero;
-        detectionBox.transform.localScale = new Vector3(3, 3, 3); // ƒTƒCƒY‚ğ’²®Ï‚İ
-        BoxCollider boxCollider = detectionBox.AddComponent<BoxCollider>();
-        boxCollider.isTrigger = true;
-        detectionBox.tag = "DetectionBox"; // ƒ^ƒO‚ğİ’è
+        // åˆæœŸçŠ¶æ…‹ã§å…¨ã¦ã®ã‚»ãƒ«ã‚’éè¡¨ç¤ºã«ã™ã‚‹
+        GridCell[] allCells = FindObjectsOfType<GridCell>();
+        foreach (GridCell cell in allCells)
+        {
+            cell.SetVisibility(false);
+        }
+
+        // ãƒ‡ãƒãƒƒã‚°ç”¨ãƒ­ã‚°
+        if (HanteiBox != null)
+        {
+            Debug.Log("âœ… HanteiBox ãŒè¦‹ã¤ã‹ã‚Šã¾ã—ãŸã€‚");
+        }
+        else
+        {
+            Debug.LogError("âŒ HanteiBox ãŒè¦‹ã¤ã‹ã‚Šã¾ã›ã‚“ã€‚");
+        }
     }
 
     void Update()
     {
-        // ƒvƒŒƒCƒ„[‚ÌˆÚ“®‚ªŠ®—¹‚µ‚½ƒ^ƒCƒ~ƒ“ƒO‚ğŠÄ‹
+        // ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã®ç§»å‹•ãŒå®Œäº†ã—ãŸã‚¿ã‚¤ãƒŸãƒ³ã‚°ã‚’ç›£è¦–
         if (wasMoving && !playerSaikoro.idoutyu)
         {
-            // ƒvƒŒƒCƒ„[‚ªŠ®‘S‚É~‚Ü‚Á‚½ƒ}ƒX‚ÅƒCƒxƒ“ƒg‚ğ”­‰Î
+            // ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ãŒå®Œå…¨ã«æ­¢ã¾ã£ãŸãƒã‚¹ã§ã‚¤ãƒ™ãƒ³ãƒˆã‚’ç™ºç«
             if (targetCell != null)
             {
                 currentCell = targetCell;
                 TriggerCurrentCellEvent();
-                targetCell = null; // ƒCƒxƒ“ƒg”­‰ÎŒã‚Éƒ^[ƒQƒbƒgƒZƒ‹‚ğƒŠƒZƒbƒg
+                targetCell = null; // ã‚¤ãƒ™ãƒ³ãƒˆç™ºç«å¾Œã«ã‚¿ãƒ¼ã‚²ãƒƒãƒˆã‚»ãƒ«ã‚’ãƒªã‚»ãƒƒãƒˆ
             }
         }
 
-        // ó‘Ô‚ğXV
+        // çŠ¶æ…‹ã‚’æ›´æ–°
         wasMoving = playerSaikoro.idoutyu;
     }
 
     private void OnTriggerEnter(Collider other)
     {
-        // ƒvƒŒƒCƒ„[‚ª’Ê‰ß‚µ‚½ƒZƒ‹‚ğ‹L˜^
+        // ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ãŒé€šéã—ãŸã‚»ãƒ«ã‚’è¨˜éŒ²
         GridCell cell = other.GetComponent<GridCell>();
         if (cell != null)
         {
-            targetCell = cell; // Ÿ‚É“’B‚·‚éƒZƒ‹‚ğƒ^[ƒQƒbƒgƒZƒ‹‚Æ‚µ‚Ä‹L˜^
+            targetCell = cell; // æ¬¡ã«åˆ°é”ã™ã‚‹ã‚»ãƒ«ã‚’ã‚¿ãƒ¼ã‚²ãƒƒãƒˆã‚»ãƒ«ã¨ã—ã¦è¨˜éŒ²
         }
     }
 
     private void TriggerCurrentCellEvent()
     {
-        // ƒCƒxƒ“ƒg‚ğ”­‰Î
+        // ã‚¤ãƒ™ãƒ³ãƒˆã‚’ç™ºç«
         if (currentCell != null)
         {
-            Debug.Log($"ƒCƒxƒ“ƒg”­“®: {currentCell.name}");
             currentCell.ExecuteEvent();
-        }
-        else
-        {
-            Debug.LogWarning("Œ»İ‚ÌƒZƒ‹‚ªİ’è‚³‚ê‚Ä‚¢‚Ü‚¹‚ñB");
         }
     }
 }
