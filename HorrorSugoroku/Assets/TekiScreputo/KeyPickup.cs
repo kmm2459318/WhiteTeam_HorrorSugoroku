@@ -2,36 +2,39 @@ using UnityEngine;
 
 public class KeyPickup : MonoBehaviour
 {
-    public string keyName = "鍵"; // 鍵の名前
-    public AudioClip pickupSound; // 取得音
-    private bool isCollected = false; // 取得済みかどうか
+    public string keyName = "";  // 拾うキーの名前
+   // public float pickupCooldown = 5f;  // 次に拾えるまでの待機時間（秒）
 
-    void OnMouseDown()
+    private bool canPickup = true;  // キーを拾える状態かどうか
+
+    // PlayerInventory スクリプトを参照
+    private PlayerInventory playerInventory;
+
+    private void Start()
     {
-        if (!isCollected)
+        playerInventory = FindObjectOfType<PlayerInventory>(); // PlayerInventory を取得
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        // プレイヤーがキーに触れたときにインベントリに追加
+        if (other.CompareTag("Player") && canPickup)
         {
-            CollectKey();
+            PickupKey();
         }
     }
 
-    void CollectKey()
+    // キーを拾う処理
+    private void PickupKey()
     {
-        isCollected = true;
-
-        // インベントリに鍵を追加
-        PlayerInventory inventory = FindObjectOfType<PlayerInventory>();
-        if (inventory != null)
+        if (playerInventory != null)
         {
-            inventory.AddItem(keyName);
-        }
+            playerInventory.AddItem(keyName); // インベントリにキーを追加
+            Debug.Log($"{keyName} を拾いました！");
 
-        // 鍵の取得音を再生
-        if (pickupSound != null)
-        {
-            AudioSource.PlayClipAtPoint(pickupSound, transform.position);
+           
         }
-
-        // 鍵を削除
-        Destroy(gameObject);
     }
+
+   
 }
