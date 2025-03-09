@@ -12,7 +12,6 @@ public class MiniMap : MonoBehaviour
 
     int Mapcount = 0;
 
-    // StartはMonoBehaviourが作成された後、最初のUpdateの前に一度だけ呼び出される
     void Start()
     {
         // ミニマップを非表示
@@ -25,8 +24,7 @@ public class MiniMap : MonoBehaviour
         }
     }
 
-    // Updateはフレームごとに一度呼び出される
-    void Update()
+    public void UpdateMiniMap()
     {
         // マップの取得数を代入
         Mapcount = gameManager.mapPiece;

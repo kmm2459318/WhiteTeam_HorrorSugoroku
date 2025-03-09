@@ -267,6 +267,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 712871103790284303, guid: b49b9a8db2c43234c9f54eceb2d87d1a, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: dd15da265d8d13846989a51c05ac3d54, type: 2}
     - target: {fileID: 732539696081398750, guid: b49b9a8db2c43234c9f54eceb2d87d1a, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -307,6 +311,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5566539686618747237, guid: b49b9a8db2c43234c9f54eceb2d87d1a, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: dd15da265d8d13846989a51c05ac3d54, type: 2}
     - target: {fileID: 6627878901083517631, guid: b49b9a8db2c43234c9f54eceb2d87d1a, type: 3}
       propertyPath: m_Name
       value: House
@@ -748,6 +756,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 2065815133}
     - target: {fileID: 4313278066094003667, guid: 43b5d38b7b5cb0a40a58a771554554ac, type: 3}
+      propertyPath: startMasu
+      value: 
+      objectReference: {fileID: 1606503328}
+    - target: {fileID: 4313278066094003667, guid: 43b5d38b7b5cb0a40a58a771554554ac, type: 3}
       propertyPath: gameManager
       value: 
       objectReference: {fileID: 1714048264}
@@ -755,6 +767,14 @@ PrefabInstance:
       propertyPath: turnManager
       value: 
       objectReference: {fileID: 1714048263}
+    - target: {fileID: 4313278066094003667, guid: 43b5d38b7b5cb0a40a58a771554554ac, type: 3}
+      propertyPath: darkMaterial
+      value: 
+      objectReference: {fileID: 2100000, guid: 9fb8e13adca472b47b50fb9419a48aa2, type: 2}
+    - target: {fileID: 4313278066094003667, guid: 43b5d38b7b5cb0a40a58a771554554ac, type: 3}
+      propertyPath: neonMaterial
+      value: 
+      objectReference: {fileID: 2100000, guid: dd15da265d8d13846989a51c05ac3d54, type: 2}
     - target: {fileID: 4313278066094003667, guid: 43b5d38b7b5cb0a40a58a771554554ac, type: 3}
       propertyPath: diceRangeManager
       value: 
@@ -779,10 +799,6 @@ PrefabInstance:
       propertyPath: Text
       value: 
       objectReference: {fileID: 1275807977}
-    - target: {fileID: 7776942237698028930, guid: 43b5d38b7b5cb0a40a58a771554554ac, type: 3}
-      propertyPath: Canvas
-      value: 
-      objectReference: {fileID: 0}
     - target: {fileID: 7776942237698028930, guid: 43b5d38b7b5cb0a40a58a771554554ac, type: 3}
       propertyPath: gameManager
       value: 
@@ -857,6 +873,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bba5d8e34876e3b4f862e49b29fbff0c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!4 &1606503328 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 3135343623515615927, guid: b49b9a8db2c43234c9f54eceb2d87d1a, type: 3}
+  m_PrefabInstance: {fileID: 95602015}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1714048262
 GameObject:
   m_ObjectHideFlags: 0
