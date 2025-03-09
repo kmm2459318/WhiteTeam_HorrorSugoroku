@@ -71,6 +71,7 @@ public class PlayerSaikoro : MonoBehaviour
     int i;
     Image image;
 
+
     int movesum;
 
     int number;
@@ -477,6 +478,8 @@ public class PlayerSaikoro : MonoBehaviour
     }
 
     //移動
+    [SerializeField] private AudioSource footstepSound; // 足音のAudioSource
+
     void idou(int n, bool back)
     {
         // 現在のPlayerのY軸の値を保持
@@ -513,6 +516,17 @@ public class PlayerSaikoro : MonoBehaviour
                     player.TargetPosition = Smasu.transform.position + new Vector3(0, 1.15f, 0); break; // 南に移動
             }
 
+            // 足音を鳴らす
+            if (footstepSound != null)
+            {
+                footstepSound.Play();
+                StartCoroutine(StopFootstepSound()); // 1秒後に止める
+            }
+            else
+            {
+                Debug.LogWarning("Footstep sound is not assigned.");
+            }
+
             MasuColorChange(darkMaterial, parentTransform[detame - sai]);
             Debug.Log("天井の研ナ〇コが気になって眠れない");
             lastaction = n; // 来た方向を記憶
@@ -522,6 +536,13 @@ public class PlayerSaikoro : MonoBehaviour
             diceRotation.GetDiceNumber(sai);
         }
     }
+
+    IEnumerator StopFootstepSound()
+    {
+        yield return new WaitForSeconds(1f); // 1秒待つ
+        footstepSound.Stop();               // 音を止める
+    }
+
 
     private IEnumerator RollDice()
     {
