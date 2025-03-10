@@ -1,8 +1,10 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
-/*Outline.csを同じオブジェクトにアタッチしてないと動かない*/
+/*　Outline.csを同じオブジェクトにアタッチしてないと動かない　*/
+
 public class OutLineFx : MonoBehaviour
 {
     public PlayerSaikoro playerSaikoro;
@@ -11,30 +13,19 @@ public class OutLineFx : MonoBehaviour
 
     void Start()
     {
-        //// シーン内のすべての "Item", "Key", "Map"タグを持つオブジェクトのアウトラインを最初にOFFにする
-        //string[] tags = { "Item", "Key", "Map" };
+        // シーン内のすべての "Item", "Key", "Map"タグを持つオブジェクトのアウトラインを最初にOFFにする
+        string[] tags = { "Item", "Key", "Map" };
 
-        //foreach (string tag in tags)
-        //{
-        //    GameObject[] objects = GameObject.FindGameObjectsWithTag(tag);
-        //    foreach (GameObject obj in objects)
-        //    {
-        //        Outline outline = obj.GetComponent<Outline>();
-        //        if (outline != null)
-        //        {
-        //            outline.enabled = false;
-        //        }
-        //    }
-        //}
-
-        // シーン内のすべての "Item" タグを持つオブジェクトのアウトラインを最初にOFFにする
-        GameObject[] objects = GameObject.FindGameObjectsWithTag("Item");
-        foreach (GameObject obj in objects)
+        foreach (string tag in tags)
         {
-            Outline outline = obj.GetComponent<Outline>();
-            if (outline != null)
+            GameObject[] objects = GameObject.FindGameObjectsWithTag(tag);
+            foreach (GameObject obj in objects)
             {
-                outline.enabled = false;
+                Outline outline = obj.GetComponent<Outline>();
+                if (outline != null)
+                {
+                    outline.enabled = false;
+                }
             }
         }
     }
@@ -47,25 +38,34 @@ public class OutLineFx : MonoBehaviour
         if (Physics.Raycast(ray, out hit))
         {
             // タグが "Item" "Key" "Map"の場合
-            if (hit.collider.CompareTag("Item"))
+            if (hit.collider.CompareTag("Item") || hit.collider.CompareTag("Key") || hit.collider.CompareTag("Map"))
             {
                 //プレイヤーが移動完了していたら
                 if (!playerSaikoro.idoutyu)
                 {
-                    if (lastHighlightedObject != hit.collider.gameObject)
+                    Debug.Log("移動完了＆触れている");
+                    if (IsLookingAtObject(hit.collider.gameObject)) // **視線の方向にあるか確認**
                     {
-                        if (lastHighlightedObject != null)
+                        float distance = Vector3.Distance(Camera.main.transform.position, hit.collider.transform.position);
+
+                        if (distance <= 3f) // カメラからの距離が3以下の場合
                         {
-                            //エフェクトをOFFにする
-                            lastHighlightedObject.GetComponent<Outline>().enabled = false;
+                            if (lastHighlightedObject != hit.collider.gameObject)
+                            {
+                                if (lastHighlightedObject != null)
+                                {
+                                    //エフェクトをOFFにする
+                                    lastHighlightedObject.GetComponent<Outline>().enabled = false;
+                                }
+
+                                lastHighlightedObject = hit.collider.gameObject;
+                                //エフェクトをONにする
+                                lastHighlightedObject.GetComponent<Outline>().enabled = true;
+
+                            }
+                            return;
                         }
-
-                        lastHighlightedObject = hit.collider.gameObject;
-                        //エフェクトをONにする
-                        lastHighlightedObject.GetComponent<Outline>().enabled = true;
-
                     }
-                    return;
                 }
             }
         }
@@ -75,5 +75,13 @@ public class OutLineFx : MonoBehaviour
             lastHighlightedObject.GetComponent<Outline>().enabled = false;
             lastHighlightedObject = null;
         }
+    }
+
+    bool IsLookingAtObject(GameObject obj)
+    {
+        Vector3 directionToObject = (obj.transform.position - Camera.main.transform.position).normalized;
+        float dotProduct = Vector3.Dot(Camera.main.transform.forward, directionToObject);
+
+        return dotProduct > 0.8f; // **0.8以上ならプレイヤーの視線方向にある**
     }
 }

@@ -4,69 +4,65 @@ using UnityEngine;
 
 public class PlayerInventory : MonoBehaviour
 {
-    public List<string> inventory = new List<string>(); // インベントリ（アイテムリスト）
-    private bool itemAdded = false; // アイテム追加が一度だけ発動するフラグ
-    private float itemAddCooldown = 2f; // 再度アイテムを追加できるまでの待機時間（秒）
+    // ← 複数所持に対応！Dictionaryで個数を管理
+    private Dictionary<string, int> items = new Dictionary<string, int>();
+
+    // アイテムを追加
     public void AddItem(string itemName)
     {
-        // すでにアイテムが追加されている場合は追加しない
-        if (itemAdded)
+        if (items.ContainsKey(itemName))
         {
-            Debug.LogWarning("アイテムは既に追加されています。一度だけ追加できます。");
-            return;
-        }
-
-        // アイテムがインベントリに存在しない場合のみ追加
-        if (!inventory.Contains(itemName))
-        {
-            inventory.Add(itemName); // アイテムを追加
-            Debug.Log($"{itemName} をインベントリに追加しました。現在のアイテム数: {inventory.Count}");
-            itemAdded = true; // アイテム追加フラグを立てる
-
-            // アイテム追加後にコルーチンで数秒後にフラグをリセット
-            StartCoroutine(ResetItemAddCooldown());
+            items[itemName]++;
         }
         else
         {
-            Debug.LogWarning($"{itemName} は既にインベントリにあります！");
+            items[itemName] = 1;
         }
+
+        Debug.Log(itemName + " を入手しました。現在の所持数：" + items[itemName]);
     }
 
-    // アイテムをインベントリから削除する
-    public void RemoveItem(string itemName)
+    // アイテムを使う（消費）
+    public bool UseItem(string itemName)
     {
-        if (inventory.Contains(itemName))
+        if (items.ContainsKey(itemName) && items[itemName] > 0)
         {
-            inventory.Remove(itemName);
-            Debug.Log($"{itemName} をインベントリから削除しました！");
-            itemAdded = false; // アイテム削除時にフラグをリセット（再度アイテム追加可能）
+            items[itemName]--;
+            Debug.Log(itemName + " を使用しました。残り：" + items[itemName]);
+
+            if (items[itemName] <= 0)
+            {
+                items.Remove(itemName);
+            }
+            return true;
         }
         else
         {
-            Debug.Log($"{itemName} はインベントリにありません！");
+            Debug.Log(itemName + " は所持していません。");
+            return false;
         }
     }
 
-    // アイテムを追加した後、一定時間後にフラグをリセットするコルーチン
-    private IEnumerator ResetItemAddCooldown()
-    {
-        // 一定時間待機
-        yield return new WaitForSeconds(itemAddCooldown);
-
-        // フラグをリセット
-        itemAdded = false;
-        Debug.Log("アイテム追加のクールダウンが終了しました。再度アイテムを追加できます。");
-    }
-
-    // インベントリに指定したアイテムが含まれているかを確認する
+    // 所持しているか確認
     public bool HasItem(string itemName)
     {
-        return inventory.Contains(itemName);
+        return items.ContainsKey(itemName) && items[itemName] > 0;
     }
 
-    // 現在のインベントリの内容を表示する
+    // 所持数を取得
+    public int GetItemCount(string itemName)
+    {
+        return items.ContainsKey(itemName) ? items[itemName] : 0;
+    }
+
+    // 全アイテム表示（デバッグ用）
     public void ShowInventory()
     {
-        Debug.Log("現在のインベントリ: " + string.Join(", ", inventory));
+        Debug.Log("=== プレイヤーインベントリ ===");
+        foreach (var item in items)
+        {
+            Debug.Log(item.Key + ": " + item.Value + "個");
+        }
     }
+   
 }

@@ -4,6 +4,7 @@ using System.Collections;
 using UnityEngine.SceneManagement;
 using SmoothigTransform;
 using UnityEngine.AI;
+using JetBrains.Annotations;
 
 public class GameManager : MonoBehaviour
 {
@@ -24,13 +25,16 @@ public class GameManager : MonoBehaviour
     public GameObject EnemyCopy; // コピーエネミーモデル
     public GameObject newEnemyModelPrefab; // 新しいエネミーモデルのプレハブ
     public GameObject newEnemyModelPrefab2; // 6つ目のピースで変更する新しいエネミーモデルのプレハブ
+    public GameObject MiniMapObj; // マップキャンバス
 
     private int playerTurnCount = 0; // プレイヤーのターン数をカウントする変数
-
     private MiniMap miniMap; // MiniMap クラスのインスタンス
+
+    public AudioSource footstepSound; // 足音を管理するAudioSource
 
     private void Start()
     {
+        MiniMapObj.SetActive(false); // マップキャンバスを非表示にする
         agent.enabled = false;
         UpdateTurnText(); // 初期ターン表示
         playerSaikoro.StartRolling(); // プレイヤーのターンを開始
@@ -50,6 +54,17 @@ public class GameManager : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.R))
         {
             MpPlus();
+        }
+
+        //Qキーでミニマップを表示
+        if (Input.GetKey(KeyCode.Q))
+        {
+            MiniMapObj.SetActive(true);
+            Debug.Log("Qキー入力");
+        }
+        else if (Input.GetKeyUp(KeyCode.Q))
+        {
+            MiniMapObj.SetActive(false);
         }
 
         if (Input.GetKeyDown(KeyCode.T))
@@ -113,6 +128,13 @@ public class GameManager : MonoBehaviour
         if (isPlayerTurn)
         {
             agent.enabled = false;
+            // プレイヤーのターンになったら足音を停止
+            
+            
+                Debug.Log("ttttt");
+                footstepSound.Stop(); // 足音を完全に停止
+            
+
             // サイコロを振る
             playerSaikoro.DiceRoll();
 
@@ -124,7 +146,7 @@ public class GameManager : MonoBehaviour
         else
         {
             agent.enabled = true;
-            // 新しいエネミーにアクセス先を変更
+            // エネミーのターン
             if (enemySaikoro != null)
             {
                 Debug.Log("Starting enemy turn for new enemy.");
@@ -134,6 +156,12 @@ public class GameManager : MonoBehaviour
             if (EnemyCopyOn && enemyCopySaikoro != null)
             {
                 StartCoroutine(enemyCopySaikoro.EnemyTurn());
+            }
+
+            // エネミーターンになったら足音を再開
+            if (footstepSound != null && !footstepSound.isPlaying)
+            {
+                footstepSound.Play(); // 足音を再開
             }
         }
     }
