@@ -4,6 +4,7 @@ using System.Collections;
 using UnityEngine.SceneManagement;
 using SmoothigTransform;
 using UnityEngine.AI;
+using JetBrains.Annotations;
 
 public class GameManager : MonoBehaviour
 {
@@ -24,6 +25,7 @@ public class GameManager : MonoBehaviour
     public GameObject EnemyCopy; // コピーエネミーモデル
     public GameObject newEnemyModelPrefab; // 新しいエネミーモデルのプレハブ
     public GameObject newEnemyModelPrefab2; // 6つ目のピースで変更する新しいエネミーモデルのプレハブ
+    public GameObject MiniMapObj; // マップキャンバス
 
     private int playerTurnCount = 0; // プレイヤーのターン数をカウントする変数
 
@@ -31,6 +33,7 @@ public class GameManager : MonoBehaviour
 
     private void Start()
     {
+        MiniMapObj.SetActive(false); // マップキャンバスを非表示にする
         agent.enabled = false;
         UpdateTurnText(); // 初期ターン表示
         playerSaikoro.StartRolling(); // プレイヤーのターンを開始
@@ -50,6 +53,17 @@ public class GameManager : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.R))
         {
             MpPlus();
+        }
+
+        //Qキーでミニマップを表示
+        if (Input.GetKey(KeyCode.Q))
+        {
+            MiniMapObj.SetActive(true);
+            Debug.Log("Qキー入力");
+        }
+        else if (Input.GetKeyUp(KeyCode.Q))
+        {
+            MiniMapObj.SetActive(false);
         }
 
         if (Input.GetKeyDown(KeyCode.T))

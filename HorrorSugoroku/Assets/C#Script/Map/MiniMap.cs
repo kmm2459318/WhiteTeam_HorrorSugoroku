@@ -22,6 +22,15 @@ public class MiniMap : MonoBehaviour
                 Map[i].SetActive(false);
             }
         }
+
+        Map[0].SetActive(true); // •\¦
+        SpriteRenderer sr = Map[0].GetComponent<SpriteRenderer>();
+
+        if (sr != null && Sprites[0] != null)
+        {
+            sr.sprite = Sprites[0]; // ‰æ‘œ‚ğ•ÏX
+        }
+
     }
 
     public void UpdateMiniMap()
