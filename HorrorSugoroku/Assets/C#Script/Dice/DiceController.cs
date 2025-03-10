@@ -120,6 +120,11 @@ public class DiceController : MonoBehaviour
                 }
             }
         }
+
+        if (Input.GetKeyDown(KeyCode.F))
+        {
+            ResetDiceState();
+        }
     }
 
     /// <summary>
