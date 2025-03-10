@@ -221,7 +221,7 @@ public class Door : MonoBehaviour
     void OpenDoorConfirmed()
     {
         OpenDoor(); // ドアを開く
-        playerInventory.RemoveItem(requiredItem); // 鍵をインベントリから削除
+        playerInventory.UseItem(requiredItem); // 鍵をインベントリから削除
     }
 
     void OpenDoor()
@@ -239,23 +239,6 @@ public class Door : MonoBehaviour
         if (hiddenArea != null)
         {
             hiddenArea.SetActive(true);
-        // 🔹 「鍵が必要」かつ「鍵を消費しない設定でない」場合のみ消費
-        //if (!string.IsNullOrEmpty(requiredItem) && !noKeyConsume)
-        //{
-        //    playerInventory.RemoveItem(requiredItem); // 鍵を消費
-        //}
-
-        if (hiddenArea != null) hiddenArea.SetActive(true);
-        Destroy(gameObject, messageDisplayTime); // UIを閉じる時間後にドアを削除
-    }
-
-    void ShowMessage(string message)
-    {
-        if (doorPanel != null && doorText != null)
-        {
-            doorPanel.SetActive(true);
-            doorText.text = message;
-            StartCoroutine(HideMessage());
         }
     }
 }
