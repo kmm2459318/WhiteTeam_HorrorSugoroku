@@ -53,6 +53,7 @@ public class EnemySaikoro : MonoBehaviour
 
     public float footstepVolume = 1.0f;
     public Animator animator;
+    
     void Start()
     {
         // 初期化コード
@@ -264,9 +265,15 @@ public class EnemySaikoro : MonoBehaviour
     private IEnumerator MoveTowardsPlayer(bool s1, bool s2)
     {
         Debug.Log("MoveTowardsPlayer called");
-        isMoving = true; // 移動開始
-        enemyLookAtPlayer.SetIsMoving(true); // エネミーの移動状態を設定
-        enemyController.SetMovement(true); // エネミーが動き始めたらisMovingをtrueに設定
+        isMoving = true;
+        enemyLookAtPlayer.SetIsMoving(true);
+        enemyController.SetMovement(true);
+
+        if (footstepSound != null)
+        {
+            footstepSound.Play();
+        }
+
 
         int initialSteps = steps;
         AudioClip currentBGM = audioSource.clip;
@@ -277,30 +284,15 @@ public class EnemySaikoro : MonoBehaviour
 
         if (audioSource.isPlaying)
         {
-
-            // 足音を鳴らす
-            if (footstepSound != null)
-            {
-                footstepSound.Play();
-                StartCoroutine(StopFootstepSound()); // 1秒後に止める
-            }
-            else
-            {
-                Debug.LogWarning("Footstep sound is not assigned.");
-            }
-
-            IEnumerator StopFootstepSound()
-            {
-                yield return new WaitForSeconds(1f); // 1秒待つ
-                footstepSound.Stop();               // 音を止める
-            }
             audioSource.Pause();
         }
 
         if (!s2)
         {
+
             while (steps > 0)
             {
+
                 // トラバサミにかかっている場合は移動しない
                 if (isTrapped)
                 {
@@ -352,6 +344,7 @@ public class EnemySaikoro : MonoBehaviour
                     }
                     Debug.Log("まぼろし～");
                     yield return new WaitForSeconds(0.5f);
+
                 }
                 Debug.Log(goToMass);
 
@@ -366,6 +359,7 @@ public class EnemySaikoro : MonoBehaviour
                     case 1:
                         enemySmooth.TargetPosition = Wmasu.transform.position; break;
                 }
+
 
                 if (s1)
                 {
@@ -397,6 +391,7 @@ public class EnemySaikoro : MonoBehaviour
                 }*/
 
                 Debug.Log("Enemy moved towards player. Steps remaining: " + steps);
+
 
                 // プレイヤーが発見されたかをチェック
                 if (Vector3.Distance(this.transform.position, player.transform.position) < mokushi)
@@ -435,7 +430,7 @@ public class EnemySaikoro : MonoBehaviour
         }
 
         enemyController.SetMovement(false); // エネミーの移動が終了したらisMovingをfalseに設定
-
+     
         // 移動が終了したら、再度BGMを再開
         if (currentBGM != null && !audioSource.isPlaying)
         {
@@ -454,6 +449,7 @@ public class EnemySaikoro : MonoBehaviour
         {
             gameManager.enemyTurnFinCount++;
         }*/
+
     }
 
     private Vector3 GetValidDirection(Vector3 targetDirection)
