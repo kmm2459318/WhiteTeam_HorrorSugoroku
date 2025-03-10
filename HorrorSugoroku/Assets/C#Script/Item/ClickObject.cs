@@ -1,191 +1,151 @@
 ﻿using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using System.Collections;
+using System.Collections.Generic;
 
 public class ClickObject : MonoBehaviour
 {
-    public PlayerSaikoro playerSaikoro; // PlayerSaikoroクラスへの参照
-    public PlayerInventory playerInventory; // PlayerInventory への参照
+    public PlayerSaikoro playerSaikoro;
+    public PlayerInventory playerInventory;
     public GameManager gameManager;
+    public KeyRandomizer keyRandomizer; // ←追加！
+
     [SerializeField] public TextMeshProUGUI Text;
     [SerializeField] public GameObject Canvas;
-    [SerializeField] private Image cutInImage; // カットイン画像
-      public string ItemKey = ""; // 鍵の名前
-   // public float interactDistance = 1f; // **インタラクト可能な距離**
+    [SerializeField] private Image cutInImage;
+
+    // 名前ごとに「取得済みの時間」を記録する辞書
+    private Dictionary<string, float> keyObtainedTime = new Dictionary<string, float>();
+    private HashSet<string> obtainedKeys = new HashSet<string>();
+
+    // 鍵取得制限時間（秒）
+    [SerializeField] private float keyCooldownTime = 10f;  // 例: 10秒で再取得可能
+    private bool hasClicked = false; // クリック多重防止用フラグ
+
     void Start()
     {
-
-
-        // 自動で `PlayerInventory` を取得
         playerInventory = FindObjectOfType<PlayerInventory>();
-
-        // `PlayerSaikoro` も自動取得
         playerSaikoro = FindObjectOfType<PlayerSaikoro>();
+        gameManager = FindObjectOfType<GameManager>();
+        keyRandomizer = FindObjectOfType<KeyRandomizer>(); // ←追加！
 
-        gameManager = FindObjectOfType<GameManager>(); // GameManager を取得
-
-        // Nullチェック
-        if (playerInventory == null)
-            Debug.LogError("PlayerInventory が見つかりません！プレイヤーにアタッチされていますか？");
-
-        if (playerSaikoro == null)
-            Debug.LogError("PlayerSaikoro が見つかりません！");
-
-        if (gameManager == null)
-            Debug.LogError("GameManager が見つかりません！");
+        if (playerInventory == null) Debug.LogError("PlayerInventory が見つかりません！");
+        if (playerSaikoro == null) Debug.LogError("PlayerSaikoro が見つかりません！");
+        if (gameManager == null) Debug.LogError("GameManager が見つかりません！");
+        if (keyRandomizer == null) Debug.LogError("KeyRandomizer が見つかりません！");
     }
+
     void Update()
     {
+        if (Input.GetMouseButtonDown(0) && !hasClicked)
+        {
+            hasClicked = true;
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
             RaycastHit hit;
 
-        if (Physics.Raycast(ray, out hit)) // **3m 以内のオブジェクトを取得**
-        {
-            // **オブジェクトにクリック済みフラグを追加**
-            Clickebleobject clickedObj = hit.collider.GetComponent<Clickebleobject>();
-
-            Debug.Log("ii");
-            if (hit.collider.CompareTag("Item") || hit.collider.CompareTag("Key") || hit.collider.CompareTag("Map")) // タグが "Item" "Key" "Map"の場合
+            if (Physics.Raycast(ray, out hit))
             {
-                Debug.Log("uu");
-                // idoutyuがfalseのときのみクリック可能
-                if (!playerSaikoro.idoutyu)
+                if (hit.collider.CompareTag("Item") || hit.collider.CompareTag("Key") || hit.collider.CompareTag("Map"))
                 {
-                    if (IsLookingAtObject(hit.collider.gameObject)) // **視線の方向にあるか確認**
+                    if (!playerSaikoro.idoutyu)
                     {
-                        //if (!itemPickedUp) // **二重処理防止**
-                        Debug.Log("ee");
                         float distance = Vector3.Distance(Camera.main.transform.position, hit.collider.transform.position);
-
-                        if (distance <= 3f) // カメラからの距離が3以下の場合
+                        if (distance <= 3f)
                         {
-                            // 🎲 ランダムでスクリプトA または B を実行
-                            // int randomChoice = Random.Range(0, 4);
-                            if (Input.GetMouseButtonDown(0))
-                            { // 左クリック
-                                if (hit.collider.CompareTag("Key"))
-                                {
-                                    ExecuteScriptA(hit.collider.gameObject); // スクリプトAを実行（アイテム取得）
-                                }
-                                else if (hit.collider.CompareTag("Map"))
-                                {
-                                    ExecuteScriptB(); // スクリプトBを実行（例：敵を召喚）
-                                }
-                                else if (hit.collider.CompareTag("Item"))
-                                {
-                                    ExecuteScriptC(); // スクリプトBを実行（例：敵を召喚）
-                                }
-                                //else if (randomChoice == 2)
-                                //{
-                                //    itemPickedUp = true; // **アイテム取得済みにする**
-                                //                         // 🎲 ランダムでスクリプトA または B を実行
-                                //                         // int randomChoice = Random.Range(0, 4);
-
-                                if (hit.collider.CompareTag("Key"))
-                                {
-                                    ExecuteScriptA(hit.collider.gameObject); // スクリプトAを実行（アイテム取得）
-                                }
-                                else if (hit.collider.CompareTag("Map"))
-                                {
-                                    ExecuteScriptB(); // スクリプトBを実行（例：敵を召喚）
-                                }
-                                else if (hit.collider.CompareTag("Item"))
-                                {
-                                    ExecuteScriptC(); // スクリプトBを実行（例：敵を召喚）
-                                }
-                                //else if (randomChoice == 2)
-                                //{
-                                //    ExecuteScriptC();
-                                //}
-                                //else if (randomChoice == 3)
-                                //{
-                                //    ExecuteScriptC();
-                                //}
-
-
-                                ///*  string itemName = hit.collider.gameObject.name;*/ // 取得するアイテム名
-                                //  Debug.Log(this.itemName + " を入手しました");
-
-
-                                //  // インベントリが `null` でなければ追加
-                                //  if (playerInventory != null)
-                                //  {
-                                //      playerInventory.AddItem(itemName);
-                                //  }
-                                //  else
-                                //  {
-                                //      Debug.LogError("playerInventory が設定されていません！");
-                                //  }
-                                // クリックしたオブジェクトを削除
-                                Destroy(hit.collider.gameObject);
-                                // }
+                            if (hit.collider.CompareTag("Key"))
+                            {
+                                ExecuteScriptA(hit.collider.gameObject);
                             }
+                            else if (hit.collider.CompareTag("Map"))
+                            {
+                                ExecuteScriptB();
+                            }
+                            else if (hit.collider.CompareTag("Item"))
+                            {
+                                ExecuteScriptC();
+                            }
+
+                            Destroy(hit.collider.gameObject);
                         }
                     }
                 }
             }
-            if (Canvas.active == true)
-            {
-                if (Input.GetKeyDown(KeyCode.Space))
-                {
-                    Canvas.SetActive(false);
-                }
-            }
-        }
-    }
-    bool IsLookingAtObject(GameObject obj)
-    {
-        Vector3 directionToObject = (obj.transform.position - Camera.main.transform.position).normalized;
-        float dotProduct = Vector3.Dot(Camera.main.transform.forward, directionToObject);
 
-        return dotProduct > 0.8f; // **0.8以上ならプレイヤーの視線方向にある**
+            StartCoroutine(ResetClick()); // フラグリセットコルーチン呼び出し
+        }
+
+        if (Canvas.activeSelf && Input.GetKeyDown(KeyCode.Space))
+        {
+            Canvas.SetActive(false);
+        }
+       
     }
+
+    IEnumerator ResetClick()
+    {
+        yield return new WaitForSeconds(0.1f); // 多重クリック防止時間
+        hasClicked = false;
+    }
+
     void ExecuteScriptA(GameObject clickedItem)
     {
-       
-        if (!string.IsNullOrEmpty(ItemKey)) // **空文字を追加しない**
-        {
-            //  string ItemKey = "";  // **固定で「鍵」にする**
-            Debug.Log(ItemKey + " を入手しました");
+        string keyName = clickedItem.name;
 
-            if (playerInventory != null)
+        // 取得済みフラグが存在 & クールダウン時間がまだ経っていないならスキップ
+        if (keyObtainedTime.ContainsKey(keyName))
+        {
+            float elapsedTime = Time.time - keyObtainedTime[keyName];
+            if (elapsedTime < keyCooldownTime)
             {
-                playerInventory.AddItem(ItemKey); // 🎯 インベントリに「鍵」を追加
+                Debug.Log($"{keyName} はまだクールダウン中です（残り {keyCooldownTime - elapsedTime:F1} 秒）");
+                return;
             }
-            else
+            if (obtainedKeys.Contains(keyName))
             {
-                Debug.LogError("playerInventory が設定されていません！");
+                Debug.Log($"{keyName} はすでに取得済み（取得スキップ）");
+                return;
             }
         }
+
+        // 取得処理
+       
+        keyObtainedTime[keyName] = Time.time;  // 今の時間を記録
+        obtainedKeys.Add(keyName); // フラグに追加
+        playerInventory.AddItem(keyName);
+        Debug.Log($"{keyName} を入手しました！");
     }
 
-    // 🎯 スクリプトB: 何か別の処理（例：敵を召喚）
+
     void ExecuteScriptB()
     {
         Debug.Log("地図のかけらを獲得！");
         if (gameManager != null)
         {
-            gameManager.MpPlus(); // 🎯 `GameManager` の `MpPlus()` を実行
+            gameManager.MpPlus();
         }
         else
         {
             Debug.LogError("GameManager が見つかりません！");
         }
     }
-    // 🎯 スクリプトC: 何か別の処理（例：敵を召喚）
+
     void ExecuteScriptC()
     {
         int randomChoice = Random.Range(0, 100);
         if (randomChoice % 5 == 0)
         {
             Debug.Log("ジャンプスケア");
-            cutInImage.gameObject.SetActive(true); // 画像を表示
+            cutInImage.gameObject.SetActive(true);
         }
         else
         {
             Debug.Log("何もなかった。");
             Canvas.SetActive(true);
-            Text.text = ("何もなかった。");
+            Text.text = "何もなかった。";
         }
+
     }
+    // ✅ 鍵取得フラグを全部リセット
+  
 }
