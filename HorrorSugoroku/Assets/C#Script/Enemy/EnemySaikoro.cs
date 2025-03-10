@@ -342,7 +342,6 @@ public class EnemySaikoro : MonoBehaviour
                         enemyBodySmoothsin.TargetRotation = Quaternion.Euler(0, -90, 0);
                         goToMass = 1;
                     }
-                    Debug.Log("まぼろし～");
                     yield return new WaitForSeconds(0.5f);
 
                 }
