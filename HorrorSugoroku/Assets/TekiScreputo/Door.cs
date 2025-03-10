@@ -75,10 +75,10 @@ public class Door : MonoBehaviour
         ShowMessage("ドアが開きました");
 
         // 🔹 「鍵が必要」かつ「鍵を消費しない設定でない」場合のみ消費
-        if (!string.IsNullOrEmpty(requiredItem) && !noKeyConsume)
-        {
-            playerInventory.RemoveItem(requiredItem); // 鍵を消費
-        }
+        //if (!string.IsNullOrEmpty(requiredItem) && !noKeyConsume)
+        //{
+        //    playerInventory.RemoveItem(requiredItem); // 鍵を消費
+        //}
 
         if (hiddenArea != null) hiddenArea.SetActive(true);
         Destroy(gameObject, messageDisplayTime); // UIを閉じる時間後にドアを削除
