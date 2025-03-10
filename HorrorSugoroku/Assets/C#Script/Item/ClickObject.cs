@@ -65,6 +65,37 @@ public class ClickObject : MonoBehaviour
                             {
                                 ExecuteScriptC();
                             }
+                            // 🎲 ランダムでスクリプトA または B を実行
+                            // int randomChoice = Random.Range(0, 4);
+                            if (Input.GetMouseButtonDown(0))
+                            { // 左クリック
+                                if (hit.collider.CompareTag("Key"))
+                                {
+                                    ExecuteScriptA(hit.collider.gameObject); // スクリプトAを実行（アイテム取得）
+                                }
+                                else if (hit.collider.CompareTag("Map"))
+                                {
+                                    ExecuteScriptB(); // スクリプトBを実行（例：敵を召喚）
+                                }
+                                else if (hit.collider.CompareTag("Item"))
+                                {
+                                    ExecuteScriptC(); // スクリプトBを実行（例：敵を召喚）
+                                }
+                                else if (hit.collider.CompareTag("Other"))
+                                {
+
+                                }
+                                Destroy(hit.collider.gameObject);
+                                
+                            }
+                            else if (hit.collider.CompareTag("Map"))
+                            {
+                                ExecuteScriptB();
+                            }
+                            else if (hit.collider.CompareTag("Item"))
+                            {
+                                ExecuteScriptC();
+                            }
 
                             Destroy(hit.collider.gameObject);
                         }
@@ -147,5 +178,13 @@ public class ClickObject : MonoBehaviour
 
     }
     // ✅ 鍵取得フラグを全部リセット
-  
+
+    void OtherScript()
+    {
+        int randomChoice = Random.Range(0,4);
+        if(randomChoice == 0 || randomChoice == 1)
+        {
+            cutInImage.gameObject.SetActive(true); // 画像を表示
+        }
+    }
 }
