@@ -75,50 +75,12 @@ public class ClickObject : MonoBehaviour
                                 {
                                     ExecuteScriptC(); // スクリプトBを実行（例：敵を召喚）
                                 }
-                                //else if (randomChoice == 2)
-                                //{
-                                //    itemPickedUp = true; // **アイテム取得済みにする**
-                                //                         // 🎲 ランダムでスクリプトA または B を実行
-                                //                         // int randomChoice = Random.Range(0, 4);
-
-                                if (hit.collider.CompareTag("Key"))
+                                else if (hit.collider.CompareTag("Other"))
                                 {
-                                    ExecuteScriptA(hit.collider.gameObject); // スクリプトAを実行（アイテム取得）
+
                                 }
-                                else if (hit.collider.CompareTag("Map"))
-                                {
-                                    ExecuteScriptB(); // スクリプトBを実行（例：敵を召喚）
-                                }
-                                else if (hit.collider.CompareTag("Item"))
-                                {
-                                    ExecuteScriptC(); // スクリプトBを実行（例：敵を召喚）
-                                }
-                                //else if (randomChoice == 2)
-                                //{
-                                //    ExecuteScriptC();
-                                //}
-                                //else if (randomChoice == 3)
-                                //{
-                                //    ExecuteScriptC();
-                                //}
-
-
-                                ///*  string itemName = hit.collider.gameObject.name;*/ // 取得するアイテム名
-                                //  Debug.Log(this.itemName + " を入手しました");
-
-
-                                //  // インベントリが `null` でなければ追加
-                                //  if (playerInventory != null)
-                                //  {
-                                //      playerInventory.AddItem(itemName);
-                                //  }
-                                //  else
-                                //  {
-                                //      Debug.LogError("playerInventory が設定されていません！");
-                                //  }
-                                // クリックしたオブジェクトを削除
                                 Destroy(hit.collider.gameObject);
-                                // }
+                                
                             }
                         }
                     }
@@ -186,6 +148,15 @@ public class ClickObject : MonoBehaviour
             Debug.Log("何もなかった。");
             Canvas.SetActive(true);
             Text.text = ("何もなかった。");
+        }
+    }
+
+    void OtherScript()
+    {
+        int randomChoice = Random.Range(0,4);
+        if(randomChoice == 0 || randomChoice == 1)
+        {
+            cutInImage.gameObject.SetActive(true); // 画像を表示
         }
     }
 }
