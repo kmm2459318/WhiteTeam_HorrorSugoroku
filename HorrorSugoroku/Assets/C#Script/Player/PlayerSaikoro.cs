@@ -71,6 +71,8 @@ public class PlayerSaikoro : MonoBehaviour
     int i;
     Image image;
 
+    [SerializeField] private RawImage diceUI; // UI参照
+    [SerializeField] private Camera diceCamera; // カメラ参照
 
     int movesum;
 
@@ -398,6 +400,22 @@ public class PlayerSaikoro : MonoBehaviour
                 PNorth.SetActive(true);
             }
         }*/
+        diceRotation.GetDiceNumber(sai);
+
+        if (saikorotyu == true)
+        {
+            if (diceCamera != null) diceCamera.enabled = true;
+        }
+
+        if (saikoro.active == true)
+        {
+            if (diceUI != null) diceUI.gameObject.SetActive(true);
+            if (diceCamera != null) diceCamera.enabled = false;
+        }
+        else if (saikoro.active == false)
+        {
+            if (diceUI != null) diceUI.gameObject.SetActive(false);
+        }
     }
     void ChangeSpriteSize(Sprite sprite, Vector2 newSize)
     {
