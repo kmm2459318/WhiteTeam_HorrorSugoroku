@@ -18,7 +18,7 @@ public class GridCell : MonoBehaviour
     public TextMeshProUGUI itemText; // UIのテキスト
                                      //   public TMP_Text itemLogText;
                                      // public Button closeButton; // UIを閉じるボタン
-    //public ItemPickup item;
+                                     //public ItemPickup item;
     public string requiredItem = "鍵"; // 必要なアイテム
     private CurseSlider curseSlider;                                // public int gridCellIncreaseAmount = 20; // GridCell 側の呪いゲージ増加量
                                                                     // [SerializeField] private int curseChance = 50;  // 呪いの発生確率（％）
@@ -48,7 +48,7 @@ public class GridCell : MonoBehaviour
 
     public int n = 0;
     private PlayerInventory playerInventory;
-    
+
     private void Start()
     {
         playerInventory = FindObjectOfType<PlayerInventory>();
@@ -167,9 +167,8 @@ public class GridCell : MonoBehaviour
         Debug.Log("アイテムを付与するかの判定:" + DebuffSheet.DebuffSheet[n].ItemGive);
         Debug.Log("アイテムが使えなくなるかの判定:" + DebuffSheet.DebuffSheet[n].ItemGive);
         Debug.Log("アイテムが使えないターン数:" + DebuffSheet.DebuffSheet[n].ItemGive);
-        // 初期状態でセルを非表示にする
-        SetVisibility(false);
 
+        SetVisibility(true);
     }
     //void Update()
     //{
@@ -447,23 +446,6 @@ public class GridCell : MonoBehaviour
         Debug.Log(logMessage);
         ShowItemUI(logMessage);
 
-    }
-    private void OnTriggerEnter(Collider other)
-    {
-        if (other.CompareTag("HanteiBox"))
-        {
-            Debug.Log($"🔍 {name} と HanteiBox が衝突しました。");
-            SetVisibility(true);
-        }
-    }
-
-    private void OnTriggerExit(Collider other)
-    {
-        if (other.CompareTag("HanteiBox"))
-        {
-            Debug.Log($"🔍 {name} と HanteiBox の衝突が解除されました。");
-            SetVisibility(false);
-        }
     }
 
     public void SetVisibility(bool isVisible)
