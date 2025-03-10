@@ -21,11 +21,14 @@ public class PlayerSaikoro : MonoBehaviour
     public bool exploring = false; // 探索中の判定（追加）
     private bool magarityu = false;
     private bool idouspan = false;
+    private bool idouspanIkidomari = false;
     private bool enemyEnd = false;
-    private float posFactZ = 0;
+    private float posFactZ = 0.6f;
     private float saikoroTime = 0; // サイコロの時間の計測
     private float magariTime = 0; // 曲がりの時間の計測
     private float idouspanTime = 0;
+    private float idouspanIkidomariTime = 0;
+    private float exploringCoolTime = 0;
     private float enemyendTime = 0;
     private int ii = 0; // 繰り返し回数
     private int detame = 0; //出た値（ストッパー）
@@ -89,6 +92,7 @@ public class PlayerSaikoro : MonoBehaviour
     void Start()
     {
         turnManager = FindObjectOfType<TurnManager>();
+        player.PosFact = 0.3f;
 
         // プレイヤーシーンがロードされる際に、EnemySaikoroを探して参照を保持
         targetScript = FindObjectOfType<EnemySaikoro>();
@@ -260,7 +264,7 @@ public class PlayerSaikoro : MonoBehaviour
                 (!PW && !PS && !PN && lastaction == 2) ||
                 (!PN && !PS && !PE && lastaction == 3) ||
                 (!PW && !PS && !PE && lastaction == 4)) &&
-                !idouspan)
+                !idouspanIkidomari)
             {
                 Debug.Log("行き止まり");
                 sai = 0;
@@ -270,6 +274,8 @@ public class PlayerSaikoro : MonoBehaviour
             if (Input.GetKeyDown(KeyCode.W) && !idouspan)
             {
                 idouspan = true;
+                idouspanIkidomari = true;
+                idouspanIkidomariTime = 0f;
                 if (PN && (Rot.y >= 0f && Rot.y < 45f) || (Rot.y >= 315f && Rot.y < 360f))
                 {
                     FrontBack(1);
@@ -292,12 +298,18 @@ public class PlayerSaikoro : MonoBehaviour
                 }
             }
 
-
             this.idouspanTime += Time.deltaTime;
-            if (idouspanTime > player.PosFact + posFactZ)
+            if (idouspanTime > player.PosFact)
             {
                 idouspanTime = 0f;
                 idouspan = false;
+            }
+
+            this.idouspanIkidomariTime += Time.deltaTime;
+            if (idouspanIkidomariTime > player.PosFact + posFactZ)
+            {
+                idouspanIkidomariTime = 0f;
+                idouspanIkidomari = false;
             }
 
             if (sai < 1)
@@ -328,14 +340,20 @@ public class PlayerSaikoro : MonoBehaviour
             Debug.Log(nextDarkMasu);
         }
 
+        if (exploring)
+        {
+            this.exploringCoolTime += Time.deltaTime;
+        }
+
         // Fキーを押したら探索を終了し、次のターンへ
         if ((exploring && Input.GetKeyDown(KeyCode.F)) || enemyEnd)
         {
             enemyEnd = true;
-            exploring = false;
-            if (enemyStop.rideMasu)
+            if (enemyStop.rideMasu && exploringCoolTime > 0.8f)
             {
+                exploringCoolTime = 0f;
                 enemyEnd = false;
+                exploring = false;
                 Debug.Log("探索モード終了、次のターンへ");
                 lastaction = 0;
                 gameManager.NextTurn();
@@ -448,17 +466,6 @@ public class PlayerSaikoro : MonoBehaviour
         ii = 0;
         saikorotyu = false;
         idoutyu = true;
-
-        if (sai >= 1 && sai <= 3)
-        {
-            player.PosFact = 0.7f;
-            posFactZ = 1.3f;
-        }
-        else
-        {
-            player.PosFact = 0.2f;
-            posFactZ = 0.6f;
-        }
     }
 
     // 音を再生するメソッド

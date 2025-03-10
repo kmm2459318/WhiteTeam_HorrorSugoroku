@@ -59,59 +59,63 @@ public class DiceController : MonoBehaviour
 
     void Update()
     {
-        // スペースキーを押し続けている間、サイコロを持つ
-        if (Input.GetKey(KeyCode.Space) && !hasBeenThrown)
+        if (player.saikorotyu)
         {
-            smo.enabled = true;
-            smo.PosFact = 0.1f;
-            isHeld = true;
-            isStopped = false;
-            hasBeenThrown = false;
-            rb.isKinematic = true;
-            transform.position = new Vector3(parentTransform.position.x, 5f, parentTransform.position.z);
-        }
-
-        // スペースキーを離したら投げる
-        if (Input.GetKeyUp(KeyCode.Space) && isHeld)
-        {
-            isHeld = false;
-            hasBeenThrown = true;
-            isStopped = false;
-            timeSinceThrown = 0f;
-
-            rb.isKinematic = false;
-            smo.enabled = false;
-
-            Vector3 throwForce = new Vector3(Random.Range(-2f, 2f), 10f, Random.Range(-2f, 2f)) * throwForceMultiplier;
-            rb.AddForce(throwForce, ForceMode.Impulse);
-            rb.AddTorque(Random.insideUnitSphere * 500f);
-        }
-
-        // サイコロが止まったかどうかをチェック
-        if (hasBeenThrown)
-        {
-            timeSinceThrown += Time.deltaTime;
-
-            if (timeSinceThrown >= stopCheckDelay && !isStopped)
+            // スペースキーを押し続けている間、サイコロを持つ
+            if (Input.GetKey(KeyCode.Space) && !hasBeenThrown)
             {
-                if (rb.linearVelocity.magnitude < stopThreshold && rb.angularVelocity.magnitude < stopThreshold)
+                smo.enabled = true;
+                smo.PosFact = 0.1f;
+                isHeld = true;
+                isStopped = false;
+                hasBeenThrown = false;
+                rb.isKinematic = true;
+                transform.position = new Vector3(parentTransform.position.x, 5f, parentTransform.position.z);
+            }
+
+            // スペースキーを離したら投げる
+            if (Input.GetKeyUp(KeyCode.Space) && isHeld)
+            {
+                isHeld = false;
+                hasBeenThrown = true;
+                isStopped = false;
+                timeSinceThrown = 0f;
+
+                rb.isKinematic = false;
+                smo.enabled = false;
+
+                Vector3 throwForce = new Vector3(Random.Range(-2f, 2f), 10f, Random.Range(-2f, 2f)) * throwForceMultiplier;
+                rb.AddForce(throwForce, ForceMode.Impulse);
+                rb.AddTorque(Random.insideUnitSphere * 500f);
+            }
+
+            // サイコロが止まったかどうかをチェック
+            if (hasBeenThrown)
+            {
+                timeSinceThrown += Time.deltaTime;
+
+                if (timeSinceThrown >= stopCheckDelay && !isStopped)
                 {
-                    isStopped = true;
-                    result = GetTopFace();
+                    if (rb.linearVelocity.magnitude < stopThreshold && rb.angularVelocity.magnitude < stopThreshold)
+                    {
+                        isStopped = true;
+                        result = GetTopFace();
+                        ResetDiceState();
 
-                    if (diceRotation != null) // Null チェックを追加
-                    {
-                        diceRotation.GetDiceNumber(result);
-                    }
-                    else
-                    {
-                        Debug.LogError("diceRotation が設定されていません！");
-                    }
+                        if (diceRotation != null) // Null チェックを追加
+                        {
+                            diceRotation.GetDiceNumber(result);
+                        }
+                        else
+                        {
+                            Debug.LogError("diceRotation が設定されていません！");
+                        }
 
-                    if (result != -1)
-                    {
-                        Debug.Log($"出た目: {result}");
-                        player.DiceAfter(result);
+                        if (result != -1)
+                        {
+                            Debug.Log($"出た目: {result}");
+                            player.DiceAfter(result);
+                        }
                     }
                 }
             }
