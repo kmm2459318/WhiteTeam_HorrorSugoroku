@@ -4,29 +4,29 @@ using UnityEngine;
 
 public class PlayerInventory : MonoBehaviour
 {
+    // ← 複数所持に対応！Dictionaryで個数を管理
     private Dictionary<string, int> items = new Dictionary<string, int>();
-    private bool isUsingItem = false; // �A�C�e���g�p�����ǂ����̃t���O
 
-    private bool isCooldown = false;  // �A�C�e���ǉ��̃N�[���_�E���t���O
-    private bool isAddingItem = false;  // �A�C�e���ǉ��������Ǘ�����t���O
-    private float cooldownTime = 3f;  // �N�[���_�E�����ԁi3�b�j
+    private bool isCooldown = false;  // アイテム追加のクールダウンフラグ
+    private bool isAddingItem = false;  // アイテム追加中かを管理するフラグ
+    private float cooldownTime = 3f;  // クールダウン時間（3秒）
 
-    // �A�C�e����ǉ��i�N�[���_�E��������ǉ��j
+    // アイテムを追加（クールダウン処理を追加）
     public void AddItem(string itemName)
     {
         if (isAddingItem)
         {
-            Debug.Log("���݃A�C�e���ǉ����ł��B");
-            return;  // �A�C�e���ǉ����͒ǉ����X�L�b�v
+            Debug.Log("現在アイテム追加中です。");
+            return;  // アイテム追加中は追加をスキップ
         }
 
         if (isCooldown)
         {
-            Debug.Log($"{itemName} �̓N�[���_�E�����ł��B");
-            return;  // �N�[���_�E�����̓A�C�e����ǉ��ł��Ȃ�
+            Debug.Log($"{itemName} はクールダウン中です。");
+            return;  // クールダウン中はアイテムを追加できない
         }
 
-        isAddingItem = true;  // �A�C�e���ǉ����t���O�𗧂Ă�
+        isAddingItem = true;  // アイテム追加中フラグを立てる
 
         if (items.ContainsKey(itemName))
         {
@@ -37,81 +37,61 @@ public class PlayerInventory : MonoBehaviour
             items[itemName] = 1;
         }
 
-        Debug.Log($"{itemName} ���C���x���g���ɒǉ����܂����B���݂̏������F{items[itemName]}");
+        Debug.Log($"{itemName} をインベントリに追加しました。現在の所持数：{items[itemName]}");
 
-        // �A�C�e���ǉ���ɃN�[���_�E���J�n
+        // アイテム追加後にクールダウン開始
         StartCoroutine(CooldownCoroutine());
     }
 
-    // �A�C�e�����g���i����j
+    // アイテムを使う（消費）
     public bool UseItem(string itemName)
     {
-        if (isUsingItem)
-        {
-            Debug.Log("���ݑ��̃A�C�e�����g�p���ł�");
-            return false;
-        }
-
-        Debug.Log("UseItem���\�b�h���Ăяo����܂���: " + itemName);
         if (items.ContainsKey(itemName) && items[itemName] > 0)
         {
-            isUsingItem = true; // �A�C�e���g�p���t���O��ݒ�
             items[itemName]--;
-            Debug.Log($"{itemName} ���g�p���܂����B�c��F{items[itemName]}");
+            Debug.Log($"{itemName} を使用しました。残り：{items[itemName]}");
 
             if (items[itemName] <= 0)
             {
                 items.Remove(itemName);
-                Debug.Log(itemName + " ���C���x���g������폜����܂����B");
             }
-
-            // �A�C�e���g�p��Ƀt���O�����Z�b�g
-            StartCoroutine(ResetItemUsageFlag());
-
             return true;
         }
         else
         {
-            Debug.Log($"{itemName} �͏������Ă��܂���B");
+            Debug.Log($"{itemName} は所持していません。");
             return false;
         }
     }
 
-    // �A�C�e���g�p���t���O�����Z�b�g����R���[�`��
-    private IEnumerator ResetItemUsageFlag()
-    {
-        yield return new WaitForSeconds(1f); // 1�b��Ƀt���O�����Z�b�g
-        isUsingItem = false;
-    }
-
-    // �������Ă��邩�m�F
+    // 所持しているか確認
     public bool HasItem(string itemName)
     {
         return items.ContainsKey(itemName) && items[itemName] > 0;
     }
 
-    // ���������擾
+    // 所持数を取得
     public int GetItemCount(string itemName)
     {
         return items.ContainsKey(itemName) ? items[itemName] : 0;
     }
 
-    // �N�[���_�E���p�R���[�`��
+    // クールダウン用コルーチン
     private IEnumerator CooldownCoroutine()
     {
-        isCooldown = true;  // �N�[���_�E����
-        yield return new WaitForSeconds(cooldownTime);  // �w�肳�ꂽ���Ԃ����ҋ@
-        isCooldown = false;  // �N�[���_�E���I��
-        isAddingItem = false;  // �A�C�e���ǉ��t���O������
+        isCooldown = true;  // クールダウン中
+        yield return new WaitForSeconds(cooldownTime);  // 指定された時間だけ待機
+        isCooldown = false;  // クールダウン終了
+        isAddingItem = false;  // アイテム追加フラグを解除
     }
 
-    // �S�A�C�e���\���i�f�o�b�O�p�j
+    // 全アイテム表示（デバッグ用）
     public void ShowInventory()
     {
-        Debug.Log("=== �v���C���[�C���x���g�� ===");
+        Debug.Log("=== プレイヤーインベントリ ===");
         foreach (var item in items)
         {
-            Debug.Log(item.Key + ": " + item.Value + "��");
+            Debug.Log(item.Key + ": " + item.Value + "個");
         }
     }
     void Update()
@@ -119,25 +99,25 @@ public class PlayerInventory : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.I))
         {
             ShowInventory();
-    
-                
+
+
         }
     }
 
 
-    // �����A�C�e����ǉ����郁�\�b�h
-    void Start()
-    {
-        AddItem("��K�̃J�M");
-        AddItem("��K�̃J�M");
-        AddItem("�H���̃J�M");
-        AddItem("�z�[���̃J�M");
-        AddItem("�㖱���̃J�M");
-        AddItem("�x�b�h���[���̃J�M");
-        AddItem("�n�����̃J�M");
-        AddItem("�n�����̃J�M�P");
-        AddItem("�n�����̃J�M�Q");
-        AddItem("�n�����̃J�M�R");
-        AddItem("�G���W�����[���̃J�M");
+        // �����A�C�e����ǉ����郁�\�b�h
+        void Start()
+        {
+        AddItem("二階のカギ");
+        AddItem("一階のカギ");
+        AddItem("食堂のカギ");
+        AddItem("ホールのカギ");
+        AddItem("医務室のカギ");
+        AddItem("ベッドルームのカギ");
+        AddItem("地下室のカギ");
+        AddItem("地下室のカギ１");
+        AddItem("地下室のカギ２");
+        AddItem("地下室のカギ３");
+        AddItem("エンジンルームのカギ");
     }
 }
