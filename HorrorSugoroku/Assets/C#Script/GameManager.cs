@@ -32,6 +32,8 @@ public class GameManager : MonoBehaviour
 
     public AudioSource footstepSound; // 足音を管理するAudioSource
 
+    public DiceController diceController;
+
     private void Start()
     {
         MiniMapObj.SetActive(false); // マップキャンバスを非表示にする
@@ -129,9 +131,11 @@ public class GameManager : MonoBehaviour
         {
             agent.enabled = false;
             // プレイヤーのターンになったら足音を停止
-            
-            
-                Debug.Log("ttttt");
+
+            //サイコロの状態リセット
+            diceController.ResetDiceState();
+
+            Debug.Log("ttttt");
                 footstepSound.Stop(); // 足音を完全に停止
             
 

@@ -251,6 +251,7 @@ MonoBehaviour:
   newEnemyModelPrefab2: {fileID: 307191066}
   MiniMapObj: {fileID: 1678032894}
   footstepSound: {fileID: 815117644}
+  diceController: {fileID: 1242808344}
 --- !u!4 &506767966
 Transform:
   m_ObjectHideFlags: 0
@@ -361,6 +362,28 @@ AudioSource:
   m_CorrespondingSourceObject: {fileID: 2168338512263186506, guid: 05000f9339ddead4a82d554b38fb1cb2, type: 3}
   m_PrefabInstance: {fileID: 917800803606982710}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1088168223 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1912109111234692145, guid: 05000f9339ddead4a82d554b38fb1cb2, type: 3}
+  m_PrefabInstance: {fileID: 917800803606982710}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d2f330dc5d6771c4aa31137a327b3103, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1242808344 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2424373040102462397, guid: 05000f9339ddead4a82d554b38fb1cb2, type: 3}
+  m_PrefabInstance: {fileID: 917800803606982710}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0aa595b082b787a408b8ad96d496f336, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1265641513
 GameObject:
   m_ObjectHideFlags: 0
@@ -664,10 +687,46 @@ PrefabInstance:
       propertyPath: gameManager
       value: 
       objectReference: {fileID: 506767965}
+    - target: {fileID: 1912109111234692145, guid: 05000f9339ddead4a82d554b38fb1cb2, type: 3}
+      propertyPath: playerSaikoro
+      value: 
+      objectReference: {fileID: 1394873662}
+    - target: {fileID: 2063210727237546431, guid: 05000f9339ddead4a82d554b38fb1cb2, type: 3}
+      propertyPath: m_Name
+      value: DiceObject
+      objectReference: {fileID: 0}
     - target: {fileID: 2098419537767169133, guid: 05000f9339ddead4a82d554b38fb1cb2, type: 3}
       propertyPath: gameManager
       value: 
       objectReference: {fileID: 506767965}
+    - target: {fileID: 2664732055374049691, guid: 05000f9339ddead4a82d554b38fb1cb2, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 1.675
+      objectReference: {fileID: 0}
+    - target: {fileID: 2664732055374049691, guid: 05000f9339ddead4a82d554b38fb1cb2, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 1.675
+      objectReference: {fileID: 0}
+    - target: {fileID: 2664732055374049691, guid: 05000f9339ddead4a82d554b38fb1cb2, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2664732055374049691, guid: 05000f9339ddead4a82d554b38fb1cb2, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: -430
+      objectReference: {fileID: 0}
+    - target: {fileID: 2664732055374049691, guid: 05000f9339ddead4a82d554b38fb1cb2, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -200
+      objectReference: {fileID: 0}
+    - target: {fileID: 2664732055374049691, guid: 05000f9339ddead4a82d554b38fb1cb2, type: 3}
+      propertyPath: m_ConstrainProportionsScale
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2787886309604136505, guid: 05000f9339ddead4a82d554b38fb1cb2, type: 3}
+      propertyPath: m_Name
+      value: PlayerDice 2
+      objectReference: {fileID: 0}
     - target: {fileID: 3466769254429659093, guid: 05000f9339ddead4a82d554b38fb1cb2, type: 3}
       propertyPath: gameManager
       value: 
@@ -712,6 +771,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3713154494793669670, guid: 05000f9339ddead4a82d554b38fb1cb2, type: 3}
+      propertyPath: m_Icon
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: 3895267597881419157, guid: 05000f9339ddead4a82d554b38fb1cb2, type: 3}
       propertyPath: gameManager
       value: 
@@ -724,6 +787,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: AllObject
       objectReference: {fileID: 0}
+    - target: {fileID: 4723606474720666463, guid: 05000f9339ddead4a82d554b38fb1cb2, type: 3}
+      propertyPath: playerSaikoro
+      value: 
+      objectReference: {fileID: 1394873662}
     - target: {fileID: 5630048461060184234, guid: 05000f9339ddead4a82d554b38fb1cb2, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
@@ -736,6 +803,22 @@ PrefabInstance:
       propertyPath: gameManager
       value: 
       objectReference: {fileID: 506767965}
+    - target: {fileID: 6406362937594941302, guid: 05000f9339ddead4a82d554b38fb1cb2, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6440684446124158774, guid: 05000f9339ddead4a82d554b38fb1cb2, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6672554622481908595, guid: 05000f9339ddead4a82d554b38fb1cb2, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6672554622481908595, guid: 05000f9339ddead4a82d554b38fb1cb2, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6929518146843455364, guid: 05000f9339ddead4a82d554b38fb1cb2, type: 3}
       propertyPath: gameManager
       value: 
@@ -744,10 +827,18 @@ PrefabInstance:
       propertyPath: turnManager
       value: 
       objectReference: {fileID: 506767964}
+    - target: {fileID: 6929518146843455364, guid: 05000f9339ddead4a82d554b38fb1cb2, type: 3}
+      propertyPath: diceRotation
+      value: 
+      objectReference: {fileID: 1088168223}
     - target: {fileID: 8015969202278798504, guid: 05000f9339ddead4a82d554b38fb1cb2, type: 3}
       propertyPath: gameManager
       value: 
       objectReference: {fileID: 506767965}
+    - target: {fileID: 8960779126599189662, guid: 05000f9339ddead4a82d554b38fb1cb2, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

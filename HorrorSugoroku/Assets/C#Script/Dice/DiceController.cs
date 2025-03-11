@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.UI;
 using SmoothigTransform;
 
 public class DiceController : MonoBehaviour
@@ -15,15 +16,46 @@ public class DiceController : MonoBehaviour
     private float stopThreshold = 0.05f;
     private float throwForceMultiplier = 0.8f;
     [SerializeField] private SmoothTransform smo;
-    [SerializeField] private DiceRotation diceRotation; // インスペクターで設定
+    [SerializeField] private DiceRotation diceRotation;
 
     public DiceRangeManager diceRangeManager;
     private Transform parentTransform;
-    private Vector3 initialPosition;
+    private Vector3 initialLocalPosition; // ✅ 親基準の初期位置
 
     private int minDiceValue = 1;
     private int maxDiceValue = 6;
     private bool legButtonEffect = false;
+
+    [SerializeField] private Vector3 targetLocalOffset = new Vector3(-5.47f, 0f, -2.54f);
+    private bool moveToTarget = false;
+    private bool moveToReset = false;
+    private float moveSpeed = 15f; // 移動速度
+
+    private Quaternion targetRotation; // 🎯 目標の回転
+    private bool rotateToFace = false; // 🎯 回転フラグ
+    private float rotationSpeed = 5f; // 🎯 回転速度
+
+    // 出目ごとの回転 (上を向く面を基準)
+    private Vector3[] faceRotations = new Vector3[]
+    {
+    new Vector3(-90, 0, 0),  // 1の面が上
+    new Vector3(0, 0, 0),    // 2の面が上
+    new Vector3(0, 0, -90),  // 3の面が上
+    new Vector3(0, 0, 90),   // 4の面が上
+    new Vector3(180, 180, 0),// 5の面が上
+    new Vector3(90, 0, 0)    // 6の面が上
+    };
+
+    // 🎯 出目が決まったら回転と移動を開始
+    void ApplyDiceResult(int result)
+    {
+        if (result >= 1 && result <= 6)
+        {
+            targetRotation = Quaternion.Euler(faceRotations[result - 1]); // 🎯 目標の回転を設定
+            rotateToFace = true;
+            moveToTarget = true;
+        }
+    }
 
     void Start()
     {
@@ -41,7 +73,7 @@ public class DiceController : MonoBehaviour
             Debug.LogError("DiceRangeManager がシーン内に見つかりません！");
         }
 
-        // DiceRotation の取得（インスペクター設定がなければ自動で探す）
+        // DiceRotation の取得
         if (diceRotation == null)
         {
             diceRotation = FindObjectOfType<DiceRotation>();
@@ -51,17 +83,24 @@ public class DiceController : MonoBehaviour
             }
         }
 
-        // 初期位置設定
+        // 親オブジェクトの取得
         parentTransform = transform.parent;
-        initialPosition = transform.position;
-        transform.position = new Vector3(parentTransform.position.x, initialPosition.y + 0.5f, parentTransform.position.z);
+        if (parentTransform == null)
+        {
+            Debug.LogError("DiceController の親オブジェクトが設定されていません！");
+        }
+
+        // ✅ 初期ローカル座標を保存
+        initialLocalPosition = transform.localPosition;
+
+        // サイコロの初期位置を調整
+        transform.localPosition = initialLocalPosition + new Vector3(0, 0.5f, 0);
     }
 
     void Update()
     {
         if (player.saikorotyu)
         {
-            // スペースキーを押し続けている間、サイコロを持つ
             if (Input.GetKey(KeyCode.Space) && !hasBeenThrown)
             {
                 smo.enabled = true;
@@ -70,10 +109,9 @@ public class DiceController : MonoBehaviour
                 isStopped = false;
                 hasBeenThrown = false;
                 rb.isKinematic = true;
-                transform.position = new Vector3(parentTransform.position.x, 5f, parentTransform.position.z);
+                transform.localPosition = new Vector3(0, 5f, 0);
             }
 
-            // スペースキーを離したら投げる
             if (Input.GetKeyUp(KeyCode.Space) && isHeld)
             {
                 isHeld = false;
@@ -89,7 +127,6 @@ public class DiceController : MonoBehaviour
                 rb.AddTorque(Random.insideUnitSphere * 500f);
             }
 
-            // サイコロが止まったかどうかをチェック
             if (hasBeenThrown)
             {
                 timeSinceThrown += Time.deltaTime;
@@ -100,36 +137,55 @@ public class DiceController : MonoBehaviour
                     {
                         isStopped = true;
                         result = GetTopFace();
-                        ResetDiceState();
-
-                        if (diceRotation != null) // Null チェックを追加
-                        {
-                            diceRotation.GetDiceNumber(result);
-                        }
-                        else
-                        {
-                            Debug.LogError("diceRotation が設定されていません！");
-                        }
 
                         if (result != -1)
                         {
                             Debug.Log($"出た目: {result}");
                             player.DiceAfter(result);
+                            ApplyDiceResult(result); // 🎯 **ここで即回転開始**
                         }
                     }
                 }
             }
         }
 
-        if (Input.GetKeyDown(KeyCode.F))
+        if (rotateToFace) // 🎯 **回転処理を最優先に**
         {
-            ResetDiceState();
+            transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.deltaTime * rotationSpeed);
+            if (Quaternion.Angle(transform.rotation, targetRotation) < 0.1f)
+            {
+                transform.rotation = targetRotation;
+                rotateToFace = false;
+            }
         }
+
+        if (moveToTarget)
+        {
+            Vector3 targetLocalPosition = initialLocalPosition + targetLocalOffset;
+            transform.localPosition = Vector3.MoveTowards(transform.localPosition, targetLocalPosition, Time.deltaTime * moveSpeed);
+            if (Vector3.Distance(transform.localPosition, targetLocalPosition) < 0.1f)
+            {
+                transform.localPosition = targetLocalPosition;
+                moveToTarget = false;
+            }
+        }
+
+        if (moveToReset)
+        {
+            transform.localPosition = Vector3.MoveTowards(transform.localPosition, initialLocalPosition, Time.deltaTime * moveSpeed);
+            if (Vector3.Distance(transform.localPosition, initialLocalPosition) < 0.1f)
+            {
+                transform.localPosition = initialLocalPosition;
+                moveToReset = false;
+            }
+        }
+
+        //if (Input.GetKeyDown(KeyCode.F))
+        //{
+        //    ResetDiceState();
+        //}
     }
 
-    /// <summary>
-    /// 最も上にある面の数値を取得する
-    /// </summary>
     private int GetTopFace()
     {
         if (faces == null || faces.Length == 0) return -1;
@@ -156,36 +212,27 @@ public class DiceController : MonoBehaviour
         return faceValue;
     }
 
-    /// <summary>
-    /// 衝突時にサイコロの停止状態を解除
-    /// </summary>
     private void OnCollisionEnter(Collision collision)
     {
         isStopped = false;
     }
 
-    /// <summary>
-    /// サイコロの状態をリセットする
-    /// </summary>
-    private void ResetDiceState()
+    public void ResetDiceState()
     {
         hasBeenThrown = false;
         isHeld = false;
         isStopped = false;
+        rotateToFace = false;
+        moveToReset = true; // 🎯 リセット時に親基準の初期位置に戻る
+        Debug.Log("さいころリセットしたよん！");
     }
 
-    /// <summary>
-    /// サイコロの出目範囲を設定
-    /// </summary>
     public void SetDiceRollRange(int min, int max)
     {
         minDiceValue = min;
         maxDiceValue = max;
     }
 
-    /// <summary>
-    /// 足ボタンの効果を設定
-    /// </summary>
     public void SetLegButtonEffect(bool isActive)
     {
         legButtonEffect = isActive;
