@@ -1,7 +1,6 @@
 using UnityEngine;
 using TMPro;
 using System.Collections;
-using UnityEngine.SceneManagement;
 using SmoothigTransform;
 using UnityEngine.AI;
 using JetBrains.Annotations;
@@ -11,7 +10,11 @@ public class GameManager : MonoBehaviour
     public TMP_Text turnText; // TextMeshPro用のターン数表示
     public TMP_Text turnIndicatorText; // 新しいターン表示用のテキスト
     public bool isPlayerTurn = true; // プレイヤーのターンかどうかを示すフラグ
-    public bool EnemyCopyOn = false;
+    public bool EnemyCopyOn1 = false;
+    public bool EnemyCopyOn2 = false;
+    public bool EnemyCopyOn3 = false;
+    public bool EnemyCopyOn4 = false;
+    public bool EnemyCopyOn5 = false;
     public int enemyTurnFinCount = 0;
     public int mapPiece = 0;
 
@@ -22,7 +25,11 @@ public class GameManager : MonoBehaviour
     public CutIn cutIn;
 
     public GameObject currentEnemyModel; // 現在のエネミーモデル
-    public GameObject EnemyCopy; // コピーエネミーモデル
+    public GameObject EnemyCopy1; // コピーエネミーモデル
+    public GameObject EnemyCopy2;
+    public GameObject EnemyCopy3;
+    public GameObject EnemyCopy4;
+    public GameObject EnemyCopy5;
     public GameObject newEnemyModelPrefab; // 新しいエネミーモデルのプレハブ
     public GameObject newEnemyModelPrefab2; // 6つ目のピースで変更する新しいエネミーモデルのプレハブ
     public GameObject MiniMapObj; // マップキャンバス
@@ -35,7 +42,6 @@ public class GameManager : MonoBehaviour
     private void Start()
     {
         MiniMapObj.SetActive(false); // マップキャンバスを非表示にする
-        agent.enabled = false;
         UpdateTurnText(); // 初期ターン表示
         playerSaikoro.StartRolling(); // プレイヤーのターンを開始
 
@@ -44,12 +50,6 @@ public class GameManager : MonoBehaviour
 
     private void Update()
     {
-        if (mapPiece >= 10)
-        {
-            Debug.Log("クリアすれ。");
-            SceneManager.LoadScene("Gameclear");
-        }
-
         // 地図のかけら仮
         if (Input.GetKeyDown(KeyCode.R))
         {
@@ -67,10 +67,31 @@ public class GameManager : MonoBehaviour
             MiniMapObj.SetActive(false);
         }
 
-        if (Input.GetKeyDown(KeyCode.T))
+        //
+        if (mapPiece >= 1)
         {
-            EnemyCopy.SetActive(true);
-            EnemyCopyOn = true;
+            EnemyCopy1.SetActive(true);
+            EnemyCopyOn1 = true;
+        }
+        if (mapPiece >= 2)
+        {
+            EnemyCopy2.SetActive(true);
+            EnemyCopyOn2 = true;
+        }
+        if (mapPiece >= 3)
+        {
+            EnemyCopy3.SetActive(true);
+            EnemyCopyOn3 = true;
+        }
+        if (mapPiece >= 4)
+        {
+            EnemyCopy4.SetActive(true);
+            EnemyCopyOn4 = true;
+        }
+        if (mapPiece >= 5)
+        {
+            EnemyCopy5.SetActive(true);
+            EnemyCopyOn5 = true;
         }
 
         if (enemyTurnFinCount == 2)
@@ -80,10 +101,10 @@ public class GameManager : MonoBehaviour
         }
 
         // マップのピースが3枚手に入ったらエネミーモデルを変更
-        if (mapPiece == 3 || mapPiece == 6)
+        /*if (mapPiece == 3 || mapPiece == 6)
         {
             ChangeEnemyModel(mapPiece); // 引数を渡してメソッドを呼び出す
-        }
+        }*/
     }
 
     public void ChangeEnemyModel(int mapPieceCount)
@@ -151,11 +172,6 @@ public class GameManager : MonoBehaviour
             {
                 Debug.Log("Starting enemy turn for new enemy.");
                 StartCoroutine(enemySaikoro.EnemyTurn());
-            }
-
-            if (EnemyCopyOn && enemyCopySaikoro != null)
-            {
-                StartCoroutine(enemyCopySaikoro.EnemyTurn());
             }
 
             // エネミーターンになったら足音を再開

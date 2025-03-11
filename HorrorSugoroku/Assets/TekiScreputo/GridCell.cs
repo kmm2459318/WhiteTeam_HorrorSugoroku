@@ -168,7 +168,6 @@ public class GridCell : MonoBehaviour
         Debug.Log("アイテムが使えなくなるかの判定:" + DebuffSheet.DebuffSheet[n].ItemGive);
         Debug.Log("アイテムが使えないターン数:" + DebuffSheet.DebuffSheet[n].ItemGive);
 
-        SetVisibility(true);
     }
     //void Update()
     //{
@@ -181,6 +180,7 @@ public class GridCell : MonoBehaviour
     void Update()
     {
 
+        SetVisibility(true);
 
         if ((cursePanel.activeSelf || itemPanel.activeSelf)
          && (Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.H)))
@@ -457,35 +457,35 @@ public class GridCell : MonoBehaviour
         }
     }
 }
-    //// ✅ UI にログを表示し、Canvas を有効化する
-    //private void ShowItemUI(string message)
-    //{
-    //    if (itemLogText != null)
-    //    {
-    //        itemLogText.text = message; // UI の Text を更新
-    //    }
-    //    else
-    //    {
-    //        Debug.LogError("❌ itemLogText が設定されていません！");
-    //    }
+//// ✅ UI にログを表示し、Canvas を有効化する
+//private void ShowItemUI(string message)
+//{
+//    if (itemLogText != null)
+//    {
+//        itemLogText.text = message; // UI の Text を更新
+//    }
+//    else
+//    {
+//        Debug.LogError("❌ itemLogText が設定されていません！");
+//    }
 
-    //    if (itemPanel != null)
-    //    {
-    //        //ShowItemUI( message,  = 1.0f);
-    //        //StartCoroutine(HideItemCanvasAfterDelay()); // ⏳ 3 秒後に非表示
-    //    }
-    //    else
-    //    {
-    //        Debug.LogError("❌ itemCanvas が設定されていません！");
-    //    }
-    //}
+//    if (itemPanel != null)
+//    {
+//        //ShowItemUI( message,  = 1.0f);
+//        //StartCoroutine(HideItemCanvasAfterDelay()); // ⏳ 3 秒後に非表示
+//    }
+//    else
+//    {
+//        Debug.LogError("❌ itemCanvas が設定されていません！");
+//    }
+//}
 
-    //// ✅ Canvas を 3 秒後に非表示にする
-    //private IEnumerator HideItemCanvasAfterDelay()
-    //{
-    //    yield return new WaitForSeconds(3f);
-    //    if (itemPanel != null)
-    //    {
-    //        itemPanel.SetActive(false);
-    //    }
-    //}
+//// ✅ Canvas を 3 秒後に非表示にする
+//private IEnumerator HideItemCanvasAfterDelay()
+//{
+//    yield return new WaitForSeconds(3f);
+//    if (itemPanel != null)
+//    {
+//        itemPanel.SetActive(false);
+//    }
+//}
