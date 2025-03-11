@@ -25,7 +25,7 @@ public class GameManager : MonoBehaviour
     public GameObject EnemyCopy; // コピーエネミーモデル
     public GameObject newEnemyModelPrefab; // 新しいエネミーモデルのプレハブ
     public GameObject newEnemyModelPrefab2; // 6つ目のピースで変更する新しいエネミーモデルのプレハブ
-    public GameObject MiniMapObj; // マップキャンバス
+    //public GameObject MiniMapObj; // マップキャンバス
 
     private int playerTurnCount = 0; // プレイヤーのターン数をカウントする変数
     private MiniMap miniMap; // MiniMap クラスのインスタンス
@@ -36,8 +36,9 @@ public class GameManager : MonoBehaviour
 
     private void Start()
     {
-        MiniMapObj.SetActive(false); // マップキャンバスを非表示にする
-        agent.enabled = false;
+        //MiniMapObj.SetActive(false); // マップキャンバスを非表示にする
+        //MiniMapObj.GetComponent<RectTransform>().anchoredPosition = new Vector2(-1064, -574); // UIの座標を設定
+        //agent.enabled = false;
         UpdateTurnText(); // 初期ターン表示
         playerSaikoro.StartRolling(); // プレイヤーのターンを開始
 
@@ -58,16 +59,30 @@ public class GameManager : MonoBehaviour
             MpPlus();
         }
 
-        //Qキーでミニマップを表示
-        if (Input.GetKey(KeyCode.Q))
-        {
-            MiniMapObj.SetActive(true);
-            Debug.Log("Qキー入力");
-        }
-        else if (Input.GetKeyUp(KeyCode.Q))
-        {
-            MiniMapObj.SetActive(false);
-        }
+        ////Qキーでミニマップを表示
+        //if (Input.GetKey(KeyCode.Q))
+        //{
+        //    //MiniMapObj.SetActive(true);
+        //    RectTransform miniMapRect = MiniMapObj.GetComponent<RectTransform>();
+        //    Vector2 currentPos = miniMapRect.anchoredPosition;
+
+        //    if (currentPos.y < -273) // 目標位置に達していなければ10ずつ加算
+        //    {
+        //        miniMapRect.anchoredPosition = new Vector2(currentPos.x, currentPos.y + 10);
+        //    }
+
+        //}
+        //else if (Input.GetKeyUp(KeyCode.Q))
+        //{
+        //    //MiniMapObj.SetActive(false);
+        //    RectTransform miniMapRect = MiniMapObj.GetComponent<RectTransform>();
+        //    Vector2 currentPos = miniMapRect.anchoredPosition;
+
+        //    if (currentPos.y > -574) // 元の位置に戻るように10ずつ減算
+        //    {
+        //        miniMapRect.anchoredPosition = new Vector2(currentPos.x, currentPos.y - 10);
+        //    }
+        //}
 
         if (Input.GetKeyDown(KeyCode.T))
         {
