@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class KeyRandomizer : MonoBehaviour
 {
+    //public string KeyName; // ←これが必要！
     // 一度だけ生成したい鍵のリスト
     private List<string> oneTimeKeys = new List<string> { "食堂の鍵", "地下の鍵" };
 

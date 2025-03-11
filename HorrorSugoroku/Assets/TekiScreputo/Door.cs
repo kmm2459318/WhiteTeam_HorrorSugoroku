@@ -10,24 +10,23 @@ public class Door : MonoBehaviour
     public Animator doorAnimatorLeft;
     public float interactionRange = 3f;
     private bool isOpen = false; // ドアの状態
+    private bool isUnlocked = false; // ドアが一度開かれたかどうか
     public Animator childAnimator; // 子オブジェクトのアニメーター
     public Animator rightAnimator; // 右側のドアのアニメーター
 
     private Transform player; // プレイヤーの Transform
     public PlayerInventory playerInventory; // プレイヤーのインベントリ参照
-    public string requiredItem; // 必要なアイテム
-
+    public string requiredItem; // 必要なアイテム（インスペクターで指定）
 
     public GameObject doorPanel; // UIのパネル
     public TextMeshProUGUI doorText; // UIのテキスト
     public float messageDisplayTime = 2f; // メッセージを表示する時間（秒）
-    //public TextMeshProUGUI messgeText;
-    //public Button okButton;   // OKボタン
-    //public Button cancelButton; // キャンセルボタン
 
     public GameObject hiddenArea; // 表示したいマス（ドアが開くと表示）
     public Transform windowTransform1; // 窓1のTransform
     public Transform windowTransform2; // 窓2のTransform
+
+    public EnemyAppearance enemyAppearance; // エネミーの表示制御
 
     void Start()
     {
@@ -49,33 +48,33 @@ public class Door : MonoBehaviour
         if (leftTransform != null)
         {
             childAnimator = leftTransform.GetComponent<Animator>();
-            Debug.Log("Left Animator set");
+            Debug.Log("左側のアニメーターが設定されました");
 
             // 窓1のTransformを取得
             windowTransform1 = leftTransform.Find("Window1");
             if (windowTransform1 != null)
             {
-                Debug.Log("Window1 Transform set");
+                Debug.Log("窓1のTransformが設定されました");
             }
             else
             {
-                Debug.Log("Window1 object not found");
+                Debug.Log("窓1のオブジェクトが見つかりません");
             }
 
             // 窓2のTransformを取得
             windowTransform2 = leftTransform.Find("Window2");
             if (windowTransform2 != null)
             {
-                Debug.Log("Window2 Transform set");
+                Debug.Log("窓2のTransformが設定されました");
             }
             else
             {
-                Debug.Log("Window2 object not found");
+                Debug.Log("窓2のオブジェクトが見つかりません");
             }
         }
         else
         {
-            Debug.Log("Left object not found");
+            Debug.Log("左側のオブジェクトが見つかりません");
         }
 
         // 右側のドアのAnimatorを名前で取得
@@ -83,63 +82,64 @@ public class Door : MonoBehaviour
         if (rightTransform != null)
         {
             rightAnimator = rightTransform.GetComponent<Animator>();
-            Debug.Log("Right Animator set");
+            Debug.Log("右側のアニメーターが設定されました");
         }
         else
         {
-            Debug.Log("Right object not found");
+            Debug.Log("右側のオブジェクトが見つかりません");
+        }
+
+        // EnemyAppearanceの参照を取得
+        enemyAppearance = GetComponent<EnemyAppearance>();
+        if (enemyAppearance == null)
+        {
+            Debug.LogError("DoorオブジェクトにEnemyAppearanceコンポーネントが見つかりません");
         }
     }
 
     void Update()
     {
         float distance = Vector3.Distance(player.position, transform.position);
-        Debug.Log($"Distance: {distance}, Interaction Range: {interactionRange}");
+        Debug.Log($"距離: {distance}, 相互作用範囲: {interactionRange}");
 
-        if (distance <= interactionRange)
+        if (distance <= interactionRange && Input.GetKeyDown(KeyCode.G)) // Gキーに戻す
         {
-            if (Input.GetKeyDown(KeyCode.G)) // Gキーに戻す
+            Debug.Log("Gキーが押されました");
+            if (!isUnlocked)
             {
-                Debug.Log("G key pressed");
-                if (!isOpen)
+                if (playerInventory != null && playerInventory.HasItem(requiredItem))
                 {
-                    if (playerInventory != null && playerInventory.HasItem(requiredItem))
-                    {
-                        OpenDoorConfirmed(); // 鍵を使ってドアを開く
-                    }
-                    else
-                    {
-                        Debug.Log("鍵がありません。"); // 鍵がなければ開けられない
-                    }
-                }
-
-                // LeftOpenTriggerを設定して左側のドアのアニメーションを再生
-                if (childAnimator != null)
-                {
-                    Debug.Log("Setting LeftOpenTrigger");
-                    childAnimator.SetTrigger("LeftOpenTrigger");
-                    StartCoroutine(TransitionLeftAnimation());
+                    OpenDoorConfirmed(); // 鍵を使ってドアを開く
                 }
                 else
                 {
-                    Debug.Log("Left Animator is null");
+                    Debug.Log("鍵がありません"); // 鍵がなければ開けられない
+                    return; // 鍵がない場合はここで終了
                 }
+            }
 
-                // RightOpenTriggerを設定して右側のドアのアニメーションを再生
-                if (rightAnimator != null)
-                {
-                    Debug.Log("Setting RightOpenTrigger");
-                    rightAnimator.SetTrigger("RightOpenTrigger");
-                    StartCoroutine(TransitionRightAnimation());
-                }
-                else
-                {
-                    Debug.Log("Right Animator is null");
-                }
+            // LeftOpenTriggerを設定して左側のドアのアニメーションを再生
+            if (childAnimator != null)
+            {
+                Debug.Log("LeftOpenTriggerを設定");
+                childAnimator.SetTrigger("LeftOpenTrigger");
+                StartCoroutine(TransitionLeftAnimation());
             }
             else
             {
-                Debug.Log("G key not pressed");
+                Debug.Log("左側のアニメーターがnullです");
+            }
+
+            // RightOpenTriggerを設定して右側のドアのアニメーションを再生
+            if (rightAnimator != null)
+            {
+                Debug.Log("RightOpenTriggerを設定");
+                rightAnimator.SetTrigger("RightOpenTrigger");
+                StartCoroutine(TransitionRightAnimation());
+            }
+            else
+            {
+                Debug.Log("右側のアニメーターがnullです");
             }
         }
     }
@@ -149,7 +149,7 @@ public class Door : MonoBehaviour
         yield return new WaitForSeconds(10f);
         if (childAnimator != null)
         {
-            Debug.Log("Transitioning to Create Open Door right 2");
+            Debug.Log("右2に開くドアを作成するアニメーションに移行");
             childAnimator.SetTrigger("CreateOpenDoorRight2");
         }
     }
@@ -159,7 +159,7 @@ public class Door : MonoBehaviour
         yield return new WaitForSeconds(10f);
         if (rightAnimator != null)
         {
-            Debug.Log("Transitioning to Create Open Door2");
+            Debug.Log("ドア2を作成するアニメーションに移行");
             rightAnimator.SetTrigger("CreateOpenDoor2");
         }
     }
@@ -197,31 +197,12 @@ public class Door : MonoBehaviour
         }
     }
 
-    // UIを表示して一定時間後に閉じる
-    IEnumerator ShowMessageAndCloseUI(string message, float delay)
-    {
-        if (doorPanel != null)
-        {
-            doorPanel.SetActive(true);
-        }
-
-        if (doorText != null)
-        {
-            doorText.text = message;
-        }
-
-        yield return new WaitForSeconds(delay);
-
-        if (doorPanel != null)
-        {
-            doorPanel.SetActive(false);
-        }
-    }
     // ドアを開けるメソッド
     void OpenDoorConfirmed()
     {
         OpenDoor(); // ドアを開く
         playerInventory.UseItem(requiredItem); // 鍵をインベントリから削除
+        isUnlocked = true; // ドアが開いたことを記録
     }
 
     void OpenDoor()
@@ -231,14 +212,22 @@ public class Door : MonoBehaviour
             doorAnimator.SetTrigger("LeftOpenTrigger");
         }
 
-        isOpen = true;
         Debug.Log($"{requiredItem} のドアが開きました");
-
-        StartCoroutine(ShowMessageAndCloseUI($"{requiredItem} のドアが開きました", messageDisplayTime));
 
         if (hiddenArea != null)
         {
             hiddenArea.SetActive(true);
+        }
+
+        // エネミーを非表示にする
+        if (enemyAppearance != null)
+        {
+            Debug.Log("エネミーを非表示にします");
+            enemyAppearance.HideEnemyAfterDelay(); // エネミーを非表示にするメソッドを呼び出す
+        }
+        else
+        {
+            Debug.Log("enemyAppearanceがnullです");
         }
     }
 }
