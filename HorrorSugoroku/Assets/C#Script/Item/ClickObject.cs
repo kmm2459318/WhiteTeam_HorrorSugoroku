@@ -14,13 +14,20 @@ public class ClickObject : MonoBehaviour
     [SerializeField] public TextMeshProUGUI Text;
     [SerializeField] public GameObject Canvas;
     [SerializeField] private Image cutInImage;
-
+    private HashSet<string> cooldownItems = new HashSet<string>();
     // 名前ごとに「取得済みの時間」を記録する辞書
     private Dictionary<string, float> keyObtainedTime = new Dictionary<string, float>();
-    private HashSet<string> obtainedKeys = new HashSet<string>();
-
+    //private HashSet<string> obtainedKeys = new HashSet<string>();
+    private bool keyCooldownActive = false;
     // 鍵取得制限時間（秒）
-    [SerializeField] private float keyCooldownTime = 10f;  // 例: 10秒で再取得可能
+    private bool canAddItem = true;  // アイテム追加の制限フラグ
+    private bool isCooldown = false; // クールダウン中かどうかのフラグ
+
+    // ClickObject.cs に追加
+    private Dictionary<string, float> itemAddCooldowns = new Dictionary<string, float>();
+    public float itemCooldownDuration = 5f; // ← クールダウン時間（秒）
+
+    [SerializeField] private float keyCooldownTime = 2f;  // 例: 10秒で再取得可能
     private bool hasClicked = false; // クリック多重防止用フラグ
 
     void Start()
@@ -72,6 +79,7 @@ public class ClickObject : MonoBehaviour
                                 if (hit.collider.CompareTag("Key"))
                                 {
                                     ExecuteScriptA(hit.collider.gameObject); // スクリプトAを実行（アイテム取得）
+                                    Destroy(hit.collider.gameObject);
                                 }
                                 else if (hit.collider.CompareTag("Map"))
                                 {
@@ -123,30 +131,40 @@ public class ClickObject : MonoBehaviour
     {
         string keyName = clickedItem.name;
 
-        // 取得済みフラグが存在 & クールダウン時間がまだ経っていないならスキップ
-        if (keyObtainedTime.ContainsKey(keyName))
+        if (string.IsNullOrEmpty(keyName))
         {
-            float elapsedTime = Time.time - keyObtainedTime[keyName];
-            if (elapsedTime < keyCooldownTime)
-            {
-                Debug.Log($"{keyName} はまだクールダウン中です（残り {keyCooldownTime - elapsedTime:F1} 秒）");
-                return;
-            }
-            if (obtainedKeys.Contains(keyName))
-            {
-                Debug.Log($"{keyName} はすでに取得済み（取得スキップ）");
-                return;
-            }
+            Debug.LogWarning("KeyNameが設定されていません！");
+            return;
         }
 
-        // 取得処理
-       
-        keyObtainedTime[keyName] = Time.time;  // 今の時間を記録
-        obtainedKeys.Add(keyName); // フラグに追加
-        playerInventory.AddItem(keyName);
-        Debug.Log($"{keyName} を入手しました！");
+        // クールダウン中で、かつすでに所持しているアイテムの場合は追加しない
+        if (isCooldown && playerInventory.HasItem(keyName))
+        {
+            Debug.Log($"{keyName} はすでにインベントリにあり、クールダウン中のため追加しません。");
+            return;
+        }
+
+        // アイテムがインベントリにまだない、またはクールダウンが終わった場合
+        if (!playerInventory.HasItem(keyName) || !isCooldown)
+        {
+            
+            // アイテムをインベントリに追加
+            playerInventory.AddItem(keyName);
+            Debug.Log($"{keyName} をインベントリに追加しました。");
+
+            // クールダウン後にフラグを解除
+            StartCoroutine(CooldownAfterAddItem());
+        }
     }
 
+    // クールダウン後にフラグを解除するコルーチン
+    IEnumerator CooldownAfterAddItem()
+    {
+        // クールダウン開始前にフラグをセット
+        isCooldown = true;
+        yield return new WaitForSeconds(3f);  // 3秒のクールダウン
+        isCooldown = false;  // クールダウン終了
+    }
 
     void ExecuteScriptB()
     {
@@ -178,7 +196,12 @@ public class ClickObject : MonoBehaviour
 
     }
     // ✅ 鍵取得フラグを全部リセット
-
+    // 🔁 全ての鍵のクールダウンをリセットしたいときに使える関数
+    public void ResetAllKeyCooldowns()
+    {
+        keyObtainedTime.Clear();
+        Debug.Log("全鍵のクールダウン解除しました！");
+    }
     void OtherScript()
     {
         int randomChoice = Random.Range(0,4);

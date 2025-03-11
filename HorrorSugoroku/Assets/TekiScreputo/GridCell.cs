@@ -16,6 +16,8 @@ public class GridCell : MonoBehaviour
     public TextMeshProUGUI curseText; // UIのテキスト
     public GameObject itemPanel; // UIのパネル
     public TextMeshProUGUI itemText; // UIのテキスト
+    public GameObject debffPanel; // UIのパネル
+    public TextMeshProUGUI debffText; // UIのテキスト
                                      //   public TMP_Text itemLogText;
                                      // public Button closeButton; // UIを閉じるボタン
                                      //public ItemPickup item;
@@ -49,92 +51,76 @@ public class GridCell : MonoBehaviour
     public int n = 0;
     private PlayerInventory playerInventory;
 
-    private void Start()
+     void Start()
     {
         playerInventory = FindObjectOfType<PlayerInventory>();
         curseSlider = FindObjectOfType<CurseSlider>(); // 呪いゲージを取得
         substitutedollController = FindObjectOfType<SubstitutedollController>(); // 追加
         beartrapController = FindObjectOfType<BeartrapController>(); // 追加
-        cursePanel = GameObject.Find("CurseCanvasUI");
-        curseText = GameObject.Find("CurseText")?.GetComponent<TextMeshProUGUI>();
-        itemPanel = GameObject.Find("ItemCanvasUI");
-        itemText = GameObject.Find("Text Item")?.GetComponent<TextMeshProUGUI>();
-        cutInImage = GameObject.Find("ImageCurse")?.GetComponent<Image>();
-        audioSource = GameObject.Find("Mamono_aaa")?.GetComponent<AudioSource>();
-        GameObject[] allGameObjects = Resources.FindObjectsOfTypeAll<GameObject>();
+        //cursePanel = GameObject.Find("CurseCanvasUI");
+        //curseText = GameObject.Find("CurseText")?.GetComponent<TextMeshProUGUI>();
+        //itemPanel = GameObject.Find("ItemCanvasUI");
+        //itemText = GameObject.Find("Text Item")?.GetComponent<TextMeshProUGUI>();
+        //cutInImage = GameObject.Find("ImageCurse")?.GetComponent<Image>();
+        //audioSource = GameObject.Find("Mamono_aaa")?.GetComponent<AudioSource>();
+        //GameObject[] allGameObjects = Resources.FindObjectsOfTypeAll<GameObject>();
 
-        foreach (GameObject obj in allGameObjects)
-        {
-            if (obj.name == "CurseCanvasUI")
-            {
-                cursePanel = obj;
-            }
-            if (obj.name == "CurseText")
-            {
-                curseText = obj.GetComponent<TextMeshProUGUI>();
-            }
-        }
-        foreach (GameObject obj in allGameObjects)
-        {
-            if (obj.name == "ItemCanvasUI")
-            {
-                itemPanel = obj;
-            }
-            if (obj.name == "Text Item")
-            {
-                itemText = obj.GetComponent<TextMeshProUGUI>();
-            }
-        }
-        audioSource = gameObject.AddComponent<AudioSource>(); // AudioSourceを追加
+        //foreach (GameObject obj in allGameObjects)
+        //{
+        //    if (obj.name == "CurseCanvasUI")
+        //    {
+        //        cursePanel = obj;
+        //    }
+        //    if (obj.name == "CurseText")
+        //    {
+        //        curseText = obj.GetComponent<TextMeshProUGUI>();
+        //    }
+        //}
+        //foreach (GameObject obj in allGameObjects)
+        //{
+        //    if (obj.name == "ItemCanvasUI")
+        //    {
+        //        itemPanel = obj;
+        //    }
+        //    if (obj.name == "Text Item")
+        //    {
+        //        itemText = obj.GetComponent<TextMeshProUGUI>();
+        //    }
+        //}
+        //audioSource = gameObject.AddComponent<AudioSource>(); // AudioSourceを追加
 
-        // 非アクティブなオブジェクトも含めて Image を探す
-        Image[] allImages = FindObjectsOfType<Image>(true);
+        //// 非アクティブなオブジェクトも含めて Image を探す
+        //Image[] allImages = FindObjectsOfType<Image>(true);
 
-        foreach (Image img in allImages)
-        {
-            if (img.gameObject.name == "ImageCurse") // 名前で指定
-            {
-                cutInImage = img;
-                break;
-            }
-        }
+        //foreach (Image img in allImages)
+        //{
+        //    if (img.gameObject.name == "ImageCurse") // 名前で指定
+        //    {
+        //        cutInImage = img;
+        //        break;
+        //    }
+        //}
 
-        if (cutInImage != null)
-        {
-            Debug.Log("✅ 非アクティブな ImageCurse を取得しました！");
-        }
-        else
-        {
-            Debug.Log("⚠️ ImageCurse が見つかりません！");
-        }
-        // デバッグ用表示
+        //if (cutInImage != null)
+        //{
+        //    Debug.Log("✅ 非アクティブな ImageCurse を取得しました！");
+        //}
+        //else
+        //{
+        //    Debug.Log("⚠️ ImageCurse が見つかりません！");
+        //}
+        //// デバッグ用表示
         Debug.Log($"cursePanel: {cursePanel}");
         Debug.Log($"curseText: {curseText}");
-
-        // UI が見つからない場合、警告を出す
+        // UIを非表示にする
+        //場合、警告を出す
         if (cursePanel == null) Debug.LogWarning("CursePanel が見つかりません");
         if (curseText == null) Debug.LogWarning("CurseText が見つかりません");
         if (itemPanel == null) Debug.LogWarning("ItemCanvasUI が見つかりません");
         if (itemText == null) Debug.LogWarning("ItemText が見つかりません");
         if (cutInImage == null) Debug.LogWarning("ImageCurse が見つかりません");
         if (audioSource == null) Debug.LogWarning("Mamono_aaa の AudioSource が見つかりません");
-        // エラーチェック
-        //if (cutInImage == null)
-        //    Debug.LogError($"❌ {imageObjectName} が見つかりません！");
-
-        //if (audioSource == null)
-        //    Debug.LogError($"❌ {audioObjectName} が見つかりません！");
-
-
-        if (substitutedollController == null)
-        {
-            Debug.LogError("❌ SubstitutedollController がシーン内に見つかりません！");
-        }
-
-        if (beartrapController == null)
-        {
-            Debug.LogError("❌ BeartrapController がシーン内に見つかりません！");
-        }
+        
         if (cursePanel != null)
         {
             cursePanel.SetActive(false);
@@ -283,49 +269,7 @@ public class GridCell : MonoBehaviour
             Time.timeScale = 1;
         }
     }
-    //private void DisplayRandomEvent()
-    //{
-    //    string[] eventMessages = {
-    //        "ドアが開きました！",
-    //        "クローゼットに隠れられる",
-    //        "急に眠気がおそってきた。"
-    //    };
-
-    //    System.Random random = new System.Random();
-    //    int randomIndex = random.Next(eventMessages.Length);
-
-    //    string selectedEvent = eventMessages[randomIndex];
-    //    Debug.Log($"{name}: イベント発動！ {selectedEvent}");
-
-    //    //ExecuteSelectedEvent(selectedEvent);
-    //}
-
-    //private void ExecuteSelectedEvent(string eventMessage)
-    //{
-    //    switch (eventMessage)
-    //    {
-    //        case "ドアが開きました！":
-    //            Debug.Log("ドアが開くイベントを実行します。");
-    //            ShowEventUI("The door opened"); // UIに表示
-    //            OpenDoor();
-    //            break;
-    //        case "クローゼットに隠れられる":
-    //            Debug.Log("クローゼットに隠れるイベントを実行します。");
-    //            ShowEventUI("クローゼットに隠れられる"); // UIに表示
-    //            SecretCloset();
-    //            break;
-    //        case "急に眠気がおそってきた。":
-    //            Debug.Log("眠気イベントを実行します。");
-    //            ShowEventUI("急に眠気がおそってきた。"); // UIに表示
-    //            SleepEvent();
-    //            break;
-    //        default:
-    //            Debug.Log("未知のイベントです。");
-    //            ShowEventUI("未知のイベント"); // UIに表示
-    //            break;
-    //    }
-    //}
-
+    
 
 
     public void OpenDoor()

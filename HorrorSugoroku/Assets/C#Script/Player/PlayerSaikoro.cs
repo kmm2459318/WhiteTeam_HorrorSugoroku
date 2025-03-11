@@ -81,6 +81,7 @@ public class PlayerSaikoro : MonoBehaviour
 
     [SerializeField] private RawImage diceUI; // UI参照
     [SerializeField] private Camera diceCamera; // カメラ参照
+    private float diceCameraHideDelay = 0.5f; // 🎯 非表示にするまでの遅延時間（秒）
 
     int movesum;
 
@@ -433,7 +434,7 @@ public class PlayerSaikoro : MonoBehaviour
         if (saikoro.active == true)
         {
             if (diceUI != null) diceUI.gameObject.SetActive(true);
-            if (diceCamera != null) diceCamera.enabled = false;
+            StartCoroutine(HideDiceCameraWithDelay()); // 🎯 カメラの非表示を遅延
         }
         else if (saikoro.active == false)
         {
@@ -686,5 +687,10 @@ public class PlayerSaikoro : MonoBehaviour
                 renderer.material = n;
             }
         }
+    }
+    private IEnumerator HideDiceCameraWithDelay()
+    {
+        yield return new WaitForSeconds(diceCameraHideDelay); // 指定した秒数待機
+        if (diceCamera != null) diceCamera.enabled = false; // 🎯 指定時間後にカメラを非表示
     }
 }
