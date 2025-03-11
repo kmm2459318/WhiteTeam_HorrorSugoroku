@@ -4,29 +4,29 @@ using UnityEngine;
 
 public class PlayerInventory : MonoBehaviour
 {
-    // © •¡”Š‚É‘Î‰IDictionary‚ÅŒÂ”‚ğŠÇ—
     private Dictionary<string, int> items = new Dictionary<string, int>();
+    private bool isUsingItem = false; // ï¿½Aï¿½Cï¿½eï¿½ï¿½ï¿½gï¿½pï¿½ï¿½ï¿½ï¿½ï¿½Ç‚ï¿½ï¿½ï¿½ï¿½Ìƒtï¿½ï¿½ï¿½O
 
-    private bool isCooldown = false;  // ƒAƒCƒeƒ€’Ç‰Á‚ÌƒN[ƒ‹ƒ_ƒEƒ“ƒtƒ‰ƒO
-    private bool isAddingItem = false;  // ƒAƒCƒeƒ€’Ç‰Á’†‚©‚ğŠÇ—‚·‚éƒtƒ‰ƒO
-    private float cooldownTime = 3f;  // ƒN[ƒ‹ƒ_ƒEƒ“ŠÔi3•bj
+    private bool isCooldown = false;  // ï¿½Aï¿½Cï¿½eï¿½ï¿½ï¿½Ç‰ï¿½ï¿½ÌƒNï¿½[ï¿½ï¿½ï¿½_ï¿½Eï¿½ï¿½ï¿½tï¿½ï¿½ï¿½O
+    private bool isAddingItem = false;  // ï¿½Aï¿½Cï¿½eï¿½ï¿½ï¿½Ç‰ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ç—ï¿½ï¿½ï¿½ï¿½ï¿½tï¿½ï¿½ï¿½O
+    private float cooldownTime = 3f;  // ï¿½Nï¿½[ï¿½ï¿½ï¿½_ï¿½Eï¿½ï¿½ï¿½ï¿½ï¿½Ôi3ï¿½bï¿½j
 
-    // ƒAƒCƒeƒ€‚ğ’Ç‰ÁiƒN[ƒ‹ƒ_ƒEƒ“ˆ—‚ğ’Ç‰Áj
+    // ï¿½Aï¿½Cï¿½eï¿½ï¿½ï¿½ï¿½Ç‰ï¿½ï¿½iï¿½Nï¿½[ï¿½ï¿½ï¿½_ï¿½Eï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ç‰ï¿½ï¿½j
     public void AddItem(string itemName)
     {
         if (isAddingItem)
         {
-            Debug.Log("Œ»İƒAƒCƒeƒ€’Ç‰Á’†‚Å‚·B");
-            return;  // ƒAƒCƒeƒ€’Ç‰Á’†‚Í’Ç‰Á‚ğƒXƒLƒbƒv
+            Debug.Log("ï¿½ï¿½ï¿½İƒAï¿½Cï¿½eï¿½ï¿½ï¿½Ç‰ï¿½ï¿½ï¿½ï¿½Å‚ï¿½ï¿½B");
+            return;  // ï¿½Aï¿½Cï¿½eï¿½ï¿½ï¿½Ç‰ï¿½ï¿½ï¿½ï¿½Í’Ç‰ï¿½ï¿½ï¿½ï¿½Xï¿½Lï¿½bï¿½v
         }
 
         if (isCooldown)
         {
-            Debug.Log($"{itemName} ‚ÍƒN[ƒ‹ƒ_ƒEƒ“’†‚Å‚·B");
-            return;  // ƒN[ƒ‹ƒ_ƒEƒ“’†‚ÍƒAƒCƒeƒ€‚ğ’Ç‰Á‚Å‚«‚È‚¢
+            Debug.Log($"{itemName} ï¿½ÍƒNï¿½[ï¿½ï¿½ï¿½_ï¿½Eï¿½ï¿½ï¿½ï¿½ï¿½Å‚ï¿½ï¿½B");
+            return;  // ï¿½Nï¿½[ï¿½ï¿½ï¿½_ï¿½Eï¿½ï¿½ï¿½ï¿½ï¿½ÍƒAï¿½Cï¿½eï¿½ï¿½ï¿½ï¿½Ç‰ï¿½ï¿½Å‚ï¿½ï¿½È‚ï¿½
         }
 
-        isAddingItem = true;  // ƒAƒCƒeƒ€’Ç‰Á’†ƒtƒ‰ƒO‚ğ—§‚Ä‚é
+        isAddingItem = true;  // ï¿½Aï¿½Cï¿½eï¿½ï¿½ï¿½Ç‰ï¿½ï¿½ï¿½ï¿½tï¿½ï¿½ï¿½Oï¿½ğ—§‚Ä‚ï¿½
 
         if (items.ContainsKey(itemName))
         {
@@ -37,61 +37,81 @@ public class PlayerInventory : MonoBehaviour
             items[itemName] = 1;
         }
 
-        Debug.Log($"{itemName} ‚ğƒCƒ“ƒxƒ“ƒgƒŠ‚É’Ç‰Á‚µ‚Ü‚µ‚½BŒ»İ‚ÌŠ”F{items[itemName]}");
+        Debug.Log($"{itemName} ï¿½ï¿½ï¿½Cï¿½ï¿½ï¿½xï¿½ï¿½ï¿½gï¿½ï¿½ï¿½É’Ç‰ï¿½ï¿½ï¿½ï¿½Ü‚ï¿½ï¿½ï¿½ï¿½Bï¿½ï¿½ï¿½İ‚Ìï¿½ï¿½ï¿½ï¿½ï¿½ï¿½F{items[itemName]}");
 
-        // ƒAƒCƒeƒ€’Ç‰ÁŒã‚ÉƒN[ƒ‹ƒ_ƒEƒ“ŠJn
+        // ï¿½Aï¿½Cï¿½eï¿½ï¿½ï¿½Ç‰ï¿½ï¿½ï¿½ÉƒNï¿½[ï¿½ï¿½ï¿½_ï¿½Eï¿½ï¿½ï¿½Jï¿½n
         StartCoroutine(CooldownCoroutine());
     }
 
-    // ƒAƒCƒeƒ€‚ğg‚¤iÁ”ïj
+    // ï¿½Aï¿½Cï¿½eï¿½ï¿½ï¿½ï¿½ï¿½gï¿½ï¿½ï¿½iï¿½ï¿½ï¿½ï¿½j
     public bool UseItem(string itemName)
     {
+        if (isUsingItem)
+        {
+            Debug.Log("ï¿½ï¿½ï¿½İ‘ï¿½ï¿½ÌƒAï¿½Cï¿½eï¿½ï¿½ï¿½ï¿½ï¿½gï¿½pï¿½ï¿½ï¿½Å‚ï¿½");
+            return false;
+        }
+
+        Debug.Log("UseItemï¿½ï¿½ï¿½\ï¿½bï¿½hï¿½ï¿½ï¿½Ä‚Ñoï¿½ï¿½ï¿½ï¿½Ü‚ï¿½ï¿½ï¿½: " + itemName);
         if (items.ContainsKey(itemName) && items[itemName] > 0)
         {
+            isUsingItem = true; // ï¿½Aï¿½Cï¿½eï¿½ï¿½ï¿½gï¿½pï¿½ï¿½ï¿½tï¿½ï¿½ï¿½Oï¿½ï¿½İ’ï¿½
             items[itemName]--;
-            Debug.Log($"{itemName} ‚ğg—p‚µ‚Ü‚µ‚½Bc‚èF{items[itemName]}");
+            Debug.Log($"{itemName} ï¿½ï¿½ï¿½gï¿½pï¿½ï¿½ï¿½Ü‚ï¿½ï¿½ï¿½ï¿½Bï¿½cï¿½ï¿½F{items[itemName]}");
 
             if (items[itemName] <= 0)
             {
                 items.Remove(itemName);
+                Debug.Log(itemName + " ï¿½ï¿½ï¿½Cï¿½ï¿½ï¿½xï¿½ï¿½ï¿½gï¿½ï¿½ï¿½ï¿½ï¿½ï¿½íœï¿½ï¿½ï¿½ï¿½Ü‚ï¿½ï¿½ï¿½ï¿½B");
             }
+
+            // ï¿½Aï¿½Cï¿½eï¿½ï¿½ï¿½gï¿½pï¿½ï¿½Éƒtï¿½ï¿½ï¿½Oï¿½ï¿½ï¿½ï¿½ï¿½Zï¿½bï¿½g
+            StartCoroutine(ResetItemUsageFlag());
+
             return true;
         }
         else
         {
-            Debug.Log($"{itemName} ‚ÍŠ‚µ‚Ä‚¢‚Ü‚¹‚ñB");
+            Debug.Log($"{itemName} ï¿½Íï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä‚ï¿½ï¿½Ü‚ï¿½ï¿½ï¿½B");
             return false;
         }
     }
 
-    // Š‚µ‚Ä‚¢‚é‚©Šm”F
+    // ï¿½Aï¿½Cï¿½eï¿½ï¿½ï¿½gï¿½pï¿½ï¿½ï¿½tï¿½ï¿½ï¿½Oï¿½ï¿½ï¿½ï¿½ï¿½Zï¿½bï¿½gï¿½ï¿½ï¿½ï¿½Rï¿½ï¿½ï¿½[ï¿½`ï¿½ï¿½
+    private IEnumerator ResetItemUsageFlag()
+    {
+        yield return new WaitForSeconds(1f); // 1ï¿½bï¿½ï¿½Éƒtï¿½ï¿½ï¿½Oï¿½ï¿½ï¿½ï¿½ï¿½Zï¿½bï¿½g
+        isUsingItem = false;
+    }
+
+    // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä‚ï¿½ï¿½é‚©ï¿½mï¿½F
     public bool HasItem(string itemName)
     {
         return items.ContainsKey(itemName) && items[itemName] > 0;
     }
 
-    // Š”‚ğæ“¾
+    // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½æ“¾
     public int GetItemCount(string itemName)
     {
         return items.ContainsKey(itemName) ? items[itemName] : 0;
     }
 
-    // ƒN[ƒ‹ƒ_ƒEƒ“—pƒRƒ‹[ƒ`ƒ“
+    // ï¿½Nï¿½[ï¿½ï¿½ï¿½_ï¿½Eï¿½ï¿½ï¿½pï¿½Rï¿½ï¿½ï¿½[ï¿½`ï¿½ï¿½
     private IEnumerator CooldownCoroutine()
     {
-        isCooldown = true;  // ƒN[ƒ‹ƒ_ƒEƒ“’†
-        yield return new WaitForSeconds(cooldownTime);  // w’è‚³‚ê‚½ŠÔ‚¾‚¯‘Ò‹@
-        isCooldown = false;  // ƒN[ƒ‹ƒ_ƒEƒ“I—¹
-        isAddingItem = false;  // ƒAƒCƒeƒ€’Ç‰Áƒtƒ‰ƒO‚ğ‰ğœ
+        isCooldown = true;  // ï¿½Nï¿½[ï¿½ï¿½ï¿½_ï¿½Eï¿½ï¿½ï¿½ï¿½
+        yield return new WaitForSeconds(cooldownTime);  // ï¿½wï¿½è‚³ï¿½ê‚½ï¿½ï¿½ï¿½Ô‚ï¿½ï¿½ï¿½ï¿½Ò‹@
+        isCooldown = false;  // ï¿½Nï¿½[ï¿½ï¿½ï¿½_ï¿½Eï¿½ï¿½ï¿½Iï¿½ï¿½
+        isAddingItem = false;  // ï¿½Aï¿½Cï¿½eï¿½ï¿½ï¿½Ç‰ï¿½ï¿½tï¿½ï¿½ï¿½Oï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
     }
 
-    // ‘SƒAƒCƒeƒ€•\¦iƒfƒoƒbƒO—pj
+    // ï¿½Sï¿½Aï¿½Cï¿½eï¿½ï¿½ï¿½\ï¿½ï¿½ï¿½iï¿½fï¿½oï¿½bï¿½Oï¿½pï¿½j
     public void ShowInventory()
     {
-        Debug.Log("=== ƒvƒŒƒCƒ„[ƒCƒ“ƒxƒ“ƒgƒŠ ===");
+        Debug.Log("=== ï¿½vï¿½ï¿½ï¿½Cï¿½ï¿½ï¿½[ï¿½Cï¿½ï¿½ï¿½xï¿½ï¿½ï¿½gï¿½ï¿½ ===");
         foreach (var item in items)
         {
-            Debug.Log(item.Key + ": " + item.Value + "ŒÂ");
+            Debug.Log(item.Key + ": " + item.Value + "ï¿½ï¿½");
         }
     }
     void Update()
@@ -104,4 +124,20 @@ public class PlayerInventory : MonoBehaviour
         }
     }
 
+
+    // ï¿½ï¿½ï¿½ï¿½ï¿½Aï¿½Cï¿½eï¿½ï¿½ï¿½ï¿½Ç‰ï¿½ï¿½ï¿½ï¿½éƒï¿½\ï¿½bï¿½h
+    void Start()
+    {
+        AddItem("ï¿½ï¿½Kï¿½ÌƒJï¿½M");
+        AddItem("ï¿½ï¿½Kï¿½ÌƒJï¿½M");
+        AddItem("ï¿½Hï¿½ï¿½ï¿½ÌƒJï¿½M");
+        AddItem("ï¿½zï¿½[ï¿½ï¿½ï¿½ÌƒJï¿½M");
+        AddItem("ï¿½ã–±ï¿½ï¿½ï¿½ÌƒJï¿½M");
+        AddItem("ï¿½xï¿½bï¿½hï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½ÌƒJï¿½M");
+        AddItem("ï¿½nï¿½ï¿½ï¿½ï¿½ï¿½ÌƒJï¿½M");
+        AddItem("ï¿½nï¿½ï¿½ï¿½ï¿½ï¿½ÌƒJï¿½Mï¿½P");
+        AddItem("ï¿½nï¿½ï¿½ï¿½ï¿½ï¿½ÌƒJï¿½Mï¿½Q");
+        AddItem("ï¿½nï¿½ï¿½ï¿½ï¿½ï¿½ÌƒJï¿½Mï¿½R");
+        AddItem("ï¿½Gï¿½ï¿½ï¿½Wï¿½ï¿½ï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½ÌƒJï¿½M");
+    }
 }
