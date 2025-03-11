@@ -43,7 +43,6 @@ public class GameManager : MonoBehaviour
 
     private void Start()
     {
-        MiniMapObj.SetActive(false); // マップキャンバスを非表示にする
         //MiniMapObj.SetActive(false); // マップキャンバスを非表示にする
         //MiniMapObj.GetComponent<RectTransform>().anchoredPosition = new Vector2(-1064, -574); // UIの座標を設定
         //agent.enabled = false;
