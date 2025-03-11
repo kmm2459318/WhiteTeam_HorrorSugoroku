@@ -1,20 +1,51 @@
 using UnityEngine;
+using UnityEngine.AI;
 
 public class EnemyStop : MonoBehaviour
 {
     public GameManager gameManager;
-    public bool rideMasu = false;
+    private bool rideMasu = false;
+    public bool stopMasu = false;
+    private bool se = false;
+    public PlayerSaikoro player;
+    public NavMeshAgent nuvMeshAgent;
     private Animator animator;
     public string targetTag = "masu";
+    private float exploringCoolTime = 0;
     public float threshold = 0.1f;
 
     void Start()
     {
         animator = GetComponent<Animator>();
+        nuvMeshAgent.enabled = false;
     }
 
     void Update()
     {
+        if (player.exploring && !stopMasu)
+        {
+            this.exploringCoolTime += Time.deltaTime;
+        }
+
+        if (player.enemyEnd && rideMasu && exploringCoolTime > 0.8f)
+        {
+            exploringCoolTime = 0f;
+            nuvMeshAgent.enabled = false;
+            stopMasu = true;
+        }
+
+        if (!gameManager.isPlayerTurn && !se)
+        {
+            se = true;
+            stopMasu = false;
+            nuvMeshAgent.enabled = true;
+        }
+
+        if (player.idoutyu)
+        {
+            se = false;
+        }
+
         CheckPositionMatch();
     }
 
@@ -51,7 +82,7 @@ public class EnemyStop : MonoBehaviour
     {
         Debug.Log($"一致: {masu.name} と {gameObject.name}");
         rideMasu = true;
-        animator.SetBool("isIdle", true);
-        animator.SetBool("isRunning", false);
+        //animator.SetBool("isIdle", true);
+        //animator.SetBool("isRunning", false);
     }
 }

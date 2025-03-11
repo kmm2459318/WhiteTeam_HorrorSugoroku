@@ -388,7 +388,7 @@ public class EnemySaikoroNakamura : MonoBehaviour
 
         Debug.Log("Enemy moved a total of " + initialSteps + " steps.");
 
-        if (!gameManager.EnemyCopyOn)
+        if (!gameManager.EnemyCopyOn1)
         {
             FindObjectOfType<GameManager>().NextTurn(); // 次のターンに進む
         }

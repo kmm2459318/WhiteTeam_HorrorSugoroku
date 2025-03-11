@@ -14,6 +14,11 @@ public class PlayerSaikoro : MonoBehaviour
     [SerializeField] SmoothTransform player;
     private EnemySaikoro targetScript; // コマンドを受け取るEnemySaikoro
     public EnemyStop enemyStop;
+    public EnemyStop enemyStop1;
+    public EnemyStop enemyStop2;
+    public EnemyStop enemyStop3;
+    public EnemyStop enemyStop4;
+    public EnemyStop enemyStop5;
     public int sai = 1; // ランダムなサイコロの値
     private int walkCount = 0; // 進んだ回数
     public bool saikorotyu = true; // サイコロを振っているか
@@ -22,7 +27,7 @@ public class PlayerSaikoro : MonoBehaviour
     private bool magarityu = false;
     private bool idouspan = false;
     private bool idouspanIkidomari = false;
-    private bool enemyEnd = false;
+    public bool enemyEnd = false;
     private float posFactZ = 0.6f;
     private float saikoroTime = 0; // サイコロの時間の計測
     private float magariTime = 0; // 曲がりの時間の計測
@@ -350,14 +355,14 @@ public class PlayerSaikoro : MonoBehaviour
         if ((exploring && Input.GetKeyDown(KeyCode.F)) || enemyEnd)
         {
             enemyEnd = true;
-            if (enemyStop.rideMasu && exploringCoolTime > 0.8f)
+            if (enemyStop.stopMasu && 
+                (!gameManager.EnemyCopyOn1 || enemyStop1.stopMasu) &&
+                (!gameManager.EnemyCopyOn2 || enemyStop2.stopMasu) &&
+                (!gameManager.EnemyCopyOn3 || enemyStop3.stopMasu) &&
+                (!gameManager.EnemyCopyOn4 || enemyStop4.stopMasu) &&
+                (!gameManager.EnemyCopyOn5 || enemyStop5.stopMasu))
             {
-                exploringCoolTime = 0f;
-                enemyEnd = false;
-                exploring = false;
-                Debug.Log("探索モード終了、次のターンへ");
-                lastaction = 0;
-                gameManager.NextTurn();
+                FinishTurn();
             }
         }
         // 探索中の判定をtrueにする
@@ -436,6 +441,16 @@ public class PlayerSaikoro : MonoBehaviour
             if (diceUI != null) diceUI.gameObject.SetActive(false);
         }
     }
+
+    void FinishTurn()
+    {
+        enemyEnd = false;
+        exploring = false;
+        Debug.Log("探索モード終了、次のターンへ");
+        lastaction = 0;
+        gameManager.NextTurn();
+    }
+
     void ChangeSpriteSize(Sprite sprite, Vector2 newSize)
     {
         RectTransform rectTransform = saikoro.GetComponent<RectTransform>();
