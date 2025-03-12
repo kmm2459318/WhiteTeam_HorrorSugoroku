@@ -12,6 +12,9 @@ public class GridCell : MonoBehaviour
     [SerializeField] private Master_Debuff DebuffSheet;
     //public GameObject eventPanel; // UIのパネル
     //public TextMeshProUGUI eventText; // UIのテキスト
+    private GameObject ui;
+    private Transform ccursePanel;
+    private Transform iitemPanel;
     public GameObject cursePanel; // UIのパネル
     public TextMeshProUGUI curseText; // UIのテキスト
     public GameObject itemPanel; // UIのパネル
@@ -57,10 +60,13 @@ public class GridCell : MonoBehaviour
         curseSlider = FindObjectOfType<CurseSlider>(); // 呪いゲージを取得
         substitutedollController = FindObjectOfType<SubstitutedollController>(); // 追加
         beartrapController = FindObjectOfType<BeartrapController>(); // 追加
-        //cursePanel = GameObject.Find("CurseCanvasUI");
-        //curseText = GameObject.Find("CurseText")?.GetComponent<TextMeshProUGUI>();
-        //itemPanel = GameObject.Find("ItemCanvasUI");
-        //itemText = GameObject.Find("Text Item")?.GetComponent<TextMeshProUGUI>();
+        ui = GameObject.Find("UI");
+        ccursePanel = ui.transform.Find("CurseCanvasUI");
+        cursePanel = ccursePanel.gameObject;
+        curseText = GameObject.Find("CurseText").GetComponent<TextMeshProUGUI>();
+        iitemPanel = ui.transform.Find("ItemCanvasUI");
+        itemPanel = iitemPanel.gameObject;
+        itemText = GameObject.Find("Text Item").GetComponent<TextMeshProUGUI>();
         //cutInImage = GameObject.Find("ImageCurse")?.GetComponent<Image>();
         //audioSource = GameObject.Find("Mamono_aaa")?.GetComponent<AudioSource>();
         //GameObject[] allGameObjects = Resources.FindObjectsOfTypeAll<GameObject>();
@@ -154,6 +160,8 @@ public class GridCell : MonoBehaviour
         Debug.Log("アイテムが使えなくなるかの判定:" + DebuffSheet.DebuffSheet[n].ItemGive);
         Debug.Log("アイテムが使えないターン数:" + DebuffSheet.DebuffSheet[n].ItemGive);
 
+        SetVisibility(true);
+
     }
     //void Update()
     //{
@@ -165,15 +173,14 @@ public class GridCell : MonoBehaviour
     //}
     void Update()
     {
-
         SetVisibility(true);
 
-        if ((cursePanel.activeSelf || itemPanel.activeSelf)
-         && (Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.H)))
-        {
-            Debug.Log("🔘 スペースまたは H キーで UI を閉じる");
-            CloseEventUI();
-        }
+        if (cursePanel.activeSelf || itemPanel.activeSelf)
+            if (Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.H))
+            {
+                Debug.Log("🔘 スペースまたは H キーで UI を閉じる");
+                CloseEventUI();
+            }
     }
     public void ExecuteEvent()
     {
