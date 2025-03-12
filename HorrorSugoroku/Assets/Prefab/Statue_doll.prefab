@@ -48,9 +48,10 @@ GameObject:
   - component: {fileID: 4392270811778385828}
   - component: {fileID: 1001923056992106720}
   - component: {fileID: 6879995938104731830}
+  - component: {fileID: 5929211138962084634}
   m_Layer: 0
   m_Name: Put down Area
-  m_TagString: Untagged
+  m_TagString: DollArea
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -145,10 +146,31 @@ SphereCollider:
   m_LayerOverridePriority: 0
   m_IsTrigger: 0
   m_ProvidesContacts: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 3
   m_Radius: 0.5
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!65 &5929211138962084634
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6209036962949535866}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 1.677018, y: 2.939107, z: 1.7604779}
+  m_Center: {x: -0.008232991, y: -0.97098905, z: -0.3802345}
 --- !u!1001 &6270742247532943972
 PrefabInstance:
   m_ObjectHideFlags: 0
