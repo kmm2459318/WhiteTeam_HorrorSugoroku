@@ -17,6 +17,7 @@ public class GameManager : MonoBehaviour
     public bool EnemyCopyOn5 = false;
     public int enemyTurnFinCount = 0;
     public int mapPiece = 0;
+    public int Doll = 0; // 人形の数
 
     public PlayerSaikoro playerSaikoro;
     public EnemySaikoro enemySaikoro;
@@ -26,12 +27,15 @@ public class GameManager : MonoBehaviour
 
     public GameObject currentEnemyModel; // 現在のエネミーモデル
     public GameObject EnemyCopy1; // コピーエネミーモデル
+    public GameObject EnemyCopy1demo;
     public GameObject EnemyCopy2;
     public GameObject EnemyCopy3;
     public GameObject EnemyCopy4;
     public GameObject EnemyCopy5;
     public GameObject newEnemyModelPrefab; // 新しいエネミーモデルのプレハブ
     public GameObject newEnemyModelPrefab2; // 6つ目のピースで変更する新しいエネミーモデルのプレハブ
+    public GameObject optionCanvas; // OptionCanvasを追加
+
     //public GameObject MiniMapObj; // マップキャンバス
 
     private int playerTurnCount = 0; // プレイヤーのターン数をカウントする変数
@@ -40,9 +44,12 @@ public class GameManager : MonoBehaviour
     public AudioSource footstepSound; // 足音を管理するAudioSource
 
     public DiceController diceController;
+    private bool wasFootstepPlayingBeforePause = false;
 
     private void Start()
     {
+        Application.targetFrameRate = 60;
+
         //MiniMapObj.SetActive(false); // マップキャンバスを非表示にする
         //MiniMapObj.GetComponent<RectTransform>().anchoredPosition = new Vector2(-1064, -574); // UIの座標を設定
         //agent.enabled = false;
@@ -54,10 +61,29 @@ public class GameManager : MonoBehaviour
 
     private void Update()
     {
-        // 地図のかけら仮
+        // 持っている人形の数を増やす
         if (Input.GetKeyDown(KeyCode.R))
         {
-            MpPlus();
+            //MpPlus();
+            Doll++; 
+        }
+
+        if (optionCanvas != null)
+        {
+            if (optionCanvas.activeSelf)
+            {
+                if (footstepSound.isPlaying)
+                {
+                    wasFootstepPlayingBeforePause = true;
+                    footstepSound.Stop();
+                }
+                return;
+            }
+            else if (wasFootstepPlayingBeforePause)
+            {
+                footstepSound.Play();
+                wasFootstepPlayingBeforePause = false;
+            }
         }
 
         ////Qキーでミニマップを表示
@@ -88,6 +114,7 @@ public class GameManager : MonoBehaviour
         //
         if (mapPiece >= 1)
         {
+            Destroy(EnemyCopy1demo);
             EnemyCopy1.SetActive(true);
             EnemyCopyOn1 = true;
         }
@@ -225,5 +252,18 @@ public class GameManager : MonoBehaviour
     public bool IsPlayerTurn()
     {
         return isPlayerTurn;
+    }
+
+    public bool CanPlaceDoll()
+    {
+        return Doll > 0; // 1つ以上人形を持っていれば配置可能
+    }
+
+    public void PlaceDoll()
+    {
+        if (Doll > 0)
+        {
+            Doll--; // 1つ配置したので減らす
+        }
     }
 }

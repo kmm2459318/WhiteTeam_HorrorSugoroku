@@ -13,7 +13,9 @@ public class SceneChanger3D : MonoBehaviour
     [SerializeField] private Image cutInImage; // カットイン画像
     [SerializeField] private float cutInDuration = 2.0f; // カットインの表示時間（秒）
     [SerializeField] private AudioClip gameOverSound; // ゲームオーバー時のサウンド
+    public SubstitutedollController substitutedollController;
     private AudioSource audioSource; // 音声再生用のAudioSource
+    private GameObject atackEnemy;
 
     [SerializeField] private float volume = 1.0f; // 音量 (デフォルトは最大)
 
@@ -53,8 +55,9 @@ public class SceneChanger3D : MonoBehaviour
         
         if (!isGameOver && enemies.Contains(other.gameObject))
         {
+            atackEnemy = other.gameObject;
+            Debug.Log(atackEnemy);
             HandleGameOver();
-
         }
 
         else if(enemies.Contains(other.gameObject) && (curseslider.CountGauge < 2))
@@ -67,11 +70,13 @@ public class SceneChanger3D : MonoBehaviour
     // ゲームオーバー処理を判定するメソッド
     public void HandleGameOver()
     {
-        if (hasSubstituteDoll)
+        if (substitutedollController.itemCount > 0)
         {
             // 身代わり人形がある場合は回避
             hasSubstituteDoll = false; // 身代わり人形を消費
             Debug.Log("身代わり人形が発動！ゲームオーバーを回避！");
+            substitutedollController.itemCount--;
+            atackEnemy.transform.position = new Vector3(0f, 0f, 0.1016667f);
         }
         else              
         {
