@@ -7,6 +7,8 @@ using Unity.VisualScripting;
 
 public class SceneChanger3D : MonoBehaviour
 {
+    public JumpScareAnimation jumpScareAnimation;
+
     [SerializeField] private List<GameObject> enemies; // 敵オブジェクトのリスト
     [SerializeField] private Image cutInImage; // カットイン画像
     [SerializeField] private float cutInDuration = 2.0f; // カットインの表示時間（秒）
@@ -86,7 +88,10 @@ public class SceneChanger3D : MonoBehaviour
     private IEnumerator ShowCutInAndGoToGameover()
     {
         isGameOver = true; // 重複処理防止用フラグ
-                                                     
+
+        SceneManager.LoadScene("Jump Scare");
+
+        jumpScareAnimation.StartAnimation();
         // 他のUI要素（テキストなど）を非表示にする
         HideAllUI(); // UI非表示処理を実行
 
@@ -109,7 +114,7 @@ public class SceneChanger3D : MonoBehaviour
         // カットイン画像を非表示にする
         if (cutInImage != null)
         {
-            cutInImage.gameObject.SetActive(false); // 画像を非表示
+            // cutInImage.gameObject.SetActive(false); // 画像を非表示
         }
 
         // ゲームオーバーシーンへ遷移
