@@ -29,7 +29,7 @@ public class DiceController : MonoBehaviour
     [SerializeField] private Vector3 targetLocalOffset = new Vector3(-5.47f, 0f, -2.54f);
     private bool moveToTarget = false;
     private bool moveToReset = false;
-    private float moveSpeed = 15f; // 移動速度
+    private float moveSpeed = 30f; // 移動速度
 
     private Quaternion targetRotation; // 🎯 目標の回転
     private bool rotateToFace = false; // 🎯 回転フラグ

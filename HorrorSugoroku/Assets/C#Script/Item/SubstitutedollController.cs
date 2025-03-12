@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class SubstitutedollController : MonoBehaviour
 {
-    private int itemCount = 3; // 初期値を3に設定
+    public int itemCount = 3; // 初期値を3に設定
     private int useCount = 0; // 使用回数
     private const int maxUsage = 3; // 使用上限
     public CurseSlider curseSlider; // 呪いゲージの管理

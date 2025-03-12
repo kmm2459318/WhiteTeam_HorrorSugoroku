@@ -60,6 +60,26 @@ public class PlayerMover : MonoBehaviour
         if (cell != null)
         {
             targetCell = cell; // 次に到達するセルをターゲットセルとして記録
+            SetGridCellVisibility(cell, true); // GridCellがアタッチされているオブジェクトを表示
+        }
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        // プレイヤーがセルから離れたときにGridCellがアタッチされているオブジェクトを非表示にする
+        GridCell cell = other.GetComponent<GridCell>();
+        if (cell != null)
+        {
+            SetGridCellVisibility(cell, false); // GridCellがアタッチされているオブジェクトを非表示
+        }
+    }
+
+    private void SetGridCellVisibility(GridCell cell, bool isVisible)
+    {
+        Renderer renderer = cell.GetComponent<Renderer>();
+        if (renderer != null)
+        {
+            renderer.enabled = isVisible;
         }
     }
 
