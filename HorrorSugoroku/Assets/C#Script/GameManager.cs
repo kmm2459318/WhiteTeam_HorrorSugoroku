@@ -17,6 +17,7 @@ public class GameManager : MonoBehaviour
     public bool EnemyCopyOn5 = false;
     public int enemyTurnFinCount = 0;
     public int mapPiece = 0;
+    public int Doll = 0; // 人形の数
 
     public PlayerSaikoro playerSaikoro;
     public EnemySaikoro enemySaikoro;
@@ -57,10 +58,11 @@ public class GameManager : MonoBehaviour
 
     private void Update()
     {
-        // 地図のかけら仮
+        // 持っている人形の数を増やす
         if (Input.GetKeyDown(KeyCode.R))
         {
-            MpPlus();
+            //MpPlus();
+            Doll++; 
         }
 
         if (optionCanvas != null)
@@ -246,5 +248,18 @@ public class GameManager : MonoBehaviour
     public bool IsPlayerTurn()
     {
         return isPlayerTurn;
+    }
+
+    public bool CanPlaceDoll()
+    {
+        return Doll > 0; // 1つ以上人形を持っていれば配置可能
+    }
+
+    public void PlaceDoll()
+    {
+        if (Doll > 0)
+        {
+            Doll--; // 1つ配置したので減らす
+        }
     }
 }
