@@ -18,9 +18,9 @@ public class GridCell : MonoBehaviour
     public TextMeshProUGUI itemText; // UIのテキスト
     public GameObject debffPanel; // UIのパネル
     public TextMeshProUGUI debffText; // UIのテキスト
-                                     //   public TMP_Text itemLogText;
-                                     // public Button closeButton; // UIを閉じるボタン
-                                     //public ItemPickup item;
+                                      //   public TMP_Text itemLogText;
+                                      // public Button closeButton; // UIを閉じるボタン
+                                      //public ItemPickup item;
     public string requiredItem = "鍵"; // 必要なアイテム
     private CurseSlider curseSlider;                                // public int gridCellIncreaseAmount = 20; // GridCell 側の呪いゲージ増加量
                                                                     // [SerializeField] private int curseChance = 50;  // 呪いの発生確率（％）
@@ -50,21 +50,16 @@ public class GridCell : MonoBehaviour
 
     public int n = 0;
     private PlayerInventory playerInventory;
+    public Outline outlineObject; // Outline スクリプトがアタッチされたオブジェクトの参照
 
-     void Start()
+    void Start()
     {
         playerInventory = FindObjectOfType<PlayerInventory>();
         curseSlider = FindObjectOfType<CurseSlider>(); // 呪いゲージを取得
         substitutedollController = FindObjectOfType<SubstitutedollController>(); // 追加
         beartrapController = FindObjectOfType<BeartrapController>(); // 追加
-        //cursePanel = GameObject.Find("CurseCanvasUI");
-        //curseText = GameObject.Find("CurseText")?.GetComponent<TextMeshProUGUI>();
-        //itemPanel = GameObject.Find("ItemCanvasUI");
-        //itemText = GameObject.Find("Text Item")?.GetComponent<TextMeshProUGUI>();
-        //cutInImage = GameObject.Find("ImageCurse")?.GetComponent<Image>();
-        //audioSource = GameObject.Find("Mamono_aaa")?.GetComponent<AudioSource>();
-        //GameObject[] allGameObjects = Resources.FindObjectsOfTypeAll<GameObject>();
-
+        Debug.Log($"cursePanel: {cursePanel}");
+        Debug.Log($"curseText: {curseText}");
         //foreach (GameObject obj in allGameObjects)
         //{
         //    if (obj.name == "CurseCanvasUI")
@@ -110,8 +105,6 @@ public class GridCell : MonoBehaviour
         //    Debug.Log("⚠️ ImageCurse が見つかりません！");
         //}
         //// デバッグ用表示
-        Debug.Log($"cursePanel: {cursePanel}");
-        Debug.Log($"curseText: {curseText}");
         // UIを非表示にする
         //場合、警告を出す
         if (cursePanel == null) Debug.LogWarning("CursePanel が見つかりません");
@@ -120,7 +113,7 @@ public class GridCell : MonoBehaviour
         if (itemText == null) Debug.LogWarning("ItemText が見つかりません");
         if (cutInImage == null) Debug.LogWarning("ImageCurse が見つかりません");
         if (audioSource == null) Debug.LogWarning("Mamono_aaa の AudioSource が見つかりません");
-        
+
         if (cursePanel != null)
         {
             cursePanel.SetActive(false);
@@ -131,21 +124,6 @@ public class GridCell : MonoBehaviour
         {
             itemPanel.SetActive(false);
         }
-        //if (closeButton != null)
-        //{
-        //    closeButton.onClick.AddListener(CloseEventUI);
-        //}
-        //playerInventory = FindObjectOfType<PlayerInventory>();
-        //if (eventPanel != null)
-        //{
-        //    eventPanel.SetActive(false);
-        //}
-
-        //if (closeButton != null)
-        //{
-        //    closeButton.onClick.AddListener(CloseEventUI);
-        //}
-
         Debug.Log("ID:" + DebuffSheet.DebuffSheet[n].ID);
         Debug.Log("イベント名:" + DebuffSheet.DebuffSheet[n].Name);
         Debug.Log("懐中電灯の最小ゲージ減少量:" + DebuffSheet.DebuffSheet[n].DecreaseMin);
@@ -155,14 +133,6 @@ public class GridCell : MonoBehaviour
         Debug.Log("アイテムが使えないターン数:" + DebuffSheet.DebuffSheet[n].ItemGive);
 
     }
-    //void Update()
-    //{
-    //    // UI が表示されているときに スペースキーで閉じる
-    //    if (eventPanel.activeSelf && Input.GetKeyDown(KeyCode.Space))
-    //    {
-    //        CloseEventUI();
-    //    }
-    //}
     void Update()
     {
 
@@ -177,6 +147,11 @@ public class GridCell : MonoBehaviour
     }
     public void ExecuteEvent()
     {
+        // プレイヤーが止まったときにアウトラインを表示
+        if (outlineObject != null)
+        {
+            outlineObject.enabled = true; // Outline スクリプトを有効にする
+        }
         switch (cellEffect)
         {
             case "Event":
@@ -269,7 +244,7 @@ public class GridCell : MonoBehaviour
             Time.timeScale = 1;
         }
     }
-    
+
 
 
     public void OpenDoor()

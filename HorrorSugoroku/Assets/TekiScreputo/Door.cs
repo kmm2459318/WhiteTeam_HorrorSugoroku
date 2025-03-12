@@ -31,7 +31,24 @@ public class Door : MonoBehaviour
     void Start()
     {
         player = GameObject.FindGameObjectWithTag("Player").transform;
-        playerInventory = player.GetComponent<PlayerInventory>();
+        if (player != null)
+        {
+            Debug.Log("プレイヤーオブジェクトが見つかりました。");
+            playerInventory = player.GetComponent<PlayerInventory>();
+
+            if (playerInventory != null)
+            {
+                Debug.Log("PlayerInventoryが正しく取得されました。");
+            }
+            else
+            {
+                Debug.LogError("PlayerInventoryが見つかりません。");
+            }
+        }
+        else
+        {
+            Debug.LogError("プレイヤーオブジェクトが見つかりません。");
+        }
 
         if (doorPanel != null)
         {
@@ -100,7 +117,7 @@ public class Door : MonoBehaviour
     void Update()
     {
         float distance = Vector3.Distance(player.position, transform.position);
-        Debug.Log($"距離: {distance}, 相互作用範囲: {interactionRange}");
+        //Debug.Log($"距離: {distance}, 相互作用範囲: {interactionRange}");
 
         if (distance <= interactionRange && Input.GetKeyDown(KeyCode.G)) // Gキーに戻す
         {
