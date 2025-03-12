@@ -338,11 +338,6 @@ public class GridCell : MonoBehaviour
         // 他のUI要素（テキストなど）を非表示にする
         // HideAllUI(); // UI非表示処理を実行
 
-        // カットイン画像を表示
-        if (cutInImage != null)
-        {
-            cutInImage.gameObject.SetActive(true); // 画像を表示
-        }
 
         // ゲームオーバーサウンドを再生
         if (gameOverSound != null && audioSource != null)

@@ -32,6 +32,8 @@ public class GameManager : MonoBehaviour
     public GameObject EnemyCopy5;
     public GameObject newEnemyModelPrefab; // 新しいエネミーモデルのプレハブ
     public GameObject newEnemyModelPrefab2; // 6つ目のピースで変更する新しいエネミーモデルのプレハブ
+    public GameObject optionCanvas; // OptionCanvasを追加
+
     //public GameObject MiniMapObj; // マップキャンバス
 
     private int playerTurnCount = 0; // プレイヤーのターン数をカウントする変数
@@ -40,6 +42,7 @@ public class GameManager : MonoBehaviour
     public AudioSource footstepSound; // 足音を管理するAudioSource
 
     public DiceController diceController;
+    private bool wasFootstepPlayingBeforePause = false;
 
     private void Start()
     {
@@ -58,6 +61,24 @@ public class GameManager : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.R))
         {
             MpPlus();
+        }
+
+        if (optionCanvas != null)
+        {
+            if (optionCanvas.activeSelf)
+            {
+                if (footstepSound.isPlaying)
+                {
+                    wasFootstepPlayingBeforePause = true;
+                    footstepSound.Stop();
+                }
+                return;
+            }
+            else if (wasFootstepPlayingBeforePause)
+            {
+                footstepSound.Play();
+                wasFootstepPlayingBeforePause = false;
+            }
         }
 
         ////Qキーでミニマップを表示
