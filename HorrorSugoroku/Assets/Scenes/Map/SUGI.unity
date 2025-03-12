@@ -130,11 +130,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d0e91c2b68d5ef147844c27f3add5231, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!1 &307191063 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 3277654892250735249, guid: 05000f9339ddead4a82d554b38fb1cb2, type: 3}
-  m_PrefabInstance: {fileID: 917800803606982710}
-  m_PrefabAsset: {fileID: 0}
 --- !u!195 &307191064 stripped
 NavMeshAgent:
   m_CorrespondingSourceObject: {fileID: 6306392005251217066, guid: 05000f9339ddead4a82d554b38fb1cb2, type: 3}
@@ -237,7 +232,11 @@ MonoBehaviour:
   turnText: {fileID: 408666477}
   turnIndicatorText: {fileID: 408666479}
   isPlayerTurn: 1
-  EnemyCopyOn: 0
+  EnemyCopyOn1: 0
+  EnemyCopyOn2: 0
+  EnemyCopyOn3: 0
+  EnemyCopyOn4: 0
+  EnemyCopyOn5: 0
   enemyTurnFinCount: 0
   mapPiece: 0
   playerSaikoro: {fileID: 1394873662}
@@ -246,11 +245,15 @@ MonoBehaviour:
   agent: {fileID: 307191064}
   cutIn: {fileID: 408666475}
   currentEnemyModel: {fileID: 307191065}
-  EnemyCopy: {fileID: 307191063}
+  EnemyCopy1: {fileID: 0}
+  EnemyCopy2: {fileID: 0}
+  EnemyCopy3: {fileID: 0}
+  EnemyCopy4: {fileID: 0}
+  EnemyCopy5: {fileID: 0}
   newEnemyModelPrefab: {fileID: 307191067}
   newEnemyModelPrefab2: {fileID: 307191066}
-  MiniMapObj: {fileID: 1678032894}
   footstepSound: {fileID: 815117644}
+  diceController: {fileID: 0}
 --- !u!4 &506767966
 Transform:
   m_ObjectHideFlags: 0
@@ -554,6 +557,7 @@ MonoBehaviour:
   Text: {fileID: 0}
   Canvas: {fileID: 0}
   cutInImage: {fileID: 0}
+  itemCooldownDuration: 5
   keyCooldownTime: 10
 --- !u!114 &1487042738
 MonoBehaviour:
@@ -635,11 +639,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &1678032894 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 6406362937594941302, guid: 05000f9339ddead4a82d554b38fb1cb2, type: 3}
-  m_PrefabInstance: {fileID: 917800803606982710}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &917800803606982710
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -668,6 +667,14 @@ PrefabInstance:
       propertyPath: gameManager
       value: 
       objectReference: {fileID: 506767965}
+    - target: {fileID: 2782727006323778748, guid: 05000f9339ddead4a82d554b38fb1cb2, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 4.38
+      objectReference: {fileID: 0}
+    - target: {fileID: 2782727006323778748, guid: 05000f9339ddead4a82d554b38fb1cb2, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -6.09
+      objectReference: {fileID: 0}
     - target: {fileID: 3466769254429659093, guid: 05000f9339ddead4a82d554b38fb1cb2, type: 3}
       propertyPath: gameManager
       value: 

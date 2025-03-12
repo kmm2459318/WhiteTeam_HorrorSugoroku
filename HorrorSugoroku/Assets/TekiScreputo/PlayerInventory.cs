@@ -4,7 +4,10 @@ using UnityEngine;
 
 public class PlayerInventory : MonoBehaviour
 {
-    // ← 複数所持に対応！Dictionaryで個数を管理
+    // インスペクターで設定可能な初期アイテムリスト
+    public List<string> initialItems;
+
+    // 複数所持に対応！Dictionaryで個数を管理
     private Dictionary<string, int> items = new Dictionary<string, int>();
 
     private bool isCooldown = false;  // アイテム追加のクールダウンフラグ
@@ -94,30 +97,21 @@ public class PlayerInventory : MonoBehaviour
             Debug.Log(item.Key + ": " + item.Value + "個");
         }
     }
+
     void Update()
     {
         if (Input.GetKeyDown(KeyCode.I))
         {
             ShowInventory();
-
-
         }
     }
 
-
-        // �����A�C�e����ǉ����郁�\�b�h
-        void Start()
+    // 初期アイテムを追加するメソッド
+    void Start()
+    {
+        foreach (string item in initialItems)
         {
-        AddItem("二階のカギ");
-        AddItem("一階のカギ");
-        AddItem("食堂のカギ");
-        AddItem("ホールのカギ");
-        AddItem("医務室のカギ");
-        AddItem("ベッドルームのカギ");
-        AddItem("地下室のカギ");
-        AddItem("地下室のカギ１");
-        AddItem("地下室のカギ２");
-        AddItem("地下室のカギ３");
-        AddItem("エンジンルームのカギ");
+            AddItem(item);
+        }
     }
 }
