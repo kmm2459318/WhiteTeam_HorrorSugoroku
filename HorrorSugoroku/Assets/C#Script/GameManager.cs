@@ -27,6 +27,7 @@ public class GameManager : MonoBehaviour
 
     public GameObject currentEnemyModel; // 現在のエネミーモデル
     public GameObject EnemyCopy1; // コピーエネミーモデル
+    public GameObject EnemyCopy1demo;
     public GameObject EnemyCopy2;
     public GameObject EnemyCopy3;
     public GameObject EnemyCopy4;
@@ -47,6 +48,8 @@ public class GameManager : MonoBehaviour
 
     private void Start()
     {
+        Application.targetFrameRate = 60;
+
         //MiniMapObj.SetActive(false); // マップキャンバスを非表示にする
         //MiniMapObj.GetComponent<RectTransform>().anchoredPosition = new Vector2(-1064, -574); // UIの座標を設定
         //agent.enabled = false;
@@ -111,6 +114,7 @@ public class GameManager : MonoBehaviour
         //
         if (mapPiece >= 1)
         {
+            Destroy(EnemyCopy1demo);
             EnemyCopy1.SetActive(true);
             EnemyCopyOn1 = true;
         }

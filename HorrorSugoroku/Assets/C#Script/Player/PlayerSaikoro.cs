@@ -242,7 +242,7 @@ public class PlayerSaikoro : MonoBehaviour
         if (saikorotyu)
         {
             sai = RollDiceWithLegEffect();
-            Debug.Log("最終的なサイコロの出目: " + sai);
+            //Debug.Log("最終的なサイコロの出目: " + sai);
 
             // サイコロの出目に応じてスプライトを更新
             switch (sai)
@@ -265,7 +265,6 @@ public class PlayerSaikoro : MonoBehaviour
         //移動処理　【北：１、西：２、東：３、南：４】
         if (idoutyu)
         {
-            Debug.Log(lastaction);
             if (((!PW && !PN && !PE && lastaction == 1) ||
                 (!PW && !PS && !PN && lastaction == 2) ||
                 (!PN && !PS && !PE && lastaction == 3) ||
@@ -342,8 +341,6 @@ public class PlayerSaikoro : MonoBehaviour
                     gameManager.NextTurn();
                 }
             }
-
-            Debug.Log(nextDarkMasu);
         }
 
         if (exploring)
