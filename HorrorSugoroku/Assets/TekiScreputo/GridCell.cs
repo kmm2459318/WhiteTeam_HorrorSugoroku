@@ -14,11 +14,11 @@ public class GridCell : MonoBehaviour
     //public TextMeshProUGUI eventText; // UIのテキスト
     public GameObject cursePanel; // UIのパネル
     public TextMeshProUGUI curseText; // UIのテキスト
-    public GameObject itemPanel; // UIのパネル
-    public TextMeshProUGUI itemText; // UIのテキスト
-    public GameObject debffPanel; // UIのパネル
-    public TextMeshProUGUI debffText; // UIのテキスト
-                                     //   public TMP_Text itemLogText;
+    //public GameObject itemPanel; // UIのパネル
+    //public TextMeshProUGUI itemText; // UIのテキスト
+    //public GameObject debffPanel; // UIのパネル
+    //public TextMeshProUGUI debffText; // UIのテキスト
+    //                                 //   public TMP_Text itemLogText;
                                      // public Button closeButton; // UIを閉じるボタン
                                      //public ItemPickup item;
     public string requiredItem = "鍵"; // 必要なアイテム
@@ -55,14 +55,14 @@ public class GridCell : MonoBehaviour
     {
         playerInventory = FindObjectOfType<PlayerInventory>();
         curseSlider = FindObjectOfType<CurseSlider>(); // 呪いゲージを取得
-        substitutedollController = FindObjectOfType<SubstitutedollController>(); // 追加
-        beartrapController = FindObjectOfType<BeartrapController>(); // 追加
+        //substitutedollController = FindObjectOfType<SubstitutedollController>(); // 追加
+        //beartrapController = FindObjectOfType<BeartrapController>(); // 追加
         //cursePanel = GameObject.Find("CurseCanvasUI");
         //curseText = GameObject.Find("CurseText")?.GetComponent<TextMeshProUGUI>();
         //itemPanel = GameObject.Find("ItemCanvasUI");
         //itemText = GameObject.Find("Text Item")?.GetComponent<TextMeshProUGUI>();
-        //cutInImage = GameObject.Find("ImageCurse")?.GetComponent<Image>();
-        //audioSource = GameObject.Find("Mamono_aaa")?.GetComponent<AudioSource>();
+        cutInImage = GameObject.Find("ImageCurse")?.GetComponent<Image>();
+        audioSource = GameObject.Find("Mamono_aaa")?.GetComponent<AudioSource>();
         //GameObject[] allGameObjects = Resources.FindObjectsOfTypeAll<GameObject>();
 
         //foreach (GameObject obj in allGameObjects)
@@ -89,7 +89,7 @@ public class GridCell : MonoBehaviour
         //}
         //audioSource = gameObject.AddComponent<AudioSource>(); // AudioSourceを追加
 
-        //// 非アクティブなオブジェクトも含めて Image を探す
+        // 非アクティブなオブジェクトも含めて Image を探す
         //Image[] allImages = FindObjectsOfType<Image>(true);
 
         //foreach (Image img in allImages)
@@ -116,8 +116,8 @@ public class GridCell : MonoBehaviour
         //場合、警告を出す
         if (cursePanel == null) Debug.LogWarning("CursePanel が見つかりません");
         if (curseText == null) Debug.LogWarning("CurseText が見つかりません");
-        if (itemPanel == null) Debug.LogWarning("ItemCanvasUI が見つかりません");
-        if (itemText == null) Debug.LogWarning("ItemText が見つかりません");
+        //if (itemPanel == null) Debug.LogWarning("ItemCanvasUI が見つかりません");
+        //if (itemText == null) Debug.LogWarning("ItemText が見つかりません");
         if (cutInImage == null) Debug.LogWarning("ImageCurse が見つかりません");
         if (audioSource == null) Debug.LogWarning("Mamono_aaa の AudioSource が見つかりません");
         
@@ -125,12 +125,12 @@ public class GridCell : MonoBehaviour
         {
             cursePanel.SetActive(false);
         }
-        if (itemPanel == null) Debug.LogError("❌ itemPanel がアタッチされていません！");
-        //  if (itemLogText == null) Debug.LogError("❌ itemLogText がアタッチされていません！");
-        if (itemPanel != null)
-        {
-            itemPanel.SetActive(false);
-        }
+        //if (itemPanel == null) Debug.LogError("❌ itemPanel がアタッチされていません！");
+        ////  if (itemLogText == null) Debug.LogError("❌ itemLogText がアタッチされていません！");
+        //if (itemPanel != null)
+        //{
+        //    itemPanel.SetActive(false);
+        //}
         //if (closeButton != null)
         //{
         //    closeButton.onClick.AddListener(CloseEventUI);
@@ -168,7 +168,7 @@ public class GridCell : MonoBehaviour
 
         SetVisibility(true);
 
-        if ((cursePanel.activeSelf || itemPanel.activeSelf)
+        if ((cursePanel.activeSelf)
          && (Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.H)))
         {
             Debug.Log("🔘 スペースまたは H キーで UI を閉じる");
@@ -188,7 +188,7 @@ public class GridCell : MonoBehaviour
                 break;
             case "Item":
                 Debug.Log($"{name}: アイテムマスに止まりました。");
-                GiveRandomItem();
+                //GiveRandomItem();
                 break;
             case "Dires":
                 Debug.Log($"{name}:演出発動！");
@@ -227,21 +227,21 @@ public class GridCell : MonoBehaviour
             Time.timeScale = 0; // **ゲームを一時停止**
         }
     }
-    void ShowItemUI(string message, float delay = 2.0f)
-    {
-        StartCoroutine(DelayedShowItemUI(message, delay));
-    }
-    IEnumerator DelayedShowItemUI(string message, float delay)
-    {
-        yield return new WaitForSeconds(delay);
-        if (itemPanel != null && itemText != null)
-        {
-            itemText.text = message;
-            // itemLogText.text = message;
-            itemPanel.SetActive(true);
-            Time.timeScale = 0; // **ゲームを一時停止**
-        }
-    }
+    //void ShowItemUI(string message, float delay = 2.0f)
+    //{
+    //    StartCoroutine(DelayedShowItemUI(message, delay));
+    //}
+    //IEnumerator DelayedShowItemUI(string message, float delay)
+    //{
+    //    yield return new WaitForSeconds(delay);
+    //    if (itemPanel != null && itemText != null)
+    //    {
+    //        itemText.text = message;
+    //        // itemLogText.text = message;
+    //        itemPanel.SetActive(true);
+    //        Time.timeScale = 0; // **ゲームを一時停止**
+    //    }
+    //}
     void CloseEventUI()
     {
         bool wasPaused = false;
@@ -256,11 +256,11 @@ public class GridCell : MonoBehaviour
             cursePanel.SetActive(false);
             wasPaused = true;
         }
-        if (itemPanel != null && itemPanel.activeSelf)
-        {
-            itemPanel.SetActive(false);
-            wasPaused = true;
-        }
+        //if (itemPanel != null && itemPanel.activeSelf)
+        //{
+        //    itemPanel.SetActive(false);
+        //    wasPaused = true;
+        //}
 
         // UIが開いていた場合のみTime.timeScaleを戻す
         if (wasPaused)
@@ -363,34 +363,34 @@ public class GridCell : MonoBehaviour
 
 
 
-    private void GiveRandomItem()
-    {
-        // **アイテムコントローラーが見つからない場合は処理を中断**
-        if (substitutedollController == null || beartrapController == null)
-        {
+    //private void GiveRandomItem()
+    //{
+    //    // **アイテムコントローラーが見つからない場合は処理を中断**
+    //    if (substitutedollController == null || beartrapController == null)
+    //    {
 
-            Debug.LogError("❌ アイテムのコントローラーが見つかりません！処理をスキップします。");
-            ShowItemUI("❌ アイテムのコントローラーが見つかりません！");
-            return;
-        }
+    //        Debug.LogError("❌ アイテムのコントローラーが見つかりません！処理をスキップします。");
+    //        ShowItemUI("❌ アイテムのコントローラーが見つかりません！");
+    //        return;
+    //    }
 
-        string logMessage;
+    //    string logMessage;
 
-        // 50% の確率でどちらかのアイテムを増やす
-        if (Random.value < 0.5f)
-        {
-            substitutedollController.AddItem();
-            logMessage = "🎭 身代わり人形を獲得！";
-        }
-        else
-        {
-            beartrapController.AddItem();
-            logMessage = "🪤 トラバサミを獲得！";
-        }
-        Debug.Log(logMessage);
-        ShowItemUI(logMessage);
+    //    // 50% の確率でどちらかのアイテムを増やす
+    //    if (Random.value < 0.5f)
+    //    {
+    //        substitutedollController.AddItem();
+    //        logMessage = "🎭 身代わり人形を獲得！";
+    //    }
+    //    else
+    //    {
+    //        beartrapController.AddItem();
+    //        logMessage = "🪤 トラバサミを獲得！";
+    //    }
+    //    Debug.Log(logMessage);
+    //    ShowItemUI(logMessage);
 
-    }
+    //}
 
     public void SetVisibility(bool isVisible)
     {
