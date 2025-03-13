@@ -59,9 +59,19 @@ public class TurnManager : MonoBehaviour
     // 初期化処理
     private void Start()
     {
+        currentTurn = PlayerPrefs.GetInt("Turn", 0);
         UpdateTurnText();
-        PlayerPrefs.SetInt("Turn", 0);
+
+        if (curseSlider == null)
+        {
+            curseSlider = FindObjectOfType<CurseSlider>(); // シーン内の CurseSlider を自動取得
+            if (curseSlider == null)
+            {
+                Debug.LogError("[TurnManager] CurseSlider is not found in the scene.");
+            }
+        }
     }
+
     public void IncreaseDashPointPerTurn()
     {
         // 呪いゲージを増加させるロジックをここに追加

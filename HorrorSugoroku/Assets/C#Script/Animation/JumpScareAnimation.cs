@@ -1,99 +1,97 @@
 using UnityEngine;
 using UnityEngine.UI;
-using UnityEngine.SceneManagement;  // シーン管理用
+using UnityEngine.SceneManagement;
 using System.Collections;
 
 public class JumpScareAnimation : MonoBehaviour
 {
-    public Animator animator; // アニメーターを設定
-    public Button startButton; // アニメーション開始ボタン
-    private string triggerName = "StartAttack"; // トリガーの名前
-    private float moveDuration = 0.25f; // 移動にかかる時間（デフォルト値）
-    private Vector3 targetPosition = new Vector3(0f, 0f, 0f); // 目標の位置
-    private Vector3 initialPosition; // 最初の位置
+    public Animator animator;
+    public Button startButton;
+    private string triggerName = "StartAttack";
+    private float moveDuration = 0.25f;
+    private Vector3 targetLocalPosition = Vector3.zero; // ローカル座標での目標地点
+    private Vector3 initialLocalPosition;
     private float timeReset = 2f;
-    public JumpScareAnimation jumpScareAnimation; // JumpScareAnimation クラスのインスタンス
+    private bool hasStarted = false;
+
+    void OnEnable()
+    {
+        SceneManager.sceneLoaded += OnSceneLoaded;
+    }
+
+    void OnDisable()
+    {
+        SceneManager.sceneLoaded -= OnSceneLoaded;
+    }
 
     void Start()
     {
-        // 最初の位置を記録
-        initialPosition = transform.position;
+        initialLocalPosition = transform.localPosition;
 
-        // シーン遷移後にアニメーションを開始するためのリスナーを追加
-        SceneManager.sceneLoaded += OnSceneLoaded;
-        // 例: ゲームオーバー時にアニメーションを開始
-        if (jumpScareAnimation != null)
+        if (animator == null)
         {
-            jumpScareAnimation.StartAnimation(); // StartAnimation メソッドを呼び出し
+            animator = GetComponent<Animator>();
+        }
+
+        if (startButton != null)
+        {
+            startButton.onClick.AddListener(StartAnimation);
         }
     }
 
-    // シーンがロードされた後にアニメーションを開始
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
-        // もしジャンプスケアシーンに遷移したら、アニメーションを開始
-        if (scene.name == "Jump Scare") // シーン名を確認
+        Debug.Log("Loaded Scene: " + scene.name);
+
+        if (scene.name == "JumpScare" && !hasStarted)
         {
-            StartCoroutine(DelayStartAnimation()); // アニメーションを遅延して開始
+            hasStarted = true;
+            StartCoroutine(DelayStartAnimation());
         }
     }
 
-    // シーン遷移後に少し遅れてアニメーションを開始するコルーチン
     private IEnumerator DelayStartAnimation()
     {
-        // 少し待機してからアニメーションを開始
-        yield return new WaitForSeconds(0.5f); // 少し遅らせてからアニメーションを開始
-
-        // 座標を目標地点にスムーズに移動させる
-        StartCoroutine(MoveObject());
-    }
-
-    // オブジェクトをスムーズに移動させるコルーチン
-    private IEnumerator MoveObject()
-    {
-        float timeElapsed = 0f;
-
-        // 現在の位置から目標位置に向かって滑らかに移動
-        while (timeElapsed < moveDuration)
-        {
-            transform.position = Vector3.Lerp(initialPosition, targetPosition, timeElapsed / moveDuration);
-            timeElapsed += Time.deltaTime;
-            yield return null;
-        }
-
-        // 最終的な位置を確実に設定
-        transform.position = targetPosition;
-
-        // 移動が完了した後にアニメーションを開始
-        if (animator != null)
-        {
-            animator.enabled = true; // アニメーターを有効にする
-            animator.SetTrigger(triggerName); // トリガーを発火してアニメーションを再生
-        }
-
-        // アニメーション開始後2秒後にResetObject()を呼び出す
-        yield return new WaitForSeconds(timeReset);
-        ResetObject();
-    }
-
-    // 入力された移動時間を更新するメソッド
-    private void UpdateMoveDuration(string input)
-    {
-        float parsedValue;
-        if (float.TryParse(input, out parsedValue))
-        {
-            moveDuration = parsedValue; // 入力された値で移動時間を更新
-        }
-    }
-
-    private void ResetObject()
-    {
-        transform.position = initialPosition;
+        yield return new WaitForSeconds(0.5f);
+        StartAnimation();
     }
 
     public void StartAnimation()
     {
-        // 座標を目標地点にスムーズに移動させる
+        Debug.Log("アニメーション開始");
         StartCoroutine(MoveObject());
+    }
+
+    private IEnumerator MoveObject()
+    {
+        float timeElapsed = 0f;
+        while (timeElapsed < moveDuration)
+        {
+            transform.localPosition = Vector3.Lerp(initialLocalPosition, targetLocalPosition, timeElapsed / moveDuration);
+            timeElapsed += Time.deltaTime;
+            yield return null;
+        }
+
+        transform.localPosition = targetLocalPosition;
+
+        if (animator != null)
+        {
+            Debug.Log("アニメーションのトリガーをセット: " + triggerName);
+            animator.enabled = true;
+            animator.SetTrigger(triggerName);
+        }
+        else
+        {
+            Debug.LogError("Animatorが設定されていません！");
+        }
+
+        yield return new WaitForSeconds(timeReset);
+        ResetObject();
+    }
+
+    private void ResetObject()
+    {
+        transform.localPosition = initialLocalPosition;
+        hasStarted = false;
     }
 }
