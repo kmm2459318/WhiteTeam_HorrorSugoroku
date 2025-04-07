@@ -267,7 +267,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7360832063563205206}
-  - component: {fileID: 8741870528243454730}
   - component: {fileID: 392363684780667251}
   - component: {fileID: -5929006097959414431}
   - component: {fileID: 3844098710942129867}
@@ -297,14 +296,6 @@ Transform:
   - {fileID: 897307849974734875}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!33 &8741870528243454730
-MeshFilter:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6697206057811729497}
-  m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
 --- !u!23 &392363684780667251
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -328,7 +319,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: d51f6914b62e25540b0c8291c9e4c866, type: 2}
+  - {fileID: 2100000, guid: 7755ecc54c7f28b44b5988b3f20144be, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -368,18 +359,20 @@ MonoBehaviour:
   curseText: {fileID: 0}
   itemPanel: {fileID: 0}
   itemText: {fileID: 0}
-  item: {fileID: 0}
+  debffPanel: {fileID: 0}
+  debffText: {fileID: 0}
   requiredItem: "\u9375"
-  curseChance: 50
   scareChance: 30
   nothingChance: 20
   curseamout: 10
+  hirueamout: 10
   cutInImage: {fileID: 0}
   audioSource: {fileID: 0}
   cutInDuration: 2
   gameOverSound: {fileID: 8300000, guid: ea525edcd04e7914a8c09ad451cd6016, type: 3}
   volume: 1
   n: 0
+  outlineObject: {fileID: 0}
 --- !u!65 &3844098710942129867
 BoxCollider:
   m_ObjectHideFlags: 0
