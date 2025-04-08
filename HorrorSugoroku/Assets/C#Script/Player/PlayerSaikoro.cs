@@ -275,7 +275,6 @@ public class PlayerSaikoro : MonoBehaviour
                 sai = 0;
             }
 
-            // Debug.Log(Rot.y);
             if (Input.GetKeyDown(KeyCode.W) && !idouspan)
             {
                 idouspan = true;

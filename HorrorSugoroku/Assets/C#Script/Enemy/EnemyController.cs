@@ -30,7 +30,7 @@ public class EnemyController : MonoBehaviour
             //animator.SetBool("isRunning", false); // �ړ����Ă��Ȃ��ꍇ�A�A�j���[�V�������~��Ԃɐݒ�
         }
 
-        mp = gameManager.mapPiece; // �Q�[���}�l�[�W���[����}�b�v�s�[�X�̐����擾
+        mp = gameManager.Doll; // �Q�[���}�l�[�W���[����}�b�v�s�[�X�̐����擾
 
         if (mp < 3) // �P�i�K
         {
