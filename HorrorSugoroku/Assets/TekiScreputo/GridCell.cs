@@ -37,6 +37,7 @@ public class GridCell : MonoBehaviour
     private Sprite loadedSprite;
     public AudioSource audioSource; // 音声
                                     // private AudioClip gameOverSound;
+    public TextMeshProUGUI actionText; // インスペクターで割り当てるテキストUI
 
 
     [SerializeField] private float cutInDuration = 2.0f; // カットインの表示時間（秒）
@@ -53,7 +54,8 @@ public class GridCell : MonoBehaviour
 
     public int n = 0;
     private PlayerInventory playerInventory;
-    public Outline outlineObject; // Outline スクリプトがアタッチされたオブジェクトの参照
+    public Outline outlineObject; // インスペクターで指定するアウトラインオブジェクト
+
 
     void Start()
     {
@@ -147,6 +149,11 @@ public class GridCell : MonoBehaviour
         Debug.Log("アイテムが使えないターン数:" + DebuffSheet.DebuffSheet[n].ItemGive);
 
         SetVisibility(true);
+        if (actionText != null)
+        {
+            actionText.gameObject.SetActive(false); // 初期状態では非表示
+        }
+
 
     }
     void Update()
@@ -159,14 +166,27 @@ public class GridCell : MonoBehaviour
                 Debug.Log("🔘 スペースまたは H キーで UI を閉じる");
                 CloseEventUI();
             }
+        if (actionText != null && actionText.gameObject.activeSelf)
+        {
+            if (Input.GetKeyDown(KeyCode.G))
+            {
+                HideActionText(); // Gキーを押したらテキストを非表示
+                Debug.Log("🔘 Gキーを押して UI を閉じました");
+            }
+        }
+
     }
     public void ExecuteEvent()
     {
-        // プレイヤーが止まったときにアウトラインを表示
+        ShowActionText(); // マスに止まったらテキストを表示
+
+
         if (outlineObject != null)
         {
-            outlineObject.enabled = true; // Outline スクリプトを有効にする
+            outlineObject.enabled = true; // アウトラインを有効にする
+            Debug.Log("アウトラインが有効化されました！");
         }
+
         switch (cellEffect)
         {
             case "Event":
@@ -385,6 +405,32 @@ public class GridCell : MonoBehaviour
             childRenderer.enabled = isVisible;
         }
     }
+    public void DisableOutline()
+    {
+        if (outlineObject != null)
+        {
+            outlineObject.enabled = false; // アウトラインを無効化
+            Debug.Log("アウトラインが無効化されました！");
+        }
+    }
+
+    public void ShowActionText()
+    {
+        if (actionText != null)
+        {
+            actionText.text = "[G] Key Click"; // テキストを設定
+            actionText.gameObject.SetActive(true); // テキストを表示
+        }
+    }
+    public void HideActionText()
+    {
+        if (actionText != null)
+        {
+            actionText.gameObject.SetActive(false); // テキストを非表示
+        }
+    }
+
+
 }
 //// ✅ UI にログを表示し、Canvas を有効化する
 //private void ShowItemUI(string message)
