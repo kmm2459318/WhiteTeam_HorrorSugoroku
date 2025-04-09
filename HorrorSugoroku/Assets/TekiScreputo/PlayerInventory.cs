@@ -112,6 +112,7 @@ public class PlayerInventory : MonoBehaviour
         foreach (string item in initialItems)
         {
             AddItem(item);
+            AddItem("一階のカギ");
         }
     }
 }

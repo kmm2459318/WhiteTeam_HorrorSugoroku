@@ -63,6 +63,7 @@ public class PlayerSaikoro : MonoBehaviour
     private Transform Emasu;
     public Transform startMasu;
     private List<Transform> parentTransform = new List<Transform>();
+    private List<Material> parentTransformlast = new List<Material>();
     //private Transform parentTransform;
     private Transform nextDarkMasu;
     public Material darkMaterial;
@@ -275,7 +276,6 @@ public class PlayerSaikoro : MonoBehaviour
                 sai = 0;
             }
 
-            // Debug.Log(Rot.y);
             if (Input.GetKeyDown(KeyCode.W) && !idouspan)
             {
                 idouspan = true;
@@ -322,10 +322,11 @@ public class PlayerSaikoro : MonoBehaviour
                 //MasuColorChange(neonMaterial);
                 for (int i = 0; i < walkCount; i++)
                 {
-                    MasuColorChange(neonMaterial, parentTransform[i]);
+                    MasuColorChange(parentTransformlast[i], parentTransform[i]);
                 }
 
                 parentTransform = new List<Transform>();
+                parentTransformlast = new List<Material>();
                 idoutyu = false;
                 turnManager.turnStay = false;
                 turnManager.TurnCurse();
@@ -532,24 +533,28 @@ public class PlayerSaikoro : MonoBehaviour
                 case 1:
                     //MasuColorChange(neonMaterial);
                     parentTransform.Add(nextDarkMasu);
+                    parentTransformlast.Add(nextDarkMasu.GetChild(1).GetComponent<Renderer>().material);
                     nextDarkMasu = Nmasu;
                     player.TargetPosition = Nmasu.transform.position + new Vector3(0, 1.15f, 0); break; // 北に移動
                 case 2:
                     //MasuColorChange(neonMaterial);
                     //parentTransform = nextDarkMasu;
                     parentTransform.Add(nextDarkMasu);
+                    parentTransformlast.Add(nextDarkMasu.GetChild(1).GetComponent<Renderer>().material);
                     nextDarkMasu = Wmasu;
                     player.TargetPosition = Wmasu.transform.position + new Vector3(0, 1.15f, 0); break; // 西に移動
                 case 3:
                     //MasuColorChange(neonMaterial);
                     //parentTransform = nextDarkMasu;
                     parentTransform.Add(nextDarkMasu);
+                    parentTransformlast.Add(nextDarkMasu.GetChild(1).GetComponent<Renderer>().material);
                     nextDarkMasu = Emasu;
                     player.TargetPosition = Emasu.transform.position + new Vector3(0, 1.15f, 0); break; // 東に移動
                 case 4:
                     //MasuColorChange(neonMaterial);
                     //parentTransform = nextDarkMasu;
                     parentTransform.Add(nextDarkMasu);
+                    parentTransformlast.Add(nextDarkMasu.GetChild(1).GetComponent<Renderer>().material);
                     nextDarkMasu = Smasu;
                     player.TargetPosition = Smasu.transform.position + new Vector3(0, 1.15f, 0); break; // 南に移動
             }

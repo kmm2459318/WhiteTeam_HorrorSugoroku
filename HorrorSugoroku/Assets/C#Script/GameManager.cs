@@ -112,28 +112,28 @@ public class GameManager : MonoBehaviour
         //}
 
         //
-        if (mapPiece >= 1)
+        if (Doll >= 1)
         {
             Destroy(EnemyCopy1demo);
             EnemyCopy1.SetActive(true);
             EnemyCopyOn1 = true;
         }
-        if (mapPiece >= 2)
+        if (Doll >= 2)
         {
             EnemyCopy2.SetActive(true);
             EnemyCopyOn2 = true;
         }
-        if (mapPiece >= 3)
+        if (Doll >= 3)
         {
             EnemyCopy3.SetActive(true);
             EnemyCopyOn3 = true;
         }
-        if (mapPiece >= 4)
+        if (Doll >= 4)
         {
             EnemyCopy4.SetActive(true);
             EnemyCopyOn4 = true;
         }
-        if (mapPiece >= 5)
+        if (Doll >= 5)
         {
             EnemyCopy5.SetActive(true);
             EnemyCopyOn5 = true;
