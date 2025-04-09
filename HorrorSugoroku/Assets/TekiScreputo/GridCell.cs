@@ -17,8 +17,8 @@ public class GridCell : MonoBehaviour
     private Transform iitemPanel;
     public GameObject cursePanel; // UIのパネル
     public TextMeshProUGUI curseText; // UIのテキスト
-    public GameObject itemPanel; // UIのパネル
-    public TextMeshProUGUI itemText; // UIのテキスト
+    //public GameObject itemPanel; // UIのパネル
+    //public TextMeshProUGUI itemText; // UIのテキスト
                                      //public GameObject debffPanel; // UIのパネル
                                      //public TextMeshProUGUI debffText; // UIのテキスト
                                      //                                 //   public TMP_Text itemLogText;
@@ -31,7 +31,7 @@ public class GridCell : MonoBehaviour
     [SerializeField] private int nothingChance = 20; // 何も起こらない確率（％）
                                                      // [SerializeField] private int hiruChance = 50;  // 呪いの回復確率（％）
 
-    [SerializeField] private int curseamout = 10;//呪いの増加量の調整
+    [SerializeField] private int curseamout = 5;//呪いの増加量の調整
     [SerializeField] private int hirueamout = 10;//呪いの回復量の調整
     public Image cutInImage; // カットイン画像
     private Sprite loadedSprite;
@@ -67,9 +67,9 @@ public class GridCell : MonoBehaviour
         ccursePanel = ui.transform.Find("CurseCanvasUI");
         cursePanel = ccursePanel.gameObject;
         curseText = GameObject.Find("CurseText").GetComponent<TextMeshProUGUI>();
-        iitemPanel = ui.transform.Find("ItemCanvasUI");
-        itemPanel = iitemPanel.gameObject;
-        itemText = GameObject.Find("Text Item").GetComponent<TextMeshProUGUI>();
+        //iitemPanel = ui.transform.Find("ItemCanvasUI");
+        //itemPanel = iitemPanel.gameObject;
+        //itemText = GameObject.Find("Text Item").GetComponent<TextMeshProUGUI>();
         //cutInImage = GameObject.Find("ImageCurse")?.GetComponent<Image>();
         //audioSource = GameObject.Find("Mamono_aaa")?.GetComponent<AudioSource>();
         //GameObject[] allGameObjects = Resources.FindObjectsOfTypeAll<GameObject>();
@@ -134,12 +134,12 @@ public class GridCell : MonoBehaviour
         {
             cursePanel.SetActive(false);
         }
-        if (itemPanel == null) Debug.LogError("❌ itemPanel がアタッチされていません！");
-        //  if (itemLogText == null) Debug.LogError("❌ itemLogText がアタッチされていません！");
-        if (itemPanel != null)
-        {
-            itemPanel.SetActive(false);
-        }
+        //if (itemPanel == null) Debug.LogError("❌ itemPanel がアタッチされていません！");
+        ////  if (itemLogText == null) Debug.LogError("❌ itemLogText がアタッチされていません！");
+        //if (itemPanel != null)
+        //{
+        //    itemPanel.SetActive(false);
+        //}
         Debug.Log("ID:" + DebuffSheet.DebuffSheet[n].ID);
         Debug.Log("イベント名:" + DebuffSheet.DebuffSheet[n].Name);
         Debug.Log("懐中電灯の最小ゲージ減少量:" + DebuffSheet.DebuffSheet[n].DecreaseMin);
@@ -160,20 +160,20 @@ public class GridCell : MonoBehaviour
     {
         SetVisibility(true);
 
-        if (cursePanel.activeSelf || itemPanel.activeSelf)
+        if (cursePanel.activeSelf )
             if (Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.H))
             {
                 Debug.Log("🔘 スペースまたは H キーで UI を閉じる");
                 CloseEventUI();
-            }
-        if (actionText != null && actionText.gameObject.activeSelf)
-        {
-            if (Input.GetKeyDown(KeyCode.G))
-            {
-                HideActionText(); // Gキーを押したらテキストを非表示
-                Debug.Log("🔘 Gキーを押して UI を閉じました");
-            }
-        }
+           }
+        //if (actionText != null && actionText.gameObject.activeSelf)
+        //{
+        //    if (Input.GetKeyDown(KeyCode.G))
+        //    {
+        //        HideActionText(); // Gキーを押したらテキストを非表示
+        //        Debug.Log("🔘 Gキーを押して UI を閉じました");
+        //    }
+        //}
 
     }
     public void ExecuteEvent()
@@ -282,35 +282,35 @@ public class GridCell : MonoBehaviour
 
 
 
-    public void OpenDoor()
-    {
-        Debug.Log("ドアが開くイベントを実行します。");
-        // ドアが開く処理をここに追加
-    }
+    //public void OpenDoor()
+    //{
+    //    Debug.Log("ドアが開くイベントを実行します。");
+    //    // ドアが開く処理をここに追加
+    //}
 
-    public void SecretCloset()
-    {
-        Debug.Log("クローゼットに隠れるイベントを実行します。");
-        // クローゼットに隠れる処理をここに追加
-        SceneChanger3D.hasSubstituteDoll = true; // 使用判定をトゥルーに設定
-    }
+    //public void SecretCloset()
+    //{
+    //    Debug.Log("クローゼットに隠れるイベントを実行します。");
+    //    // クローゼットに隠れる処理をここに追加
+    //    SceneChanger3D.hasSubstituteDoll = true; // 使用判定をトゥルーに設定
+    //}
 
-    public void SleepEvent()
-    {
-        Debug.Log("眠気イベントを実行します。");
-        // 眠気の処理をここに追加
-    }
+    //public void SleepEvent()
+    //{
+    //    Debug.Log("眠気イベントを実行します。");
+    //    // 眠気の処理をここに追加
+    //}
 
-    public void LogCellArrival()
-    {
-        Debug.Log($"プレイヤーが {name} に到達しました。現在の位置: {transform.position}");
-    }
+    //public void LogCellArrival()
+    //{
+    //    Debug.Log($"プレイヤーが {name} に到達しました。現在の位置: {transform.position}");
+    //}
     void DisplayRandomEvent()
     {
         // **呪い発動**
         Debug.Log($"{name}: 呪いが発動！");
-        curseSlider.DecreaseDashPoint(hirueamout); // 呪いゲージ増加
-        ShowCurseUI("呪いが発動した！");
+        curseSlider.DecreaseDashPoint(curseamout); // 呪いゲージ増加
+        ShowCurseUI($"{curseamout}呪いが発動した！");
     }
 
 
@@ -318,8 +318,8 @@ public class GridCell : MonoBehaviour
     {
         // **呪い発動**
         Debug.Log($"{name}: 呪いが浄化された");
-        curseSlider.IncreaseDashPoint(curseamout); // 呪いゲージ増加
-        ShowCurseUI("呪いが減った！");
+        curseSlider.IncreaseDashPoint(hirueamout); // 呪いゲージ減少
+        ShowCurseUI($"{hirueamout}呪いが減った！");
     }
     private void ExecuteCurseEvent()
     {
@@ -368,35 +368,6 @@ public class GridCell : MonoBehaviour
 
 
 
-    //private void GiveRandomItem()
-    //{
-    //    // **アイテムコントローラーが見つからない場合は処理を中断**
-    //    if (substitutedollController == null || beartrapController == null)
-    //    {
-
-    //        Debug.LogError("❌ アイテムのコントローラーが見つかりません！処理をスキップします。");
-    //        ShowItemUI("❌ アイテムのコントローラーが見つかりません！");
-    //        return;
-    //    }
-
-    //    string logMessage;
-
-    //    // 50% の確率でどちらかのアイテムを増やす
-    //    if (Random.value < 0.5f)
-    //    {
-    //        substitutedollController.AddItem();
-    //        logMessage = "🎭 身代わり人形を獲得！";
-    //    }
-    //    else
-    //    {
-    //        beartrapController.AddItem();
-    //        logMessage = "🪤 トラバサミを獲得！";
-    //    }
-    //    Debug.Log(logMessage);
-    //    ShowItemUI(logMessage);
-
-    //}
-
     public void SetVisibility(bool isVisible)
     {
         // 子オブジェクトの Renderer を有効/無効にする
@@ -432,35 +403,4 @@ public class GridCell : MonoBehaviour
 
 
 }
-//// ✅ UI にログを表示し、Canvas を有効化する
-//private void ShowItemUI(string message)
-//{
-//    if (itemLogText != null)
-//    {
-//        itemLogText.text = message; // UI の Text を更新
-//    }
-//    else
-//    {
-//        Debug.LogError("❌ itemLogText が設定されていません！");
-//    }
 
-//    if (itemPanel != null)
-//    {
-//        //ShowItemUI( message,  = 1.0f);
-//        //StartCoroutine(HideItemCanvasAfterDelay()); // ⏳ 3 秒後に非表示
-//    }
-//    else
-//    {
-//        Debug.LogError("❌ itemCanvas が設定されていません！");
-//    }
-//}
-
-//// ✅ Canvas を 3 秒後に非表示にする
-//private IEnumerator HideItemCanvasAfterDelay()
-//{
-//    yield return new WaitForSeconds(3f);
-//    if (itemPanel != null)
-//    {
-//        itemPanel.SetActive(false);
-//    }
-//}
