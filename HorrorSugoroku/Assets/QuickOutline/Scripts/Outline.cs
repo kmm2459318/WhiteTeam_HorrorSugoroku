@@ -1,4 +1,12 @@
-﻿using System;
+﻿//
+//  Outline.cs
+//  QuickOutline
+//
+//  Created by Chris Nolet on 3/30/18.
+//  Copyright © 2018 Chris Nolet. All rights reserved.
+//
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -8,7 +16,6 @@ using UnityEngine;
 public class Outline : MonoBehaviour
 {
     private static HashSet<Mesh> registeredMeshes = new HashSet<Mesh>();
-    public static event System.Action OnOutlineClicked;
 
     public enum Mode
     {
@@ -81,8 +88,7 @@ public class Outline : MonoBehaviour
     private Material outlineFillMaterial;
 
     private bool needsUpdate;
-    public static event System.Action OnOutlineKeyPressed;
-    public GameObject gKeyPrompt; // Gキーのプロンプト表示用
+
     void Awake()
     {
 
@@ -101,22 +107,8 @@ public class Outline : MonoBehaviour
 
         // Apply material properties immediately
         needsUpdate = true;
-        // 初期状態で無効にする
-        this.enabled = false;
-        // 初期状態でプロンプトを非表示にする
-        if (gKeyPrompt != null)
-        {
-            gKeyPrompt.SetActive(false);
-        }
     }
-    void OnMouseDown()
-    {
-        if (enabled) // Outline が有効な場合のみ
-        {
-            OnOutlineClicked?.Invoke();
-            Debug.Log("Outline オブジェクトがクリックされました！");
-        }
-    }
+
     void OnEnable()
     {
         foreach (var renderer in renderers)
@@ -154,33 +146,11 @@ public class Outline : MonoBehaviour
 
     void Update()
     {
-        if (enabled)
+        if (needsUpdate)
         {
-            // アウトラインが有効な場合、プロンプトを表示
-            if (gKeyPrompt != null && !gKeyPrompt.activeSelf)
-            {
-                gKeyPrompt.SetActive(true);
-            }
+            needsUpdate = false;
 
-            // Gキーが押された場合、イベントを発生させる
-            if (Input.GetKeyDown(KeyCode.G))
-            {
-                OnOutlineKeyPressed?.Invoke();
-                Debug.Log("Gキーが押されました！");
-                if (gKeyPrompt != null)
-                {
-                    gKeyPrompt.SetActive(false); // プロンプトを非表示にする
-                }
-                this.enabled = false; // アウトラインを無効にする
-            }
-        }
-        else
-        {
-            // アウトラインが無効な場合、プロンプトを非表示にする
-            if (gKeyPrompt != null && gKeyPrompt.activeSelf)
-            {
-                gKeyPrompt.SetActive(false);
-            }
+            UpdateMaterialProperties();
         }
     }
 
@@ -257,7 +227,9 @@ public class Outline : MonoBehaviour
             {
                 CombineSubmeshes(meshFilter.sharedMesh, renderer.sharedMaterials);
             }
-        } // Clear UV3 on skinned mesh renderers
+        }
+
+        // Clear UV3 on skinned mesh renderers
         foreach (var skinnedMeshRenderer in GetComponentsInChildren<SkinnedMeshRenderer>())
         {
 

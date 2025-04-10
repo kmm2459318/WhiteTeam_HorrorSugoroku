@@ -10,7 +10,7 @@ public class Statue : MonoBehaviour
     public PlayerSaikoro playerSaikoro;
 
     //人形を置くエリア
-    public GameObject[] PutDownArea = new GameObject[4] ;
+    public GameObject[] PutDownArea = new GameObject[4];
     //人形用の箱
     public GameObject[] Doll = new GameObject[4];
 
@@ -63,6 +63,8 @@ public class Statue : MonoBehaviour
                                         {
                                             Doll[i].SetActive(true); // 対応する人形のみ表示
                                             gameManager.PlaceDoll();
+
+                                            CheckAllDoll(); //人形を全部置いたかの判定
                                         }
                                     }
                                 }
@@ -93,6 +95,21 @@ public class Statue : MonoBehaviour
         float dotProduct = Vector3.Dot(Camera.main.transform.forward, directionToObject);
 
         return dotProduct > 0.8f; // **0.8以上ならプレイヤーの視線方向にある**
+    }
+
+    //人形を全部置いたかの判定
+    void CheckAllDoll()
+    {
+        for(int i =0; i < Doll.Length; i++)
+        {
+            if (!Doll[i].active)
+            {
+                return;
+            }
+        }
+
+        gameManager.isExitDoor = true; 
+        Debug.Log("出口のドアが空いた");
     }
 
 }
