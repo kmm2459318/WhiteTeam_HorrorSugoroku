@@ -26,6 +26,7 @@ public class GameManager : MonoBehaviour
     public NavMeshAgent agent;
     public CutIn cutIn;
 
+    public GameObject ExitDoorLight; //脱出ドアであることがわかる光
     public GameObject currentEnemyModel; // 現在のエネミーモデル
     public GameObject EnemyCopy1; // コピーエネミーモデル
     public GameObject EnemyCopy1demo;
@@ -49,6 +50,7 @@ public class GameManager : MonoBehaviour
 
     private void Start()
     {
+        ExitDoorLight.SetActive(false); // 消灯
         Application.targetFrameRate = 60;
 
         //MiniMapObj.SetActive(false); // マップキャンバスを非表示にする
@@ -151,6 +153,11 @@ public class GameManager : MonoBehaviour
         {
             ChangeEnemyModel(mapPiece); // 引数を渡してメソッドを呼び出す
         }*/
+
+        if (isExitDoor)
+        {
+            ExitDoorLight.SetActive(true); // 脱出ドアであることがわかる光を出す
+        }
     }
 
     public void ChangeEnemyModel(int mapPieceCount)
