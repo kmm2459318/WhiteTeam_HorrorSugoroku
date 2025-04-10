@@ -2,7 +2,8 @@ using UnityEngine;
 
 public class BreakerController : MonoBehaviour
 {
-    public GameObject ElevatorMasu;
+    public Light elevatorLight;
+    private bool breaker = false;
 
     void Start()
     {
@@ -13,7 +14,7 @@ public class BreakerController : MonoBehaviour
     void Update()
     {
         //ブレーカーON(ifの内容はのちに変えます)
-        if (Input.GetKeyDown(KeyCode.B))
+        if (Input.GetKeyDown(KeyCode.B) && !breaker)
         {
             BreakerOn();
         }
@@ -21,6 +22,7 @@ public class BreakerController : MonoBehaviour
 
     void BreakerOn()
     {
-        ElevatorMasu.SetActive(true);
+        breaker = true;
+        elevatorLight.enabled = true;
     }
 }
