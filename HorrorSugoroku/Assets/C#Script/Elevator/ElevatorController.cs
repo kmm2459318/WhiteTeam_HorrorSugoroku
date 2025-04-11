@@ -25,7 +25,7 @@ public class ElevatorController : MonoBehaviour
 
     // エレベーター移動
     public Transform elevator; // エレベーター本体
-    private float[] floorHeights = { -2.9635f, 0.0365f, 3.0365f }; // B1, 1F, 2F (Y座標)
+    private float[] floorHeights = { -3.85f + 0.0164361f, 0 + 0.0164361f, 3.81f + 0.0164361f }; // B1, 1F, 2F (Y座標) ★目標座標 + 0.0164361f★
     private float moveSpeed = 2.0f;
     private bool isMoving = false; // エレベーターが移動中かどうかを判定するフラグ
     private bool isDoorMoving = false; // ドアが開閉中かどうかを判定するフラグ
