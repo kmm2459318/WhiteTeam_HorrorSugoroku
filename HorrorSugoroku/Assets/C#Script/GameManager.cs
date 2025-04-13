@@ -10,6 +10,7 @@ public class GameManager : MonoBehaviour
     public TMP_Text turnText; // TextMeshPro用のターン数表示
     public TMP_Text turnIndicatorText; // 新しいターン表示用のテキスト
     public bool isPlayerTurn = true; // プレイヤーのターンかどうかを示すフラグ
+    public bool isExitDoor = false; // 脱出ができるかどうかのタグ
     public bool EnemyCopyOn1 = false;
     public bool EnemyCopyOn2 = false;
     public bool EnemyCopyOn3 = false;
