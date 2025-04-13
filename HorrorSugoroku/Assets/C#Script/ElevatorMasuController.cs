@@ -1,46 +1,65 @@
 using SmoothigTransform;
+using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class ElevatorMasuController : MonoBehaviour
 {
-    public GameObject Pleyer;
-    public GameObject masu1F;
-    public GameObject masu2F;
+    public GameObject Player;
+    public GameObject elevatorCanvas;
+    public GameObject Camera;
+    public Image image2F;
+    public Image image1F;
+    public Image imageB1F;
+    public TextMeshProUGUI text2F;
+    public TextMeshProUGUI text1F;
+    public TextMeshProUGUI textB1F;
+    public BreakerController breakerController;
     public PlayerSaikoro playerSaikoro;
-    [SerializeField] SmoothTransform PSm;
     public bool playerOn = false;
-    private bool idou = false;
+    Vector3 Rot;
 
-    void Start()
+    private void Start()
     {
-        
+        elevatorCanvas.SetActive(false);
     }
 
-    void Update()
+    private void Update()
     {
-        if (idou)
-        {
-            PSm.PosFact = 0.3f;
-            idou = false;
-        }
+        Rot = Camera.transform.eulerAngles;
 
-        if (playerOn)
+        if (breakerController.breaker && playerOn && playerSaikoro.idoutyu
+            && (Rot.y > 318f && Rot.y < 360f) || (Rot.y > 0f && Rot.y < 45f)
+            && (Rot.x > -40f && Rot.x < 50f))
         {
             if (Input.GetMouseButtonDown(0))
             {
-                PSm.PosFact = 0f;
-                idou = true;
-                playerSaikoro.sai--;
+                Debug.Log("elevator起動");
+                elevatorCanvas.SetActive(true);
+                image2F.color = new Color(255, 255, 255, 255);
+                text2F.color = new Color(255, 255, 255, 255);
+                image1F.color = new Color(255, 255, 255, 255);
+                text1F.color = new Color(255, 255, 255, 255);
+                imageB1F.color = new Color(255, 255, 255, 255);
+                textB1F.color = new Color(255, 255, 255, 255);
 
-                if (Pleyer.transform.position.y < 3f)
+                if (Player.transform.position.y < 0f)
                 {
-                    Debug.Log("上へ参ります。");
-                    PSm.TargetPosition.y = masu2F.transform.position.y + 1.17f;
+                    Debug.Log("現在B1F");
+                    imageB1F.color = new Color(128 / 255f, 128 / 255f, 128 / 255f, 255);
+                    textB1F.color = new Color(128 / 255f, 128 / 255f, 128 / 255f, 255);
+                } 
+                else if (Player.transform.position.y < 3f)
+                {
+                    Debug.Log("現在1F");
+                    image1F.color = new Color(128 / 255f, 128 / 255f, 128 / 255f, 255);
+                    text1F.color = new Color(128 / 255f, 128 / 255f, 128 / 255f, 255);
                 }
                 else
                 {
-                    Debug.Log("下へ参ります。");
-                    PSm.TargetPosition.y = masu1F.transform.position.y + 1.17f;
+                    Debug.Log("現在2F");
+                    image2F.color = new Color(128 / 255f, 128 / 255f, 128 / 255f, 255);
+                    text2F.color = new Color(128 / 255f, 128 / 255f, 128 / 255f, 255);
                 }
             }
         }
