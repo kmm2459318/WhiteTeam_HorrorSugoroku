@@ -4,12 +4,12 @@ public class ClickManager : MonoBehaviour
 {
     void OnEnable()
     {
-        Outline.OnOutlineKeyPressed += HandleOutlineKeyPressed;
+        //Outline.OnOutlineKeyPressed += HandleOutlineKeyPressed;
     }
 
     void OnDisable()
     {
-        Outline.OnOutlineKeyPressed -= HandleOutlineKeyPressed;
+        //Outline.OnOutlineKeyPressed -= HandleOutlineKeyPressed;
     }
 
     private void HandleOutlineKeyPressed()
