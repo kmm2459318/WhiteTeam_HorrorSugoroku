@@ -4,12 +4,10 @@ using UnityEngine;
 
 public class KeyManager : MonoBehaviour
 {
-    // KeyRandomizer を参照
     public KeyRandomizer keyRandomizer;
 
     void Start()
     {
-        // KeyRandomizer を探して取得
         if (keyRandomizer == null)
         {
             keyRandomizer = FindObjectOfType<KeyRandomizer>();
@@ -21,20 +19,26 @@ public class KeyManager : MonoBehaviour
             return;
         }
 
-        // シーン内のすべての Key タグの付いたオブジェクトを取得
-        GameObject[] keyObjects = GameObject.FindGameObjectsWithTag("Key");
+        // アイテム割り当てリスト取得
+        List<string> itemList = keyRandomizer.GetGeneratedItems();
 
-        // 各 Key オブジェクトにランダムな鍵の名前を振り分ける
-        foreach (GameObject keyObject in keyObjects)
+        // シーン内の "Item" タグオブジェクトを取得
+        GameObject[] keyObjects = GameObject.FindGameObjectsWithTag("Item");
+
+        if (itemList.Count < keyObjects.Length)
         {
-            // KeyRandomizer でランダムな鍵の名前を取得
-            string keyName = keyRandomizer.GetKeyName();
+            Debug.LogWarning("アイテムの数よりオブジェクトの方が多いです！");
+        }
 
-            // 振り分けた名前をそのオブジェクトの名前に設定する（または他の方法で保存）
-            keyObject.name = keyName;  // オブジェクト名に設定する例
+        // 順番に割り当て
+        for (int i = 0; i < keyObjects.Length && i < itemList.Count; i++)
+        {
+            GameObject keyObject = keyObjects[i];
+            string itemName = itemList[i];
 
-            // 名前をデバッグ出力（確認用）
-            Debug.Log(keyObject.name + " に名前が設定されました。");
+            keyObject.name = itemName;
+
+            Debug.Log($"{keyObject.name} に名前を設定しました。");
         }
     }
 }
