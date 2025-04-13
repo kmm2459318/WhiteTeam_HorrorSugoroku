@@ -10,6 +10,7 @@ public class GameManager : MonoBehaviour
     public TMP_Text turnText; // TextMeshPro用のターン数表示
     public TMP_Text turnIndicatorText; // 新しいターン表示用のテキスト
     public bool isPlayerTurn = true; // プレイヤーのターンかどうかを示すフラグ
+    public bool isExitDoor = false; // 脱出ができるかどうかのタグ
     public bool EnemyCopyOn1 = false;
     public bool EnemyCopyOn2 = false;
     public bool EnemyCopyOn3 = false;
@@ -152,38 +153,43 @@ public class GameManager : MonoBehaviour
         }*/
     }
 
-    public void ChangeEnemyModel(int mapPieceCount)
-    {
-        Animator currentAnimator = currentEnemyModel.GetComponent<Animator>();
-        Animator newAnimator = null;
+    // public void ChangeEnemyModel(int mapPieceCount)
+    // {
+    //     Animator currentAnimator = currentEnemyModel.GetComponent<Animator>();
+    //     Animator newAnimator = null;
 
-        if (mapPieceCount == 3)
-        {
-            newAnimator = newEnemyModelPrefab.GetComponent<Animator>();
-        }
-        else if (mapPieceCount == 6)
-        {
-            newAnimator = newEnemyModelPrefab2.GetComponent<Animator>();
-        }
+    //     if (mapPieceCount == 3)
+    //     {
+    //         newAnimator = newEnemyModelPrefab.GetComponent<Animator>();
+    //     }
+    //     else if (mapPieceCount == 6)
+    //     {
+    //         newAnimator = newEnemyModelPrefab2.GetComponent<Animator>();
+    //     }
 
-        if (currentAnimator != null && newAnimator != null)
-        {
-            AnimatorStateInfo currentState = currentAnimator.GetCurrentAnimatorStateInfo(0);
-            newAnimator.Play(currentState.fullPathHash, -1, currentState.normalizedTime);
-        }
+    //     if (currentAnimator != null && newAnimator != null)
+    //     {
+    //         AnimatorStateInfo currentState = currentAnimator.GetCurrentAnimatorStateInfo(0);
+    //         newAnimator.Play(currentState.fullPathHash, -1, currentState.normalizedTime);
+    //     }
 
-        currentEnemyModel.SetActive(false);
+    //     currentEnemyModel.SetActive(false);
 
-        if (mapPieceCount == 3)
-        {
-            newEnemyModelPrefab.SetActive(true);
-        }
-        else if (mapPieceCount == 6)
-        {
-            newEnemyModelPrefab2.SetActive(true);
-            newEnemyModelPrefab.SetActive(false); // 6つ目のピースで変更する際に前のモデルを非アクティブにする
-        }
-    }
+    //     if (mapPieceCount == 3)
+    //     {
+    //         newEnemyModelPrefab.SetActive(true);
+    //     }
+    //     else if (mapPieceCount == 6)
+    //     {
+    //         newEnemyModelPrefab2.SetActive(true);
+    //         newEnemyModelPrefab.SetActive(false); // 6つ目のピースで変更する際に前のモデルを非アクティブにする
+    //     }
+    // }
+
+    // if (mapPiece == 3 || mapPiece == 6)
+    // {
+    //     ChangeEnemyModel(mapPiece); // 引数を渡してメソッドを呼び出す
+    // }
 
     // ターンの切り替えを行うメソッド
     public void NextTurn()
