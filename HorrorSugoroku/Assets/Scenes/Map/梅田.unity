@@ -119,17 +119,6 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
---- !u!114 &307191061 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 442818680713080069, guid: 1aeb8873dee6ae442a8fd4e64f5037ad, type: 3}
-  m_PrefabInstance: {fileID: 4366062781637540006}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4366062781637540007}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d0e91c2b68d5ef147844c27f3add5231, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!195 &307191064 stripped
 NavMeshAgent:
   m_CorrespondingSourceObject: {fileID: 7471258604333203002, guid: 1aeb8873dee6ae442a8fd4e64f5037ad, type: 3}
@@ -232,6 +221,7 @@ MonoBehaviour:
   turnText: {fileID: 408666477}
   turnIndicatorText: {fileID: 408666479}
   isPlayerTurn: 1
+  isExitDoor: 0
   EnemyCopyOn1: 0
   EnemyCopyOn2: 0
   EnemyCopyOn3: 0
@@ -241,13 +231,13 @@ MonoBehaviour:
   mapPiece: 0
   Doll: 0
   playerSaikoro: {fileID: 1394873662}
-  enemySaikoro: {fileID: 307191061}
-  enemyCopySaikoro: {fileID: 307191061}
+  enemySaikoro: {fileID: 0}
+  enemyCopySaikoro: {fileID: 0}
   agent: {fileID: 307191064}
   cutIn: {fileID: 408666475}
   currentEnemyModel: {fileID: 307191065}
   EnemyCopy1: {fileID: 917800803606982711}
-  EnemyCopy1demo: {fileID: 917800803606982716}
+  EnemyCopy1demo: {fileID: 0}
   EnemyCopy2: {fileID: 4381080835198537401}
   EnemyCopy3: {fileID: 3741911266230954271}
   EnemyCopy4: {fileID: 7648333837237640983}
@@ -2780,19 +2770,9 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 732539696081398750, guid: b49b9a8db2c43234c9f54eceb2d87d1a, type: 3}
   m_PrefabInstance: {fileID: 538631844490539543}
   m_PrefabAsset: {fileID: 0}
---- !u!108 &538631844490539546 stripped
-Light:
-  m_CorrespondingSourceObject: {fileID: 1914915348909142490, guid: b49b9a8db2c43234c9f54eceb2d87d1a, type: 3}
-  m_PrefabInstance: {fileID: 538631844490539543}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &917800803606982711 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 4005312916382846208, guid: 1aeb8873dee6ae442a8fd4e64f5037ad, type: 3}
-  m_PrefabInstance: {fileID: 4366062781637540006}
-  m_PrefabAsset: {fileID: 0}
---- !u!1 &917800803606982716 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 7920038533651438836, guid: 1aeb8873dee6ae442a8fd4e64f5037ad, type: 3}
   m_PrefabInstance: {fileID: 4366062781637540006}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &951618888303309364
@@ -2854,7 +2834,7 @@ PrefabInstance:
     - target: {fileID: 4708838176823153718, guid: 2d67a601cc3509b468abd068b5a6dda3, type: 3}
       propertyPath: elevatorLight
       value: 
-      objectReference: {fileID: 538631844490539546}
+      objectReference: {fileID: 0}
     - target: {fileID: 6951375618082219155, guid: 2d67a601cc3509b468abd068b5a6dda3, type: 3}
       propertyPath: m_Name
       value: Setting
@@ -3555,10 +3535,6 @@ PrefabInstance:
       propertyPath: diceRangeManager
       value: 
       objectReference: {fileID: 8835497271487954658}
-    - target: {fileID: 5053748846284655108, guid: 43b5d38b7b5cb0a40a58a771554554ac, type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 6909762398967604565, guid: 43b5d38b7b5cb0a40a58a771554554ac, type: 3}
       propertyPath: cutInImage
       value: 
