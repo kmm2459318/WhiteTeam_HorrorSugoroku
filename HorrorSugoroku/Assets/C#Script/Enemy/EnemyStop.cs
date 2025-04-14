@@ -4,15 +4,17 @@ using UnityEngine.AI;
 public class EnemyStop : MonoBehaviour
 {
     public GameManager gameManager;
+    public PlayerSaikoro player;
+    public EnemyWalkCounter enemyWalkCounter;
+    public NavMeshAgent nuvMeshAgent;
+    private Animator animator;
     private bool rideMasu = false;
     public bool stopMasu = false;
     private bool se = false;
-    public PlayerSaikoro player;
-    public NavMeshAgent nuvMeshAgent;
-    private Animator animator;
     public string targetTag = "masu";
     private float exploringCoolTime = 0;
     public float threshold = 0.1f;
+    private int walkNumber = 0;
 
     void Start()
     {
@@ -27,7 +29,8 @@ public class EnemyStop : MonoBehaviour
             this.exploringCoolTime += Time.deltaTime;
         }
 
-        if (player.enemyEnd && rideMasu && exploringCoolTime > 0.8f)
+        if (player.enemyEnd && rideMasu && exploringCoolTime > 0.8f
+            && walkNumber <= enemyWalkCounter.walkMasu)
         {
             exploringCoolTime = 0f;
             nuvMeshAgent.enabled = false;
@@ -39,6 +42,10 @@ public class EnemyStop : MonoBehaviour
             se = true;
             stopMasu = false;
             nuvMeshAgent.enabled = true;
+
+            enemyWalkCounter.walkMasu = 0;
+            walkNumber = Random.Range(0, gameManager.Doll + 2) + 1;
+            Debug.Log("最低移動回数:" +  walkNumber);
         }
 
         if (player.idoutyu)
