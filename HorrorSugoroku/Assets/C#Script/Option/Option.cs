@@ -5,6 +5,7 @@ public class Option : MonoBehaviour
 {
     public GameManager gameManager;
     public CameraController cameraController;
+    public ElevatorIdou elevatorIdou;
 
     public GameObject OptionCanvas; // オプション画面
 
@@ -15,7 +16,7 @@ public class Option : MonoBehaviour
     public int Volume = 50; // 音量
     public Slider SensitivitySlider; // マウス感度バー
     private float Sensitivity = 250.0f; // 感度
-    private bool isOptionOpen = false; // オプション画面の開閉状態
+    public bool isOptionOpen = false; // オプション画面の開閉状態
 
     void Start()
     {
@@ -77,22 +78,24 @@ public class Option : MonoBehaviour
         }
         else
         {
-            // オプションを閉じる → カーソルを確実に非表示にする
-            cameraController.isMouseLocked = true;
-            cameraController.SetOptionOpen(false);
+            if (!elevatorIdou.elevatorPanelOn)
+            {
+                // オプションを閉じる → カーソルを確実に非表示にする
+                cameraController.isMouseLocked = true;
+                cameraController.SetOptionOpen(false);
 
-            // Altキーの影響をリセット
-            ResetAltKeyState();
+                // Altキーの影響をリセット
+                ResetAltKeyState();
 
-            // マウスをロックし、確実にカーソルを非表示にする
-            Cursor.lockState = CursorLockMode.Locked;
-            Invoke(nameof(HideCursor), 0.02f);  // 0.02秒遅延して確実にカーソルを非表示
-
-            Time.timeScale = 1;
+                // マウスをロックし、確実にカーソルを非表示にする
+                Cursor.lockState = CursorLockMode.Locked;
+                Invoke(nameof(HideCursor), 0.02f);  // 0.02秒遅延して確実にカーソルを非表示
+            }
+                Time.timeScale = 1;
         }
     }
 
-    private void HideCursor()
+    public void HideCursor()
     {
         Cursor.visible = false;
     }
