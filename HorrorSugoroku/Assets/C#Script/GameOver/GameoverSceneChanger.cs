@@ -70,12 +70,12 @@ public class SceneChanger3D : MonoBehaviour
     // ゲームオーバー処理を判定するメソッド
     public void HandleGameOver()
     {
-        if (substitutedollController.itemCount > 0)
+        if (substitutedollController.useCount > 0)
         {
             // 身代わり人形がある場合は回避
             hasSubstituteDoll = false; // 身代わり人形を消費
             Debug.Log("身代わり人形が発動！ゲームオーバーを回避！");
-            substitutedollController.itemCount--;
+            substitutedollController.useCount--;
             atackEnemy.transform.position = new Vector3(0f, 0f, 0.1016667f);
         }
         else              

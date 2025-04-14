@@ -11,8 +11,10 @@ public class ElevatorIdou : MonoBehaviour
     public GameObject elevatorCanvas;
     public PlayerSaikoro playerSaikoro;
     public BreakerController breakerController;
+    public CameraController cameraController;
+    public Option option;
     [SerializeField] SmoothTransform PSm;
-    public bool playerOn = false;
+    public bool elevatorPanelOn = false;
     private bool idou = false;
     private bool idou1 = false;
     private Vector3 ikisaki = Vector3.zero;
@@ -72,6 +74,11 @@ public class ElevatorIdou : MonoBehaviour
     {
         PSm.PosFact = 0f;
         idou1 = true;
+        elevatorPanelOn = false;
         elevatorCanvas.SetActive(false);
+        cameraController.isMouseLocked = true;
+        cameraController.SetOptionOpen(false);
+        Cursor.lockState = CursorLockMode.Locked;
+        Invoke(nameof(option.HideCursor), 0.02f);  // 0.02秒遅延して確実にカーソルを非表示
     }
 }
