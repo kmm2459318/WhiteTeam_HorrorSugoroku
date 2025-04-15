@@ -26,6 +26,7 @@ public class GameManager : MonoBehaviour
     public NavMeshAgent agent;
     public CutIn cutIn;
 
+    public GameObject ExitDoorLight; //脱出ドアであることがわかる光
     public GameObject currentEnemyModel; // 現在のエネミーモデル
     public GameObject EnemyCopy1; // コピーエネミーモデル
     public GameObject EnemyCopy1demo;
@@ -49,6 +50,7 @@ public class GameManager : MonoBehaviour
 
     private void Start()
     {
+        ExitDoorLight.SetActive(false); // 消灯
         Application.targetFrameRate = 60;
 
         //MiniMapObj.SetActive(false); // マップキャンバスを非表示にする
@@ -154,45 +156,45 @@ public class GameManager : MonoBehaviour
         {
             ChangeEnemyModel(mapPiece); // 引数を渡してメソッドを呼び出す
         }*/
+
+        if (isExitDoor)
+        {
+            ExitDoorLight.SetActive(true); // 脱出ドアであることがわかる光を出す
+        }
     }
 
-    // public void ChangeEnemyModel(int mapPieceCount)
-    // {
-    //     Animator currentAnimator = currentEnemyModel.GetComponent<Animator>();
-    //     Animator newAnimator = null;
+    public void ChangeEnemyModel(int mapPieceCount)
+    {
+        Animator currentAnimator = currentEnemyModel.GetComponent<Animator>();
+        Animator newAnimator = null;
 
-    //     if (mapPieceCount == 3)
-    //     {
-    //         newAnimator = newEnemyModelPrefab.GetComponent<Animator>();
-    //     }
-    //     else if (mapPieceCount == 6)
-    //     {
-    //         newAnimator = newEnemyModelPrefab2.GetComponent<Animator>();
-    //     }
+        if (mapPieceCount == 3)
+        {
+            newAnimator = newEnemyModelPrefab.GetComponent<Animator>();
+        }
+        else if (mapPieceCount == 6)
+        {
+            newAnimator = newEnemyModelPrefab2.GetComponent<Animator>();
+        }
 
-    //     if (currentAnimator != null && newAnimator != null)
-    //     {
-    //         AnimatorStateInfo currentState = currentAnimator.GetCurrentAnimatorStateInfo(0);
-    //         newAnimator.Play(currentState.fullPathHash, -1, currentState.normalizedTime);
-    //     }
+        if (currentAnimator != null && newAnimator != null)
+        {
+            AnimatorStateInfo currentState = currentAnimator.GetCurrentAnimatorStateInfo(0);
+            newAnimator.Play(currentState.fullPathHash, -1, currentState.normalizedTime);
+        }
 
-    //     currentEnemyModel.SetActive(false);
+        currentEnemyModel.SetActive(false);
 
-    //     if (mapPieceCount == 3)
-    //     {
-    //         newEnemyModelPrefab.SetActive(true);
-    //     }
-    //     else if (mapPieceCount == 6)
-    //     {
-    //         newEnemyModelPrefab2.SetActive(true);
-    //         newEnemyModelPrefab.SetActive(false); // 6つ目のピースで変更する際に前のモデルを非アクティブにする
-    //     }
-    // }
-
-    // if (mapPiece == 3 || mapPiece == 6)
-    // {
-    //     ChangeEnemyModel(mapPiece); // 引数を渡してメソッドを呼び出す
-    // }
+        if (mapPieceCount == 3)
+        {
+            newEnemyModelPrefab.SetActive(true);
+        }
+        else if (mapPieceCount == 6)
+        {
+            newEnemyModelPrefab2.SetActive(true);
+            newEnemyModelPrefab.SetActive(false); // 6つ目のピースで変更する際に前のモデルを非アクティブにする
+        }
+    }
 
     // ターンの切り替えを行うメソッド
     public void NextTurn()

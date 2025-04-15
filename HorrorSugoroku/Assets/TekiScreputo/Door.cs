@@ -117,11 +117,12 @@ public class Door : MonoBehaviour
     void Update()
     {
         float distance = Vector3.Distance(player.position, transform.position);
+        //Debug.Log($"距離: {distance}, 相互作用範囲: {interactionRange}");
 
-        if (distance <= interactionRange && Input.GetKeyDown(KeyCode.G)) // Gキーが押されたとき
+        if (distance <= interactionRange && Input.GetKeyDown(KeyCode.G)) // Gキーに戻す
         {
             Debug.Log("Gキーが押されました");
-            if (!isUnlocked) // 鍵を使っていない場合
+            if (!isUnlocked)
             {
                 if (playerInventory != null && playerInventory.HasItem(requiredItem))
                 {
@@ -129,28 +130,33 @@ public class Door : MonoBehaviour
                 }
                 else
                 {
-                    Debug.Log("鍵がありません。アニメーションは停止します。");
+                    Debug.Log("鍵がありません"); // 鍵がなければ開けられない
                     return; // 鍵がない場合はここで終了
                 }
             }
 
-            if (isUnlocked) // ドアが解錠された場合のみアニメーション実行
+            // LeftOpenTriggerを設定して左側のドアのアニメーションを再生
+            if (childAnimator != null)
             {
-                // 左側のドアのアニメーション
-                if (childAnimator != null)
-                {
-                    Debug.Log("LeftOpenTriggerを設定");
-                    childAnimator.SetTrigger("LeftOpenTrigger");
-                    StartCoroutine(TransitionLeftAnimation());
-                }
+                Debug.Log("LeftOpenTriggerを設定");
+                childAnimator.SetTrigger("LeftOpenTrigger");
+                StartCoroutine(TransitionLeftAnimation());
+            }
+            else
+            {
+                Debug.Log("左側のアニメーターがnullです");
+            }
 
-                // 右側のドアのアニメーション
-                if (rightAnimator != null)
-                {
-                    Debug.Log("RightOpenTriggerを設定");
-                    rightAnimator.SetTrigger("RightOpenTrigger");
-                    StartCoroutine(TransitionRightAnimation());
-                }
+            // RightOpenTriggerを設定して右側のドアのアニメーションを再生
+            if (rightAnimator != null)
+            {
+                Debug.Log("RightOpenTriggerを設定");
+                rightAnimator.SetTrigger("RightOpenTrigger");
+                StartCoroutine(TransitionRightAnimation());
+            }
+            else
+            {
+                Debug.Log("右側のアニメーターがnullです");
             }
         }
     }

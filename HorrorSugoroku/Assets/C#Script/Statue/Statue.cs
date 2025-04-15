@@ -110,6 +110,11 @@ public class Statue : MonoBehaviour
 
         gameManager.isExitDoor = true; 
         Debug.Log("出口のドアが空いた");
+
+        if (gameManager.IsPlayerTurn())
+        {
+            gameManager.NextTurn(); // ターンを強制的に進める（ただし注意して使う）
+        }
     }
 
 }

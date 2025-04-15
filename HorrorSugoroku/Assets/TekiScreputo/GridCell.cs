@@ -4,10 +4,13 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.Audio;
 using UnityEngine.Rendering;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class GridCell : MonoBehaviour
 {
+    GameManager gameManager;
+
     public string cellEffect = "Normal"; // マス目の効果（例: Normal, Bonus, Penalty）
     [SerializeField] private Master_Debuff DebuffSheet;
     //public GameObject eventPanel; // UIのパネル
@@ -210,6 +213,19 @@ public class GridCell : MonoBehaviour
             case "Door":
 
                 break;
+            case "Exit":
+                Debug.Log($"{name}: 出口マスに到達。");
+                if (gameManager.isExitDoor)
+                {
+                    Debug.Log("脱出！ゲームクリア！");
+                    SceneManager.LoadScene("Gameclear");
+                }
+                else
+                {
+                    Debug.Log("鍵がかかってる");
+                }
+                break;
+
             case "Curse":
                 //  Debug.Log($"{name}: 呪いゲージが増えた。");
                 Debug.Log($"{name}: 呪いマスに到達。ランダムイベントを発動します。");
