@@ -3,7 +3,7 @@ using UnityEngine;
 public class BreakerController : MonoBehaviour
 {
     public Light elevatorLight;
-    private bool breaker = false;
+    public bool breaker = false;
 
     void Start()
     {

@@ -1,69 +1,18 @@
-using UnityEngine;
+ï»¿using UnityEngine;
 
-public class Clickebleobj : MonoBehaviour
+public class Clickebleobject : MonoBehaviour
 {
-    // ‚±‚ÌƒXƒNƒŠƒvƒg‚ÍƒNƒŠƒbƒN‰Â”\‚ÈƒIƒuƒWƒFƒNƒg‚ÉƒAƒ^ƒbƒ`‚³‚ê‚Ü‚·
-    public string objectTag;  // ‚±‚ÌƒIƒuƒWƒFƒNƒg‚Ìƒ^ƒO‚ÉŠî‚Ã‚¢‚Äˆ—‚ğ•Ï‚¦‚éê‡‚Ég—p
-    public PlayerInventory playerInventory;  // ƒvƒŒƒCƒ„[ƒCƒ“ƒxƒ“ƒgƒŠ‚Ö‚ÌQÆ
-    public KeyRandomizer keyRandomizer;  // KeyRandomizerƒNƒ‰ƒX‚Ö‚ÌQÆ
+    public bool isClicked = false; // **Æ’NÆ’Å Æ’bÆ’NÂÃâ€šÃâ€Â»â€™Ã¨**
 
+    // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        // •K—v‚ÈƒRƒ“ƒ|[ƒlƒ“ƒg‚ÌQÆ‚ğæ“¾
-        if (playerInventory == null) playerInventory = FindObjectOfType<PlayerInventory>();
-        if (keyRandomizer == null) keyRandomizer = FindObjectOfType<KeyRandomizer>();
-    }
-    // ƒNƒŠƒbƒN‚³‚ê‚½ƒIƒuƒWƒFƒNƒg‚É‘Î‰‚·‚éƒXƒNƒŠƒvƒg‚ğÀs
-    void OnMouseDown()
-    {
-        // ‚±‚ÌƒIƒuƒWƒFƒNƒg‚Ìƒ^ƒO‚ğŠm”F
-        if (CompareTag("Key"))
-        {
-            // ƒ‰ƒ“ƒ_ƒ€‚ÈŒ®‚Ì–¼‘O‚ğæ“¾
-            string keyName = keyRandomizer.GetKeyName();
-            // ƒvƒŒƒCƒ„[ƒCƒ“ƒxƒ“ƒgƒŠ‚É’Ç‰Á
-            playerInventory.AddItem(keyName);
-            Debug.Log(keyName + " ‚ªƒCƒ“ƒxƒ“ƒgƒŠ‚É’Ç‰Á‚³‚ê‚Ü‚µ‚½B");
-            // ‚±‚±‚ÅƒL[‚ÉŠÖ‚·‚éˆ—‚ğs‚¤
-          //  ExecuteKeyScript();
-        }
-        else if (CompareTag("Map"))
-        {
-            ExecuteMapScript();
-        }
-        else if (CompareTag("Item"))
-        {
-            ExecuteItemScript();
-        }
-        else
-        {
-            Debug.Log("–¢‘Î‰‚Ìƒ^ƒO: " + tag);
-        }
+
     }
 
-    // ƒL[ƒIƒuƒWƒFƒNƒg‚ÌƒXƒNƒŠƒvƒg‚ğÀs
-    //void ExecuteKeyScript()
-    //{
-    //    Debug.Log("ƒL[ƒIƒuƒWƒFƒNƒg‚ªƒNƒŠƒbƒN‚³‚ê‚Ü‚µ‚½B");
-    //    // ƒ‰ƒ“ƒ_ƒ€‚ÈŒ®‚Ì–¼‘O‚ğæ“¾
-    //    string keyName = keyRandomizer.GetRandomKeyName();
-    //    // ƒvƒŒƒCƒ„[ƒCƒ“ƒxƒ“ƒgƒŠ‚É’Ç‰Á
-    //    playerInventory.AddItem(keyName);
-    //    Debug.Log(keyName + " ‚ªƒCƒ“ƒxƒ“ƒgƒŠ‚É’Ç‰Á‚³‚ê‚Ü‚µ‚½B");
-    //    // ‚±‚±‚ÅƒL[‚ÉŠÖ‚·‚éˆ—‚ğs‚¤
-    //}
-
-    // ’n}ƒIƒuƒWƒFƒNƒg‚ÌƒXƒNƒŠƒvƒg‚ğÀs
-    void ExecuteMapScript()
+    // Update is called once per frame
+    void Update()
     {
-        Debug.Log("’n}ƒIƒuƒWƒFƒNƒg‚ªƒNƒŠƒbƒN‚³‚ê‚Ü‚µ‚½B");
-        // ‚±‚±‚Å’n}‚ÉŠÖ‚·‚éˆ—‚ğs‚¤
-    }
 
-    // ƒAƒCƒeƒ€ƒIƒuƒWƒFƒNƒg‚ÌƒXƒNƒŠƒvƒg‚ğÀs
-    void ExecuteItemScript()
-    {
-        Debug.Log("ƒAƒCƒeƒ€ƒIƒuƒWƒFƒNƒg‚ªƒNƒŠƒbƒN‚³‚ê‚Ü‚µ‚½B");
-        // ‚±‚±‚ÅƒAƒCƒeƒ€‚ÉŠÖ‚·‚éˆ—‚ğs‚¤
     }
 }
