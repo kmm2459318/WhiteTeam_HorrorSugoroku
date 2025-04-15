@@ -37,7 +37,7 @@ public class ElevatorMasuController : MonoBehaviour
         {
             if (Input.GetMouseButtonDown(0))
             {
-                Debug.Log("elevator‹N“®");
+                Debug.Log("elevatorâ€¹Nâ€œÂ®");
                 elevatorIdou.elevatorPanelOn = true;
                 elevatorCanvas.SetActive(true);
                 cameraController.isMouseLocked = false;
@@ -54,19 +54,19 @@ public class ElevatorMasuController : MonoBehaviour
 
                 if (Player.transform.position.y < 0f)
                 {
-                    Debug.Log("Œ»ÝB1F");
+                    Debug.Log("ÅšÂ»Å¤ÃB1F");
                     imageB1F.color = new Color(128 / 255f, 128 / 255f, 128 / 255f, 255);
                     textB1F.color = new Color(128 / 255f, 128 / 255f, 128 / 255f, 255);
-                } 
+                }
                 else if (Player.transform.position.y < 3f)
                 {
-                    Debug.Log("Œ»Ý1F");
+                    Debug.Log("ÅšÂ»Å¤Ã1F");
                     image1F.color = new Color(128 / 255f, 128 / 255f, 128 / 255f, 255);
                     text1F.color = new Color(128 / 255f, 128 / 255f, 128 / 255f, 255);
                 }
                 else
                 {
-                    Debug.Log("Œ»Ý2F");
+                    Debug.Log("ÅšÂ»Å¤Ã2F");
                     image2F.color = new Color(128 / 255f, 128 / 255f, 128 / 255f, 255);
                     text2F.color = new Color(128 / 255f, 128 / 255f, 128 / 255f, 255);
                 }
