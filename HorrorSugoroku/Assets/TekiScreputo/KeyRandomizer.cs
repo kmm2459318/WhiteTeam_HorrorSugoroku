@@ -4,47 +4,52 @@ using UnityEngine;
 
 public class KeyRandomizer : MonoBehaviour
 {
-    //public string KeyName; // ←これが必要！
-    // 一度だけ生成したい鍵のリスト
-    private List<string> oneTimeKeys = new List<string> { "食堂の鍵", "地下の鍵" };
+    public int totalItemCount = 10;           // 全体の割り振り数
+    public int fixedFirstFloorKeyCount = 3;   // 一階の鍵の数
 
-    private List<string> keyNames = new List<string>
+    private List<string> otherItems = new List<string> { "身代わり人形", "回復薬" };
+    private List<string> generatedItems = new List<string>();
+
+    void Awake()
     {
-      "一階の鍵"
-    };
-
-    // 一度だけ生成された鍵を追跡するリスト
-    private List<string> generatedOneTimeKeys = new List<string>();
-
-    // ランダムに鍵の名前を生成するメソッド
-    public string GetKeyName()
-    {
-        // 一度だけ生成したい鍵が残っている場合、それをランダムに選択
-        if (generatedOneTimeKeys.Count < oneTimeKeys.Count)
-        {
-            // 一度も生成されていない鍵を選択
-            string keyToGenerate = oneTimeKeys[Random.Range(0, oneTimeKeys.Count)];
-
-            // すでに生成された鍵は選ばない
-            while (generatedOneTimeKeys.Contains(keyToGenerate))
-            {
-                keyToGenerate = oneTimeKeys[Random.Range(0, oneTimeKeys.Count)];
-            }
-
-            generatedOneTimeKeys.Add(keyToGenerate);
-            return keyToGenerate;
-        }
-        else
-        {
-            // 他の鍵からランダムに選択
-            int randomIndex = Random.Range(0, keyNames.Count);
-            return keyNames[randomIndex];
-        }
+        GenerateItemList();
     }
-    // 鍵が有効かどうかを確認するメソッド
-    public bool IsValidKey(string keyName)
+
+    public void GenerateItemList()
     {
-        // 一度だけ生成された鍵か、それ以外のランダムな鍵を取得した場合は有効とする
-        return oneTimeKeys.Contains(keyName) || keyName.Contains(keyName);
+        generatedItems.Clear();
+
+        // 一階の鍵を確実に追加
+        for (int i = 0; i < fixedFirstFloorKeyCount; i++)
+        {
+            generatedItems.Add("一階の鍵");
+        }
+
+        // 残り枠に他アイテムをランダムに追加
+        int remaining = totalItemCount - fixedFirstFloorKeyCount;
+        for (int i = 0; i < remaining; i++)
+        {
+            int rand = Random.Range(0, otherItems.Count);
+            generatedItems.Add(otherItems[rand]);
+        }
+
+        Shuffle(generatedItems);
+    }
+
+    // 外部用：生成済みのリストを渡す
+    public List<string> GetGeneratedItems()
+    {
+        return new List<string>(generatedItems);
+    }
+
+    private void Shuffle<T>(List<T> list)
+    {
+        for (int i = 0; i < list.Count; i++)
+        {
+            int rand = Random.Range(i, list.Count);
+            T temp = list[i];
+            list[i] = list[rand];
+            list[rand] = temp;
+        }
     }
 }
