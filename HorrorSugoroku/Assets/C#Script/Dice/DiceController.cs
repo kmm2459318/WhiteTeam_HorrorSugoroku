@@ -17,6 +17,8 @@ public class DiceController : MonoBehaviour
     private float throwForceMultiplier = 0.8f;
     [SerializeField] private SmoothTransform smo;
     [SerializeField] private DiceRotation diceRotation;
+    public CurseSlider curseGauge;
+    public PlayerSaikoro playerSaikoro;
 
     public DiceRangeManager diceRangeManager;
     private Transform parentTransform;
@@ -101,52 +103,14 @@ public class DiceController : MonoBehaviour
     {
         if (player.saikorotyu)
         {
-            if (Input.GetKey(KeyCode.Space) && !hasBeenThrown)
-            {
-                smo.enabled = true;
-                smo.PosFact = 0.1f;
-                isHeld = true;
-                isStopped = false;
-                hasBeenThrown = false;
-                rb.isKinematic = true;
-                transform.localPosition = new Vector3(0, 5f, 0);
-            }
+            DiceRoll(1);
+        }
 
-            if (Input.GetKeyUp(KeyCode.Space) && isHeld)
-            {
-                isHeld = false;
-                hasBeenThrown = true;
-                isStopped = false;
-                timeSinceThrown = 0f;
-
-                rb.isKinematic = false;
-                smo.enabled = false;
-
-                Vector3 throwForce = new Vector3(Random.Range(-2f, 2f), 10f, Random.Range(-2f, 2f)) * throwForceMultiplier;
-                rb.AddForce(throwForce, ForceMode.Impulse);
-                rb.AddTorque(Random.insideUnitSphere * 500f);
-            }
-
-            if (hasBeenThrown)
-            {
-                timeSinceThrown += Time.deltaTime;
-
-                if (timeSinceThrown >= stopCheckDelay && !isStopped)
-                {
-                    if (rb.linearVelocity.magnitude < stopThreshold && rb.angularVelocity.magnitude < stopThreshold)
-                    {
-                        isStopped = true;
-                        result = GetTopFace();
-
-                        if (result != -1)
-                        {
-                            Debug.Log($"出た目: {result}");
-                            player.DiceAfter(result);
-                            ApplyDiceResult(result); // 🎯 **ここで即回転開始**
-                        }
-                    }
-                }
-            }
+        //呪い処理用さいころ
+        if (curseGauge.isCardCanvas1)
+        {
+            Debug.Log("diceroll2");
+            DiceRoll(2);
         }
 
         if (rotateToFace) // 🎯 **回転処理を最優先に**
@@ -184,6 +148,64 @@ public class DiceController : MonoBehaviour
         //{
         //    ResetDiceState();
         //}
+    }
+
+    private void DiceRoll(int n) //nが１ならプレイヤーのさいころ、２なら呪いさいころ
+    {
+        if (Input.GetKey(KeyCode.Space) && !hasBeenThrown)
+        {
+            smo.enabled = true;
+            smo.PosFact = 0.1f;
+            isHeld = true;
+            isStopped = false;
+            hasBeenThrown = false;
+            rb.isKinematic = true;
+            transform.localPosition = new Vector3(0, 5f, 0);
+        }
+
+        if (Input.GetKeyUp(KeyCode.Space) && isHeld)
+        {
+            isHeld = false;
+            hasBeenThrown = true;
+            isStopped = false;
+            timeSinceThrown = 0f;
+
+            rb.isKinematic = false;
+            smo.enabled = false;
+
+            Vector3 throwForce = new Vector3(Random.Range(-2f, 2f), 10f, Random.Range(-2f, 2f)) * throwForceMultiplier;
+            rb.AddForce(throwForce, ForceMode.Impulse);
+            rb.AddTorque(Random.insideUnitSphere * 500f);
+        }
+
+        if (hasBeenThrown)
+        {
+            timeSinceThrown += Time.deltaTime;
+
+            if (timeSinceThrown >= stopCheckDelay && !isStopped)
+            {
+                if (rb.linearVelocity.magnitude < stopThreshold && rb.angularVelocity.magnitude < stopThreshold)
+                {
+                    isStopped = true;
+                    result = GetTopFace();
+
+                    if (result != -1)
+                    {
+                        Debug.Log($"出た目: {result}");
+                        if (n == 1)
+                        {
+                            player.DiceAfter(result);
+                        }
+                        else if (n == 2)
+                        {
+                            StartCoroutine(playerSaikoro.HideDiceCameraWithDelay());
+                            curseGauge.Curse1(result);
+                        }
+                        ApplyDiceResult(result); // 🎯 **ここで即回転開始**
+                    }
+                }
+            }
+        }
     }
 
     private int GetTopFace()
