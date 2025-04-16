@@ -20,6 +20,7 @@ public class PlayerInventory : MonoBehaviour
     private float cooldownTime = 3f;  // クールダウン時間（3秒）
     public TextMeshProUGUI itemCountText; // UIに表示するためのText
     // アイテムを追加（クールダウン処理を追加）
+    private HashSet<string> persistentItems = new HashSet<string> { "none" };
 
     public void AddItem(string itemName)
     {
@@ -68,17 +69,28 @@ public class PlayerInventory : MonoBehaviour
 
 
     // アイテムを使う（消費）
+    // 消えないアイテムのリストを追加
+
     public bool UseItem(string itemName)
     {
         if (items.ContainsKey(itemName) && items[itemName] > 0)
         {
-            items[itemName]--;
-            Debug.Log($"{itemName} を使用しました。残り：{items[itemName]}");
-
-            if (items[itemName] <= 0)
+            // 消えないアイテムかどうかを判定
+            if (!persistentItems.Contains(itemName))
             {
-                items.Remove(itemName);
+                items[itemName]--;
+                Debug.Log($"{itemName} を使用しました。残り：{items[itemName]}");
+
+                if (items[itemName] <= 0)
+                {
+                    items.Remove(itemName);
+                }
             }
+            else
+            {
+                Debug.Log($"{itemName} を使用しましたが、インベントリからは削除されません。");
+            }
+
             return true;
         }
         else
