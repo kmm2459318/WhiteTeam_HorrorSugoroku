@@ -3,6 +3,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEngine.SceneManagement;
 
 public class Statue : MonoBehaviour
 {
@@ -13,10 +14,18 @@ public class Statue : MonoBehaviour
     public GameObject[] PutDownArea = new GameObject[4];
     //人形用の箱
     public GameObject[] Doll = new GameObject[4];
+    //ライト
+    public Light Clearlight;
+    private float AddIntensity = 1000f; //光の強さの増加量
+    public float WaitTime = 7f; // 待ち時間（秒）
+    private float Timer = 0f; // タイマー
+
 
     private GameObject lastHighlightedObject = null;
 
     private bool hasClicked = false;
+    public bool isExitDoor = false; // 脱出ドアであることがわかるタグ
+    private bool sceneLoaded = false; //二重読み込み防止フラグ
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -81,6 +90,22 @@ public class Statue : MonoBehaviour
 
             StartCoroutine(ResetClick()); // フラグリセットコルーチン呼び出し
         }
+
+        //脱出可能になったら光を強くする
+        if (isExitDoor && !sceneLoaded)
+        {
+            Debug.Log("脱出演出");
+            Clearlight.intensity += AddIntensity * Time.deltaTime;
+            // タイマーを進める
+            Timer += Time.deltaTime;
+
+            //一定の時間を超えたらシーン読み込み
+            if (Timer >= WaitTime)
+            {
+                sceneLoaded = true; // 二重読み込み防止
+                SceneManager.LoadScene("Gameclear");
+            }
+        }
     }
 
     IEnumerator ResetClick()
@@ -108,13 +133,8 @@ public class Statue : MonoBehaviour
             }
         }
 
-        gameManager.isExitDoor = true; 
-        Debug.Log("出口のドアが空いた");
+        isExitDoor = true;
 
-        if (gameManager.IsPlayerTurn())
-        {
-            gameManager.NextTurn(); // ターンを強制的に進める（ただし注意して使う）
-        }
     }
 
 }
