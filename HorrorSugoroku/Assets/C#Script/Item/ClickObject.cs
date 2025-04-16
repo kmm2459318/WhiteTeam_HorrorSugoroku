@@ -70,7 +70,7 @@ public class ClickObject : MonoBehaviour
                             }
                             else if (hit.collider.CompareTag("Item"))
                             {
-                                ExecuteScriptC();
+                                ExecuteScriptC(hit.collider.gameObject);
                             }
                             // 🎲 ランダムでスクリプトA または B を実行
                             // int randomChoice = Random.Range(0, 4);
@@ -87,7 +87,8 @@ public class ClickObject : MonoBehaviour
                                 }
                                 else if (hit.collider.CompareTag("Item"))
                                 {
-                                    ExecuteScriptC(); // スクリプトBを実行（例：敵を召喚）
+                                    ExecuteScriptC(hit.collider.gameObject); // スクリプトBを実行（例：敵を召喚）
+                                    Destroy(hit.collider.gameObject);
                                 }
                                 else if (hit.collider.CompareTag("Other"))
                                 {
@@ -156,7 +157,35 @@ public class ClickObject : MonoBehaviour
             StartCoroutine(CooldownAfterAddItem());
         }
     }
+    void ExecuteScriptC(GameObject clickedItem)
+    {
+        string keyName = clickedItem.name;
 
+        if (string.IsNullOrEmpty(keyName))
+        {
+            Debug.LogWarning("KeyNameが設定されていません！");
+            return;
+        }
+
+        // クールダウン中で、かつすでに所持しているアイテムの場合は追加しない
+        if (isCooldown && playerInventory.HasItem(keyName))
+        {
+            Debug.Log($"{keyName} はすでにインベントリにあり、クールダウン中のため追加しません。");
+            return;
+        }
+
+        // アイテムがインベントリにまだない、またはクールダウンが終わった場合
+        if (!playerInventory.HasItem(keyName) || !isCooldown)
+        {
+
+            // アイテムをインベントリに追加
+            playerInventory.AddItem(keyName);
+            Debug.Log($"{keyName} をインベントリに追加しました。");
+
+            // クールダウン後にフラグを解除
+            StartCoroutine(CooldownAfterAddItem());
+        }
+    }
     // クールダウン後にフラグを解除するコルーチン
     IEnumerator CooldownAfterAddItem()
     {

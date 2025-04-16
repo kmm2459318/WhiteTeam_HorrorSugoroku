@@ -54,7 +54,8 @@ public class CurseSlider : MonoBehaviour
     [SerializeField] private DiceRangeManager diceRangeManager; // DiceRangeManagerへの参照
     public DiceController diceController; // DiceControllerへの参照
     [SerializeField] private GameObject eyeButtonCanvas;
-    private bool isDisplayingText = false;
+    private bool isDisplayingText = false; 
+    [SerializeField] private Camera diceCamera;
 
     private int nextShowCardThreshold = 20;
     // カード表示の閾値（20,40,60,80,100）
@@ -215,11 +216,26 @@ public class CurseSlider : MonoBehaviour
             UpdateCountText();
         }
 
-
-
         UpdateImageGauges();
     }
 
+    public void Curse1(int r)
+    {
+        if (r == 1 && r == 2)
+        {
+            Debug.Log("呪い１１１１１１１１１１１１１１１１１１１１１１１１１１１１１１");
+        }
+
+        if (r == 3 && r == 4)
+        {
+            Debug.Log("呪い２２２２２２２２２２２２２２２２２２２２２２２２２２２２２２");
+        }
+
+        if (r == 5 && r == 6)
+        {
+            Debug.Log("呪い３３３３３３３３３３３３３３３３３３３３３３３３３３３３３３");
+        }
+    }
 
     public void IncreaseDashPointPerTurn()
     {
@@ -228,9 +244,6 @@ public class CurseSlider : MonoBehaviour
 
         Debug.Log("今の呪いゲージ量: " + dashPoint);
     }
-
-   
-
 
     private void UpdateImageGauges()
     {
@@ -256,16 +269,18 @@ public class CurseSlider : MonoBehaviour
         Debug.Log("ShowCardCanvas1() が呼ばれました");
         if (CardCanvas1 != null)
         {
+            diceCamera.enabled = true;
+            diceController.ResetDiceState();
             isCardCanvas1 = true;
-            CardCanvas1.SetActive(true);
+            /*CardCanvas1.SetActive(true);
             Debug.Log("CardCanvas1 をアクティブにしました");
 
             ArmButton.interactable = !isArmButtonUsed;
             LegButton.interactable = !isLegButtonUsed;
             EyeButton.interactable = !isEyeButtonUsed;
-
+            */
             yield return new WaitForSeconds(1.0f);
-            Time.timeScale = 0; // **ゲームを停止**
+            //Time.timeScale = 0; // **ゲームを停止**
         }
         else
         {
