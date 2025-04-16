@@ -39,7 +39,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 153200984708539672}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 4fa1ae9f0b8223e4da4596db43686c52, type: 3}
   m_Name: 
@@ -162,7 +162,7 @@ Transform:
   m_GameObject: {fileID: 1561701990267013035}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.22, y: 1.17, z: -10.67}
+  m_LocalPosition: {x: 0, y: 1.17, z: -10.6}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 1
   m_Children:
@@ -464,8 +464,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 55466a5950d71ed42839e33258d14179, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  curseSlider: {fileID: 0}
   initialItems:
-  - "\u4E00\u968E\u306E\u30AB\u30AE"
+  - "\u98DF\u5802\u306E\u9375"
+  dollText: {fileID: 0}
+  potionText: {fileID: 0}
+  itemCountText: {fileID: 0}
 --- !u!114 &1619509061919399483
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -758,7 +762,8 @@ MeshRenderer:
   m_SmallMeshCulling: 1
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
-  m_Materials: []
+  m_Materials:
+  - {fileID: 2180264, guid: 2e498d1c8094910479dc3e1b768306a4, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -799,8 +804,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 1.3, y: 1, z: 1.3}
-  m_Center: {x: 0, y: 0, z: -0.25}
+  m_Size: {x: 0.37556297, y: 1, z: 0.30419803}
+  m_Center: {x: 0.0020549893, y: 0, z: -0.21388733}
 --- !u!54 &4373944040096753386
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -1325,8 +1330,8 @@ Light:
   serializedVersion: 11
   m_Type: 0
   m_Color: {r: 1, g: 0.9411765, b: 0.5882353, a: 1}
-  m_Intensity: 6
-  m_Range: 15
+  m_Intensity: 4
+  m_Range: 7
   m_SpotAngle: 110.84311
   m_InnerSpotAngle: 23.866667
   m_CookieSize: 10

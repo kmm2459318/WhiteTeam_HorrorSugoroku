@@ -1,11 +1,16 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using TMPro;
 public class PlayerInventory : MonoBehaviour
 {
-    // インスペクターで設定可能な初期アイテムリスト
-    public List<string> initialItems;
+    
+    public CurseSlider curseSlider;
+   // インスペクターで設定可能な初期アイテムリスト
+   public List<string> initialItems;
+
+    public TextMeshProUGUI dollText;   // 身代わり人形
+    public TextMeshProUGUI potionText; // 回復薬
 
     // 複数所持に対応！Dictionaryで個数を管理
     private Dictionary<string, int> items = new Dictionary<string, int>();
@@ -13,8 +18,9 @@ public class PlayerInventory : MonoBehaviour
     private bool isCooldown = false;  // アイテム追加のクールダウンフラグ
     private bool isAddingItem = false;  // アイテム追加中かを管理するフラグ
     private float cooldownTime = 3f;  // クールダウン時間（3秒）
-
+    public TextMeshProUGUI itemCountText; // UIに表示するためのText
     // アイテムを追加（クールダウン処理を追加）
+
     public void AddItem(string itemName)
     {
         if (isAddingItem)
@@ -42,9 +48,24 @@ public class PlayerInventory : MonoBehaviour
 
         Debug.Log($"{itemName} をインベントリに追加しました。現在の所持数：{items[itemName]}");
 
-        // アイテム追加後にクールダウン開始
+            UpdateItemCountUI(itemName); // ← UI更新を呼ぶ！
+        
+        // ★ 自動使用処理（回復薬のみ）
+        if (itemName == "回復薬")
+        {
+            bool used = UseItem("回復薬");
+            if (used)
+            {
+                 curseSlider.IncreaseDashPoint(20);
+                Debug.Log("20回復した");
+            }                
+        }
+        //アイテム追加後にクールダウン開始
         StartCoroutine(CooldownCoroutine());
     }
+
+
+
 
     // アイテムを使う（消費）
     public bool UseItem(string itemName)
@@ -67,6 +88,14 @@ public class PlayerInventory : MonoBehaviour
         }
     }
 
+    public void UpdateItemCountUI(string itemName)
+    {
+        if (dollText != null)
+            dollText.text = $" {GetItemCount("身代わり人形")}個";
+
+        if (potionText != null)
+            potionText.text = $"回復薬: {GetItemCount("回復薬")}個";
+    }
     // 所持しているか確認
     public bool HasItem(string itemName)
     {
@@ -109,6 +138,10 @@ public class PlayerInventory : MonoBehaviour
     // 初期アイテムを追加するメソッド
     void Start()
     {
+       
+       
+           
+        
         foreach (string item in initialItems)
         {
             AddItem(item);

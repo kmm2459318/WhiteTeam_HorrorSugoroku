@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1065601307883160059}
   - component: {fileID: 4708838176823153718}
+  - component: {fileID: 1906525608090572220}
   m_Layer: 0
   m_Name: BreakerDirector
   m_TagString: Untagged
@@ -45,6 +46,30 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   elevatorLight: {fileID: 0}
+  breaker: 0
+--- !u!114 &1906525608090572220
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 77844534488749748}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 22257417e97df1041afb520781a6a4e1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Player: {fileID: 0}
+  masu1F: {fileID: 0}
+  masu2F: {fileID: 0}
+  masuB1F: {fileID: 0}
+  elevatorCanvas: {fileID: 0}
+  playerSaikoro: {fileID: 0}
+  breakerController: {fileID: 4708838176823153718}
+  cameraController: {fileID: 0}
+  option: {fileID: 2060238303303106159}
+  PSm: {fileID: 0}
+  elevatorPanelOn: 0
 --- !u!1 &1630945816968447377
 GameObject:
   m_ObjectHideFlags: 0
@@ -1071,7 +1096,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 18
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &3125161380009654502
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1391,6 +1416,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   gameManager: {fileID: 0}
   cameraController: {fileID: 0}
+  elevatorIdou: {fileID: 1906525608090572220}
   OptionCanvas: {fileID: 5227217235030043101}
   VolumeSlider: {fileID: 6305768454034920774}
   VolumeImg: {fileID: 8667578208742691117}
@@ -1398,6 +1424,7 @@ MonoBehaviour:
   VolumeMuteSprite: {fileID: -2078093348, guid: 1774e010358a815469f483f9dc00a064, type: 3}
   Volume: 50
   SensitivitySlider: {fileID: 3724118763405512053}
+  isOptionOpen: 0
 --- !u!1 &7090712773752461731
 GameObject:
   m_ObjectHideFlags: 0

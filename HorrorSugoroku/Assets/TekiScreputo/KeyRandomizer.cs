@@ -7,7 +7,7 @@ public class KeyRandomizer : MonoBehaviour
     public int totalItemCount = 10;           // 全体の割り振り数
     public int fixedFirstFloorKeyCount = 3;   // 一階の鍵の数
 
-    private List<string> otherItems = new List<string> { "わら人形", "回復薬" };
+    private List<string> otherItems = new List<string> { "身代わり人形", "回復薬" };
     private List<string> generatedItems = new List<string>();
 
     void Awake()
