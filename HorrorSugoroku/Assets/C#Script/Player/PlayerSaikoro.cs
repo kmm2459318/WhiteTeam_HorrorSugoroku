@@ -237,7 +237,6 @@ public class PlayerSaikoro : MonoBehaviour
             sai = UnityEngine.Random.Range(minDiceValue, maxDiceValue + 1);
 
         }
-        // サイコロ振る
 
         // サイコロ振る
         if (saikorotyu)
@@ -424,15 +423,9 @@ public class PlayerSaikoro : MonoBehaviour
         }*/
         diceRotation.GetDiceNumber(sai);
 
-        if (saikorotyu == true)
-        {
-            if (diceCamera != null) diceCamera.enabled = true;
-        }
-
         if (saikoro.active == true)
         {
             if (diceUI != null) diceUI.gameObject.SetActive(true);
-            StartCoroutine(HideDiceCameraWithDelay()); // 🎯 カメラの非表示を遅延
         }
         else if (saikoro.active == false)
         {
@@ -464,14 +457,16 @@ public class PlayerSaikoro : MonoBehaviour
     public void DiceRoll()
     {
         saikorotyu = true;
+        if (diceCamera != null) diceCamera.enabled = true;
     }
 
     public void DiceAfter(int n)
     {
-
         sai = n;
         detame = sai;
         saikoro.SetActive(true);
+
+        StartCoroutine(HideDiceCameraWithDelay()); // 🎯 カメラの非表示を遅延
         // プレイヤーのサイコロの結果に応じてEnemyのサイコロ範囲を決定
         //targetScript.RollEnemyDice();
 
@@ -690,7 +685,7 @@ public class PlayerSaikoro : MonoBehaviour
             }
         }
     }
-    private IEnumerator HideDiceCameraWithDelay()
+    public IEnumerator HideDiceCameraWithDelay()
     {
         yield return new WaitForSeconds(diceCameraHideDelay); // 指定した秒数待機
         if (diceCamera != null) diceCamera.enabled = false; // 🎯 指定時間後にカメラを非表示

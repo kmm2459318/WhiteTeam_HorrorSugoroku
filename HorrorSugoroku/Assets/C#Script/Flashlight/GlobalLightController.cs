@@ -1,29 +1,71 @@
 using UnityEngine;
 using TMPro; // TextMeshPro を使用するための名前空間
+using System.Collections; // IEnumerator を使用
 
 public class GlobalLightController : MonoBehaviour
 {
-    [SerializeField] private bool turnOn = false; // インスペクターでライトのオン・オフを設定
+    [SerializeField] private bool turnOn = false; // ライトの初期状態はオフ
     [SerializeField] private Light[] alwaysOnLights; // 常にオンにしたいライト
-    [SerializeField] private GameObject outlineObject; // Outline.cs がアタッチされたオブジェクト
-    [SerializeField] private Color outlineColor = Color.red; // アウトラインの色をインスペクターで設定
+    [SerializeField] private GameObject[] outlineObjects; // 複数のOutlineオブジェクト
+    [SerializeField] private Color outlineColor = Color.red; // アウトラインの色
     [SerializeField, Range(0f, 10f)] private float outlineWidth = 2f; // アウトラインの幅
-    [SerializeField] private TextMeshProUGUI messageText; // テキスト表示用の TextMeshPro コンポーネント
+    [SerializeField] private TextMeshProUGUI messageText; // TextMeshPro でテキスト表示
+    [SerializeField] private Animator objectAnimator; // アニメーターを追加
+    [SerializeField] private float fadeDuration = 2f; // ライトのフェードイン時間
+    [SerializeField] private float maxIntensity = 2f; // ライトの最大輝度
 
-    private Outline outline; // Outline コンポーネントをキャッシュ
+    private Outline[] outlines; // Outline コンポーネントの配列
+
+    void Update()
+    {
+        // Aキーが押されたらライトをオンにし、アニメーションのTriggerを発火
+        if (Input.GetKeyDown(KeyCode.A))
+        {
+            turnOn = true;
+            StartCoroutine(FadeInLights()); // コルーチンを開始
+            ApplyLightState();
+
+            if (objectAnimator != null)
+            {
+                objectAnimator.SetTrigger("On");
+            }
+        }
+    }
+
+    IEnumerator FadeInLights()
+    {
+        Light[] allLights = FindObjectsOfType<Light>();
+        float timer = 0f;
+
+        while (timer < fadeDuration)
+        {
+            timer += Time.deltaTime;
+            float intensity = Mathf.Lerp(0, maxIntensity, timer / fadeDuration);
+
+            foreach (Light light in allLights)
+            {
+                if (light != null && !IsAlwaysOn(light))
+                {
+                    light.intensity = intensity;
+                }
+            }
+
+            yield return null; // 次のフレームまで待機
+        }
+    }
 
     public void ApplyLightState()
     {
-        Light[] allLights = FindObjectsOfType<Light>(); // シーン内のすべてのライトを取得
+        Light[] allLights = FindObjectsOfType<Light>();
         foreach (Light light in allLights)
         {
             if (light != null && !IsAlwaysOn(light))
             {
-                light.enabled = turnOn; // ライトのオン・オフを設定
+                light.enabled = turnOn;
+                if (!turnOn) light.intensity = 0; // ライトがオフのときは輝度を0に
             }
         }
 
-        // 常にオンのライトは維持
         foreach (Light alwaysOnLight in alwaysOnLights)
         {
             if (alwaysOnLight != null)
@@ -32,20 +74,24 @@ public class GlobalLightController : MonoBehaviour
             }
         }
 
-        // ライトの状態に応じてアウトラインとテキストを切り替え
-        if (outline != null)
+        // 複数のアウトラインオブジェクトに対応
+        if (outlines != null)
         {
-            if (!turnOn) // ライトがオフのとき
+            foreach (var outline in outlines)
             {
-                EnableOutline();
-                ShowMessage("Go MachineRoom");
-            }
-            else // ライトがオンのとき
-            {
-                DisableOutline();
-                ShowMessage(""); // テキスト非表示
+                if (outline != null)
+                {
+                    outline.enabled = !turnOn; // ライトがオフならアウトラインを表示
+                    if (!turnOn) // オフのときのみ色と幅を設定
+                    {
+                        outline.OutlineColor = outlineColor;
+                        outline.OutlineWidth = outlineWidth;
+                    }
+                }
             }
         }
+
+        ShowMessage(turnOn ? "" : "Go MachineRoom");
     }
 
     private bool IsAlwaysOn(Light light)
@@ -54,50 +100,38 @@ public class GlobalLightController : MonoBehaviour
         {
             if (alwaysOnLight == light)
             {
-                return true; // 常にオンのライトリストに含まれる場合
+                return true;
             }
         }
-        return false; // 含まれない場合
+        return false;
     }
 
     private void Start()
     {
-        if (outlineObject != null)
+        if (outlineObjects != null && outlineObjects.Length > 0)
         {
-            // Outline コンポーネントを取得
-            outline = outlineObject.GetComponent<Outline>();
-            if (outline == null)
+            outlines = new Outline[outlineObjects.Length];
+            for (int i = 0; i < outlineObjects.Length; i++)
             {
-                Debug.LogError("Outline コンポーネントが指定されたオブジェクトに見つかりませんでした。");
-                return;
+                if (outlineObjects[i] != null)
+                {
+                    outlines[i] = outlineObjects[i].GetComponent<Outline>();
+                    if (outlines[i] == null)
+                    {
+                        Debug.LogError($"Outline コンポーネントがオブジェクト {outlineObjects[i].name} に見つかりませんでした。");
+                    }
+                }
             }
-
-            // 初期設定
-            outline.OutlineColor = outlineColor;
-            outline.OutlineWidth = outlineWidth;
-            outline.enabled = !turnOn; // ライトの状態に応じてアウトラインを初期化
         }
 
-        ApplyLightState(); // スタート時に適用
-    }
-
-    private void EnableOutline()
-    {
-        outline.OutlineColor = outlineColor; // アウトラインの色を設定
-        outline.OutlineWidth = outlineWidth; // アウトラインの幅を設定
-        outline.enabled = true; // アウトラインを有効化
-    }
-
-    private void DisableOutline()
-    {
-        outline.enabled = false; // アウトラインを無効化
+        ApplyLightState();
     }
 
     private void ShowMessage(string message)
     {
         if (messageText != null)
         {
-            messageText.text = message; // 指定されたテキストを表示
+            messageText.text = message;
         }
     }
 }

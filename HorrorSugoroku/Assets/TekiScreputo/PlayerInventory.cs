@@ -10,8 +10,9 @@ public class PlayerInventory : MonoBehaviour
    public List<string> initialItems;
 
     public TextMeshProUGUI dollText;   // 身代わり人形
-    public TextMeshProUGUI potionText; // 回復薬
-
+    public TextMeshProUGUI potionText; // 一階の鍵
+    public TextMeshProUGUI kill2Text; //二階の鍵
+    public TextMeshProUGUI tikaText; //地下の鍵
     // 複数所持に対応！Dictionaryで個数を管理
     private Dictionary<string, int> items = new Dictionary<string, int>();
 
@@ -20,6 +21,7 @@ public class PlayerInventory : MonoBehaviour
     private float cooldownTime = 3f;  // クールダウン時間（3秒）
     public TextMeshProUGUI itemCountText; // UIに表示するためのText
     // アイテムを追加（クールダウン処理を追加）
+    private HashSet<string> persistentItems = new HashSet<string> { "none" };
 
     public void AddItem(string itemName)
     {
@@ -68,17 +70,28 @@ public class PlayerInventory : MonoBehaviour
 
 
     // アイテムを使う（消費）
+    // 消えないアイテムのリストを追加
+
     public bool UseItem(string itemName)
     {
         if (items.ContainsKey(itemName) && items[itemName] > 0)
         {
-            items[itemName]--;
-            Debug.Log($"{itemName} を使用しました。残り：{items[itemName]}");
-
-            if (items[itemName] <= 0)
+            // 消えないアイテムかどうかを判定
+            if (!persistentItems.Contains(itemName))
             {
-                items.Remove(itemName);
+                items[itemName]--;
+                Debug.Log($"{itemName} を使用しました。残り：{items[itemName]}");
+
+                if (items[itemName] <= 0)
+                {
+                    items.Remove(itemName);
+                }
             }
+            else
+            {
+                Debug.Log($"{itemName} を使用しましたが、インベントリからは削除されません。");
+            }
+
             return true;
         }
         else
@@ -91,10 +104,17 @@ public class PlayerInventory : MonoBehaviour
     public void UpdateItemCountUI(string itemName)
     {
         if (dollText != null)
-            dollText.text = $" {GetItemCount("身代わり人形")}個";
+            dollText.text = $" {GetItemCount("身代わり人形")}";
 
         if (potionText != null)
-            potionText.text = $"回復薬: {GetItemCount("回復薬")}個";
+            potionText.text = $" {GetItemCount("一階の鍵")}";
+
+        if (kill2Text != null)
+            kill2Text.text = $" {GetItemCount("二階の鍵")}";
+
+        if (tikaText != null)
+            tikaText.text = $" {GetItemCount("地下の鍵")}";
+        
     }
     // 所持しているか確認
     public bool HasItem(string itemName)
