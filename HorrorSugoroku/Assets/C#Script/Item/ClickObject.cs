@@ -10,6 +10,7 @@ public class ClickObject : MonoBehaviour
     public PlayerInventory playerInventory;
     public GameManager gameManager;
     public KeyRandomizer keyRandomizer; // ←追加！
+    public CurseSlider curse;
 
     [SerializeField] public TextMeshProUGUI Text;
     [SerializeField] public GameObject Canvas;
@@ -60,7 +61,7 @@ public class ClickObject : MonoBehaviour
                         float distance = Vector3.Distance(Camera.main.transform.position, hit.collider.transform.position);
                         if (distance <= 3f)
                         {
-                            if (hit.collider.CompareTag("Key"))
+                            /*if (hit.collider.CompareTag("Key"))
                             {
                                 ExecuteScriptA(hit.collider.gameObject);
                             }
@@ -71,7 +72,7 @@ public class ClickObject : MonoBehaviour
                             else if (hit.collider.CompareTag("Item"))
                             {
                                 ExecuteScriptC(hit.collider.gameObject);
-                            }
+                            }*/
                             // 🎲 ランダムでスクリプトA または B を実行
                             // int randomChoice = Random.Range(0, 4);
                             if (Input.GetMouseButtonDown(0))
@@ -87,14 +88,18 @@ public class ClickObject : MonoBehaviour
                                 }
                                 else if (hit.collider.CompareTag("Item"))
                                 {
-                                    ExecuteScriptC(hit.collider.gameObject); // スクリプトBを実行（例：敵を召喚）
-                                    Destroy(hit.collider.gameObject);
+                                    if (!curse.curse1_3)
+                                    {
+                                        ExecuteScriptC(hit.collider.gameObject); // スクリプトBを実行（例：敵を召喚）
+                                        Destroy(hit.collider.gameObject);
+                                        curse.curse1Turn--;
+                                    }
                                 }
                                 else if (hit.collider.CompareTag("Other"))
                                 {
 
                                 }
-                                Destroy(hit.collider.gameObject);
+                                //Destroy(hit.collider.gameObject);
                                 
                             }
                             else if (hit.collider.CompareTag("Map"))
@@ -106,7 +111,7 @@ public class ClickObject : MonoBehaviour
                                 ExecuteScriptC();
                             }
 
-                            Destroy(hit.collider.gameObject);
+                            //Destroy(hit.collider.gameObject);
                         }
                     }
                 }

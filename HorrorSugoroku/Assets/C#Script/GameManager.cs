@@ -23,6 +23,7 @@ public class GameManager : MonoBehaviour
     public PlayerSaikoro playerSaikoro;
     public EnemySaikoro enemySaikoro;
     public EnemySaikoro enemyCopySaikoro;
+    public CurseSlider curseSlider;
     public NavMeshAgent agent;
     public CutIn cutIn;
 
@@ -212,7 +213,14 @@ public class GameManager : MonoBehaviour
 
             Debug.Log("ttttt");
                 footstepSound.Stop(); // 足音を完全に停止
-            
+
+            //呪解除
+            if (curseSlider.curse1Turn == 0)
+            {
+                curseSlider.curse1_1 = false;
+                curseSlider.curse1_2 = false;
+                curseSlider.curse1_3 = false;
+            }
 
             // サイコロを振る
             playerSaikoro.DiceRoll();
