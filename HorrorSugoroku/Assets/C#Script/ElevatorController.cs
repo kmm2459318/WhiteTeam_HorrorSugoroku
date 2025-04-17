@@ -23,7 +23,7 @@ public class ElevatorController : MonoBehaviour
     private bool isDoorOpen = false;
     private int currentFloor = 1;
     private float moveSpeed = 2.0f;
-    private bool isMoving = false;
+    public bool isMoving = false;
     private bool isDoorMoving = false;
 
     private float[] baseFloorHeights = { -3.85f, 0f, 3.81f };
