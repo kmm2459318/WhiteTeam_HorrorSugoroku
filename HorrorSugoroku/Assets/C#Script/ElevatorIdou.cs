@@ -41,8 +41,8 @@ public class ElevatorIdou : MonoBehaviour
         {
             IdouSystem();
             Debug.Log("2Fへ参ります。");
-            PSm.TargetPosition = masu2F.transform.position + new Vector3(0, 1.17f, 0);
-            ikisaki = masu2F.transform.position + new Vector3(0, 1.17f, 0);
+            //PSm.TargetPosition = masu2F.transform.position + new Vector3(0, 1.17f, 0);
+            //ikisaki = masu2F.transform.position + new Vector3(0, 1.17f, 0);
         }
     }
 
@@ -53,8 +53,8 @@ public class ElevatorIdou : MonoBehaviour
         {
             IdouSystem();
             Debug.Log("1Fへ参ります。");
-            PSm.TargetPosition = masu1F.transform.position + new Vector3(0, 1.17f, 0);
-            ikisaki = masu2F.transform.position + new Vector3(0, 1.17f, 0);
+            //PSm.TargetPosition = masu1F.transform.position + new Vector3(0, 1.17f, 0);
+            //ikisaki = masu2F.transform.position + new Vector3(0, 1.17f, 0);
         }
     }
 
@@ -65,11 +65,11 @@ public class ElevatorIdou : MonoBehaviour
         {
             IdouSystem();
             Debug.Log("B1Fへ参ります。");
-            PSm.TargetPosition = masuB1F.transform.position + new Vector3(0, 1.17f, 0);
-            ikisaki = masu2F.transform.position + new Vector3(0, 1.17f, 0);
+            //PSm.TargetPosition = masuB1F.transform.position + new Vector3(0, 1.17f, 0);
+            //ikisaki = masu2F.transform.position + new Vector3(0, 1.17f, 0);
         }
     }
-    
+
     void IdouSystem()
     {
         PSm.PosFact = 0f;
