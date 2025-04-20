@@ -1,10 +1,20 @@
-using System.Collections;
+ï»¿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class KeyManager : MonoBehaviour
 {
     public KeyRandomizer keyRandomizer;
+
+    [System.Serializable]
+    public class ItemPrefabData
+    {
+        public string itemName;
+        public GameObject prefab;
+    }
+
+    public List<ItemPrefabData> itemPrefabs;
+    private Dictionary<string, GameObject> prefabDict = new Dictionary<string, GameObject>();
 
     void Start()
     {
@@ -15,22 +25,51 @@ public class KeyManager : MonoBehaviour
 
         if (keyRandomizer == null)
         {
-            Debug.LogError("KeyRandomizer ‚ªŒ©‚Â‚©‚è‚Ü‚¹‚ñI");
+            Debug.LogError("KeyRandomizer ãŒè¦‹ã¤ã‹ã‚Šã¾ã›ã‚“ï¼");
             return;
         }
 
-        // ƒAƒCƒeƒ€Š„‚è“–‚ÄƒŠƒXƒgæ“¾
+        // ãƒ—ãƒ¬ãƒãƒ–è¾æ›¸ã‚’ä½œæˆ
+        foreach (var item in itemPrefabs)
+        {
+            if (!prefabDict.ContainsKey(item.itemName))
+            {
+                prefabDict[item.itemName] = item.prefab;
+            }
+        }
+        // ã‚¢ã‚¤ãƒ†ãƒ å‰²ã‚Šå½“ã¦ãƒªã‚¹ãƒˆå–å¾—
         List<string> itemList = keyRandomizer.GetGeneratedItems();
 
-        // ƒV[ƒ““à‚Ì "Item" ƒ^ƒOƒIƒuƒWƒFƒNƒg‚ğæ“¾
-        GameObject[] keyObjects = GameObject.FindGameObjectsWithTag("Item");
+        // ã‚·ãƒ¼ãƒ³å†…ã® "Item" ã‚¿ã‚°ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’å–å¾—
+        GameObject[] keyObjects = GameObject.FindGameObjectsWithTag("Items");
 
         if (itemList.Count < keyObjects.Length)
         {
-            Debug.LogWarning("ƒAƒCƒeƒ€‚Ì”‚æ‚èƒIƒuƒWƒFƒNƒg‚Ì•û‚ª‘½‚¢‚Å‚·I");
+            Debug.LogWarning("ã‚¢ã‚¤ãƒ†ãƒ ã®æ•°ã‚ˆã‚Šã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®æ–¹ãŒå¤šã„ã§ã™ï¼");
         }
+        // æ—¢å­˜ã®ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’Prefabã§ç½®ãæ›ãˆã‚‹
+        for (int i = 0; i < keyObjects.Length && i < itemList.Count; i++)
+        {
+            string itemName = itemList[i];
+            GameObject original = keyObjects[i];
 
-        // ‡”Ô‚ÉŠ„‚è“–‚Ä
+            if (prefabDict.ContainsKey(itemName))
+            {
+                GameObject prefab = prefabDict[itemName];
+
+                // åŒã˜ä½ç½®ã«ç½®ãæ›ãˆ
+                GameObject newItem = Instantiate(prefab, original.transform.position, original.transform.rotation);
+                newItem.name = itemName;
+
+                Destroy(original); // å…ƒã®ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’å‰Šé™¤
+                Debug.Log($"{itemName} ã‚’é…ç½®ã—ã¾ã—ãŸï¼");
+            }
+            else
+            {
+                Debug.LogWarning($"âš  {itemName} ã«å¯¾å¿œã™ã‚‹PrefabãŒè¦‹ã¤ã‹ã‚Šã¾ã›ã‚“ï¼");
+            }
+        }
+        // é †ç•ªã«å‰²ã‚Šå½“ã¦
         for (int i = 0; i < keyObjects.Length && i < itemList.Count; i++)
         {
             GameObject keyObject = keyObjects[i];
@@ -38,7 +77,7 @@ public class KeyManager : MonoBehaviour
 
             keyObject.name = itemName;
 
-            Debug.Log($"{keyObject.name} ‚É–¼‘O‚ğİ’è‚µ‚Ü‚µ‚½B");
+            Debug.Log($"{keyObject.name} ã«åå‰ã‚’è¨­å®šã—ã¾ã—ãŸã€‚");
         }
     }
 }

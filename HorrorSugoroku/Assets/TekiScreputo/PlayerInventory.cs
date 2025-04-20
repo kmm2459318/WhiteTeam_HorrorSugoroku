@@ -4,7 +4,7 @@ using UnityEngine;
 using TMPro;
 public class PlayerInventory : MonoBehaviour
 {
-    
+   
     public CurseSlider curseSlider;
    // インスペクターで設定可能な初期アイテムリスト
    public List<string> initialItems;
@@ -22,7 +22,7 @@ public class PlayerInventory : MonoBehaviour
     public TextMeshProUGUI itemCountText; // UIに表示するためのText
     // アイテムを追加（クールダウン処理を追加）
     private HashSet<string> persistentItems = new HashSet<string> { "none" };
-
+  
     public void AddItem(string itemName)
     {
         if (isAddingItem)
@@ -154,7 +154,7 @@ public class PlayerInventory : MonoBehaviour
             ShowInventory();
         }
     }
-
+  
     // 初期アイテムを追加するメソッド
     void Start()
     {

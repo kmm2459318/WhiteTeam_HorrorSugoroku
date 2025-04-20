@@ -54,7 +54,7 @@ public class ClickObject : MonoBehaviour
 
             if (Physics.Raycast(ray, out hit))
             {
-                if (hit.collider.CompareTag("Item") || hit.collider.CompareTag("Key") || hit.collider.CompareTag("Map"))
+                if (hit.collider.CompareTag("Item") || hit.collider.CompareTag("Key") || hit.collider.CompareTag("Doll"))
                 {
                     if (!playerSaikoro.idoutyu)
                     {
@@ -104,11 +104,15 @@ public class ClickObject : MonoBehaviour
                             }
                             else if (hit.collider.CompareTag("Map"))
                             {
-                                ExecuteScriptB();
+                                ExecuteScriptA(clicked); // スクリプトAを実行（アイテム取得）
                             }
-                            else if (hit.collider.CompareTag("Item"))
+                            else if (clicked.CompareTag("Doll"))
                             {
-                                ExecuteScriptC();
+                                ExecuteScriptB(); // スクリプトBを実行（人形を拾う処理）
+                            }
+                            else if (clicked.CompareTag("Item"))
+                            {
+                                ExecuteScriptC();// スクリプトCを実行（例：敵を召喚）
                             }
 
                             //Destroy(hit.collider.gameObject);
@@ -162,35 +166,7 @@ public class ClickObject : MonoBehaviour
             StartCoroutine(CooldownAfterAddItem());
         }
     }
-    void ExecuteScriptC(GameObject clickedItem)
-    {
-        string keyName = clickedItem.name;
 
-        if (string.IsNullOrEmpty(keyName))
-        {
-            Debug.LogWarning("KeyNameが設定されていません！");
-            return;
-        }
-
-        // クールダウン中で、かつすでに所持しているアイテムの場合は追加しない
-        if (isCooldown && playerInventory.HasItem(keyName))
-        {
-            Debug.Log($"{keyName} はすでにインベントリにあり、クールダウン中のため追加しません。");
-            return;
-        }
-
-        // アイテムがインベントリにまだない、またはクールダウンが終わった場合
-        if (!playerInventory.HasItem(keyName) || !isCooldown)
-        {
-
-            // アイテムをインベントリに追加
-            playerInventory.AddItem(keyName);
-            Debug.Log($"{keyName} をインベントリに追加しました。");
-
-            // クールダウン後にフラグを解除
-            StartCoroutine(CooldownAfterAddItem());
-        }
-    }
     // クールダウン後にフラグを解除するコルーチン
     IEnumerator CooldownAfterAddItem()
     {
@@ -200,16 +176,18 @@ public class ClickObject : MonoBehaviour
         isCooldown = false;  // クールダウン終了
     }
 
+    //人形を拾うと人形の所持カウントを増やす
     void ExecuteScriptB()
     {
-        Debug.Log("地図のかけらを獲得！");
-        if (gameManager != null)
+        if (gameManager.Doll <= 5)
         {
-            gameManager.MpPlus();
+            Debug.Log("人形を拾った。");
+            gameManager.Doll++;
         }
         else
         {
-            Debug.LogError("GameManager が見つかりません！");
+
+           Debug.Log("人形はもう持てません。");
         }
     }
 
