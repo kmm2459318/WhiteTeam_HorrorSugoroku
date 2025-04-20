@@ -4,32 +4,22 @@ using System.Collections; // IEnumerator を使用
 
 public class GlobalLightController : MonoBehaviour
 {
-    [SerializeField] private bool turnOn = false; // ライトの初期状態はオフ
+    [SerializeField] private bool turnOn = false; // ライトの初期状態
     [SerializeField] private Light[] alwaysOnLights; // 常にオンにしたいライト
     [SerializeField] private GameObject[] outlineObjects; // 複数のOutlineオブジェクト
     [SerializeField] private Color outlineColor = Color.red; // アウトラインの色
     [SerializeField, Range(0f, 10f)] private float outlineWidth = 2f; // アウトラインの幅
     [SerializeField] private TextMeshProUGUI messageText; // TextMeshPro でテキスト表示
-    [SerializeField] private Animator objectAnimator; // アニメーターを追加
+    [SerializeField] private Animator objectAnimator; // アニメーター
     [SerializeField] private float fadeDuration = 2f; // ライトのフェードイン時間
     [SerializeField] private float maxIntensity = 2f; // ライトの最大輝度
 
     private Outline[] outlines; // Outline コンポーネントの配列
 
+    // Aキーの処理を削除してUpdateは空にする
     void Update()
     {
-        // Aキーが押されたらライトをオンにし、アニメーションのTriggerを発火
-        if (Input.GetKeyDown(KeyCode.A))
-        {
-            turnOn = true;
-            StartCoroutine(FadeInLights()); // コルーチンを開始
-            ApplyLightState();
-
-            if (objectAnimator != null)
-            {
-                objectAnimator.SetTrigger("On");
-            }
-        }
+        // GlobalLightControllerではキー入力は処理しない
     }
 
     IEnumerator FadeInLights()
@@ -74,7 +64,6 @@ public class GlobalLightController : MonoBehaviour
             }
         }
 
-        // 複数のアウトラインオブジェクトに対応
         if (outlines != null)
         {
             foreach (var outline in outlines)
