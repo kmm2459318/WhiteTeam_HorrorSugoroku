@@ -1,31 +1,32 @@
 using UnityEngine;
 
-public class BloclByDoor : MonoBehaviour
+public class BlockByDoor : MonoBehaviour
 {
     public float detectionDistance = 2f; // 検知する距離
     public LayerMask doorLayer; // Doorオブジェクトのレイヤー
 
-    private PlayerSaikoro movementScript;
-   // Start is called once before the first execution of Update after the MonoBehaviour is created
-   void Start()
-    {
-        movementScript = GetComponent<PlayerSaikoro>();
-    }
+    public PlayerSaikoro movementScript;
+    public Transform cameraTransform; // カメラのTransform
 
-    // Update is called once per frame
     void Update()
     {
-        // プレイヤーの前方にRayを飛ばす
+        // カメラの向いてる方向にRayを飛ばす
+        Vector3 direction = cameraTransform.forward;
         RaycastHit hit;
-        if (Physics.Raycast(transform.position, transform.forward, out hit, detectionDistance, doorLayer))
+
+        if (Physics.Raycast(transform.position, direction, out hit, detectionDistance, doorLayer))
         {
             if (hit.collider.CompareTag("Door"))
             {
                 // Doorが前方にある場合、移動を止める
                 movementScript.enabled = false;
+                Debug.DrawRay(transform.position, direction * detectionDistance, Color.red);
                 return;
             }
-        }  movementScript.enabled = true;
+        }
+
+        // Doorがなければ移動できる
+        movementScript.enabled = true;
+        Debug.DrawRay(transform.position, direction * detectionDistance, Color.green);
     }
-  
 }
