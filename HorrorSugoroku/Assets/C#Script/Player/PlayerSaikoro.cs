@@ -13,6 +13,7 @@ public class PlayerSaikoro : MonoBehaviour
     public DiceController diceController;
     [SerializeField] SmoothTransform player;
     private EnemySaikoro targetScript; // コマンドを受け取るEnemySaikoro
+    public CurseSlider curseGauge;
     public EnemyStop enemyStop;
     public EnemyStop enemyStop1;
     public EnemyStop enemyStop2;
@@ -323,14 +324,19 @@ public class PlayerSaikoro : MonoBehaviour
                 {
                     MasuColorChange(parentTransformlast[i], parentTransform[i]);
                 }
-
                 parentTransform = new List<Transform>();
                 parentTransformlast = new List<Material>();
-                idoutyu = false;
+
                 turnManager.turnStay = false;
-                turnManager.TurnCurse();
                 saikoro.SetActive(false);
                 walkCount = 0;
+                curseGauge.Update();
+
+                //呪い溜まってないか判定(ここまでには呪いの判定を済ませとく)
+                if (!curseGauge.isCardCanvas1)
+                {
+                    idoutyu = false;
+                }
 
                 // プレイヤーの動き終了
                 // プレイヤーの移動が終了したら探索モードに入る
@@ -462,6 +468,16 @@ public class PlayerSaikoro : MonoBehaviour
 
     public void DiceAfter(int n)
     {
+        //呪２による減少
+        if (curseGauge.curse1_2)
+        {
+            if (n == 5 ||  n == 6)
+            {
+                n = 4;
+            }
+            curseGauge.curse1Turn--;
+        }
+
         sai = n;
         detame = sai;
         saikoro.SetActive(true);

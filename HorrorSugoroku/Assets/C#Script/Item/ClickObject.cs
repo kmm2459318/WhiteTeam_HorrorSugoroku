@@ -10,6 +10,7 @@ public class ClickObject : MonoBehaviour
     public PlayerInventory playerInventory;
     public GameManager gameManager;
     public KeyRandomizer keyRandomizer; // ←追加！
+    public CurseSlider curse;
 
     [SerializeField] public TextMeshProUGUI Text;
     [SerializeField] public GameObject Canvas;
@@ -60,10 +61,48 @@ public class ClickObject : MonoBehaviour
                         float distance = Vector3.Distance(Camera.main.transform.position, hit.collider.transform.position);
                         if (distance <= 3f)
                         {
-                            GameObject clicked = hit.collider.gameObject;
+                            /*if (hit.collider.CompareTag("Key"))
+                            {
+                                ExecuteScriptA(hit.collider.gameObject);
+                            }
+                            else if (hit.collider.CompareTag("Map"))
+                            {
+                                ExecuteScriptB();
+                            }
+                            else if (hit.collider.CompareTag("Item"))
+                            {
+                                ExecuteScriptC(hit.collider.gameObject);
+                            }*/
+                            // 🎲 ランダムでスクリプトA または B を実行
+                            // int randomChoice = Random.Range(0, 4);
+                            if (Input.GetMouseButtonDown(0))
+                            { // 左クリック
+                                if (hit.collider.CompareTag("Key"))
+                                {
+                                    ExecuteScriptA(hit.collider.gameObject); // スクリプトAを実行（アイテム取得）
+                                    Destroy(hit.collider.gameObject);
+                                }
+                                else if (hit.collider.CompareTag("Map"))
+                                {
+                                    ExecuteScriptB(); // スクリプトBを実行（例：敵を召喚）
+                                }
+                                else if (hit.collider.CompareTag("Item"))
+                                {
+                                    if (!curse.curse1_3)
+                                    {
+                                        ExecuteScriptC(hit.collider.gameObject); // スクリプトBを実行（例：敵を召喚）
+                                        Destroy(hit.collider.gameObject);
+                                        curse.curse1Turn--;
+                                    }
+                                }
+                                else if (hit.collider.CompareTag("Other"))
+                                {
 
-                            
-                            if (clicked.CompareTag("Key"))
+                                }
+                                //Destroy(hit.collider.gameObject);
+                                
+                            }
+                            else if (hit.collider.CompareTag("Map"))
                             {
                                 ExecuteScriptA(clicked); // スクリプトAを実行（アイテム取得）
                             }
@@ -76,7 +115,7 @@ public class ClickObject : MonoBehaviour
                                 ExecuteScriptC();// スクリプトCを実行（例：敵を召喚）
                             }
 
-                            Destroy(clicked); // 一度だけ削除
+                            //Destroy(hit.collider.gameObject);
                         }
                     }
                 }
