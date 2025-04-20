@@ -60,6 +60,6 @@ public class DiceRotation : MonoBehaviour
     {
         shouldRotate = true;  // 回転を開始
         dice = sai;
-        Debug.Log($"受け取った出目: {dice}");
+       // Debug.Log($"受け取った出目: {dice}");
     }
 }
