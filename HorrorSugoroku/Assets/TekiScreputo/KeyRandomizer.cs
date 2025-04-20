@@ -1,14 +1,67 @@
-using System.Collections;
+ï»¿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class KeyRandomizer : MonoBehaviour
 {
-    public int totalItemCount = 10;           // ‘S‘Ì‚ÌŠ„‚èU‚è”
-    public int fixedFirstFloorKeyCount = 3;   // ˆêŠK‚ÌŒ®‚Ì”
+    public int totalItemCount = 10;           // å…¨ä½“ã®å‰²ã‚ŠæŒ¯ã‚Šæ•°
+    public int fixedFirstFloorKeyCount = 3;   // ä¸€éšã®éµã®æ•°
+    public Transform spawnParent;
+    public List<Transform> spawnPoints;
 
-    private List<string> otherItems = new List<string> { "g‘ã‚í‚èlŒ`", "‰ñ•œ–ò" };
+    private List<string> otherItems = new List<string> { "èº«ä»£ã‚ã‚Šäººå½¢", "å›å¾©è–¬" };
     private List<string> generatedItems = new List<string>();
+
+    //[System.Serializable]
+    //public class ItemPrefabData
+    //{
+    //    public string itemName;
+    //    public GameObject prefab;
+    //}
+    //public List<ItemPrefabData> itemPrefabs;  // Inspector ã§ã‚»ãƒƒãƒˆï¼
+    //private Dictionary<string, GameObject> prefabDict = new Dictionary<string, GameObject>();
+
+    //public KeyRandomizer randomizer;
+
+    //void Start()
+    //{
+    //    // è¾æ›¸ã«å¤‰æ›ï¼ˆè¦‹ã¤ã‘ã‚„ã™ãã™ã‚‹ï¼‰
+    //    foreach (var item in itemPrefabs)
+    //    {
+    //        prefabDict[item.itemName] = item.prefab;
+    //    }
+
+    //    SpawnItems();
+    //}
+    //void SpawnItems()
+    //{
+    //    List<string> generatedItems = randomizer.GetGeneratedItems();
+
+    //    for (int i = 0; i < generatedItems.Count && i < spawnPoints.Count; i++)
+    //    {
+    //        string itemName = generatedItems[i];
+
+    //        if (prefabDict.ContainsKey(itemName))
+    //        {
+    //            GameObject prefab = prefabDict[itemName];
+    //            Transform spawnPoint = spawnPoints[i];
+
+    //            GameObject item = Instantiate(prefab, spawnPoint.position, Quaternion.identity, spawnParent);
+    //            item.name = itemName;
+
+    //            //// åå‰è¡¨ç¤ºã‚„ã‚¢ã‚¤ãƒ†ãƒ æƒ…å ±ã‚¹ã‚¯ãƒªãƒ—ãƒˆãŒã‚ã‚Œã°è¨­å®š
+    //            //var info = item.GetComponent<ItemInfo>();
+    //            //if (info != null)
+    //            //{
+    //            //    info.itemName = itemName;
+
+    //        }
+    //        else
+    //        {
+    //            Debug.LogWarning($"âš  {itemName} ã«å¯¾å¿œã™ã‚‹PrefabãŒã‚ã‚Šã¾ã›ã‚“ï¼");
+    //        }
+    //    }
+    //}
 
     void Awake()
     {
@@ -19,13 +72,13 @@ public class KeyRandomizer : MonoBehaviour
     {
         generatedItems.Clear();
 
-        // ˆêŠK‚ÌŒ®‚ğŠmÀ‚É’Ç‰Á
+        // ä¸€éšã®éµã‚’ç¢ºå®Ÿã«è¿½åŠ 
         for (int i = 0; i < fixedFirstFloorKeyCount; i++)
         {
-            generatedItems.Add("ˆêŠK‚ÌŒ®");
+            generatedItems.Add("ä¸€éšã®éµ");
         }
 
-        // c‚è˜g‚É‘¼ƒAƒCƒeƒ€‚ğƒ‰ƒ“ƒ_ƒ€‚É’Ç‰Á
+        // æ®‹ã‚Šæ ã«ä»–ã‚¢ã‚¤ãƒ†ãƒ ã‚’ãƒ©ãƒ³ãƒ€ãƒ ã«è¿½åŠ 
         int remaining = totalItemCount - fixedFirstFloorKeyCount;
         for (int i = 0; i < remaining; i++)
         {
@@ -36,7 +89,7 @@ public class KeyRandomizer : MonoBehaviour
         Shuffle(generatedItems);
     }
 
-    // ŠO•”—pF¶¬Ï‚İ‚ÌƒŠƒXƒg‚ğ“n‚·
+    // å¤–éƒ¨ç”¨ï¼šç”Ÿæˆæ¸ˆã¿ã®ãƒªã‚¹ãƒˆã‚’æ¸¡ã™
     public List<string> GetGeneratedItems()
     {
         return new List<string>(generatedItems);
