@@ -1,126 +1,103 @@
 using UnityEngine;
-using TMPro; // TextMeshPro ‚ğg—p‚·‚é‚½‚ß‚Ì–¼‘O‹óŠÔ
-using System.Collections; // IEnumerator ‚ğg—p
+using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
 
 public class GlobalLightController : MonoBehaviour
 {
-    [SerializeField] private bool turnOn = false; // ƒ‰ƒCƒg‚Ì‰Šúó‘Ô
-    [SerializeField] private Light[] alwaysOnLights; // í‚ÉƒIƒ“‚É‚µ‚½‚¢ƒ‰ƒCƒg
-    [SerializeField] private GameObject[] outlineObjects; // •¡”‚ÌOutlineƒIƒuƒWƒFƒNƒg
-    [SerializeField] private Color outlineColor = Color.red; // ƒAƒEƒgƒ‰ƒCƒ“‚ÌF
-    [SerializeField, Range(0f, 10f)] private float outlineWidth = 2f; // ƒAƒEƒgƒ‰ƒCƒ“‚Ì•
-    [SerializeField] private TextMeshProUGUI messageText; // TextMeshPro ‚ÅƒeƒLƒXƒg•\¦
-    [SerializeField] private Animator objectAnimator; // ƒAƒjƒ[ƒ^[
-    [SerializeField] private float fadeDuration = 2f; // ƒ‰ƒCƒg‚ÌƒtƒF[ƒhƒCƒ“ŠÔ
-    [SerializeField] private float maxIntensity = 2f; // ƒ‰ƒCƒg‚ÌÅ‘å‹P“x
+    [SerializeField] private string alwaysBrightTag = "AlwaysBright"; // å¸¸ã«æ˜ã‚‹ã„ãƒ©ã‚¤ãƒˆã®ã‚¿ã‚°
+    [SerializeField] private float maxIntensity = 2f;
+    [SerializeField] private float transitionDuration = 1f; // æ˜ã‚‹ã•ãŒå¤‰ã‚ã‚‹ã¾ã§ã®æ™‚é–“
+    [SerializeField] private GameObject[] outlinedObjects; // Outline ã‚’æŒã¤ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®é…åˆ—
+    [SerializeField] private Animator targetAnimator; // ã‚¢ãƒ‹ãƒ¡ãƒ¼ã‚·ãƒ§ãƒ³åˆ¶å¾¡ç”¨
+    [SerializeField] private string triggerName = "On"; // ã‚¢ãƒ‹ãƒ¡ãƒ¼ã‚·ãƒ§ãƒ³ã®ãƒˆãƒªã‚¬ãƒ¼å
 
-    private Outline[] outlines; // Outline ƒRƒ“ƒ|[ƒlƒ“ƒg‚Ì”z—ñ
-
-    // AƒL[‚Ìˆ—‚ğíœ‚µ‚ÄUpdate‚Í‹ó‚É‚·‚é
-    void Update()
-    {
-        // GlobalLightController‚Å‚ÍƒL[“ü—Í‚Íˆ—‚µ‚È‚¢
-    }
-
-    IEnumerator FadeInLights()
-    {
-        Light[] allLights = FindObjectsOfType<Light>();
-        float timer = 0f;
-
-        while (timer < fadeDuration)
-        {
-            timer += Time.deltaTime;
-            float intensity = Mathf.Lerp(0, maxIntensity, timer / fadeDuration);
-
-            foreach (Light light in allLights)
-            {
-                if (light != null && !IsAlwaysOn(light))
-                {
-                    light.intensity = intensity;
-                }
-            }
-
-            yield return null; // Ÿ‚ÌƒtƒŒ[ƒ€‚Ü‚Å‘Ò‹@
-        }
-    }
-
-    public void ApplyLightState()
-    {
-        Light[] allLights = FindObjectsOfType<Light>();
-        foreach (Light light in allLights)
-        {
-            if (light != null && !IsAlwaysOn(light))
-            {
-                light.enabled = turnOn;
-                if (!turnOn) light.intensity = 0; // ƒ‰ƒCƒg‚ªƒIƒt‚Ì‚Æ‚«‚Í‹P“x‚ğ0‚É
-            }
-        }
-
-        foreach (Light alwaysOnLight in alwaysOnLights)
-        {
-            if (alwaysOnLight != null)
-            {
-                alwaysOnLight.enabled = true;
-            }
-        }
-
-        if (outlines != null)
-        {
-            foreach (var outline in outlines)
-            {
-                if (outline != null)
-                {
-                    outline.enabled = !turnOn; // ƒ‰ƒCƒg‚ªƒIƒt‚È‚çƒAƒEƒgƒ‰ƒCƒ“‚ğ•\¦
-                    if (!turnOn) // ƒIƒt‚Ì‚Æ‚«‚Ì‚İF‚Æ•‚ğİ’è
-                    {
-                        outline.OutlineColor = outlineColor;
-                        outline.OutlineWidth = outlineWidth;
-                    }
-                }
-            }
-        }
-
-        ShowMessage(turnOn ? "" : "Go MachineRoom");
-    }
-
-    private bool IsAlwaysOn(Light light)
-    {
-        foreach (Light alwaysOnLight in alwaysOnLights)
-        {
-            if (alwaysOnLight == light)
-            {
-                return true;
-            }
-        }
-        return false;
-    }
+    private Light[] allLights; // ã‚·ãƒ¼ãƒ³å†…ã®å…¨ãƒ©ã‚¤ãƒˆ
+    private List<Light> alwaysBrightLights = new List<Light>(); // å¸¸ã«æ˜ã‚‹ã„ãƒ©ã‚¤ãƒˆ
+    private bool areOtherLightsOn = false; // ãã®ä»–ã®ãƒ©ã‚¤ãƒˆã®çŠ¶æ…‹
+    private bool isPlayerInZone = false; // ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ãŒã‚¨ãƒªã‚¢å†…ã«ã„ã‚‹ã‹ã©ã†ã‹
 
     private void Start()
     {
-        if (outlineObjects != null && outlineObjects.Length > 0)
+        // ã‚·ãƒ¼ãƒ³å†…ã®å…¨ãƒ©ã‚¤ãƒˆã‚’å–å¾—
+        allLights = FindObjectsOfType<Light>();
+
+        // ã‚¿ã‚°ã§å¸¸ã«æ˜ã‚‹ã„ãƒ©ã‚¤ãƒˆã‚’å–å¾—
+        alwaysBrightLights = allLights.Where(light => light.CompareTag(alwaysBrightTag)).ToList();
+
+        // ã‚¿ã‚°ä»˜ããƒ©ã‚¤ãƒˆã‚’æ˜ã‚‹ãè¨­å®šï¼ˆå¤‰æ›´ã›ãšã€æ˜ã‚‹ã•ã‚’ç¶­æŒï¼‰
+        foreach (Light light in alwaysBrightLights)
         {
-            outlines = new Outline[outlineObjects.Length];
-            for (int i = 0; i < outlineObjects.Length; i++)
+            light.enabled = true;
+            light.intensity = maxIntensity;
+            Debug.Log($"ãƒ©ã‚¤ãƒˆ '{light.name}' ã¯ã‚¿ã‚° '{alwaysBrightTag}' ã«åŸºã¥ãå¸¸ã«æ˜ã‚‹ã„çŠ¶æ…‹ã«è¨­å®šã•ã‚Œã¾ã—ãŸ");
+        }
+    }
+
+    public void SetPlayerInZone(bool state)
+    {
+        isPlayerInZone = state;
+        Debug.Log($"ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ãŒã‚¨ãƒªã‚¢å†…: {isPlayerInZone}");
+    }
+
+    private void Update()
+    {
+        if (isPlayerInZone && Input.GetKeyDown(KeyCode.A))
+        {
+            Debug.Log("Aã‚­ãƒ¼ãŒæŠ¼ã•ã‚Œã¾ã—ãŸï¼ ãã®ä»–ã®ãƒ©ã‚¤ãƒˆã®çŠ¶æ…‹ã‚’åˆ‡ã‚Šæ›¿ãˆã¾ã™ã€‚");
+            ToggleOtherLights();
+        }
+    }
+
+    private void ToggleOtherLights()
+    {
+        areOtherLightsOn = !areOtherLightsOn; // çŠ¶æ…‹ã‚’åè»¢
+        Debug.Log($"ãã®ä»–ã®ãƒ©ã‚¤ãƒˆã®çŠ¶æ…‹å¤‰æ›´: {areOtherLightsOn}");
+
+        // å¸¸ã«æ˜ã‚‹ã„ãƒ©ã‚¤ãƒˆä»¥å¤–ã‚’å¯¾è±¡ã«æ˜ã‚‹ã•ã‚’åˆ‡ã‚Šæ›¿ãˆã‚‹
+        foreach (Light light in allLights)
+        {
+            if (!alwaysBrightLights.Contains(light)) // å¸¸ã«æ˜ã‚‹ã„ãƒ©ã‚¤ãƒˆã‚’é™¤å¤–
             {
-                if (outlineObjects[i] != null)
+                StartCoroutine(AdjustLightIntensity(light, areOtherLightsOn ? maxIntensity : light.intensity));
+            }
+        }
+
+        // æ˜ã‚‹ããªã£ãŸã‚‰ã‚¢ã‚¦ãƒˆãƒ©ã‚¤ãƒ³ã‚’ç„¡åŠ¹åŒ–
+        if (areOtherLightsOn && outlinedObjects.Length > 0)
+        {
+            foreach (GameObject obj in outlinedObjects)
+            {
+                Outline outlineComponent = obj.GetComponent<Outline>();
+                if (outlineComponent != null)
                 {
-                    outlines[i] = outlineObjects[i].GetComponent<Outline>();
-                    if (outlines[i] == null)
-                    {
-                        Debug.LogError($"Outline ƒRƒ“ƒ|[ƒlƒ“ƒg‚ªƒIƒuƒWƒFƒNƒg {outlineObjects[i].name} ‚ÉŒ©‚Â‚©‚è‚Ü‚¹‚ñ‚Å‚µ‚½B");
-                    }
+                    outlineComponent.enabled = false;
+                    Debug.Log($"'{obj.name}' ã®ã‚¢ã‚¦ãƒˆãƒ©ã‚¤ãƒ³ã‚’éè¡¨ç¤ºã«ã—ã¾ã—ãŸ");
                 }
             }
         }
 
-        ApplyLightState();
+        // æ˜ã‚‹ããªã£ãŸã‚‰ã‚¢ãƒ‹ãƒ¡ãƒ¼ã‚·ãƒ§ãƒ³ã®ãƒˆãƒªã‚¬ãƒ¼ã‚’ã‚ªãƒ³ã«ã™ã‚‹
+        if (areOtherLightsOn && targetAnimator != null)
+        {
+            targetAnimator.SetTrigger(triggerName);
+            Debug.Log($"ã‚¢ãƒ‹ãƒ¡ãƒ¼ã‚·ãƒ§ãƒ³ã®ãƒˆãƒªã‚¬ãƒ¼ '{triggerName}' ã‚’ã‚ªãƒ³ã«ã—ã¾ã—ãŸ");
+        }
     }
 
-    private void ShowMessage(string message)
+    private IEnumerator AdjustLightIntensity(Light light, float targetIntensity)
     {
-        if (messageText != null)
+        float currentIntensity = light.intensity;
+        float elapsedTime = 0f;
+
+        while (elapsedTime < transitionDuration)
         {
-            messageText.text = message;
+            elapsedTime += Time.deltaTime;
+            light.intensity = Mathf.Lerp(currentIntensity, targetIntensity, elapsedTime / transitionDuration);
+            yield return null; // æ¬¡ã®ãƒ•ãƒ¬ãƒ¼ãƒ ã‚’å¾…æ©Ÿ
         }
+
+        light.intensity = targetIntensity; // æœ€çµ‚çš„ãªå¼·åº¦ã‚’è¨­å®š
+        Debug.Log($"ãƒ©ã‚¤ãƒˆ '{light.name}' ã®æ˜ã‚‹ã•ã‚’ {targetIntensity} ã«è¨­å®šã—ã¾ã—ãŸ");
     }
 }

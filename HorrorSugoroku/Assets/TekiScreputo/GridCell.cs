@@ -98,7 +98,29 @@ void Update()
         //        Debug.Log("🔘 Gキーを押して UI を閉じました");
         //    }
         //}
-
+        Renderer renderer = GetComponent<Renderer>();
+        if (renderer != null)
+        {
+            switch (cellEffect)
+            {
+                case "Event":
+                    renderer.material.color = Color.red; // 赤
+                    break;
+                case "Debuff":
+                    renderer.material.color = Color.green; // 緑
+                    break;
+                // 他にも追加可能
+                case "Curse":
+                    renderer.material.color = Color.magenta;
+                    break;
+                case "Item":
+                    renderer.material.color = Color.cyan;
+                    break;
+                default:
+                    renderer.material.color = Color.white; // 通常は白
+                    break;
+            }
+        }
     }
     public void ExecuteEvent()
     {

@@ -469,7 +469,7 @@ public class PlayerSaikoro : MonoBehaviour
             {
                 n = 4;
             }
-            curseGauge.curse1Turn--;
+            //curseGauge.curse1Turn--;
         }
 
         sai = n;
