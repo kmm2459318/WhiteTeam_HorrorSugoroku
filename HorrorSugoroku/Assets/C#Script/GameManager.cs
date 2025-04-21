@@ -214,6 +214,7 @@ public class GameManager : MonoBehaviour
             Debug.Log("ttttt");
                 footstepSound.Stop(); // 足音を完全に停止
 
+            curseSlider.curse1Turn--;
             //呪解除
             if (curseSlider.curse1Turn == 0)
             {
