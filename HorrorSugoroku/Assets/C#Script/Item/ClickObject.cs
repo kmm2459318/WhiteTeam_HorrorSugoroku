@@ -90,7 +90,7 @@ public class ClickObject : MonoBehaviour
                                 {
                                     if (!curse.curse1_3)
                                     {
-                                        ExecuteScriptC(hit.collider.gameObject); // スクリプトBを実行（例：敵を召喚）
+                                        ExecuteScriptC(); // スクリプトBを実行（例：敵を召喚）
                                         Destroy(hit.collider.gameObject);
                                         curse.curse1Turn--;
                                     }
@@ -102,19 +102,6 @@ public class ClickObject : MonoBehaviour
                                 //Destroy(hit.collider.gameObject);
                                 
                             }
-                            else if (hit.collider.CompareTag("Map"))
-                            {
-                                ExecuteScriptA(clicked); // スクリプトAを実行（アイテム取得）
-                            }
-                            else if (clicked.CompareTag("Doll"))
-                            {
-                                ExecuteScriptB(); // スクリプトBを実行（人形を拾う処理）
-                            }
-                            else if (clicked.CompareTag("Item"))
-                            {
-                                ExecuteScriptC();// スクリプトCを実行（例：敵を召喚）
-                            }
-
                             //Destroy(hit.collider.gameObject);
                         }
                     }
