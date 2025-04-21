@@ -5,7 +5,7 @@ public class CameraController : MonoBehaviour
 {
     public Transform playerBody;  // プレイヤーの本体
     public float mouseSensitivity = 250f;  // マウス感度
-    public Slider sensitivitySlider; // 感度倍率を設定するスライダー
+    //public Slider sensitivitySlider; // 感度倍率を設定するスライダー
     private float sensitivityMultiplier = 1.0f;  // 感度倍率
     private float upperLookLimit = 90f;  // 上方向の回転制限
     private float lowerLookLimit = -90f;  // 下方向の回転制限
@@ -25,13 +25,13 @@ public class CameraController : MonoBehaviour
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
 
-        if (sensitivitySlider != null)
-        {
-            sensitivitySlider.minValue = 0.1f;
-            sensitivitySlider.maxValue = 20.0f;
-            sensitivitySlider.value = sensitivityMultiplier;
-            sensitivitySlider.onValueChanged.AddListener(OnSensitivityChanged);
-        }
+        //if (sensitivitySlider != null)
+        //{
+        //    sensitivitySlider.minValue = 0.1f;
+        //    sensitivitySlider.maxValue = 20.0f;
+        //    sensitivitySlider.value = sensitivityMultiplier;
+        //    sensitivitySlider.onValueChanged.AddListener(OnSensitivityChanged);
+        //}
 
         // カメラの初期位置を保存
         initialCameraPosition = transform.localPosition;

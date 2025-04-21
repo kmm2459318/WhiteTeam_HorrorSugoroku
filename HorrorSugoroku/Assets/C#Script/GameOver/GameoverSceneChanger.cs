@@ -7,7 +7,7 @@ using Unity.VisualScripting;
 
 public class SceneChanger3D : MonoBehaviour
 {
-    public JumpScareAnimation jumpScareAnimation;
+    //public JumpScareAnimation jumpScareAnimation;
 
     [SerializeField] private List<GameObject> enemies; // 敵オブジェクトのリスト
     [SerializeField] private Image cutInImage; // カットイン画像
@@ -91,7 +91,7 @@ public class SceneChanger3D : MonoBehaviour
 
         SceneManager.LoadScene("Jump Scare");
 
-        jumpScareAnimation.StartAnimation();
+        //jumpScareAnimation.StartAnimation();
         // 他のUI要素（テキストなど）を非表示にする
         HideAllUI(); // UI非表示処理を実行
 
