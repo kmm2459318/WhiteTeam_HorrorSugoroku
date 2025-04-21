@@ -82,7 +82,7 @@ public class ClickObject : MonoBehaviour
                                     ExecuteScriptA(hit.collider.gameObject); // スクリプトAを実行（アイテム取得）
                                     Destroy(hit.collider.gameObject);
                                 }
-                                else if (hit.collider.CompareTag("Map"))
+                                else if (hit.collider.CompareTag("Doll"))
                                 {
                                     ExecuteScriptB(); // スクリプトBを実行（例：敵を召喚）
                                 }
@@ -95,14 +95,14 @@ public class ClickObject : MonoBehaviour
                                         curse.curse1Turn--;
                                     }
                                 }
-                                else if (hit.collider.CompareTag("Other"))
-                                {
+                                //else if (hit.collider.CompareTag("Other"))
+                                //{
 
-                                }
-                                //Destroy(hit.collider.gameObject);
+                                //}
+                               Destroy(hit.collider.gameObject);
                                 
                             }
-                            //Destroy(hit.collider.gameObject);
+                            // Destroy(hit.collider.gameObject);
                         }
                     }
                 }
@@ -111,11 +111,11 @@ public class ClickObject : MonoBehaviour
             StartCoroutine(ResetClick()); // フラグリセットコルーチン呼び出し
         }
 
-        if (Canvas.activeSelf && Input.GetKeyDown(KeyCode.Space))
-        {
-            Canvas.SetActive(false);
-        }
-       
+        //if (Canvas.activeSelf && Input.GetKeyDown(KeyCode.Space))
+        //{
+        //    Canvas.SetActive(false);
+        //}
+
     }
 
     IEnumerator ResetClick()
