@@ -92,7 +92,7 @@ public class ClickObject : MonoBehaviour
                                     {
                                         ExecuteScriptC(); // スクリプトBを実行（例：敵を召喚）
                                         Destroy(hit.collider.gameObject);
-                                        curse.curse1Turn--;
+                                        //curse.curse1Turn--;
                                     }
                                 }
                                 //else if (hit.collider.CompareTag("Other"))

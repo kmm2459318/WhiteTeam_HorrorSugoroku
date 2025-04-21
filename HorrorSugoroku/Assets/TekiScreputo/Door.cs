@@ -38,19 +38,19 @@ public class Door : MonoBehaviour
             //Debug.Log("プレイヤーオブジェクトが見つかりました。");
             playerInventory = player.GetComponent<PlayerInventory>();
 
-            if (playerInventory != null)
-            {
-                Debug.Log("PlayerInventoryが正しく取得されました。");
-            }
-            else
-            {
-                Debug.LogError("PlayerInventoryが見つかりません。");
-            }
+            //if (playerInventory != null)
+            //{
+            //    Debug.Log("PlayerInventoryが正しく取得されました。");
+            //}
+            //else
+            //{
+            //    Debug.LogError("PlayerInventoryが見つかりません。");
+            //}
         }
-        else
-        {
-            Debug.LogError("プレイヤーオブジェクトが見つかりません。");
-        }
+        //else
+        //{
+        //    Debug.LogError("プレイヤーオブジェクトが見つかりません。");
+        //}
        
         if (doorPanel != null)
         {
@@ -67,53 +67,53 @@ public class Door : MonoBehaviour
         if (leftTransform != null)
         {
             childAnimator = leftTransform.GetComponent<Animator>();
-            Debug.Log("左側のアニメーターが設定されました");
+            //Debug.Log("左側のアニメーターが設定されました");
 
             // 窓1のTransformを取得
             windowTransform1 = leftTransform.Find("Window1");
-            if (windowTransform1 != null)
-            {
-                Debug.Log("窓1のTransformが設定されました");
-            }
-            else
-            {
-                Debug.Log("窓1のオブジェクトが見つかりません");
-            }
+            //if (windowTransform1 != null)
+            //{
+            //    Debug.Log("窓1のTransformが設定されました");
+            //}
+            //else
+            //{
+            //    Debug.Log("窓1のオブジェクトが見つかりません");
+            //}
 
             // 窓2のTransformを取得
             windowTransform2 = leftTransform.Find("Window2");
-            if (windowTransform2 != null)
-            {
-                Debug.Log("窓2のTransformが設定されました");
-            }
-            else
-            {
-                Debug.Log("窓2のオブジェクトが見つかりません");
-            }
+            //if (windowTransform2 != null)
+            //{
+            //    Debug.Log("窓2のTransformが設定されました");
+            //}
+            //else
+            //{
+            //    Debug.Log("窓2のオブジェクトが見つかりません");
+            //}
         }
-        else
-        {
-            Debug.Log("左側のオブジェクトが見つかりません");
-        }
+        //else
+        //{
+        //    Debug.Log("左側のオブジェクトが見つかりません");
+        //}
 
         // 右側のドアのAnimatorを名前で取得
         Transform rightTransform = transform.Find("Right");
         if (rightTransform != null)
         {
             rightAnimator = rightTransform.GetComponent<Animator>();
-            Debug.Log("右側のアニメーターが設定されました");
+            //Debug.Log("右側のアニメーターが設定されました");
         }
-        else
-        {
-            Debug.Log("右側のオブジェクトが見つかりません");
-        }
+        //else
+        //{
+        //    Debug.Log("右側のオブジェクトが見つかりません");
+        //}
 
         // EnemyAppearanceの参照を取得
         enemyAppearance = GetComponent<EnemyAppearance>();
-        if (enemyAppearance == null)
-        {
-            Debug.LogError("DoorオブジェクトにEnemyAppearanceコンポーネントが見つかりません");
-        }
+        //if (enemyAppearance == null)
+        //{
+        //    Debug.LogError("DoorオブジェクトにEnemyAppearanceコンポーネントが見つかりません");
+        //}
     }
 
     void Update()
@@ -144,10 +144,10 @@ public class Door : MonoBehaviour
                 childAnimator.SetTrigger("LeftOpenTrigger");
                 StartCoroutine(TransitionLeftAnimation());
             }
-            else
-            {
-                Debug.Log("左側のアニメーターがnullです");
-            }
+            //else
+            //{
+            //    Debug.Log("左側のアニメーターがnullです");
+            //}
 
             // RightOpenTriggerを設定して右側のドアのアニメーションを再生
             if (rightAnimator != null)
@@ -156,10 +156,10 @@ public class Door : MonoBehaviour
                 rightAnimator.SetTrigger("RightOpenTrigger");
                 StartCoroutine(TransitionRightAnimation());
             }
-            else
-            {
-                Debug.Log("右側のアニメーターがnullです");
-            }
+            //else
+            //{
+            //    Debug.Log("右側のアニメーターがnullです");
+            //}
         }
     }
 
@@ -168,7 +168,7 @@ public class Door : MonoBehaviour
         yield return new WaitForSeconds(10f);
         if (childAnimator != null)
         {
-            Debug.Log("右2に開くドアを作成するアニメーションに移行");
+            //Debug.Log("右2に開くドアを作成するアニメーションに移行");
             childAnimator.SetTrigger("CreateOpenDoorRight2");
         }
     }
@@ -178,7 +178,7 @@ public class Door : MonoBehaviour
         yield return new WaitForSeconds(10f);
         if (rightAnimator != null)
         {
-            Debug.Log("ドア2を作成するアニメーションに移行");
+            //Debug.Log("ドア2を作成するアニメーションに移行");
             rightAnimator.SetTrigger("CreateOpenDoor2");
         }
     }
@@ -231,7 +231,7 @@ public class Door : MonoBehaviour
             doorAnimator.SetTrigger("LeftOpenTrigger");
         }
 
-        Debug.Log($"{requiredItem} のドアが開きました");
+        //Debug.Log($"{requiredItem} のドアが開きました");
 
         if (hiddenArea != null)
         {
@@ -246,7 +246,7 @@ public class Door : MonoBehaviour
         }
         else
         {
-            Debug.Log("enemyAppearanceがnullです");
+            //Debug.Log("enemyAppearanceがnullです");
         }
     }
 }

@@ -72,6 +72,10 @@ public class CurseSlider : MonoBehaviour
     public bool curse3_3 = false;
     public int curse1Turn = 0;
 
+    public GameObject curse1turnCard;
+    public GameObject curse2turnCard;
+    public GameObject curse3turnCard;
+
     [SerializeField] private HeelCurseGage heelCurseGage; // HeelCurseGageの参照を追加
 
     void Start()
@@ -232,22 +236,26 @@ public class CurseSlider : MonoBehaviour
         curse1Turn = UnityEngine.Random.Range(3, 6);
         Debug.Log("呪ターン：" + curse1Turn);
 
+
         if (r == 1 || r == 2)
         {
             Debug.Log("呪１：敵の最低移動数が増加");
             curse1_1 = true;
+            curse1turnCard.GetComponent<TurnCard>().StartTurn();
         }
 
         if (r == 3 || r == 4)
         {
             Debug.Log("呪２：プレイヤーの歩数が減少");
             curse1_2 = true;
+            curse2turnCard.GetComponent<TurnCard>().StartTurn();
         }
 
         if (r == 5 || r == 6)
         {
             Debug.Log("呪３：回復、無敵アイテムの取得不可");
             curse1_3 = true;
+            curse3turnCard.GetComponent<TurnCard>().StartTurn();
         }
 
         isCardCanvas1 = false;
@@ -288,6 +296,11 @@ public class CurseSlider : MonoBehaviour
             diceCamera.enabled = true;
             diceController.ResetDiceState();
             isCardCanvas1 = true;
+
+            curse1turnCard.SetActive(true);
+            curse2turnCard.SetActive(true);
+            curse3turnCard.SetActive(true);
+
             /*CardCanvas1.SetActive(true);
             Debug.Log("CardCanvas1 をアクティブにしました");
 

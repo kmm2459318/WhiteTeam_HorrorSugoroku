@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class KeyRandomizer : MonoBehaviour
 {
-    public int totalItemCount = 10;           // 全体の割り振り数
-    public int fixedFirstFloorKeyCount = 3;   // 一階の鍵の数
+    public int totalItemCount = 20;           // 全体の割り振り数
+    public int fixedFirstFloorKeyCount = 7;   // 一階の鍵の数
     public Transform spawnParent;
     public List<Transform> spawnPoints;
 
