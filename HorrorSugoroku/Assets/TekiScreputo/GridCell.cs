@@ -9,140 +9,68 @@ using UnityEngine.UI;
 
 public class GridCell : MonoBehaviour
 {
-    //GameManager gameManager;
-
-    public string cellEffect = "Normal"; // マス目の効果（例: Normal, Bonus, Penalty）
+    public string cellEffect = "Normal";
     [SerializeField] private Master_Debuff DebuffSheet;
-    //public GameObject eventPanel; // UIのパネル
-    //public TextMeshProUGUI eventText; // UIのテキスト
+
     private GameObject ui;
     private Transform ccursePanel;
-    private Transform iitemPanel;
-    public GameObject cursePanel; // UIのパネル
-    public TextMeshProUGUI curseText; // UIのテキスト
-    //public GameObject itemPanel; // UIのパネル
-    //public TextMeshProUGUI itemText; // UIのテキスト
-                                     //public GameObject debffPanel; // UIのパネル
-                                     //public TextMeshProUGUI debffText; // UIのテキスト
-                                     //                                 //   public TMP_Text itemLogText;
-                                     // public Button closeButton; // UIを閉じるボタン
-                                     //public ItemPickup item;
-    public string requiredItem = "鍵"; // 必要なアイテム
-    private CurseSlider curseSlider;                                // public int gridCellIncreaseAmount = 20; // GridCell 側の呪いゲージ増加量
-                                                                    // [SerializeField] private int curseChance = 50;  // 呪いの発生確率（％）
-    [SerializeField] private int scareChance = 30;  // 驚かしイベントの発生確率（％）
-    [SerializeField] private int nothingChance = 20; // 何も起こらない確率（％）
-                                                     // [SerializeField] private int hiruChance = 50;  // 呪いの回復確率（％）
 
-    [SerializeField] private int curseamout = 5;//呪いの増加量の調整
-    [SerializeField] private int hirueamout = 10;//呪いの回復量の調整
-    public Image cutInImage; // カットイン画像
-    private Sprite loadedSprite;
-    public AudioSource audioSource; // 音声
-                                    // private AudioClip gameOverSound;
-    public TextMeshProUGUI actionText; // インスペクターで割り当てるテキストUI
+    // static共有するUI部品
+    public static GameObject cursePanel;
+    public static TextMeshProUGUI curseText;
 
+    public string requiredItem = "鍵";
+    private CurseSlider curseSlider;
 
-    [SerializeField] private float cutInDuration = 2.0f; // カットインの表示時間（秒）
-    [SerializeField] private AudioClip gameOverSound; // ゲームオーバー時のサウンド
-                                                      //[SerializeField] private string imageObjectName = "CutInImage"; // 画像のオブジェクト名
-                                                      //[SerializeField] private string audioObjectName = "GameAudioSource"; // AudioSource のオブジェクト名
-                                                      // private AudioSource gameOverSound; // 音声再生用のAudioSource
+    [SerializeField] private int scareChance = 30;
+    [SerializeField] private int nothingChance = 20;
 
-    [SerializeField] private float volume = 1.0f; // 音量 (デフォルトは最大)
+    [SerializeField] private int curseamout = 5;
+    [SerializeField] private int hirueamout = 10;
 
-    private bool isGameOver = false;    // 重複処理防止用フラグ
+    [SerializeField] private float cutInDuration = 2.0f;
+    [SerializeField] private AudioClip gameOverSound;
+
+    [SerializeField] private float volume = 1.0f;
+
+    private bool isGameOver = false;
     private SubstitutedollController substitutedollController;
     private BeartrapController beartrapController;
 
     public int n = 0;
     private PlayerInventory playerInventory;
-    public Outline outlineObject; // インスペクターで指定するアウトラインオブジェクト
-
 
     void Start()
     {
         playerInventory = FindObjectOfType<PlayerInventory>();
-        curseSlider = FindObjectOfType<CurseSlider>(); // 呪いゲージを取得
-        substitutedollController = FindObjectOfType<SubstitutedollController>(); // 追加
-        beartrapController = FindObjectOfType<BeartrapController>(); // 追加
+        curseSlider = FindObjectOfType<CurseSlider>();
+        substitutedollController = FindObjectOfType<SubstitutedollController>();
+        beartrapController = FindObjectOfType<BeartrapController>();
+
         ui = GameObject.Find("UI");
         ccursePanel = ui.transform.Find("CurseCanvasUI");
-        cursePanel = ccursePanel.gameObject;
-        curseText = GameObject.Find("CurseText").GetComponent<TextMeshProUGUI>();
-        //iitemPanel = ui.transform.Find("ItemCanvasUI");
-        //itemPanel = iitemPanel.gameObject;
-        //itemText = GameObject.Find("Text Item").GetComponent<TextMeshProUGUI>();
-        //cutInImage = GameObject.Find("ImageCurse")?.GetComponent<Image>();
-        //audioSource = GameObject.Find("Mamono_aaa")?.GetComponent<AudioSource>();
-        //GameObject[] allGameObjects = Resources.FindObjectsOfTypeAll<GameObject>();
 
-        Debug.Log($"cursePanel: {cursePanel}");
-        Debug.Log($"curseText: {curseText}");
-        //foreach (GameObject obj in allGameObjects)
-        //{
-        //    if (obj.name == "CurseCanvasUI")
-        //    {
-        //        cursePanel = obj;
-        //    }
-        //    if (obj.name == "CurseText")
-        //    {
-        //        curseText = obj.GetComponent<TextMeshProUGUI>();
-        //    }
-        //}
-        //foreach (GameObject obj in allGameObjects)
-        //{
-        //    if (obj.name == "ItemCanvasUI")
-        //    {
-        //        itemPanel = obj;
-        //    }
-        //    if (obj.name == "Text Item")
-        //    {
-        //        itemText = obj.GetComponent<TextMeshProUGUI>();
-        //    }
-        //}
-        //audioSource = gameObject.AddComponent<AudioSource>(); // AudioSourceを追加
+        // static に一度だけ代入する
+        if (cursePanel == null)
+        {
+            cursePanel = ccursePanel.gameObject;
+            Debug.Log($"cursePanel 取得成功: {cursePanel}");
+        }
 
-        // 非アクティブなオブジェクトも含めて Image を探す
-        //Image[] allImages = FindObjectsOfType<Image>(true);
+        if (curseText == null)
+        {
+            curseText = GameObject.Find("CurseText").GetComponent<TextMeshProUGUI>();
+            Debug.Log($"curseText 取得成功: {curseText}");
+        }
 
-        //foreach (Image img in allImages)
-        //{
-        //    if (img.gameObject.name == "ImageCurse") // 名前で指定
-        //    {
-        //        cutInImage = img;
-        //        break;
-        //    }
-        //}
-
-        //if (cutInImage != null)
-        //{
-        //    Debug.Log("✅ 非アクティブな ImageCurse を取得しました！");
-        //}
-        //else
-        //{
-        //    Debug.Log("⚠️ ImageCurse が見つかりません！");
-        //}
-        //// デバッグ用表示
-        // UIを非表示にする
-        //場合、警告を出す
         if (cursePanel == null) Debug.LogWarning("CursePanel が見つかりません");
         if (curseText == null) Debug.LogWarning("CurseText が見つかりません");
-        //if (itemPanel == null) Debug.LogWarning("ItemCanvasUI が見つかりません");
-        //if (itemText == null) Debug.LogWarning("ItemText が見つかりません");
-        if (cutInImage == null) Debug.LogWarning("ImageCurse が見つかりません");
-        if (audioSource == null) Debug.LogWarning("Mamono_aaa の AudioSource が見つかりません");
 
         if (cursePanel != null)
         {
             cursePanel.SetActive(false);
         }
-        //if (itemPanel == null) Debug.LogError("❌ itemPanel がアタッチされていません！");
-        ////  if (itemLogText == null) Debug.LogError("❌ itemLogText がアタッチされていません！");
-        //if (itemPanel != null)
-        //{
-        //    itemPanel.SetActive(false);
-        //}
+
         Debug.Log("ID:" + DebuffSheet.DebuffSheet[n].ID);
         Debug.Log("イベント名:" + DebuffSheet.DebuffSheet[n].Name);
         Debug.Log("懐中電灯の最小ゲージ減少量:" + DebuffSheet.DebuffSheet[n].DecreaseMin);
@@ -150,16 +78,9 @@ public class GridCell : MonoBehaviour
         Debug.Log("アイテムを付与するかの判定:" + DebuffSheet.DebuffSheet[n].ItemGive);
         Debug.Log("アイテムが使えなくなるかの判定:" + DebuffSheet.DebuffSheet[n].ItemGive);
         Debug.Log("アイテムが使えないターン数:" + DebuffSheet.DebuffSheet[n].ItemGive);
-
-        SetVisibility(true);
-        if (actionText != null)
-        {
-            actionText.gameObject.SetActive(false); // 初期状態では非表示
-        }
-
-
     }
-    void Update()
+
+void Update()
     {
         SetVisibility(true);
 
@@ -169,11 +90,11 @@ public class GridCell : MonoBehaviour
                 Debug.Log("🔘 スペースまたは H キーで UI を閉じる");
                 CloseEventUI();
            }
-        //if (actionText != null && actionText.gameObject.activeSelf)
+        //if (curseText != null && curseText.gameObject.activeSelf)
         //{
         //    if (Input.GetKeyDown(KeyCode.G))
         //    {
-        //        HideActionText(); // Gキーを押したらテキストを非表示
+        //        HidecurseText(); // Gキーを押したらテキストを非表示
         //        Debug.Log("🔘 Gキーを押して UI を閉じました");
         //    }
         //}
@@ -183,12 +104,6 @@ public class GridCell : MonoBehaviour
     {
         ShowActionText(); // マスに止まったらテキストを表示
 
-
-        if (outlineObject != null)
-        {
-            outlineObject.enabled = true; // アウトラインを有効にする
-            Debug.Log("アウトラインが有効化されました！");
-        }
 
         switch (cellEffect)
         {
@@ -365,21 +280,8 @@ public class GridCell : MonoBehaviour
         // HideAllUI(); // UI非表示処理を実行
 
 
-        // ゲームオーバーサウンドを再生
-        if (gameOverSound != null && audioSource != null)
-        {
-            audioSource.clip = gameOverSound; // サウンドを設定
-            audioSource.Play(); // 音を鳴らす
-        }
-
         // 指定された時間だけ待機
         yield return new WaitForSeconds(cutInDuration);
-
-        // カットイン画像を非表示にする
-        if (cutInImage != null)
-        {
-            cutInImage.gameObject.SetActive(false); // 画像を非表示
-        }
     }
 
 
@@ -392,28 +294,20 @@ public class GridCell : MonoBehaviour
             childRenderer.enabled = isVisible;
         }
     }
-    public void DisableOutline()
-    {
-        if (outlineObject != null)
-        {
-            outlineObject.enabled = false; // アウトラインを無効化
-            Debug.Log("アウトラインが無効化されました！");
-        }
-    }
 
     public void ShowActionText()
     {
-        if (actionText != null)
+        if (curseText != null)
         {
-            actionText.text = "[G] Key Click"; // テキストを設定
-            actionText.gameObject.SetActive(true); // テキストを表示
+            curseText.text = "[G] Key Click"; // テキストを設定
+            curseText.gameObject.SetActive(true); // テキストを表示
         }
     }
     public void HideActionText()
     {
-        if (actionText != null)
+        if (curseText != null)
         {
-            actionText.gameObject.SetActive(false); // テキストを非表示
+            curseText.gameObject.SetActive(false); // テキストを非表示
         }
     }
 

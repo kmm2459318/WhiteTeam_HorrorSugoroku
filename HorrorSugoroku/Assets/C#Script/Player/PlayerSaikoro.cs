@@ -91,7 +91,6 @@ public class PlayerSaikoro : MonoBehaviour
 
     // AudioSource and AudioClip variables for dice roll sound
     private AudioSource audioSource; // AudioSource to play sound
-    public AudioClip diceRollSound; // The sound to play when the dice rolls
 
     public DiceRangeManager diceRangeManager; // DiceRangeManagerへの参照
     private bool legButtonEffect = false; // LegButtonの効果を管理するフラグ
@@ -150,11 +149,6 @@ public class PlayerSaikoro : MonoBehaviour
         if (audioSource == null)
         {
             Debug.LogError("AudioSource component is missing on the PlayerSaikoro GameObject.");
-        }
-
-        if (diceRollSound == null)
-        {
-            Debug.LogError("DiceRollSound AudioClip is not assigned.");
         }
 
         nextDarkMasu = startMasu;
@@ -493,18 +487,6 @@ public class PlayerSaikoro : MonoBehaviour
         idoutyu = true;
     }
 
-    // 音を再生するメソッド
-    private void PlayDiceRollSound()
-    {
-        if (audioSource != null && diceRollSound != null)
-        {
-            audioSource.PlayOneShot(diceRollSound);
-        }
-        else
-        {
-            Debug.LogWarning("AudioSource or DiceRollSound is not set.");
-        }
-    }
 
     void FrontBack(int n)
     {
