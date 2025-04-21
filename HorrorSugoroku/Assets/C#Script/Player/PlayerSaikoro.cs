@@ -13,6 +13,7 @@ public class PlayerSaikoro : MonoBehaviour
     public DiceController diceController;
     [SerializeField] SmoothTransform player;
     private EnemySaikoro targetScript; // コマンドを受け取るEnemySaikoro
+    public CurseSlider curseGauge;
     public EnemyStop enemyStop;
     public EnemyStop enemyStop1;
     public EnemyStop enemyStop2;
@@ -237,7 +238,6 @@ public class PlayerSaikoro : MonoBehaviour
             sai = UnityEngine.Random.Range(minDiceValue, maxDiceValue + 1);
 
         }
-        // サイコロ振る
 
         // サイコロ振る
         if (saikorotyu)
@@ -324,14 +324,19 @@ public class PlayerSaikoro : MonoBehaviour
                 {
                     MasuColorChange(parentTransformlast[i], parentTransform[i]);
                 }
-
                 parentTransform = new List<Transform>();
                 parentTransformlast = new List<Material>();
-                idoutyu = false;
+
                 turnManager.turnStay = false;
-                turnManager.TurnCurse();
                 saikoro.SetActive(false);
                 walkCount = 0;
+                curseGauge.Update();
+
+                //呪い溜まってないか判定(ここまでには呪いの判定を済ませとく)
+                if (!curseGauge.isCardCanvas1)
+                {
+                    idoutyu = false;
+                }
 
                 // プレイヤーの動き終了
                 // プレイヤーの移動が終了したら探索モードに入る
@@ -424,15 +429,9 @@ public class PlayerSaikoro : MonoBehaviour
         }*/
         diceRotation.GetDiceNumber(sai);
 
-        if (saikorotyu == true)
-        {
-            if (diceCamera != null) diceCamera.enabled = true;
-        }
-
         if (saikoro.active == true)
         {
             if (diceUI != null) diceUI.gameObject.SetActive(true);
-            StartCoroutine(HideDiceCameraWithDelay()); // 🎯 カメラの非表示を遅延
         }
         else if (saikoro.active == false)
         {
@@ -464,14 +463,26 @@ public class PlayerSaikoro : MonoBehaviour
     public void DiceRoll()
     {
         saikorotyu = true;
+        if (diceCamera != null) diceCamera.enabled = true;
     }
 
     public void DiceAfter(int n)
     {
+        //呪２による減少
+        if (curseGauge.curse1_2)
+        {
+            if (n == 5 ||  n == 6)
+            {
+                n = 4;
+            }
+            curseGauge.curse1Turn--;
+        }
 
         sai = n;
         detame = sai;
         saikoro.SetActive(true);
+
+        StartCoroutine(HideDiceCameraWithDelay()); // 🎯 カメラの非表示を遅延
         // プレイヤーのサイコロの結果に応じてEnemyのサイコロ範囲を決定
         //targetScript.RollEnemyDice();
 
@@ -690,7 +701,7 @@ public class PlayerSaikoro : MonoBehaviour
             }
         }
     }
-    private IEnumerator HideDiceCameraWithDelay()
+    public IEnumerator HideDiceCameraWithDelay()
     {
         yield return new WaitForSeconds(diceCameraHideDelay); // 指定した秒数待機
         if (diceCamera != null) diceCamera.enabled = false; // 🎯 指定時間後にカメラを非表示

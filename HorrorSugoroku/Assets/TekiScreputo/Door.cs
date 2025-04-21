@@ -27,13 +27,15 @@ public class Door : MonoBehaviour
     public Transform windowTransform2; // 窓2のTransform
 
     public EnemyAppearance enemyAppearance; // エネミーの表示制御
+    public GameObject requiredTileObject; //プレイヤーが止まるべきマスのオブジェクト
+   
 
     void Start()
     {
         player = GameObject.FindGameObjectWithTag("Player").transform;
         if (player != null)
         {
-            Debug.Log("プレイヤーオブジェクトが見つかりました。");
+            //Debug.Log("プレイヤーオブジェクトが見つかりました。");
             playerInventory = player.GetComponent<PlayerInventory>();
 
             if (playerInventory != null)
@@ -49,7 +51,7 @@ public class Door : MonoBehaviour
         {
             Debug.LogError("プレイヤーオブジェクトが見つかりません。");
         }
-
+       
         if (doorPanel != null)
         {
             doorPanel.SetActive(false); // 最初はUIを非表示

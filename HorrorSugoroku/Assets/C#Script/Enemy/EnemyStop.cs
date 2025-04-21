@@ -6,6 +6,7 @@ public class EnemyStop : MonoBehaviour
     public GameManager gameManager;
     public PlayerSaikoro player;
     public EnemyWalkCounter enemyWalkCounter;
+    public CurseSlider curse;
     public NavMeshAgent nuvMeshAgent;
     private Animator animator;
     private bool rideMasu = false;
@@ -45,6 +46,11 @@ public class EnemyStop : MonoBehaviour
 
             enemyWalkCounter.walkMasu = 0;
             walkNumber = Random.Range(0, gameManager.Doll + 2) + 1;
+            if (curse.curse1_1) //呪１による増加
+            {
+                walkNumber += 2;
+                curse.curse1Turn--;
+            }
             Debug.Log("最低移動回数:" +  walkNumber);
         }
 

@@ -10,6 +10,7 @@ public class ClickObject : MonoBehaviour
     public PlayerInventory playerInventory;
     public GameManager gameManager;
     public KeyRandomizer keyRandomizer; // ←追加！
+    public CurseSlider curse;
 
     [SerializeField] public TextMeshProUGUI Text;
     [SerializeField] public GameObject Canvas;
@@ -53,14 +54,14 @@ public class ClickObject : MonoBehaviour
 
             if (Physics.Raycast(ray, out hit))
             {
-                if (hit.collider.CompareTag("Item") || hit.collider.CompareTag("Key") || hit.collider.CompareTag("Map"))
+                if (hit.collider.CompareTag("Item") || hit.collider.CompareTag("Key") || hit.collider.CompareTag("Doll"))
                 {
                     if (!playerSaikoro.idoutyu)
                     {
                         float distance = Vector3.Distance(Camera.main.transform.position, hit.collider.transform.position);
                         if (distance <= 3f)
                         {
-                            if (hit.collider.CompareTag("Key"))
+                            /*if (hit.collider.CompareTag("Key"))
                             {
                                 ExecuteScriptA(hit.collider.gameObject);
                             }
@@ -70,8 +71,8 @@ public class ClickObject : MonoBehaviour
                             }
                             else if (hit.collider.CompareTag("Item"))
                             {
-                                ExecuteScriptC();
-                            }
+                                ExecuteScriptC(hit.collider.gameObject);
+                            }*/
                             // 🎲 ランダムでスクリプトA または B を実行
                             // int randomChoice = Random.Range(0, 4);
                             if (Input.GetMouseButtonDown(0))
@@ -87,25 +88,21 @@ public class ClickObject : MonoBehaviour
                                 }
                                 else if (hit.collider.CompareTag("Item"))
                                 {
-                                    ExecuteScriptC(); // スクリプトBを実行（例：敵を召喚）
+                                    if (!curse.curse1_3)
+                                    {
+                                        ExecuteScriptC(); // スクリプトBを実行（例：敵を召喚）
+                                        Destroy(hit.collider.gameObject);
+                                        curse.curse1Turn--;
+                                    }
                                 }
                                 else if (hit.collider.CompareTag("Other"))
                                 {
 
                                 }
-                                Destroy(hit.collider.gameObject);
+                                //Destroy(hit.collider.gameObject);
                                 
                             }
-                            else if (hit.collider.CompareTag("Map"))
-                            {
-                                ExecuteScriptB();
-                            }
-                            else if (hit.collider.CompareTag("Item"))
-                            {
-                                ExecuteScriptC();
-                            }
-
-                            Destroy(hit.collider.gameObject);
+                            //Destroy(hit.collider.gameObject);
                         }
                     }
                 }
@@ -166,16 +163,18 @@ public class ClickObject : MonoBehaviour
         isCooldown = false;  // クールダウン終了
     }
 
+    //人形を拾うと人形の所持カウントを増やす
     void ExecuteScriptB()
     {
-        Debug.Log("地図のかけらを獲得！");
-        if (gameManager != null)
+        if (gameManager.Doll <= 5)
         {
-            gameManager.MpPlus();
+            Debug.Log("人形を拾った。");
+            gameManager.Doll++;
         }
         else
         {
-            Debug.LogError("GameManager が見つかりません！");
+
+           Debug.Log("人形はもう持てません。");
         }
     }
 

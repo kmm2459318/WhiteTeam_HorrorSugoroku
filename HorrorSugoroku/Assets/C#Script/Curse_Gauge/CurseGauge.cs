@@ -54,7 +54,8 @@ public class CurseSlider : MonoBehaviour
     [SerializeField] private DiceRangeManager diceRangeManager; // DiceRangeManagerへの参照
     public DiceController diceController; // DiceControllerへの参照
     [SerializeField] private GameObject eyeButtonCanvas;
-    private bool isDisplayingText = false;
+    private bool isDisplayingText = false; 
+    [SerializeField] private Camera diceCamera;
 
     private int nextShowCardThreshold = 20;
     // カード表示の閾値（20,40,60,80,100）
@@ -62,6 +63,14 @@ public class CurseSlider : MonoBehaviour
     //小さい呪い、大きい呪いどちらを表示しているかの判定
     public bool isCardCanvas1 = false;
     public bool isCardCanvas2 = false;
+
+    public bool curse1_1 = false;
+    public bool curse1_2 = false;
+    public bool curse1_3 = false;
+    public bool curse2_1 = false;
+    public bool curse2_2 = false;
+    public bool curse3_3 = false;
+    public int curse1Turn = 0;
 
     [SerializeField] private HeelCurseGage heelCurseGage; // HeelCurseGageの参照を追加
 
@@ -125,10 +134,10 @@ public class CurseSlider : MonoBehaviour
         
     }
 
-    void Update()
+    public void Update()
     {
         //小さい呪い画面表示でASDキーで押せるようにする
-        if (isCardCanvas1)
+        /*if (isCardCanvas1)
         {
             if (Input.GetKeyDown(KeyCode.A) && extraButton != null && extraButton.interactable)
             {
@@ -148,7 +157,7 @@ public class CurseSlider : MonoBehaviour
                 cursegiveButton.onClick.Invoke();
                 isCardCanvas1 = false;
             }
-        }
+        }*/
 
         //大きい呪い画面表示でASDキーで押せるようにする
         if (isCardCanvas2)
@@ -215,11 +224,34 @@ public class CurseSlider : MonoBehaviour
             UpdateCountText();
         }
 
-
-
         UpdateImageGauges();
     }
 
+    public void Curse1(int r)
+    {
+        curse1Turn = UnityEngine.Random.Range(3, 6);
+        Debug.Log("呪ターン：" + curse1Turn);
+
+        if (r == 1 || r == 2)
+        {
+            Debug.Log("呪１：敵の最低移動数が増加");
+            curse1_1 = true;
+        }
+
+        if (r == 3 || r == 4)
+        {
+            Debug.Log("呪２：プレイヤーの歩数が減少");
+            curse1_2 = true;
+        }
+
+        if (r == 5 || r == 6)
+        {
+            Debug.Log("呪３：回復、無敵アイテムの取得不可");
+            curse1_3 = true;
+        }
+
+        isCardCanvas1 = false;
+    }
 
     public void IncreaseDashPointPerTurn()
     {
@@ -228,9 +260,6 @@ public class CurseSlider : MonoBehaviour
 
         Debug.Log("今の呪いゲージ量: " + dashPoint);
     }
-
-   
-
 
     private void UpdateImageGauges()
     {
@@ -256,16 +285,18 @@ public class CurseSlider : MonoBehaviour
         Debug.Log("ShowCardCanvas1() が呼ばれました");
         if (CardCanvas1 != null)
         {
+            diceCamera.enabled = true;
+            diceController.ResetDiceState();
             isCardCanvas1 = true;
-            CardCanvas1.SetActive(true);
+            /*CardCanvas1.SetActive(true);
             Debug.Log("CardCanvas1 をアクティブにしました");
 
             ArmButton.interactable = !isArmButtonUsed;
             LegButton.interactable = !isLegButtonUsed;
             EyeButton.interactable = !isEyeButtonUsed;
-
+            */
             yield return new WaitForSeconds(1.0f);
-            Time.timeScale = 0; // **ゲームを停止**
+            //Time.timeScale = 0; // **ゲームを停止**
         }
         else
         {
