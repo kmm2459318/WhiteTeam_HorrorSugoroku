@@ -49,7 +49,7 @@ public class EnemyStop : MonoBehaviour
             if (curse.curse1_1) //呪１による増加
             {
                 walkNumber += 2;
-                curse.curse1Turn--;
+                //curse.curse1Turn--;
             }
             Debug.Log("最低移動回数:" +  walkNumber);
         }
