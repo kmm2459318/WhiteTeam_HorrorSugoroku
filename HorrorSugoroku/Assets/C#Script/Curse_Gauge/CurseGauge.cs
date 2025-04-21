@@ -72,8 +72,6 @@ public class CurseSlider : MonoBehaviour
     public bool curse3_3 = false;
     public int curse1Turn = 0;
 
-    [SerializeField] private HeelCurseGage heelCurseGage; // HeelCurseGageの参照を追加
-
     void Start()
     {
         DashGage.maxValue = maxDashPoint;
