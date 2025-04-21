@@ -3,6 +3,7 @@ using System.Collections;
 
 public class IsRendered : MonoBehaviour
 {
+    public Camera targetCamera;
 
     //メインカメラに付いているタグ名
     private const string MAIN_CAMERA_TAG_NAME = "MainCamera";
@@ -35,7 +36,7 @@ public class IsRendered : MonoBehaviour
     private void OnWillRenderObject()
     {
         //メインカメラに映った時だけ_isRenderedを有効に
-        if (Camera.current.tag == MAIN_CAMERA_TAG_NAME)
+        if (Camera.current == targetCamera)
         {
             _isRendered = true;
         }

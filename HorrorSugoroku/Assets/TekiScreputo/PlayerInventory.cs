@@ -19,7 +19,6 @@ public class PlayerInventory : MonoBehaviour
     private bool isCooldown = false;  // アイテム追加のクールダウンフラグ
     private bool isAddingItem = false;  // アイテム追加中かを管理するフラグ
     private float cooldownTime = 3f;  // クールダウン時間（3秒）
-    public TextMeshProUGUI itemCountText; // UIに表示するためのText
     // アイテムを追加（クールダウン処理を追加）
     private HashSet<string> persistentItems = new HashSet<string> { "none" };
   

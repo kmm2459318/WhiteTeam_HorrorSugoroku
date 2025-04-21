@@ -8,7 +8,6 @@ public class EnemyStop : MonoBehaviour
     public EnemyWalkCounter enemyWalkCounter;
     public CurseSlider curse;
     public NavMeshAgent nuvMeshAgent;
-    private Animator animator;
     private bool rideMasu = false;
     public bool stopMasu = false;
     private bool se = false;
@@ -19,7 +18,6 @@ public class EnemyStop : MonoBehaviour
 
     void Start()
     {
-        animator = GetComponent<Animator>();
         nuvMeshAgent.enabled = false;
     }
 
@@ -80,14 +78,6 @@ public class EnemyStop : MonoBehaviour
                 matched = true; // 一致したらフラグを立てる
                 break;
             }
-        }
-
-        // 一致していなかった場合の処理
-        if (!matched)
-        {
-            rideMasu = false;
-            animator.SetBool("isIdle", false);
-            animator.SetBool("isRunning", true); // スペースを削除
         }
     }
 
