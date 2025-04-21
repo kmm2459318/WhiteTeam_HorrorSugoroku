@@ -48,6 +48,7 @@ MonoBehaviour:
   playerInventory: {fileID: 6700426803218984859}
   gameManager: {fileID: 0}
   keyRandomizer: {fileID: 0}
+  curse: {fileID: 0}
   Text: {fileID: 0}
   Canvas: {fileID: 0}
   cutInImage: {fileID: 0}
@@ -162,7 +163,7 @@ Transform:
   m_GameObject: {fileID: 1561701990267013035}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 1.17, z: -10.6}
+  m_LocalPosition: {x: 14.18, y: -2.72, z: -2.775}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 1
   m_Children:
@@ -452,6 +453,8 @@ MonoBehaviour:
   doorLayer:
     serializedVersion: 2
     m_Bits: 1
+  movementScript: {fileID: 0}
+  cameraTransform: {fileID: 0}
 --- !u!114 &6700426803218984859
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -466,8 +469,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   curseSlider: {fileID: 0}
   initialItems:
-  - "\u4E00\u968E\u306E\u30AB\u30AE"
-  - none
+  - "\u30A8\u30F3\u30B8\u30F3\u30EB\u30FC\u30E0\u306E\u30AB\u30AE"
   dollText: {fileID: 0}
   potionText: {fileID: 0}
   kill2Text: {fileID: 0}
@@ -1302,7 +1304,7 @@ GameObject:
   - component: {fileID: 6252014896962606148}
   m_Layer: 0
   m_Name: Spot
-  m_TagString: Untagged
+  m_TagString: ExcludeLight
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 2
@@ -1581,6 +1583,7 @@ MonoBehaviour:
   turnManager: {fileID: 0}
   diceController: {fileID: 0}
   player: {fileID: 602051425234310406}
+  curseGauge: {fileID: 0}
   enemyStop: {fileID: 0}
   enemyStop1: {fileID: 0}
   enemyStop2: {fileID: 0}
@@ -2411,6 +2414,10 @@ PrefabInstance:
       propertyPath: m_StaticEditorFlags
       value: 2
       objectReference: {fileID: 0}
+    - target: {fileID: 1305775533483412846, guid: e4e2d7ec9597f3f4f8c4547f23ca6538, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 73ee144065b64074badb0c7a1dbb42b6, type: 2}
     - target: {fileID: 1624859745411448954, guid: e4e2d7ec9597f3f4f8c4547f23ca6538, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
