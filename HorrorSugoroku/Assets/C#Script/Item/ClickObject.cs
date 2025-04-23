@@ -14,7 +14,6 @@ public class ClickObject : MonoBehaviour
 
     [SerializeField] public TextMeshProUGUI Text;
     [SerializeField] public GameObject Canvas;
-    [SerializeField] private Image cutInImage;
     private HashSet<string> cooldownItems = new HashSet<string>();
     // 名前ごとに「取得済みの時間」を記録する辞書
     private Dictionary<string, float> keyObtainedTime = new Dictionary<string, float>();
@@ -184,7 +183,6 @@ public class ClickObject : MonoBehaviour
         if (randomChoice % 5 == 0)
         {
             Debug.Log("ジャンプスケア");
-            cutInImage.gameObject.SetActive(true);
         }
         else
         {
@@ -200,13 +198,5 @@ public class ClickObject : MonoBehaviour
     {
         keyObtainedTime.Clear();
         Debug.Log("全鍵のクールダウン解除しました！");
-    }
-    void OtherScript()
-    {
-        int randomChoice = Random.Range(0,4);
-        if(randomChoice == 0 || randomChoice == 1)
-        {
-            cutInImage.gameObject.SetActive(true); // 画像を表示
-        }
     }
 }
