@@ -334,7 +334,7 @@ public class PlayerSaikoro : MonoBehaviour
 
                 // プレイヤーの動き終了
                 // プレイヤーの移動が終了したら探索モードに入る
-                if (!idoutyu && !saikorotyu && !exploring)
+                if (!idoutyu && !saikorotyu && !exploring && !curseGauge.isCardCanvas1)
                 {
                     exploring = true;
                     Debug.Log("探索モードに入りました:Fを押して次に");

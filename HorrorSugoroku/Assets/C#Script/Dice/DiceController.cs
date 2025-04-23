@@ -107,7 +107,7 @@ public class DiceController : MonoBehaviour
         }
 
         //呪い処理用さいころ
-        if (curseGauge.isCardCanvas1)
+        if (curseGauge.isCurseDice)
         {
             Debug.Log("diceroll2");
             DiceRoll(2);
