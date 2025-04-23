@@ -55,13 +55,25 @@ public class PlayerMover : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        // プレイヤーが通過したセルを記録
         GridCell cell = other.GetComponent<GridCell>();
         if (cell != null)
         {
-            targetCell = cell; // 次に到達するセルをターゲットセルとして記録
-            SetGridCellVisibility(cell, true); // GridCellがアタッチされているオブジェクトを表示
+            // プレイヤーとの距離をチェック
+            float distanceToCell = Vector3.Distance(transform.position, cell.transform.position);
+
+            if (targetCell == null || distanceToCell < Vector3.Distance(transform.position, targetCell.transform.position))
+            {
+                targetCell = cell;
+                SetGridCellVisibility(cell, true);
+            }
         }
+        //// プレイヤーが通過したセルを記録
+        //GridCell cell = other.GetComponent<GridCell>();
+        //if (cell != null)
+        //{
+        //    targetCell = cell; // 次に到達するセルをターゲットセルとして記録
+        //    SetGridCellVisibility(cell, true); // GridCellがアタッチされているオブジェクトを表示
+        //}
     }
 
     private void OnTriggerExit(Collider other)
