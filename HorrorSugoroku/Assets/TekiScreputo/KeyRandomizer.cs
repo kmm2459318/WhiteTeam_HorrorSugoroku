@@ -9,7 +9,7 @@ public class KeyRandomizer : MonoBehaviour
     public Transform spawnParent;
     public List<Transform> spawnPoints;
 
-    private List<string> otherItems = new List<string> { "身代わり人形", "回復薬" };
+    private List<string> otherItems = new List<string> { "身代わり人形", "回復薬","何もない","壊れている" };
     private List<string> generatedItems = new List<string>();
 
     //[System.Serializable]

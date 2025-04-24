@@ -43,8 +43,9 @@ public class PlayerMover : MonoBehaviour
             // プレイヤーが完全に止まったマスでイベントを発火
             if (targetCell != null)
             {
-                currentCell = targetCell;
-                TriggerCurrentCellEvent();
+                
+                Invoke(nameof(TriggerCurrentCellEvent), 1f); // ← 0.5秒後に発火
+                
                 targetCell = null; // イベント発火後にターゲットセルをリセット
             }
         }
@@ -97,6 +98,7 @@ public class PlayerMover : MonoBehaviour
 
     private void TriggerCurrentCellEvent()
     {
+        currentCell = targetCell;
         // イベントを発火
         if (currentCell != null)
         {

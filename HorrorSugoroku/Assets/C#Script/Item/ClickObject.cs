@@ -12,6 +12,16 @@ public class ClickObject : MonoBehaviour
     public KeyRandomizer keyRandomizer; // ←追加！
     public CurseSlider curse;
 
+
+    public GameObject saikoroUI;
+    public Image diceImage;
+    public Sprite[] diceSprites; // s1〜s6を配列に格納
+    public Animator diceAnimator; // 回転アニメーション用（任意）
+    public AudioSource audioSource;
+    public AudioClip rollSound;
+    public AudioClip successSound;
+    public AudioClip failSound;
+
     [SerializeField] public TextMeshProUGUI Text;
     [SerializeField] public GameObject Canvas;
     [SerializeField] private Image cutInImage;
@@ -23,6 +33,7 @@ public class ClickObject : MonoBehaviour
     // 鍵取得制限時間（秒）
     private bool canAddItem = true;  // アイテム追加の制限フラグ
     private bool isCooldown = false; // クールダウン中かどうかのフラグ
+    private bool waitingForDice = false;
 
     // ClickObject.cs に追加
     private Dictionary<string, float> itemAddCooldowns = new Dictionary<string, float>();
@@ -31,6 +42,14 @@ public class ClickObject : MonoBehaviour
     [SerializeField] private float keyCooldownTime = 2f;  // 例: 10秒で再取得可能
     private bool hasClicked = false; // クリック多重防止用フラグ
 
+    
+    // 除外アイテム名（追加しない）
+    private HashSet<string> excludedItemNames = new HashSet<string>()
+{
+    "何もない",        // 無名・初期値など
+    "壊れている",   // デバッグ用
+   // "CursedKey"    // 特別なアイテムなど
+};
     void Start()
     {
         playerInventory = FindObjectOfType<PlayerInventory>();
@@ -123,17 +142,26 @@ public class ClickObject : MonoBehaviour
         yield return new WaitForSeconds(0.1f); // 多重クリック防止時間
         hasClicked = false;
     }
-
+   
     void ExecuteScriptA(GameObject clickedItem)
     {
         string keyName = clickedItem.name;
 
-        if (string.IsNullOrEmpty(keyName))
-        {
-            Debug.LogWarning("KeyNameが設定されていません！");
-            return;
-        }
-
+        //if (string.IsNullOrEmpty(keyName))
+        //{
+        //    Debug.LogWarning("KeyNameが設定されていません！");
+        //    return;
+        //}
+        //if (keyName == "食堂の鍵" || keyName == "図書室の鍵")  // ← 特定のアイテム名
+        //{
+        //    if (!waitingForDice)
+        //        StartCoroutine(RollForItem(keyName));
+        //}
+        //else
+        //{
+        //    // 普通にインベントリに追加
+        //    playerInventory.AddItem(keyName);
+        //}
         // クールダウン中で、かつすでに所持しているアイテムの場合は追加しない
         if (isCooldown && playerInventory.HasItem(keyName))
         {
@@ -153,15 +181,48 @@ public class ClickObject : MonoBehaviour
             StartCoroutine(CooldownAfterAddItem());
         }
     }
+    //private IEnumerator RollForItem(string keyName)
+    //{
+    //    waitingForDice = true;
+
+        
+
+    //    if (dice == 2)  // ← 成功条件
+    //    {
+    //        playerInventory.AddItem(keyName);
+    //        Debug.Log($"🎉 {keyName} を獲得しました！");
+    //    }
+    //    else
+    //    {
+    //        Debug.Log($"💥 サイコロ失敗！{keyName} は獲得できませんでした。");
+    //        // 演出追加するならここで！
+    //    }
+
+    //    waitingForDice = false;
+    //}
     void ExecuteScriptC(GameObject clickedItem)
     {
+        if (clickedItem == null || string.IsNullOrWhiteSpace(clickedItem.name))
+        {
+            Debug.LogWarning("❌ 無効なアイテムです（null または名前が未設定）");
+            return;
+        }
         string keyName = clickedItem.name;
+
+        // 除外対象のチェック
+        if (excludedItemNames.Contains(keyName))
+        {
+            Debug.Log($"🚫 {keyName} は除外アイテムのためインベントリに追加されません。");
+            return;
+        }
 
         if (string.IsNullOrEmpty(keyName))
         {
             Debug.LogWarning("KeyNameが設定されていません！");
             return;
         }
+
+       
 
         // クールダウン中で、かつすでに所持しているアイテムの場合は追加しない
         if (isCooldown && playerInventory.HasItem(keyName))
