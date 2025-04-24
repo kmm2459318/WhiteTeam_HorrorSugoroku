@@ -28,7 +28,10 @@ public class Door : MonoBehaviour
 
     public EnemyAppearance enemyAppearance; // エネミーの表示制御
     public GameObject requiredTileObject; //プレイヤーが止まるべきマスのオブジェクト
-   
+    public AudioSource audioSource; //オーディオソースを参照
+    public AudioClip doorOpenSpund; //ドアが開く音
+    public AudioClip keyMissingSound; //カギがないときの音
+    public AudioClip[] scareSound; //脅かしの音
 
     void Start()
     {
@@ -114,6 +117,12 @@ public class Door : MonoBehaviour
         //{
         //    Debug.LogError("DoorオブジェクトにEnemyAppearanceコンポーネントが見つかりません");
         //}
+
+        //AudioDourceコンポーネントを取得する
+        if (audioSource == null)
+        {
+            audioSource = GetComponent<AudioSource>();
+        }
     }
 
     void Update()
@@ -133,6 +142,7 @@ public class Door : MonoBehaviour
                 else
                 {
                     Debug.Log("鍵がありません"); // 鍵がなければ開けられない
+                    PlayKeyMissingSound(); //音を再生する
                     return; // 鍵がない場合はここで終了
                 }
             }
@@ -230,7 +240,13 @@ public class Door : MonoBehaviour
         {
             doorAnimator.SetTrigger("LeftOpenTrigger");
         }
-
+        //ドアが開く音を再生する
+        if (audioSource != null && doorOpenSpund != null)
+        {
+            audioSource.PlayOneShot(doorOpenSpund);
+        }
+        //20%の確率で脅かしの音声を再生する
+        PlayScareSoundWithChance(0.2f);
         //Debug.Log($"{requiredItem} のドアが開きました");
 
         if (hiddenArea != null)
@@ -249,4 +265,32 @@ public class Door : MonoBehaviour
             //Debug.Log("enemyAppearanceがnullです");
         }
     }
+    void PlayKeyMissingSound()
+    {
+        if (audioSource != null && keyMissingSound != null)
+        {
+            audioSource.PlayOneShot(keyMissingSound); //再生
+        }
+    }
+    void PlayScareSoundWithChance(float chance)
+    {
+        if (audioSource != null && scareSound.Length>0)
+        {
+            //ランダム値を生成
+            float randomValue = Random.Range(0f, 1f);
+            if (randomValue <= chance)
+            {
+                //ランダムで音声を選択
+                int randomIndex = Random.Range(0,scareSound.Length);
+                AudioClip selectedSound = scareSound[randomIndex];
+                Debug.Log($"脅かし音声{randomIndex}が再生されます！");
+                audioSource.PlayOneShot(selectedSound);
+            }
+            else
+            {
+                Debug.Log("脅かしの音声は再生されません");
+            }
+            }
+        }
+    
 }

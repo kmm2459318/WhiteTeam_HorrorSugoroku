@@ -133,6 +133,9 @@ public class ClickObject : MonoBehaviour
             return;
         }
 
+        // ユニークなIDを生成（例: 名前 + 現在時刻）
+        string itemID = keyName + "_" + Time.time;
+
         // クールダウン中で、かつすでに所持しているアイテムの場合は追加しない
         if (isCooldown && playerInventory.HasItem(keyName))
         {
@@ -143,10 +146,9 @@ public class ClickObject : MonoBehaviour
         // アイテムがインベントリにまだない、またはクールダウンが終わった場合
         if (!playerInventory.HasItem(keyName) || !isCooldown)
         {
-            
             // アイテムをインベントリに追加
-            playerInventory.AddItem(keyName);
-            Debug.Log($"{keyName} をインベントリに追加しました。");
+            playerInventory.AddItem(keyName, itemID); // itemIDを渡す
+            Debug.Log($"{keyName} をインベントリに追加しました。（ID: {itemID}）");
 
             // クールダウン後にフラグを解除
             StartCoroutine(CooldownAfterAddItem());

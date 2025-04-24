@@ -55,10 +55,14 @@ public class SubstitutedollController : MonoBehaviour
     {
         useCount++;
         Debug.Log("身代わり人形が1つ増えました！現在の数: " + useCount);
+
+        // ユニークなIDを生成（例: 名前 + 現在時刻）
+        string itemID = "身代わり人形_" + Time.time;
+
         Possessions.text = useCount.ToString();
         UseSubstituteDoll();
-        playerInventory.AddItem("身代わり人形");
-        Debug.Log("👻 身代わり人形を1つ追加！");
+        playerInventory.AddItem("身代わり人形", itemID); // itemID を渡す
+        Debug.Log($"👻 身代わり人形を1つ追加！（ID: {itemID}）");
         UpdateItemCountUI();
     }
 
