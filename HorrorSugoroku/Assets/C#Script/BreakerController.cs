@@ -3,6 +3,9 @@ using UnityEngine;
 public class BreakerController : MonoBehaviour
 {
     public Light elevatorLight;
+    public Light elevatorLight1F;
+    public Light elevatorLight2F;
+    public Light elevatorLightB1F;
     public bool breaker = false;
 
     void Start()
@@ -24,5 +27,8 @@ public class BreakerController : MonoBehaviour
     {
         breaker = true;
         elevatorLight.enabled = true;
+        elevatorLight1F.enabled = true;
+        elevatorLight2F.enabled = true;
+        elevatorLightB1F.enabled = true;
     }
 }

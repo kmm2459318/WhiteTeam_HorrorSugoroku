@@ -19,7 +19,6 @@ public class ElevatorMasuController : MonoBehaviour
     public CameraController cameraController;
     public ElevatorIdou elevatorIdou;
     public Option option;
-    public bool playerOn = false;
     Vector3 Rot;
 
     private void Start()
@@ -31,7 +30,7 @@ public class ElevatorMasuController : MonoBehaviour
     {
         Rot = Camera.transform.eulerAngles;
 
-        if (breakerController.breaker && playerOn && playerSaikoro.idoutyu
+        if (breakerController.breaker && elevatorIdou.playerOn && playerSaikoro.idoutyu
             && ((Rot.y > 318f && Rot.y < 360f) || (Rot.y > 0f && Rot.y < 45f))
             && (Rot.x > -40f && Rot.x < 50f) && !option.isOptionOpen)
         {
@@ -78,7 +77,7 @@ public class ElevatorMasuController : MonoBehaviour
     {
         if (collision.gameObject.tag == "Player")
         {
-            playerOn = true;
+            elevatorIdou.playerOn = true;
         }
     }
 
@@ -86,7 +85,7 @@ public class ElevatorMasuController : MonoBehaviour
     {
         if (collision.gameObject.tag == "Player")
         {
-            playerOn = false;
+            elevatorIdou.playerOn = false;
         }
     }
 }
