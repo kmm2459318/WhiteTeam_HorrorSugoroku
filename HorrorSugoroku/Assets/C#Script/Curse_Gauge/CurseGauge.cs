@@ -81,7 +81,6 @@ public class CurseSlider : MonoBehaviour
     public Button legButton;
     public Button headButton;
 
-    [SerializeField] private HeelCurseGage heelCurseGage; // HeelCurseGageの参照を追加
 
     void Start()
     {
