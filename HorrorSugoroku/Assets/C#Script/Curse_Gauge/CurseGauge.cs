@@ -76,7 +76,6 @@ public class CurseSlider : MonoBehaviour
     public GameObject curse2turnCard;
     public GameObject curse3turnCard;
 
-    [SerializeField] private HeelCurseGage heelCurseGage; // HeelCurseGageの参照を追加
 
     void Start()
     {
