@@ -89,6 +89,7 @@ public class JumpScareAnimation : MonoBehaviour
     private void ResetObject()
     {
         transform.position = initialPosition;
+        SceneManager.LoadScene("GameOver");
     }
 
     public void StartAnimation()
