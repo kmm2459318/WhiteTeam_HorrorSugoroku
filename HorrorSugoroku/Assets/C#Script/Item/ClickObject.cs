@@ -12,8 +12,19 @@ public class ClickObject : MonoBehaviour
     public KeyRandomizer keyRandomizer; // ←追加！
     public CurseSlider curse;
 
+
+    public GameObject saikoroUI;
+    public Image diceImage;
+    public Sprite[] diceSprites; // s1〜s6を配列に格納
+    public Animator diceAnimator; // 回転アニメーション用（任意）
+    public AudioSource audioSource;
+    public AudioClip rollSound;
+    public AudioClip successSound;
+    public AudioClip failSound;
+
     [SerializeField] public TextMeshProUGUI Text;
     [SerializeField] public GameObject Canvas;
+    [SerializeField] private Image cutInImage;
     private HashSet<string> cooldownItems = new HashSet<string>();
     // 名前ごとに「取得済みの時間」を記録する辞書
     private Dictionary<string, float> keyObtainedTime = new Dictionary<string, float>();
@@ -22,6 +33,7 @@ public class ClickObject : MonoBehaviour
     // 鍵取得制限時間（秒）
     private bool canAddItem = true;  // アイテム追加の制限フラグ
     private bool isCooldown = false; // クールダウン中かどうかのフラグ
+    private bool waitingForDice = false;
 
     // ClickObject.cs に追加
     private Dictionary<string, float> itemAddCooldowns = new Dictionary<string, float>();
@@ -30,6 +42,14 @@ public class ClickObject : MonoBehaviour
     [SerializeField] private float keyCooldownTime = 2f;  // 例: 10秒で再取得可能
     private bool hasClicked = false; // クリック多重防止用フラグ
 
+    
+    // 除外アイテム名（追加しない）
+    private HashSet<string> excludedItemNames = new HashSet<string>()
+{
+    "何もない",        // 無名・初期値など
+    "壊れている",   // デバッグ用
+   // "CursedKey"    // 特別なアイテムなど
+};
     void Start()
     {
         playerInventory = FindObjectOfType<PlayerInventory>();
@@ -60,7 +80,7 @@ public class ClickObject : MonoBehaviour
                         float distance = Vector3.Distance(Camera.main.transform.position, hit.collider.transform.position);
                         if (distance <= 3f)
                         {
-                            /*if (hit.collider.CompareTag("Key"))
+                            if (hit.collider.CompareTag("Key"))
                             {
                                 ExecuteScriptA(hit.collider.gameObject);
                             }
@@ -71,7 +91,7 @@ public class ClickObject : MonoBehaviour
                             else if (hit.collider.CompareTag("Item"))
                             {
                                 ExecuteScriptC(hit.collider.gameObject);
-                            }*/
+                            }
                             // 🎲 ランダムでスクリプトA または B を実行
                             // int randomChoice = Random.Range(0, 4);
                             if (Input.GetMouseButtonDown(0))
@@ -89,7 +109,7 @@ public class ClickObject : MonoBehaviour
                                 {
                                     if (!curse.curse1_3)
                                     {
-                                        ExecuteScriptC(); // スクリプトBを実行（例：敵を召喚）
+                                        ExecuteScriptC(hit.collider.gameObject); // スクリプトBを実行（例：敵を召喚）
                                         Destroy(hit.collider.gameObject);
                                         //curse.curse1Turn--;
                                     }
@@ -122,17 +142,26 @@ public class ClickObject : MonoBehaviour
         yield return new WaitForSeconds(0.1f); // 多重クリック防止時間
         hasClicked = false;
     }
-
+   
     void ExecuteScriptA(GameObject clickedItem)
     {
         string keyName = clickedItem.name;
 
-        if (string.IsNullOrEmpty(keyName))
-        {
-            Debug.LogWarning("KeyNameが設定されていません！");
-            return;
-        }
-
+        //if (string.IsNullOrEmpty(keyName))
+        //{
+        //    Debug.LogWarning("KeyNameが設定されていません！");
+        //    return;
+        //}
+        //if (keyName == "食堂の鍵" || keyName == "図書室の鍵")  // ← 特定のアイテム名
+        //{
+        //    if (!waitingForDice)
+        //        StartCoroutine(RollForItem(keyName));
+        //}
+        //else
+        //{
+        //    // 普通にインベントリに追加
+        //    playerInventory.AddItem(keyName);
+        //}
         // クールダウン中で、かつすでに所持しているアイテムの場合は追加しない
         if (isCooldown && playerInventory.HasItem(keyName))
         {
@@ -152,7 +181,68 @@ public class ClickObject : MonoBehaviour
             StartCoroutine(CooldownAfterAddItem());
         }
     }
+    //private IEnumerator RollForItem(string keyName)
+    //{
+    //    waitingForDice = true;
 
+        
+
+    //    if (dice == 2)  // ← 成功条件
+    //    {
+    //        playerInventory.AddItem(keyName);
+    //        Debug.Log($"🎉 {keyName} を獲得しました！");
+    //    }
+    //    else
+    //    {
+    //        Debug.Log($"💥 サイコロ失敗！{keyName} は獲得できませんでした。");
+    //        // 演出追加するならここで！
+    //    }
+
+    //    waitingForDice = false;
+    //}
+    void ExecuteScriptC(GameObject clickedItem)
+    {
+        if (clickedItem == null || string.IsNullOrWhiteSpace(clickedItem.name))
+        {
+            Debug.LogWarning("❌ 無効なアイテムです（null または名前が未設定）");
+            return;
+        }
+        string keyName = clickedItem.name;
+
+        // 除外対象のチェック
+        if (excludedItemNames.Contains(keyName))
+        {
+            Debug.Log($"🚫 {keyName} は除外アイテムのためインベントリに追加されません。");
+            return;
+        }
+
+        if (string.IsNullOrEmpty(keyName))
+        {
+            Debug.LogWarning("KeyNameが設定されていません！");
+            return;
+        }
+
+       
+
+        // クールダウン中で、かつすでに所持しているアイテムの場合は追加しない
+        if (isCooldown && playerInventory.HasItem(keyName))
+        {
+            Debug.Log($"{keyName} はすでにインベントリにあり、クールダウン中のため追加しません。");
+            return;
+        }
+
+        // アイテムがインベントリにまだない、またはクールダウンが終わった場合
+        if (!playerInventory.HasItem(keyName) || !isCooldown)
+        {
+
+            // アイテムをインベントリに追加
+            playerInventory.AddItem(keyName);
+            Debug.Log($"{keyName} をインベントリに追加しました。");
+
+            // クールダウン後にフラグを解除
+            StartCoroutine(CooldownAfterAddItem());
+        }
+    }
     // クールダウン後にフラグを解除するコルーチン
     IEnumerator CooldownAfterAddItem()
     {
@@ -177,26 +267,35 @@ public class ClickObject : MonoBehaviour
         }
     }
 
-    void ExecuteScriptC()
-    {
-        int randomChoice = Random.Range(0, 100);
-        if (randomChoice % 5 == 0)
-        {
-            Debug.Log("ジャンプスケア");
-        }
-        else
-        {
-            Debug.Log("何もなかった。");
-            Canvas.SetActive(true);
-            Text.text = "何もなかった。";
-        }
+    //void ExecuteScriptC()
+    //{
+    //    int randomChoice = Random.Range(0, 100);
+    //    if (randomChoice % 5 == 0)
+    //    {
+    //        Debug.Log("ジャンプスケア");
+    //        cutInImage.gameObject.SetActive(true);
+    //    }
+    //    else
+    //    {
+    //        Debug.Log("何もなかった。");
+    //        Canvas.SetActive(true);
+    //        Text.text = "何もなかった。";
+    //    }
 
-    }
+    //}
     // ✅ 鍵取得フラグを全部リセット
     // 🔁 全ての鍵のクールダウンをリセットしたいときに使える関数
     public void ResetAllKeyCooldowns()
     {
         keyObtainedTime.Clear();
         Debug.Log("全鍵のクールダウン解除しました！");
+    }
+    void OtherScript()
+    {
+        int randomChoice = Random.Range(0,4);
+        if(randomChoice == 0 || randomChoice == 1)
+        {
+            cutInImage.gameObject.SetActive(true); // 画像を表示
+        }
     }
 }

@@ -33,6 +33,10 @@ public class GridCell : MonoBehaviour
 
     [SerializeField] private float volume = 1.0f;
 
+    private float uiCloseTimer = 0f;
+    public float uiCloseDelay = 2f; // UIを何秒後に自動で閉じるか
+
+    
     private bool isGameOver = false;
     private SubstitutedollController substitutedollController;
     private BeartrapController beartrapController;
@@ -83,13 +87,30 @@ public class GridCell : MonoBehaviour
 void Update()
     {
         SetVisibility(true);
+        if (cursePanel.activeSelf)
+        {
+            // 自動閉じタイマー加算
+            uiCloseTimer += Time.deltaTime;
 
-        if (cursePanel.activeSelf )
+            // 入力で閉じる
             if (Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.H))
             {
                 Debug.Log("🔘 スペースまたは H キーで UI を閉じる");
                 CloseEventUI();
-           }
+            }
+
+            // 一定時間経過で閉じる
+            if (uiCloseTimer >= uiCloseDelay)
+            {
+                Debug.Log("⏳ UI自動閉じ");
+                CloseEventUI();
+            }
+        }
+        else
+        {
+            // 非表示ならタイマーリセット
+            uiCloseTimer = 0f;
+        }
         //if (curseText != null && curseText.gameObject.activeSelf)
         //{
         //    if (Input.GetKeyDown(KeyCode.G))
@@ -187,7 +208,7 @@ void Update()
         {
             curseText.text = message;
             cursePanel.SetActive(true);
-            Time.timeScale = 0; // **ゲームを一時停止**
+          //  Time.timeScale = 0; // **ゲームを一時停止**
         }
     }
     //void ShowItemUI(string message, float delay = 2.0f)
