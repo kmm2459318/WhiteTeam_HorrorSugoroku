@@ -147,21 +147,15 @@ public class ClickObject : MonoBehaviour
     {
         string keyName = clickedItem.name;
 
-        //if (string.IsNullOrEmpty(keyName))
-        //{
-        //    Debug.LogWarning("KeyNameが設定されていません！");
-        //    return;
-        //}
-        //if (keyName == "食堂の鍵" || keyName == "図書室の鍵")  // ← 特定のアイテム名
-        //{
-        //    if (!waitingForDice)
-        //        StartCoroutine(RollForItem(keyName));
-        //}
-        //else
-        //{
-        //    // 普通にインベントリに追加
-        //    playerInventory.AddItem(keyName);
-        //}
+        if (string.IsNullOrEmpty(keyName))
+        {
+            Debug.LogWarning("KeyNameが設定されていません！");
+            return;
+        }
+
+        // ユニークなIDを生成（例: 名前 + 現在時刻）
+        string itemID = keyName + "_" + Time.time;
+
         // クールダウン中で、かつすでに所持しているアイテムの場合は追加しない
         if (isCooldown && playerInventory.HasItem(keyName))
         {
@@ -172,10 +166,9 @@ public class ClickObject : MonoBehaviour
         // アイテムがインベントリにまだない、またはクールダウンが終わった場合
         if (!playerInventory.HasItem(keyName) || !isCooldown)
         {
-            
             // アイテムをインベントリに追加
-            playerInventory.AddItem(keyName);
-            Debug.Log($"{keyName} をインベントリに追加しました。");
+            playerInventory.AddItem(keyName, itemID); // itemIDを渡す
+            Debug.Log($"{keyName} をインベントリに追加しました。（ID: {itemID}）");
 
             // クールダウン後にフラグを解除
             StartCoroutine(CooldownAfterAddItem());
@@ -222,7 +215,8 @@ public class ClickObject : MonoBehaviour
             return;
         }
 
-       
+        // ユニークなIDを生成（例: 名前 + 現在時刻）
+        string itemID = keyName + "_" + Time.time;
 
         // クールダウン中で、かつすでに所持しているアイテムの場合は追加しない
         if (isCooldown && playerInventory.HasItem(keyName))
@@ -236,7 +230,7 @@ public class ClickObject : MonoBehaviour
         {
 
             // アイテムをインベントリに追加
-            playerInventory.AddItem(keyName);
+            playerInventory.AddItem(keyName, itemID);
             Debug.Log($"{keyName} をインベントリに追加しました。");
 
             // クールダウン後にフラグを解除

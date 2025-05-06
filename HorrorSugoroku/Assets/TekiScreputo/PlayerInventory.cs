@@ -2,34 +2,35 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+
+[System.Serializable]
+public class Key
+{
+    public string keyName; // 鍵の名前
+    public string keyID;   // 鍵のユニークなID
+}
+
 public class PlayerInventory : MonoBehaviour
 {
-   
     public CurseSlider curseSlider;
-   // インスペクターで設定可能な初期アイテムリスト
-   public List<string> initialItems;
+
+    // インスペクターで設定可能な鍵リスト
+    public List<Key> keys = new List<Key>();
 
     public TextMeshProUGUI dollText;   // 身代わり人形
     public TextMeshProUGUI potionText; // 一階の鍵
-    public TextMeshProUGUI kill2Text; //二階の鍵
-    public TextMeshProUGUI tikaText; //地下の鍵
-    // 複数所持に対応！Dictionaryで個数を管理
-    private Dictionary<string, int> items = new Dictionary<string, int>();
+    public TextMeshProUGUI kill2Text;  // 二階の鍵
+    public TextMeshProUGUI tikaText;   // 地下の鍵
+
+    private Dictionary<string, List<string>> items = new Dictionary<string, List<string>>();
 
     private bool isCooldown = false;  // アイテム追加のクールダウンフラグ
     private bool isAddingItem = false;  // アイテム追加中かを管理するフラグ
     private float cooldownTime = 3f;  // クールダウン時間（3秒）
 
-//    private Dictionary<string, float> itemAddProbabilities = new Dictionary<string, float>()
-//{
-//    //{ "呪われた鍵", 0.3f },     // 30% の確率で追加される
-//    { "回復薬", 0.7f },     // 50%
-//    { "身代わり人形", 0.8f }       // 80%
-//};
-    // アイテムを追加（クールダウン処理を追加）
     private HashSet<string> persistentItems = new HashSet<string> { "none" };
-  
-    public void AddItem(string itemName)
+
+    public void AddItem(string itemName, string itemID)
     {
         //// 🎲 抽選対象なら確率でスキップ
         //if (itemAddProbabilities.TryGetValue(itemName, out float probability))
@@ -60,59 +61,34 @@ public class PlayerInventory : MonoBehaviour
 
         isAddingItem = true;  // アイテム追加中フラグを立てる
 
-        if (items.ContainsKey(itemName))
+        if (!items.ContainsKey(itemName))
         {
-            items[itemName]++;
+            items[itemName] = new List<string>();
         }
-        else
-        {
-            items[itemName] = 1;
-        }
+        items[itemName].Add(itemID);
 
-        Debug.Log($"{itemName} をインベントリに追加しました。現在の所持数：{items[itemName]}");
+        Debug.Log($"{itemName} をインベントリに追加しました。現在の所持数：{items[itemName].Count}");
 
-            UpdateItemCountUI(itemName); // ← UI更新を呼ぶ！
-        
-        // ★ 自動使用処理（回復薬のみ）
-        if (itemName == "回復薬")
-        {
-            bool used = UseItem("回復薬");
-            if (used)
-            {
-                 curseSlider.IncreaseDashPoint(20);
-                Debug.Log("20回復した");
-            }                
-        }
-        //アイテム追加後にクールダウン開始
+        UpdateItemCountUI(itemName); // ← UI更新を呼ぶ！
+
+        // アイテム追加後にクールダウン開始
         StartCoroutine(CooldownCoroutine());
     }
 
-
-
-
-    // アイテムを使う（消費）
-    // 消えないアイテムのリストを追加
-
     public bool UseItem(string itemName)
     {
-        if (items.ContainsKey(itemName) && items[itemName] > 0)
+        if (items.ContainsKey(itemName) && items[itemName].Count > 0)
         {
-            // 消えないアイテムかどうかを判定
-            if (!persistentItems.Contains(itemName))
-            {
-                items[itemName]--;
-                Debug.Log($"{itemName} を使用しました。残り：{items[itemName]}");
+            // 最初のIDを削除
+            string removedID = items[itemName][0];
+            items[itemName].RemoveAt(0);
+            Debug.Log($"{itemName} を使用しました（ID: {removedID}）。残り：{items[itemName].Count}");
 
-                if (items[itemName] <= 0)
-                {
-                    items.Remove(itemName);
-                }
-            }
-            else
+            // リストが空になったらエントリを削除
+            if (items[itemName].Count == 0)
             {
-                Debug.Log($"{itemName} を使用しましたが、インベントリからは削除されません。");
+                items.Remove(itemName);
             }
-
             return true;
         }
         else
@@ -135,21 +111,13 @@ public class PlayerInventory : MonoBehaviour
 
         if (tikaText != null)
             tikaText.text = $" {GetItemCount("地下の鍵")}";
-        
-    }
-    // 所持しているか確認
-    public bool HasItem(string itemName)
-    {
-        return items.ContainsKey(itemName) && items[itemName] > 0;
     }
 
-    // 所持数を取得
     public int GetItemCount(string itemName)
     {
-        return items.ContainsKey(itemName) ? items[itemName] : 0;
+        return items.ContainsKey(itemName) ? items[itemName].Count : 0;
     }
 
-    // クールダウン用コルーチン
     private IEnumerator CooldownCoroutine()
     {
         isCooldown = true;  // クールダウン中
@@ -158,14 +126,18 @@ public class PlayerInventory : MonoBehaviour
         isAddingItem = false;  // アイテム追加フラグを解除
     }
 
-    // 全アイテム表示（デバッグ用）
     public void ShowInventory()
     {
         Debug.Log("=== プレイヤーインベントリ ===");
         foreach (var item in items)
         {
-            Debug.Log(item.Key + ": " + item.Value + "個");
+            Debug.Log(item.Key + ": " + item.Value.Count + "個");
         }
+    }
+    // アイテム所持状況を確認するメソッド
+    public bool HasItem(string itemName)
+    {
+        return items.ContainsKey(itemName) && items[itemName].Count > 0;
     }
 
     void Update()
@@ -175,18 +147,13 @@ public class PlayerInventory : MonoBehaviour
             ShowInventory();
         }
     }
-  
-    // 初期アイテムを追加するメソッド
+
     void Start()
     {
-       
-       
-           
-        
-        foreach (string item in initialItems)
+        // インスペクターで設定された鍵をインベントリに追加
+        foreach (var key in keys)
         {
-            AddItem(item);
-            AddItem("一階の鍵");
+            AddItem(key.keyName, key.keyID);
         }
     }
 }
