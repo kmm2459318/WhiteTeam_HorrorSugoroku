@@ -19,11 +19,33 @@ public class PlayerInventory : MonoBehaviour
     private bool isCooldown = false;  // アイテム追加のクールダウンフラグ
     private bool isAddingItem = false;  // アイテム追加中かを管理するフラグ
     private float cooldownTime = 3f;  // クールダウン時間（3秒）
+
+//    private Dictionary<string, float> itemAddProbabilities = new Dictionary<string, float>()
+//{
+//    //{ "呪われた鍵", 0.3f },     // 30% の確率で追加される
+//    { "回復薬", 0.7f },     // 50%
+//    { "身代わり人形", 0.8f }       // 80%
+//};
     // アイテムを追加（クールダウン処理を追加）
     private HashSet<string> persistentItems = new HashSet<string> { "none" };
   
     public void AddItem(string itemName)
     {
+        //// 🎲 抽選対象なら確率でスキップ
+        //if (itemAddProbabilities.TryGetValue(itemName, out float probability))
+        //{
+        //    float rand = Random.Range(0f, 1f);
+        //    if (rand > probability)
+        //    {
+        //        Debug.Log($"🚫 {itemName} は確率 {probability * 100}% による抽選失敗（出目：{rand:F2}）");
+        //        return;
+        //    }
+        //    else
+        //    {
+        //        Debug.Log($"🎯 {itemName} は抽選成功で追加！（出目：{rand:F2}）");
+        //    }
+        //}
+
         if (isAddingItem)
         {
             Debug.Log("現在アイテム追加中です。");
@@ -164,7 +186,7 @@ public class PlayerInventory : MonoBehaviour
         foreach (string item in initialItems)
         {
             AddItem(item);
-            AddItem("一階のカギ");
+            AddItem("一階の鍵");
         }
     }
 }
