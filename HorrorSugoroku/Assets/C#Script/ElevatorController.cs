@@ -59,7 +59,7 @@ public class ElevatorController : MonoBehaviour
     // 開くときに使うイージング（ゆっくり→速く）
     private float EaseOutCubic(float t) => 1 - Mathf.Pow(1 - t, 3);
 
-    IEnumerator ToggleDoors()
+    public IEnumerator ToggleDoors()
     {
         if (isDoorMoving) yield break;
         isDoorMoving = true;
@@ -137,7 +137,7 @@ public class ElevatorController : MonoBehaviour
         isDoorMoving = false;
     }
 
-    IEnumerator MoveToFloor(int floorIndex)
+    public IEnumerator MoveToFloor(int floorIndex)
     {
         isMoving = true;
 

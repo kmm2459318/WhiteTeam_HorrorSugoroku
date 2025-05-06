@@ -32,6 +32,21 @@ public class PlayerInventory : MonoBehaviour
 
     public void AddItem(string itemName, string itemID)
     {
+        //// 🎲 抽選対象なら確率でスキップ
+        //if (itemAddProbabilities.TryGetValue(itemName, out float probability))
+        //{
+        //    float rand = Random.Range(0f, 1f);
+        //    if (rand > probability)
+        //    {
+        //        Debug.Log($"🚫 {itemName} は確率 {probability * 100}% による抽選失敗（出目：{rand:F2}）");
+        //        return;
+        //    }
+        //    else
+        //    {
+        //        Debug.Log($"🎯 {itemName} は抽選成功で追加！（出目：{rand:F2}）");
+        //    }
+        //}
+
         if (isAddingItem)
         {
             Debug.Log("現在アイテム追加中です。");

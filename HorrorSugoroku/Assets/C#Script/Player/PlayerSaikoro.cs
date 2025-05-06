@@ -14,6 +14,7 @@ public class PlayerSaikoro : MonoBehaviour
     [SerializeField] SmoothTransform player;
     private EnemySaikoro targetScript; // コマンドを受け取るEnemySaikoro
     public CurseSlider curseGauge;
+    public ElevatorIdou elevatorIdou;
     public EnemyStop enemyStop;
     public EnemyStop enemyStop1;
     public EnemyStop enemyStop2;
@@ -66,7 +67,7 @@ public class PlayerSaikoro : MonoBehaviour
     private List<Transform> parentTransform = new List<Transform>();
     private List<Material> parentTransformlast = new List<Material>();
     //private Transform parentTransform;
-    private Transform nextDarkMasu;
+    public Transform nextDarkMasu;
     public Material darkMaterial;
     public Material neonMaterial;
     public GameObject PSouth;
@@ -264,7 +265,7 @@ public class PlayerSaikoro : MonoBehaviour
                 (!PW && !PS && !PN && lastaction == 2) ||
                 (!PN && !PS && !PE && lastaction == 3) ||
                 (!PW && !PS && !PE && lastaction == 4)) &&
-                !idouspanIkidomari)
+                !idouspanIkidomari && !elevatorIdou.idou)
             {
                 Debug.Log("行き止まり");
                 sai = 0;
@@ -334,7 +335,7 @@ public class PlayerSaikoro : MonoBehaviour
 
                 // プレイヤーの動き終了
                 // プレイヤーの移動が終了したら探索モードに入る
-                if (!idoutyu && !saikorotyu && !exploring)
+                if (!idoutyu && !saikorotyu && !exploring && !curseGauge.isCardCanvas1)
                 {
                     exploring = true;
                     Debug.Log("探索モードに入りました:Fを押して次に");

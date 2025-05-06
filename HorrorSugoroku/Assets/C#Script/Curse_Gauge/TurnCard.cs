@@ -7,17 +7,15 @@ public class TurnCard : MonoBehaviour
     public GameObject spriteCardFront;
     public GameObject spriteCardBack;
 
-    static bool isFront = true;  // カードの表裏
+    public CurseSlider curseGauge;
+
     static float speed = 4.0f;  // 裏返すスピード 裏返しには(2/speed)秒かかる
 
     RectTransform rectTransform;
-    Image cardImage;
-
 
     private void Awake()
     {
         rectTransform = GetComponent<RectTransform>();
-        cardImage = GetComponent<Image>();
     }
 
     // 初期設定
@@ -50,7 +48,6 @@ public class TurnCard : MonoBehaviour
 
         Vector3 localScale = new Vector3();
 
-
         // (1/speed)秒で中間地点までひっくり返す
         while (tick < 1.0f)
         {
@@ -64,19 +61,8 @@ public class TurnCard : MonoBehaviour
         }
 
         // カードの画像(sprite)を変更する
-        if (isFront)
-        {
-            spriteCardBack.SetActive(true);
-            spriteCardFront.SetActive(false);
-        }
-        else
-        {
-            spriteCardBack.SetActive(false);
-            spriteCardFront.SetActive(true);
-        }
-
-        // 表裏を変更
-        isFront = !isFront;
+        spriteCardBack.SetActive(true);
+        spriteCardFront.SetActive(false);
 
         tick = 0f;
 
@@ -91,5 +77,13 @@ public class TurnCard : MonoBehaviour
 
             yield return null;
         }
+
+        curseGauge.endTurn = true;
+    }
+
+    public void CardReset()
+    {
+        spriteCardBack.SetActive(false);
+        spriteCardFront.SetActive(true);
     }
 }

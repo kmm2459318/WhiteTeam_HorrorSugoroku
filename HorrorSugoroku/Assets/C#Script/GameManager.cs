@@ -26,11 +26,11 @@ public class GameManager : MonoBehaviour
     public CurseSlider curseSlider;
     public NavMeshAgent agent;
     public CutIn cutIn;
+    public Statue statue;
 
     //public GameObject ExitDoorLight; //脱出ドアであることがわかる光
     public GameObject currentEnemyModel; // 現在のエネミーモデル
     public GameObject EnemyCopy1; // コピーエネミーモデル
-    public GameObject EnemyCopy1demo;
     public GameObject EnemyCopy2;
     public GameObject EnemyCopy3;
     public GameObject EnemyCopy4;
@@ -61,6 +61,11 @@ public class GameManager : MonoBehaviour
         playerSaikoro.StartRolling(); // プレイヤーのターンを開始
 
         miniMap = FindObjectOfType<MiniMap>(); // MiniMap クラスのインスタンスを取得
+
+        EnemyCopy2.SetActive(false);
+        EnemyCopy3.SetActive(false);
+        EnemyCopy4.SetActive(false);
+        EnemyCopy5.SetActive(false);
     }
 
     private void Update()
@@ -118,38 +123,26 @@ public class GameManager : MonoBehaviour
         //    }
         //}
 
-        //
-        if (Doll >= 1)
+        //人形を置くごとに鬼が増える処理
+        switch (statue.PutDoll)
         {
-            Destroy(EnemyCopy1demo);
-            EnemyCopy1.SetActive(true);
-            EnemyCopyOn1 = true;
-        }
-        if (Doll >= 2)
-        {
-            EnemyCopy2.SetActive(true);
-            EnemyCopyOn2 = true;
-        }
-        if (Doll >= 3)
-        {
-            EnemyCopy3.SetActive(true);
-            EnemyCopyOn3 = true;
-        }
-        if (Doll >= 4)
-        {
-            EnemyCopy4.SetActive(true);
-            EnemyCopyOn4 = true;
-        }
-        if (Doll >= 5)
-        {
-            EnemyCopy5.SetActive(true);
-            EnemyCopyOn5 = true;
-        }
+            case 1:
+                EnemyCopy2.SetActive(true);
+                EnemyCopyOn2 = true;
+                break;
+            case 2:
+                EnemyCopy3.SetActive(true);
+                EnemyCopyOn3 = true;
+                break;
+            case 3:
+                EnemyCopy4.SetActive(true);
+                EnemyCopyOn4 = true;
+                break;
+            case 4:
+                EnemyCopy5.SetActive(true);
+                EnemyCopyOn5 = true;
+                break;
 
-        if (enemyTurnFinCount == 2)
-        {
-            enemyTurnFinCount = 0;
-            NextTurn();
         }
 
         // マップのピースが3枚手に入ったらエネミーモデルを変更
