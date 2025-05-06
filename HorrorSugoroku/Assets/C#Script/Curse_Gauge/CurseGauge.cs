@@ -64,6 +64,7 @@ public class CurseSlider : MonoBehaviour
     //小さい呪い、大きい呪いどちらを表示しているかの判定
     public bool isCardCanvas1 = false;
     public bool isCardCanvas2 = false;
+    public bool isCurseDice = false;
 
     public bool curse1_1 = false;
     public bool curse1_2 = false;
@@ -72,10 +73,14 @@ public class CurseSlider : MonoBehaviour
     public bool curse2_2 = false;
     public bool curse3_3 = false;
     public int curse1Turn = 0;
+    public bool endTurn = false;
 
     public GameObject curse1turnCard;
     public GameObject curse2turnCard;
     public GameObject curse3turnCard;
+    public Button armButton;
+    public Button legButton;
+    public Button headButton;
 
 
     void Start()
@@ -251,6 +256,19 @@ public class CurseSlider : MonoBehaviour
         }
 
         UpdateImageGauges();
+
+        if (endTurn && Input.GetMouseButtonDown(0))
+        {
+            endTurn = false;
+            isCardCanvas1 = false;
+
+            curse1turnCard.SetActive(false);
+            curse2turnCard.SetActive(false);
+            curse3turnCard.SetActive(false);
+            curse1turnCard.GetComponent<TurnCard>().CardReset();
+            curse2turnCard.GetComponent<TurnCard>().CardReset();
+            curse3turnCard.GetComponent<TurnCard>().CardReset();
+        }
     }
 
     public void Curse1(int r)
@@ -280,7 +298,7 @@ public class CurseSlider : MonoBehaviour
             curse3turnCard.GetComponent<TurnCard>().StartTurn();
         }
 
-        isCardCanvas1 = false;
+        isCurseDice = false;
     }
 
     public void IncreaseDashPointPerTurn()
@@ -318,6 +336,7 @@ public class CurseSlider : MonoBehaviour
             diceCamera.enabled = true;
             diceController.ResetDiceState();
             isCardCanvas1 = true;
+            isCurseDice = true;
 
             curse1turnCard.SetActive(true);
             curse2turnCard.SetActive(true);
@@ -444,6 +463,12 @@ public class CurseSlider : MonoBehaviour
             StartCoroutine(DisplayTextOneByOne("片足ヲ失っタ。\nサイコロが1,2,3しか出ナイ。", eyeButtonText, 0.1f));
         }
     }
+
+    public void Head_ButtonAction()
+    {
+        Debug.Log("死ぬ メイドインワリオ");
+    } 
+
     public void Eye_ButtonAction()
     {
         Debug.Log("目が落ちた");
