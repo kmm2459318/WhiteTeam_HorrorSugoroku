@@ -2,6 +2,7 @@
 using System.Collections;
 using TMPro;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using static UnityEditor.PlayerSettings;
 
@@ -139,6 +140,28 @@ public class CurseSlider : MonoBehaviour
 
     public void Update()
     {
+        //呪いゲージが100ごとに増加するごとに呪いを実行
+        switch (CountGauge)
+        {
+            //懐中電灯の電気が消える
+            case 1:
+                Arm_ButtonAction();
+                //笑い声をなるように後で追加
+                break;
+            //出目が1～3しか出ない、目線が下に下がる
+            case 2:
+                Leg_ButtonAction();
+                //足にもやがかかり、笑い声が聞こえながら切れる
+                //足はその場に残すようにする
+                break;
+            //首ちょんぱ
+            case 3:
+                SceneManager.LoadScene("Jump Scare");
+                //首にもやがかかり、笑い声が聞こえながら切れるようにする
+                break;
+        }
+
+
         //小さい呪い画面表示でASDキーで押せるようにする
         /*if (isCardCanvas1)
         {
@@ -163,53 +186,53 @@ public class CurseSlider : MonoBehaviour
         }*/
 
         //大きい呪い画面表示でASDキーで押せるようにする
-        if (isCardCanvas2)
-        {
-            if (Input.GetKeyDown(KeyCode.A) && ArmButton != null)
-            {
-                ArmButton.onClick.Invoke();
-                isCardCanvas2 = false;
-            }
+        //if (isCardCanvas2)
+        //{
+        //    if (Input.GetKeyDown(KeyCode.A) && ArmButton != null)
+        //    {
+        //        ArmButton.onClick.Invoke();
+        //        isCardCanvas2 = false;
+        //    }
 
-            if (Input.GetKeyDown(KeyCode.S) && LegButton != null)
-            {
-                LegButton.onClick.Invoke();
-                isCardCanvas2 = false;
-            }
+        //    if (Input.GetKeyDown(KeyCode.S) && LegButton != null)
+        //    {
+        //        LegButton.onClick.Invoke();
+        //        isCardCanvas2 = false;
+        //    }
 
-            if (Input.GetKeyDown(KeyCode.D) && EyeButton != null)
-            {
-                EyeButton.onClick.Invoke();
-                isCardCanvas2 = false;
-            }
-        }
+        //    if (Input.GetKeyDown(KeyCode.D) && EyeButton != null)
+        //    {
+        //        EyeButton.onClick.Invoke();
+        //        isCardCanvas2 = false;
+        //    }
+        //}
 
 
-        if (80 <= dashPoint && dashPoint >= 100 && CardSelect1 == false)
-        {
-            CardSelect1 = true;
-            StartCoroutine(ShowCardCanvas2());
-        }
-        else if (80 <= dashPoint && dashPoint < 100 && CardSelect2 == false)
-        {
-            CardSelect2 = true;
-            StartCoroutine(ShowCardCanvas1());
-        }
-        else if (60 <= dashPoint && dashPoint < 80 && CardSelect3 == false)
-        {
-            CardSelect3 = true;
-            StartCoroutine(ShowCardCanvas1());
-        }
-        else if (40 <= dashPoint && dashPoint < 60 && CardSelect4 == false)
-        {
-            CardSelect4 = true;
-            StartCoroutine(ShowCardCanvas1());
-        }
-        else if (20 <= dashPoint && dashPoint < 40 && CardSelect5 == false)
-        {
-            CardSelect5 = true;
-            StartCoroutine(ShowCardCanvas1());
-        }
+        //if (80 <= dashPoint && dashPoint >= 100 && CardSelect1 == false)
+        //{
+        //    CardSelect1 = true;
+        //    StartCoroutine(ShowCardCanvas2());
+        //}
+        //else if (80 <= dashPoint && dashPoint < 100 && CardSelect2 == false)
+        //{
+        //    CardSelect2 = true;
+        //    StartCoroutine(ShowCardCanvas1());
+        //}
+        //else if (60 <= dashPoint && dashPoint < 80 && CardSelect3 == false)
+        //{
+        //    CardSelect3 = true;
+        //    StartCoroutine(ShowCardCanvas1());
+        //}
+        //else if (40 <= dashPoint && dashPoint < 60 && CardSelect4 == false)
+        //{
+        //    CardSelect4 = true;
+        //    StartCoroutine(ShowCardCanvas1());
+        //}
+        //else if (20 <= dashPoint && dashPoint < 40 && CardSelect5 == false)
+        //{
+        //    CardSelect5 = true;
+        //    StartCoroutine(ShowCardCanvas1());
+        //}
 
         DashGage.value = dashPoint;
 
@@ -377,7 +400,7 @@ public class CurseSlider : MonoBehaviour
         isArmButtonClicked = true;
 
         Debug.Log("Arm_Buttonが呼び出されました。");
-        Debug.Log("腕がなくなった");
+        //Debug.Log("腕がなくなった");
         ArmButton.interactable = false;
         ArmButton.gameObject.SetActive(false); // ボタンを非表示にする
         isArmButtonUsed = true;
@@ -409,7 +432,7 @@ public class CurseSlider : MonoBehaviour
         diceRangeManager.EnableTransformRoll(); // 出目の変換を有効にする
         diceController.SetLegButtonEffect(true); // DiceControllerの効果を有効にする
         playerSaikoro.SetLegButtonEffect(true); // PlayerSaikoroの効果を有効にする
-        HideCardCanvas2();
+        //HideCardCanvas2();
 
         // カメラの位置を低くする
         Camera.main.GetComponent<CameraController>().OnLegButtonPressed();
