@@ -16,10 +16,11 @@ public class Statue : MonoBehaviour
     public GameObject[] Doll = new GameObject[4];
     //ライト
     public Light Clearlight;
+    public int PutDoll; //人形を置いた数
     private float AddIntensity = 1000f; //光の強さの増加量
     public float WaitTime = 7f; // 待ち時間（秒）
-    private float Timer = 0f; // タイマー
 
+    private float Timer = 0f; // タイマー
 
     private GameObject lastHighlightedObject = null;
 
@@ -56,7 +57,7 @@ public class Statue : MonoBehaviour
                 if (hit.collider.CompareTag("DollArea"))
                 {
                     //プレイヤーが移動完了していたら
-                    if (!playerSaikoro.idoutyu)
+                    if (!playerSaikoro.idoutyu && !gameManager.isPlayerTurn)
                     {
                         Debug.Log("移動完了＆触れている");
                         if (IsLookingAtObject(hit.collider.gameObject))
@@ -71,6 +72,7 @@ public class Statue : MonoBehaviour
                                         if (Doll[i] != null && !Doll[i].activeSelf)
                                         {
                                             Doll[i].SetActive(true); // 対応する人形のみ表示
+                                            PutDoll++; // 人形を置いた数をカウント
                                             gameManager.PlaceDoll();
 
                                             CheckAllDoll(); //人形を全部置いたかの判定
