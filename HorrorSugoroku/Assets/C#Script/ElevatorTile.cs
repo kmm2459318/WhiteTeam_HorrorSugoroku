@@ -1,3 +1,4 @@
+using System.Collections;  // ★ 追加
 using SmoothigTransform;
 using UnityEngine;
 using UnityEngine.UI;
@@ -6,7 +7,6 @@ public class ElevatorTile : MonoBehaviour
 {
     public SmoothTransform smoothTransform;
     public ElevatorController controller;
-
     public GameObject ElevatorMasu;
 
     [Header("エレベーターの床（動く部分）")]
@@ -15,17 +15,15 @@ public class ElevatorTile : MonoBehaviour
     [Header("対象プレイヤー")]
     public Transform player;
 
+    public AudioSource elevatorSound; // ★ 追加
+
     private bool isPlayerOnThisTile = false;
-    private void Start()
-    {
-        //smoothTransform = player.GetComponent<SmoothTransform>();
-    }
+    private Coroutine soundCoroutine;
 
     private void Update()
     {
         if (isPlayerOnThisTile && smoothTransform != null)
         {
-            Debug.Log(elevatorPlatform.position.y);
             smoothTransform.SetTargetY(elevatorPlatform.position.y);
         }
 
@@ -35,8 +33,49 @@ public class ElevatorTile : MonoBehaviour
         }
     }
 
-    public void SetPlayerOnTile(bool onTile)
+    void OnTriggerEnter(Collider collision)
     {
-        isPlayerOnThisTile = onTile;
+        if (collision.gameObject.tag == "Player")
+        {
+            isPlayerOnThisTile = true;
+
+            // ★ 音声を再生
+            if (elevatorSound != null)
+            {
+                elevatorSound.Play();
+                // ★ 7秒後に音を止めるコルーチン開始
+                soundCoroutine = StartCoroutine(StopSoundAfterTime(7f));
+            }
+        }
+    }
+
+    void OnTriggerExit(Collider collision)
+    {
+        if (collision.gameObject.tag == "Player")
+        {
+            isPlayerOnThisTile = false;
+
+            // ★ プレイヤーが離れたら音を即停止
+            if (elevatorSound != null)
+            {
+                elevatorSound.Stop();
+            }
+
+            // ★ コルーチンをキャンセル
+            if (soundCoroutine != null)
+            {
+                StopCoroutine(soundCoroutine);
+                soundCoroutine = null;
+            }
+        }
+    }
+
+    private IEnumerator StopSoundAfterTime(float time)
+    {
+        yield return new WaitForSeconds(time);
+        if (isPlayerOnThisTile && elevatorSound.isPlaying)
+        {
+            elevatorSound.Stop();
+        }
     }
 }
