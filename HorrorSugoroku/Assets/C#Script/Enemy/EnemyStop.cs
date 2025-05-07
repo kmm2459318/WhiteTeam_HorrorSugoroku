@@ -78,6 +78,10 @@ public class EnemyStop : MonoBehaviour
                 matched = true; // 一致したらフラグを立てる
                 break;
             }
+            else
+            {
+                rideMasu = false;
+            }
         }
     }
 
