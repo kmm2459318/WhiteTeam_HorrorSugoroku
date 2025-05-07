@@ -31,7 +31,7 @@ public class FlashlightController : MonoBehaviour
     // ターンが進んだときに呼び出される
     public void OnTurnAdvanced()
     {
-        // 電池を消費する
+        // 電池を消費するa
         currentBattery -= batteryDrainPerTurn;
         currentBattery = Mathf.Clamp(currentBattery, 0, maxBattery);
 
