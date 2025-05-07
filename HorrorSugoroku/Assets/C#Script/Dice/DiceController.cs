@@ -48,6 +48,8 @@ public class DiceController : MonoBehaviour
     new Vector3(90, 0, 0)    // 6の面が上
     };
 
+    private int dice2miss = 3; 
+
     // 🎯 出目が決まったら回転と移動を開始
     void ApplyDiceResult(int result)
     {
@@ -103,11 +105,17 @@ public class DiceController : MonoBehaviour
     {
         if (player.saikorotyu)
         {
-            DiceRoll(1);
+            DiceRoll(0);
         }
 
         //呪い処理用さいころ
-        if (curseGauge.isCurseDice)
+        if (curseGauge.isCurseDice1)
+        {
+            Debug.Log("diceroll1");
+            DiceRoll(1);
+        }
+        //大きい呪い処理用さいころ
+        if (curseGauge.isCurseDice2)
         {
             Debug.Log("diceroll2");
             DiceRoll(2);
@@ -192,14 +200,30 @@ public class DiceController : MonoBehaviour
                     if (result != -1)
                     {
                         Debug.Log($"出た目: {result}");
-                        if (n == 1)
+                        if (n == 0)
                         {
                             player.DiceAfter(result);
+                        }
+                        else if (n == 1)
+                        {
+                            StartCoroutine(playerSaikoro.HideDiceCameraWithDelay());
+                            curseGauge.Curse1(result);
                         }
                         else if (n == 2)
                         {
                             StartCoroutine(playerSaikoro.HideDiceCameraWithDelay());
-                            curseGauge.Curse1(result);
+                            if (result >= 1 && result <= dice2miss)
+                            {
+                                dice2miss = 3;
+                                curseGauge.Curse2();
+                            }
+                            else
+                            {
+                                dice2miss++;
+                                Debug.Log("大きい呪いダイス回避成功！失敗数が上昇→"　+ dice2miss);
+                            }
+                            curseGauge.isCardCanvas2 = false;
+                            curseGauge.isCurseDice2 = false;
                         }
                         ApplyDiceResult(result); // 🎯 **ここで即回転開始**
                     }
