@@ -8,7 +8,7 @@ using JetBrains.Annotations;
 public class GameManager : MonoBehaviour
 {
     public TMP_Text turnText; // TextMeshPro用のターン数表示
-    public TMP_Text turnIndicatorText; // 新しいターン表示用のテキスト
+    //public TMP_Text turnIndicatorText; // 新しいターン表示用のテキスト
     public bool isPlayerTurn = true; // プレイヤーのターンかどうかを示すフラグ
     //public bool isExitDoor = false; // 脱出ができるかどうかのタグ
     public bool EnemyCopyOn1 = false;
@@ -256,10 +256,10 @@ public class GameManager : MonoBehaviour
 
     private void UpdateTurnText()
     {
-        if (turnIndicatorText != null)
-        {
-            turnIndicatorText.text = isPlayerTurn ? "PlayerTurn" : "EnemyTurn"; // ターン表示を更新
-        }
+        //if (turnIndicatorText != null)
+        //{
+        //    turnIndicatorText.text = isPlayerTurn ? "PlayerTurn" : "EnemyTurn"; // ターン表示を更新
+        //}
     }
 
     public bool IsPlayerTurn()
