@@ -4,6 +4,7 @@ using System.Collections;
 using SmoothigTransform;
 using System;
 using System.Collections.Generic;
+using Unity.VisualScripting.Antlr3.Runtime.Tree;
 
 public class PlayerSaikoro : MonoBehaviour
 {
@@ -90,6 +91,8 @@ public class PlayerSaikoro : MonoBehaviour
     int movesum;
 
     int number;
+    
+    public bool gaugeCircle;
 
     // AudioSource and AudioClip variables for dice roll sound
     private AudioSource audioSource; // AudioSource to play sound
@@ -572,6 +575,10 @@ public class PlayerSaikoro : MonoBehaviour
             walkCount++;
             sai--;
             diceRotation.GetDiceNumber(sai);
+            if (sai == 0)
+            {
+                gaugeCircle = true;
+            }
         }
     }
 
@@ -689,5 +696,6 @@ public class PlayerSaikoro : MonoBehaviour
     {
         yield return new WaitForSeconds(diceCameraHideDelay); // 指定した秒数待機
         if (diceCamera != null) diceCamera.enabled = false; // 🎯 指定時間後にカメラを非表示
+        gaugeCircle = false;
     }
 }

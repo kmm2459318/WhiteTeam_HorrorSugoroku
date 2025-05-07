@@ -68,6 +68,9 @@ public class CurseSlider : MonoBehaviour
     public bool isCurseDice1 = false;
     public bool isCurseDice2 = false;
 
+    //大きい呪いを実行するかのフラグ
+    public bool isCurseActivation = false;
+
     public bool curse1_1 = false;
     public bool curse1_2 = false;
     public bool curse1_3 = false;
@@ -426,23 +429,28 @@ public class CurseSlider : MonoBehaviour
 
     public void Arm_ButtonAction()
     {
-        if (isArmButtonClicked) return;
-        isArmButtonClicked = true;
-
-        Debug.Log("Arm_Buttonが呼び出されました。");
-        //Debug.Log("腕がなくなった");
-        ArmButton.interactable = false;
-        ArmButton.gameObject.SetActive(false); // ボタンを非表示にする
-        isArmButtonUsed = true;
-
-        // 懐中電灯を非アクティブにする
-        flashlightManager.DeactivateFlashlight();
-
-        // Canvasをアクティブにしてテキストを一文字ずつ表示
-        if (eyeButtonText != null && eyeButtonCanvas != null && !isDisplayingText)
+        CurseActivation();
+        if(isCurseActivation == true)
         {
-            StartCoroutine(ActivateCanvasForDuration(eyeButtonCanvas, 5f));
-            StartCoroutine(DisplayTextOneByOne("片手ヲ失っタ。\n懐中電灯が使えナイ。", eyeButtonText, 0.1f));
+            if (isArmButtonClicked) return;
+            isArmButtonClicked = true;
+
+            Debug.Log("Arm_Buttonが呼び出されました。");
+            //Debug.Log("腕がなくなった");
+            ArmButton.interactable = false;
+            ArmButton.gameObject.SetActive(false); // ボタンを非表示にする
+            isArmButtonUsed = true;
+
+            // 懐中電灯を非アクティブにする
+            flashlightManager.DeactivateFlashlight();
+
+            // Canvasをアクティブにしてテキストを一文字ずつ表示
+            if (eyeButtonText != null && eyeButtonCanvas != null && !isDisplayingText)
+            {
+                StartCoroutine(ActivateCanvasForDuration(eyeButtonCanvas, 5f));
+                StartCoroutine(DisplayTextOneByOne("片手ヲ失っタ。\n懐中電灯が使えナイ。", eyeButtonText, 0.1f));
+            }
+            isCurseActivation = false;
         }
     }
 
@@ -563,5 +571,20 @@ public class CurseSlider : MonoBehaviour
     public bool IsCardCanvasActive()
     {
         return CardCanvas1.activeSelf || CardCanvas2.activeSelf;
+    }
+
+    //呪いが一定数たまったあとに出た目によって大きい呪いを実行するかしないかの判定
+    public void CurseActivation()
+    {
+        //3以下は実行しない
+        if (playerSaikoro.sai <= 3)
+        {
+            isCurseActivation = false;
+        }
+        //4以上は実行する
+        else if (playerSaikoro.sai >= 4)
+        {
+            isCurseActivation = true;
+        }
     }
 }
