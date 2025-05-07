@@ -49,8 +49,17 @@ MonoBehaviour:
   gameManager: {fileID: 0}
   keyRandomizer: {fileID: 0}
   curse: {fileID: 0}
+  saikoroUI: {fileID: 0}
+  diceImage: {fileID: 0}
+  diceSprites: []
+  diceAnimator: {fileID: 0}
+  audioSource: {fileID: 0}
+  rollSound: {fileID: 0}
+  successSound: {fileID: 0}
+  failSound: {fileID: 0}
   Text: {fileID: 0}
   Canvas: {fileID: 0}
+  cutInImage: {fileID: 0}
   itemCooldownDuration: 5
   keyCooldownTime: 10
 --- !u!1 &1561701990267013035
@@ -394,8 +403,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   curseSlider: {fileID: 0}
-  initialItems:
-  - "\u30A8\u30F3\u30B8\u30F3\u30EB\u30FC\u30E0\u306E\u30AB\u30AE"
+  keys: []
   dollText: {fileID: 0}
   potionText: {fileID: 0}
   kill2Text: {fileID: 0}
@@ -414,8 +422,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   player: {fileID: 1561701990267013035}
   hanteiBox: {fileID: 2687595369847227901}
+  forwardDistance: 2
   heightOffset: -1
-  forwardOffset: 0.5
 --- !u!1 &2127038024270144164
 GameObject:
   m_ObjectHideFlags: 0
@@ -1013,6 +1021,81 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 126
   m_CollisionDetection: 0
+--- !u!1 &4225632236715825678
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7286910149853595982}
+  - component: {fileID: 7618450199011830148}
+  - component: {fileID: 2066265908205227783}
+  m_Layer: 5
+  m_Name: Image
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &7286910149853595982
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4225632236715825678}
+  m_LocalRotation: {x: 0, y: 0, z: 1, w: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1.5, y: 1.5, z: 1.5}
+  m_ConstrainProportionsScale: 1
+  m_Children: []
+  m_Father: {fileID: 9017864117377037352}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 180}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: -800, y: -380}
+  m_SizeDelta: {x: 100, y: 100}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!222 &7618450199011830148
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4225632236715825678}
+  m_CullTransparentMesh: 1
+--- !u!114 &2066265908205227783
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4225632236715825678}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Sprite: {fileID: 10913, guid: 0000000000000000f000000000000000, type: 0}
+  m_Type: 3
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
 --- !u!1 &4498509704180757679
 GameObject:
   m_ObjectHideFlags: 0
@@ -1532,6 +1615,7 @@ MonoBehaviour:
   diceController: {fileID: 0}
   player: {fileID: 602051425234310406}
   curseGauge: {fileID: 0}
+  elevatorIdou: {fileID: 0}
   enemyStop: {fileID: 0}
   enemyStop1: {fileID: 0}
   enemyStop2: {fileID: 0}
@@ -1556,6 +1640,7 @@ MonoBehaviour:
   PWest: {fileID: 7803920965303236875}
   PEast: {fileID: 4050554433934506364}
   startMasu: {fileID: 0}
+  nextDarkMasu: {fileID: 0}
   darkMaterial: {fileID: 2100000, guid: 9fb8e13adca472b47b50fb9419a48aa2, type: 2}
   neonMaterial: {fileID: 2100000, guid: dd15da265d8d13846989a51c05ac3d54, type: 2}
   PSouth: {fileID: 2365203296206473895}
@@ -2311,6 +2396,7 @@ GameObject:
   - component: {fileID: 1638898898697786665}
   - component: {fileID: 2721247904117702313}
   - component: {fileID: 7828574208368832035}
+  - component: {fileID: 5128310764776103738}
   m_Layer: 5
   m_Name: SugorokuCanvas
   m_TagString: Untagged
@@ -2333,6 +2419,7 @@ RectTransform:
   - {fileID: 2161812692156170789}
   - {fileID: 6154294828419534736}
   - {fileID: 3912092618580003014}
+  - {fileID: 7286910149853595982}
   m_Father: {fileID: 4095411471535799797}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
@@ -2403,6 +2490,21 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 4294967295
+--- !u!114 &5128310764776103738
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9090397714317881547}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a76e616b6930e6d45baeb3f6cf692c1a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  targetImage: {fileID: 2066265908205227783}
+  fillSpeed: 0.5
+  targetLight: {fileID: 1059076622266192413}
 --- !u!1001 &8982983373028831147
 PrefabInstance:
   m_ObjectHideFlags: 0
