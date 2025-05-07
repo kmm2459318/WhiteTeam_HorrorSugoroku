@@ -57,6 +57,7 @@ public class CurseSlider : MonoBehaviour
     [SerializeField] private GameObject eyeButtonCanvas;
     private bool isDisplayingText = false; 
     [SerializeField] private Camera diceCamera;
+    [SerializeField] private Camera MainCamera;
 
     private int nextShowCardThreshold = 20;
     // カード表示の閾値（20,40,60,80,100）
@@ -64,7 +65,8 @@ public class CurseSlider : MonoBehaviour
     //小さい呪い、大きい呪いどちらを表示しているかの判定
     public bool isCardCanvas1 = false;
     public bool isCardCanvas2 = false;
-    public bool isCurseDice = false;
+    public bool isCurseDice1 = false;
+    public bool isCurseDice2 = false;
 
     public bool curse1_1 = false;
     public bool curse1_2 = false;
@@ -145,28 +147,6 @@ public class CurseSlider : MonoBehaviour
 
     public void Update()
     {
-        //呪いゲージが100ごとに増加するごとに呪いを実行
-        switch (CountGauge)
-        {
-            //懐中電灯の電気が消える
-            case 1:
-                Arm_ButtonAction();
-                //笑い声をなるように後で追加
-                break;
-            //出目が1～3しか出ない、目線が下に下がる
-            case 2:
-                Leg_ButtonAction();
-                //足にもやがかかり、笑い声が聞こえながら切れる
-                //足はその場に残すようにする
-                break;
-            //首ちょんぱ
-            case 3:
-                SceneManager.LoadScene("Jump Scare");
-                //首にもやがかかり、笑い声が聞こえながら切れるようにする
-                break;
-        }
-
-
         //小さい呪い画面表示でASDキーで押せるようにする
         /*if (isCardCanvas1)
         {
@@ -241,18 +221,21 @@ public class CurseSlider : MonoBehaviour
 
         DashGage.value = dashPoint;
 
+        //呪いゲージがMAXになったら
         if (dashPoint >= maxDashPoint)
         {
-
-            CountGauge++;
+            diceCamera.enabled = true; 
+            diceController.ResetDiceState();
+            isCardCanvas2 = true;
+            isCurseDice2 = true;
             dashPoint = 0;
             CardSelect1 = false;
             CardSelect2 = false;
             CardSelect3 = false;
             CardSelect4 = false;
             CardSelect5 = false;
+
             ResetGaugeImages();
-            UpdateCountText();
         }
 
         UpdateImageGauges();
@@ -298,7 +281,35 @@ public class CurseSlider : MonoBehaviour
             curse3turnCard.GetComponent<TurnCard>().StartTurn();
         }
 
-        isCurseDice = false;
+        isCurseDice1 = false;
+    }
+
+    public void Curse2()
+    {
+        CountGauge++;
+
+        //呪いゲージが100ごとに増加するごとに呪いを実行
+        switch (CountGauge)
+        {
+            //懐中電灯の電気が消える
+            case 1:
+                Arm_ButtonAction();
+                //笑い声をなるように後で追加
+                break;
+            //出目が1～3しか出ない、目線が下に下がる
+            case 2:
+                Leg_ButtonAction();
+                //足にもやがかかり、笑い声が聞こえながら切れる
+                //足はその場に残すようにする
+                break;
+            //首ちょんぱ、体ちょんぱ、トニートニーチョッパー
+            case 3:
+                SceneManager.LoadScene("Jump Scare");
+                //首にもやがかかり、笑い声が聞こえながら切れるようにする
+                break;
+        }
+
+        UpdateCountText();
     }
 
     public void IncreaseDashPointPerTurn()
@@ -336,7 +347,7 @@ public class CurseSlider : MonoBehaviour
             diceCamera.enabled = true;
             diceController.ResetDiceState();
             isCardCanvas1 = true;
-            isCurseDice = true;
+            isCurseDice1 = true;
 
             curse1turnCard.SetActive(true);
             curse2turnCard.SetActive(true);
@@ -454,7 +465,7 @@ public class CurseSlider : MonoBehaviour
         //HideCardCanvas2();
 
         // カメラの位置を低くする
-        Camera.main.GetComponent<CameraController>().OnLegButtonPressed();
+        MainCamera.GetComponent<CameraController>().OnLegButtonPressed();
 
         // Canvasをアクティブにしてテキストを一文字ずつ表示
         if (eyeButtonText != null && eyeButtonCanvas != null && !isDisplayingText)
@@ -483,7 +494,6 @@ public class CurseSlider : MonoBehaviour
             StartCoroutine(DisplayTextOneByOne("片目ヲ失っタ。", eyeButtonText, 0.1f));
         }
     }
-
 
     private IEnumerator DisplayTextOneByOne(string message, TextMeshProUGUI textComponent, float delay)
     {

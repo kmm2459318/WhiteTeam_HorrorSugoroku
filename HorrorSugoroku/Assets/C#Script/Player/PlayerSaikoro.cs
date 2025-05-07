@@ -68,6 +68,7 @@ public class PlayerSaikoro : MonoBehaviour
     private List<Material> parentTransformlast = new List<Material>();
     //private Transform parentTransform;
     public Transform nextDarkMasu;
+    private Transform lastMasu;
     public Material darkMaterial;
     public Material neonMaterial;
     public GameObject PSouth;
@@ -284,12 +285,12 @@ public class PlayerSaikoro : MonoBehaviour
                 else if (PW && Rot.y >= 225f && Rot.y < 315f)
                 {
                     FrontBack(2);
-                    Debug.Log("East");
+                    Debug.Log("West");
                 }
                 else if (PE && Rot.y >= 45f && Rot.y < 135f)
                 {
                     FrontBack(3);
-                    Debug.Log("West");
+                    Debug.Log("East");
                 }
                 else if (PS && Rot.y >= 135f && Rot.y < 225f)
                 {
@@ -328,14 +329,14 @@ public class PlayerSaikoro : MonoBehaviour
                 curseGauge.Update();
 
                 //呪い溜まってないか判定(ここまでには呪いの判定を済ませとく)
-                if (!curseGauge.isCardCanvas1)
+                if (!curseGauge.isCardCanvas1 && !curseGauge.isCardCanvas2)
                 {
                     idoutyu = false;
                 }
 
                 // プレイヤーの動き終了
                 // プレイヤーの移動が終了したら探索モードに入る
-                if (!idoutyu && !saikorotyu && !exploring && !curseGauge.isCardCanvas1)
+                if (!idoutyu && !saikorotyu && !exploring && !curseGauge.isCardCanvas1 && !curseGauge.isCardCanvas2)
                 {
                     exploring = true;
                     Debug.Log("探索モードに入りました:Fを押して次に");
@@ -435,6 +436,7 @@ public class PlayerSaikoro : MonoBehaviour
         exploring = false;
         Debug.Log("探索モード終了、次のターンへ");
         lastaction = 0;
+        lastMasu = nextDarkMasu;
         gameManager.NextTurn();
     }
 
@@ -486,16 +488,16 @@ public class PlayerSaikoro : MonoBehaviour
 
     void FrontBack(int n)
     {
-        int m = 0;
+        Transform nextMasu = startMasu;
         switch (n)
         {
-            case 1: m = 4; break;
-            case 2: m = 3; break;
-            case 3: m = 2; break;
-            case 4: m = 1; break;
+            case 1: nextMasu = Nmasu; break;
+            case 2: nextMasu = Wmasu; break;
+            case 3: nextMasu = Emasu; break;
+            case 4: nextMasu = Smasu; break;
         }
 
-        if (lastaction == m)
+        if (lastMasu == nextMasu)
         {
             idou(n, true);
         }
@@ -523,6 +525,7 @@ public class PlayerSaikoro : MonoBehaviour
                     //MasuColorChange(neonMaterial);
                     parentTransform.Add(nextDarkMasu);
                     parentTransformlast.Add(nextDarkMasu.GetChild(1).GetComponent<Renderer>().material);
+                    lastMasu = nextDarkMasu;
                     nextDarkMasu = Nmasu;
                     player.TargetPosition = Nmasu.transform.position + new Vector3(0, 1.15f, 0); break; // 北に移動
                 case 2:
@@ -530,6 +533,7 @@ public class PlayerSaikoro : MonoBehaviour
                     //parentTransform = nextDarkMasu;
                     parentTransform.Add(nextDarkMasu);
                     parentTransformlast.Add(nextDarkMasu.GetChild(1).GetComponent<Renderer>().material);
+                    lastMasu = nextDarkMasu;
                     nextDarkMasu = Wmasu;
                     player.TargetPosition = Wmasu.transform.position + new Vector3(0, 1.15f, 0); break; // 西に移動
                 case 3:
@@ -537,6 +541,7 @@ public class PlayerSaikoro : MonoBehaviour
                     //parentTransform = nextDarkMasu;
                     parentTransform.Add(nextDarkMasu);
                     parentTransformlast.Add(nextDarkMasu.GetChild(1).GetComponent<Renderer>().material);
+                    lastMasu = nextDarkMasu;
                     nextDarkMasu = Emasu;
                     player.TargetPosition = Emasu.transform.position + new Vector3(0, 1.15f, 0); break; // 東に移動
                 case 4:
@@ -544,6 +549,7 @@ public class PlayerSaikoro : MonoBehaviour
                     //parentTransform = nextDarkMasu;
                     parentTransform.Add(nextDarkMasu);
                     parentTransformlast.Add(nextDarkMasu.GetChild(1).GetComponent<Renderer>().material);
+                    lastMasu = nextDarkMasu;
                     nextDarkMasu = Smasu;
                     player.TargetPosition = Smasu.transform.position + new Vector3(0, 1.15f, 0); break; // 南に移動
             }
