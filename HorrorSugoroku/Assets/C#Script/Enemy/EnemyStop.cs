@@ -18,7 +18,7 @@ public class EnemyStop : MonoBehaviour
 
     void Start()
     {
-        nuvMeshAgent.enabled = false;
+        nuvMeshAgent.speed = 0;
     }
 
     void Update()
@@ -32,7 +32,7 @@ public class EnemyStop : MonoBehaviour
             && walkNumber <= enemyWalkCounter.walkMasu)
         {
             exploringCoolTime = 0f;
-            nuvMeshAgent.enabled = false;
+            nuvMeshAgent.speed = 0;
             stopMasu = true;
         }
 
@@ -40,7 +40,7 @@ public class EnemyStop : MonoBehaviour
         {
             se = true;
             stopMasu = false;
-            nuvMeshAgent.enabled = true;
+            nuvMeshAgent.speed = 1.62f;
 
             enemyWalkCounter.walkMasu = 0;
             walkNumber = Random.Range(0, gameManager.Doll + 2) + 1;
