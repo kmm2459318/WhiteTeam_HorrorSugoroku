@@ -55,9 +55,12 @@ public class CurseSlider : MonoBehaviour
     [SerializeField] private DiceRangeManager diceRangeManager; // DiceRangeManagerへの参照
     public DiceController diceController; // DiceControllerへの参照
     [SerializeField] private GameObject eyeButtonCanvas;
-    private bool isDisplayingText = false; 
+    private bool isDisplayingText = false;
     [SerializeField] private Camera diceCamera;
     [SerializeField] private Camera MainCamera;
+    // 笑い声の AudioSource を事前に設定しておく
+    [SerializeField] private AudioSource laughAudioSource;
+
 
     private int nextShowCardThreshold = 20;
     // カード表示の閾値（20,40,60,80,100）
@@ -71,6 +74,7 @@ public class CurseSlider : MonoBehaviour
     //大きい呪いを実行するかのフラグ
     public bool isCurseActivation = false;
 
+    public int curse1Number = 0;
     public bool curse1_1 = false;
     public bool curse1_2 = false;
     public bool curse1_3 = false;
@@ -80,12 +84,25 @@ public class CurseSlider : MonoBehaviour
     public int curse1Turn = 0;
     public bool endTurn = false;
 
+    public GameObject spriteCard1Front;
+    public GameObject spriteCard2Front;
+    public GameObject spriteCard3Front;
+    public GameObject Curse1Canvas;
+    public GameObject Curse2Canvas;
+    public GameObject Curse3Canvas;
+    public GameObject Curse1Card;
+    public GameObject Curse2Card;
+    public GameObject Curse3Card;
+
     public GameObject curse1turnCard;
     public GameObject curse2turnCard;
     public GameObject curse3turnCard;
+
+    public TextMeshProUGUI curseText; // 呪い発動テキスト
     public Button armButton;
     public Button legButton;
     public Button headButton;
+
 
 
     void Start()
@@ -145,13 +162,13 @@ public class CurseSlider : MonoBehaviour
         curseincrease += master_Curse.CurseSheet[1].TurnIncrease;
         Debug.Log("[CurseSlider] Dash Increase Per Turn set to: " + curseincrease);
         Time.timeScale = 1;
-        
+
     }
 
     public void Update()
     {
         //小さい呪い画面表示でASDキーで押せるようにする
-        /*if (isCardCanvas1)
+        if (isCardCanvas1)
         {
             if (Input.GetKeyDown(KeyCode.A) && extraButton != null && extraButton.interactable)
             {
@@ -171,63 +188,61 @@ public class CurseSlider : MonoBehaviour
                 cursegiveButton.onClick.Invoke();
                 isCardCanvas1 = false;
             }
-        }*/
+        }
 
         //大きい呪い画面表示でASDキーで押せるようにする
-        //if (isCardCanvas2)
-        //{
-        //    if (Input.GetKeyDown(KeyCode.A) && ArmButton != null)
-        //    {
-        //        ArmButton.onClick.Invoke();
-        //        isCardCanvas2 = false;
-        //    }
+        if (isCardCanvas2)
+        {
+            if (Input.GetKeyDown(KeyCode.A) && ArmButton != null)
+            {
+                ArmButton.onClick.Invoke();
+                isCardCanvas2 = false;
+            }
 
-        //    if (Input.GetKeyDown(KeyCode.S) && LegButton != null)
-        //    {
-        //        LegButton.onClick.Invoke();
-        //        isCardCanvas2 = false;
-        //    }
+            if (Input.GetKeyDown(KeyCode.S) && LegButton != null)
+            {
+                LegButton.onClick.Invoke();
+                isCardCanvas2 = false;
+            }
 
-        //    if (Input.GetKeyDown(KeyCode.D) && EyeButton != null)
-        //    {
-        //        EyeButton.onClick.Invoke();
-        //        isCardCanvas2 = false;
-        //    }
-        //}
-
-
+            if (Input.GetKeyDown(KeyCode.D) && EyeButton != null)
+            {
+                EyeButton.onClick.Invoke();
+                isCardCanvas2 = false;
+            }
+        }
         //if (80 <= dashPoint && dashPoint >= 100 && CardSelect1 == false)
         //{
         //    CardSelect1 = true;
         //    StartCoroutine(ShowCardCanvas2());
         //}
-        //else if (80 <= dashPoint && dashPoint < 100 && CardSelect2 == false)
-        //{
-        //    CardSelect2 = true;
-        //    StartCoroutine(ShowCardCanvas1());
-        //}
-        //else if (60 <= dashPoint && dashPoint < 80 && CardSelect3 == false)
-        //{
-        //    CardSelect3 = true;
-        //    StartCoroutine(ShowCardCanvas1());
-        //}
-        //else if (40 <= dashPoint && dashPoint < 60 && CardSelect4 == false)
-        //{
-        //    CardSelect4 = true;
-        //    StartCoroutine(ShowCardCanvas1());
-        //}
-        //else if (20 <= dashPoint && dashPoint < 40 && CardSelect5 == false)
-        //{
-        //    CardSelect5 = true;
-        //    StartCoroutine(ShowCardCanvas1());
-        //}
+        if (80 <= dashPoint && dashPoint < 100 && CardSelect2 == false)
+        {
+            CardSelect2 = true;
+            StartCoroutine(ShowCardCanvas1());
+        }
+        else if (60 <= dashPoint && dashPoint < 80 && CardSelect3 == false)
+        {
+            CardSelect3 = true;
+            StartCoroutine(ShowCardCanvas1());
+        }
+        else if (40 <= dashPoint && dashPoint < 60 && CardSelect4 == false)
+        {
+            CardSelect4 = true;
+            StartCoroutine(ShowCardCanvas1());
+        }
+        else if (20 <= dashPoint && dashPoint < 40 && CardSelect5 == false)
+        {
+            CardSelect5 = true;
+            StartCoroutine(ShowCardCanvas1());
+        }
 
         DashGage.value = dashPoint;
 
         //呪いゲージがMAXになったら
         if (dashPoint >= maxDashPoint)
         {
-            diceCamera.enabled = true; 
+            diceCamera.enabled = true;
             diceController.ResetDiceState();
             isCardCanvas2 = true;
             isCurseDice2 = true;
@@ -251,9 +266,9 @@ public class CurseSlider : MonoBehaviour
             curse1turnCard.SetActive(false);
             curse2turnCard.SetActive(false);
             curse3turnCard.SetActive(false);
-            curse1turnCard.GetComponent<TurnCard>().CardReset();
-            curse2turnCard.GetComponent<TurnCard>().CardReset();
-            curse3turnCard.GetComponent<TurnCard>().CardReset();
+            Curse1Canvas.SetActive(false);
+            Curse2Canvas.SetActive(false);
+            Curse3Canvas.SetActive(false);
         }
     }
 
@@ -265,23 +280,23 @@ public class CurseSlider : MonoBehaviour
 
         if (r == 1 || r == 2)
         {
-            Debug.Log("呪１：敵の最低移動数が増加");
-            curse1_1 = true;
-            curse1turnCard.GetComponent<TurnCard>().StartTurn();
+            //Debug.Log("呪１：敵の最低移動数が増加");
+            //curse1_1 = true;
+            curse1turnCard.GetComponent<TurnCard>().StartTurn(curse1Number, 12);
         }
 
         if (r == 3 || r == 4)
         {
-            Debug.Log("呪２：プレイヤーの歩数が減少");
-            curse1_2 = true;
-            curse2turnCard.GetComponent<TurnCard>().StartTurn();
+            //Debug.Log("呪２：プレイヤーの歩数が減少");
+            //curse1_2 = true;
+            curse2turnCard.GetComponent<TurnCard>().StartTurn(curse1Number, 34);
         }
 
         if (r == 5 || r == 6)
         {
-            Debug.Log("呪３：回復、無敵アイテムの取得不可");
-            curse1_3 = true;
-            curse3turnCard.GetComponent<TurnCard>().StartTurn();
+            //Debug.Log("呪３：回復、無敵アイテムの取得不可");
+            //curse1_3 = true;
+            curse3turnCard.GetComponent<TurnCard>().StartTurn(curse1Number, 56);
         }
 
         isCurseDice1 = false;
@@ -297,8 +312,15 @@ public class CurseSlider : MonoBehaviour
             //懐中電灯の電気が消える
             case 1:
                 Arm_ButtonAction();
-                //笑い声をなるように後で追加
+
+                // 笑い声を再生
+                if (laughAudioSource != null)
+                {
+                    laughAudioSource.Play();
+                }
+
                 break;
+
             //出目が1～3しか出ない、目線が下に下がる
             case 2:
                 Leg_ButtonAction();
@@ -352,9 +374,14 @@ public class CurseSlider : MonoBehaviour
             isCardCanvas1 = true;
             isCurseDice1 = true;
 
+            curse1Number = UnityEngine.Random.Range(1, 4);
+
             curse1turnCard.SetActive(true);
             curse2turnCard.SetActive(true);
             curse3turnCard.SetActive(true);
+            curse1turnCard.GetComponent<TurnCard>().CardReset();
+            curse2turnCard.GetComponent<TurnCard>().CardReset();
+            curse3turnCard.GetComponent<TurnCard>().CardReset();
 
             /*CardCanvas1.SetActive(true);
             Debug.Log("CardCanvas1 をアクティブにしました");
@@ -429,28 +456,23 @@ public class CurseSlider : MonoBehaviour
 
     public void Arm_ButtonAction()
     {
-        CurseActivation();
-        if(isCurseActivation == true)
+        if (isArmButtonClicked) return;
+        isArmButtonClicked = true;
+
+        Debug.Log("Arm_Buttonが呼び出されました。");
+        //Debug.Log("腕がなくなった");
+        ArmButton.interactable = false;
+        ArmButton.gameObject.SetActive(false); // ボタンを非表示にする
+        isArmButtonUsed = true;
+
+        // 懐中電灯を非アクティブにする
+        flashlightManager.DeactivateFlashlight();
+
+        // Canvasをアクティブにしてテキストを一文字ずつ表示
+        if (eyeButtonText != null && eyeButtonCanvas != null && !isDisplayingText)
         {
-            if (isArmButtonClicked) return;
-            isArmButtonClicked = true;
-
-            Debug.Log("Arm_Buttonが呼び出されました。");
-            //Debug.Log("腕がなくなった");
-            ArmButton.interactable = false;
-            ArmButton.gameObject.SetActive(false); // ボタンを非表示にする
-            isArmButtonUsed = true;
-
-            // 懐中電灯を非アクティブにする
-            flashlightManager.DeactivateFlashlight();
-
-            // Canvasをアクティブにしてテキストを一文字ずつ表示
-            if (eyeButtonText != null && eyeButtonCanvas != null && !isDisplayingText)
-            {
-                StartCoroutine(ActivateCanvasForDuration(eyeButtonCanvas, 5f));
-                StartCoroutine(DisplayTextOneByOne("片手ヲ失っタ。\n懐中電灯が使えナイ。", eyeButtonText, 0.1f));
-            }
-            isCurseActivation = false;
+            StartCoroutine(ActivateCanvasForDuration(eyeButtonCanvas, 5f));
+            StartCoroutine(DisplayTextOneByOne("片手ヲ失っタ。\n懐中電灯が使えナイ。", eyeButtonText, 0.1f));
         }
     }
 
@@ -486,7 +508,7 @@ public class CurseSlider : MonoBehaviour
     public void Head_ButtonAction()
     {
         Debug.Log("死ぬ メイドインワリオ");
-    } 
+    }
 
     public void Eye_ButtonAction()
     {
@@ -544,7 +566,7 @@ public class CurseSlider : MonoBehaviour
         dashPoint = Mathf.Max(dashPoint - amount, 0);
         DashGage.value = dashPoint;
         Debug.Log("[CurseSlider] 呪いゲージ減少: " + amount + " 現在の値: " + dashPoint);
-       
+
     }
     // 呪い増加
     public void DecreaseDashPoint(int amount)
@@ -571,20 +593,5 @@ public class CurseSlider : MonoBehaviour
     public bool IsCardCanvasActive()
     {
         return CardCanvas1.activeSelf || CardCanvas2.activeSelf;
-    }
-
-    //呪いが一定数たまったあとに出た目によって大きい呪いを実行するかしないかの判定
-    public void CurseActivation()
-    {
-        //3以下は実行しない
-        if (playerSaikoro.sai <= 3)
-        {
-            isCurseActivation = false;
-        }
-        //4以上は実行する
-        else if (playerSaikoro.sai >= 4)
-        {
-            isCurseActivation = true;
-        }
-    }
+    } 
 }
