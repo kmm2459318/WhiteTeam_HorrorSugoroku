@@ -13,7 +13,7 @@ public class Door : MonoBehaviour
     private bool isUnlocked = false; // ドアが一度開かれたかどうか
     public Animator childAnimator; // 子オブジェクトのアニメーター
     public Animator rightAnimator; // 右側のドアのアニメーター
-
+    public bool requiresKey = true; // デフォルトは「鍵が必要」
     private Transform player; // プレイヤーの Transform
     public PlayerInventory playerInventory; // プレイヤーのインベントリ参照
     public string requiredItem; // 必要なアイテム（インスペクターで指定）
@@ -135,7 +135,7 @@ public class Door : MonoBehaviour
             Debug.Log("Gキーが押されました");
             if (!isUnlocked)
             {
-                if (playerInventory != null && playerInventory.HasItem(requiredItem))
+                if (!requiresKey || (playerInventory != null && playerInventory.HasItem(requiredItem)))
                 {
                     OpenDoorConfirmed(); // 鍵を使ってドアを開く
                 }

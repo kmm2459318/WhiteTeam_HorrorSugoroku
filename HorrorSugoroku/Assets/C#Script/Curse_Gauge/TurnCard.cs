@@ -1,16 +1,15 @@
 using System.Collections;
 using UnityEngine;
-using UnityEngine.UI;
 
 public class TurnCard : MonoBehaviour
 {
     private GameObject spriteCardFront;
     private GameObject spriteCardBack;
     private GameObject spriteCardBackcard;
-
     public CurseSlider curseGauge;
+    public CurseTextManager curseTextManager; // 呪い発動テキストマネージャー
 
-    static float speed = 4.0f;  // 裏返すスピード 裏返しには(2/speed)秒かかる
+    static float speed = 4.0f; // 裏返すスピード 裏返しには(2/speed)秒かかる
 
     RectTransform rectTransform;
 
@@ -18,20 +17,6 @@ public class TurnCard : MonoBehaviour
     {
         rectTransform = GetComponent<RectTransform>();
     }
-
-    // 初期設定
-    /*private void Start()
-    {
-        if (isFront)
-        {
-            //cardImage.sprite = spriteCardFront;
-        }
-        else
-        {
-            //cardImage.sprite = spriteCardBack;
-        }
-    }
-    */
 
     // コルーチンの開始
     public void StartTurn(int n, int m)
@@ -117,6 +102,12 @@ public class TurnCard : MonoBehaviour
             yield return null;
         }
 
+        // カードの画像(sprite)を変更する
+        spriteCardFront.SetActive(true);
+
+        // デバッグログを追加
+        Debug.Log("カードが裏返されました");
+
         curseGauge.endTurn = true;
     }
 
@@ -124,5 +115,7 @@ public class TurnCard : MonoBehaviour
     {
         rectTransform.localScale = new Vector3(1.0f, 1.0f, 1.0f);
         spriteCardFront.SetActive(true);
+
+        Debug.Log("カードがリセットされました");
     }
 }
