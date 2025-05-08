@@ -38,6 +38,15 @@ public class ElevatorIdou : MonoBehaviour
         }
     }
 
+    public void NotIdou()
+    {
+        elevatorPanelOn = false;
+        elevatorCanvas.SetActive(false);
+        cameraController.isMouseLocked = true;
+        cameraController.SetOptionOpen(false);
+        Cursor.lockState = CursorLockMode.Locked;
+    }
+
     public void Idou2F()
     {
         Debug.Log("ÅB");

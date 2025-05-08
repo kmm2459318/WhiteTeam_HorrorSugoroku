@@ -4,8 +4,9 @@ using UnityEngine.UI;
 
 public class TurnCard : MonoBehaviour
 {
-    public GameObject spriteCardFront;
-    public GameObject spriteCardBack;
+    private GameObject spriteCardFront;
+    private GameObject spriteCardBack;
+    private GameObject spriteCardBackcard;
 
     public CurseSlider curseGauge;
 
@@ -33,8 +34,46 @@ public class TurnCard : MonoBehaviour
     */
 
     // コルーチンの開始
-    public void StartTurn()
+    public void StartTurn(int n, int m)
     {
+        if (n == 1)
+        {
+            spriteCardBack = curseGauge.Curse1Canvas;
+            spriteCardBackcard = curseGauge.Curse1Card;
+            Debug.Log("呪１：敵の最低移動数が増加");
+            curseGauge.curse1_1 = true;
+        }
+        else if (n == 2)
+        {
+            spriteCardBack = curseGauge.Curse2Canvas;
+            spriteCardBackcard = curseGauge.Curse2Card;
+            Debug.Log("呪２：プレイヤーの歩数が減少");
+            curseGauge.curse1_2 = true;
+        }
+        else if (n == 3)
+        {
+            spriteCardBack = curseGauge.Curse3Canvas;
+            spriteCardBackcard = curseGauge.Curse3Card;
+            Debug.Log("呪３：回復、無敵アイテムの取得不可");
+            curseGauge.curse1_3 = true;
+        }
+
+        if (m == 12)
+        {
+            spriteCardBack.GetComponent<RectTransform>().position = new Vector3(445f, 540);
+            spriteCardFront = curseGauge.spriteCard1Front;
+        }
+        else if (m == 34)
+        {
+            spriteCardBack.GetComponent<RectTransform>().position = new Vector3(960, 540);
+            spriteCardFront = curseGauge.spriteCard2Front;
+        }
+        else if (m == 56)
+        {
+            spriteCardBack.GetComponent<RectTransform>().position = new Vector3(1475f, 540);
+            spriteCardFront = curseGauge.spriteCard3Front;
+        }
+
         StartCoroutine(Turn());
     }
 
@@ -71,7 +110,7 @@ public class TurnCard : MonoBehaviour
         {
             tick += Time.deltaTime * speed;
 
-            localScale = Vector3.Lerp(endScale, startScale, tick);
+            spriteCardBackcard.transform.localScale = Vector3.Lerp(endScale, startScale, tick);
 
             rectTransform.localScale = localScale;
 
@@ -83,7 +122,7 @@ public class TurnCard : MonoBehaviour
 
     public void CardReset()
     {
-        spriteCardBack.SetActive(false);
+        rectTransform.localScale = new Vector3(1.0f, 1.0f, 1.0f);
         spriteCardFront.SetActive(true);
     }
 }
