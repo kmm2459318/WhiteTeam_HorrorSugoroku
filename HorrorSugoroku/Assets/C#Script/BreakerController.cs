@@ -1,34 +1,52 @@
-using UnityEngine;
+ï»¿using UnityEngine;
 
 public class BreakerController : MonoBehaviour
 {
-    public Light elevatorLight;
-    public Light elevatorLight1F;
-    public Light elevatorLight2F;
-    public Light elevatorLightB1F;
-    public bool breaker = false;
+    private bool breaker = false;
+    private Light[] taggedLights;
 
     void Start()
     {
-        // GameObjectŒ^‚Ì”z—ñcubes‚ÉA"box"ƒ^ƒO‚Ì‚Â‚¢‚½ƒIƒuƒWƒFƒNƒg‚ğ‚·‚×‚ÄŠi”[
-        GameObject[] cubes = GameObject.FindGameObjectsWithTag("light");
+        // "Light"ã‚¿ã‚°ãŒä»˜ã„ãŸå…¨ãƒ©ã‚¤ãƒˆã‚’å–å¾—
+        GameObject[] lightObjects = GameObject.FindGameObjectsWithTag("Light");
+
+        taggedLights = new Light[lightObjects.Length];
+        for (int i = 0; i < lightObjects.Length; i++)
+        {
+            taggedLights[i] = lightObjects[i].GetComponent<Light>();
+        }
+
+        BreakerOff(); // åˆæœŸçŠ¶æ…‹ã¯ã‚ªãƒ•
     }
 
     void Update()
     {
-        //ƒuƒŒ[ƒJ[ON(if‚Ì“à—e‚Í‚Ì‚¿‚É•Ï‚¦‚Ü‚·)
-        if (Input.GetKeyDown(KeyCode.B) && !breaker)
+        if (Input.GetKeyDown(KeyCode.B))
         {
-            BreakerOn();
+            if (breaker)
+                BreakerOff();
+            else
+                BreakerOn();
         }
     }
 
     void BreakerOn()
     {
         breaker = true;
-        elevatorLight.enabled = true;
-        elevatorLight1F.enabled = true;
-        elevatorLight2F.enabled = true;
-        elevatorLightB1F.enabled = true;
+        foreach (Light light in taggedLights)
+        {
+            if (light != null)
+                light.enabled = true;
+        }
+    }
+
+    void BreakerOff()
+    {
+        breaker = false;
+        foreach (Light light in taggedLights)
+        {
+            if (light != null)
+                light.enabled = false;
+        }
     }
 }

@@ -19,7 +19,7 @@ public class DiceRotation : MonoBehaviour
         new Vector3(90, 0, 0)    // 6ÇÃñ Ç™è„
     };
 
-    void Start()
+    void Start() 
     {
         targetRotation = transform.rotation;
     }

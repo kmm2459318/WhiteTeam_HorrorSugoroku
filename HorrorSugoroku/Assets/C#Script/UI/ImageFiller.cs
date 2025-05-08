@@ -3,12 +3,13 @@ using UnityEngine.UI;
 
 public class ImageFillerWithLight : MonoBehaviour
 {
-    [SerializeField] private Image targetImage;       // FilledタイプのImage
-    [SerializeField] private float fillSpeed = 0.5f;   // 1秒でfillAmountが0.5増加
-    [SerializeField] private Light targetLight;        // 操作するライト
+    [SerializeField] private Image targetImage;
+    [SerializeField] private Light targetLight;
     [SerializeField] public PlayerSaikoro playerSaikoro;
+    [SerializeField] public EnemyStop enemyStop;
 
     private bool lightTurnedOn = false;
+    private float fillSpeed = 1f;
 
     private void Start()
     {
@@ -22,15 +23,34 @@ public class ImageFillerWithLight : MonoBehaviour
         {
             targetLight.enabled = false;
         }
+
+        if (enemyStop.walkNumber > 0f)
+        {
+            fillSpeed = 1f / enemyStop.walkNumber;
+        }
     }
 
     private void Update()
     {
-        if (targetImage == null || targetLight == null || playerSaikoro == null) return;
+        if (targetImage == null || targetLight == null || playerSaikoro == null || enemyStop == null) return;
+
+        // walkNumberが動的に変化しても対応（0除算を避ける）
+        if (enemyStop.walkNumber > 0f)
+        {
+            fillSpeed = 1f / enemyStop.walkNumber;
+        }
+        else
+        {
+            fillSpeed = 0f;
+        }
+
+        if (playerSaikoro.diceLight)
+        {
+            targetLight.enabled = true;
+        }
 
         if (playerSaikoro.gaugeCircle)
         {
-            // ゲージ増加処理
             if (targetImage.fillAmount < 1f)
             {
                 targetImage.fillAmount += fillSpeed * Time.deltaTime;
@@ -40,18 +60,15 @@ public class ImageFillerWithLight : MonoBehaviour
             }
             else if (!lightTurnedOn)
             {
-                // fillAmountが1になった瞬間にライトオン＆ゲージ非表示
                 targetLight.enabled = true;
-                lightTurnedOn = true;
                 targetImage.gameObject.SetActive(false);
+                lightTurnedOn = true;
             }
         }
         else
         {
-            // ゲージをリセット（gaugeCircleがfalseのとき）
             targetImage.fillAmount = 0f;
-            targetImage.gameObject.SetActive(true); // 必要に応じて再表示
-            targetLight.enabled = false;
+            targetImage.gameObject.SetActive(true);
             lightTurnedOn = true;
         }
     }

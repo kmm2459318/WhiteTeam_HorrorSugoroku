@@ -14,7 +14,7 @@ public class EnemyStop : MonoBehaviour
     public string targetTag = "masu";
     private float exploringCoolTime = 0;
     public float threshold = 0.1f;
-    private int walkNumber = 0;
+    public int walkNumber = 0;
 
     void Start()
     {
