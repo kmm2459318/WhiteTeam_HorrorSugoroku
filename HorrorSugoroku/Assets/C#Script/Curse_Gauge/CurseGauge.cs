@@ -575,24 +575,5 @@ public class CurseSlider : MonoBehaviour
     public bool IsCardCanvasActive()
     {
         return CardCanvas1.activeSelf || CardCanvas2.activeSelf;
-    }
-
-    //呪いが一定数たまったあとに出た目によって大きい呪いを実行するかしないかの判定
-    public void CurseActivation()
-    {
-        //3以下は実行しない
-        if (playerSaikoro.sai <= 3)
-        {
-            isCurseActivation = false;
-        }
-        //4以上は実行する
-        else if (playerSaikoro.sai >= 4)
-        {
-            isCurseActivation = true;
-        }
-    }
-
-
-
-    
+    } 
 }
