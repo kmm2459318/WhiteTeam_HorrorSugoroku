@@ -2,7 +2,7 @@
 
 public class BreakerController : MonoBehaviour
 {
-    private bool breaker = false;
+    public bool breaker = false;
     private Light[] taggedLights;
 
     void Start()
