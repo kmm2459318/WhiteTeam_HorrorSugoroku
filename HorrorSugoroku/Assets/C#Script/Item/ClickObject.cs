@@ -39,17 +39,27 @@ public class ClickObject : MonoBehaviour
     private Dictionary<string, float> itemAddCooldowns = new Dictionary<string, float>();
     public float itemCooldownDuration = 5f; // ← クールダウン時間（秒）
 
+    private bool isRandomItemCooldown = false;
+    [SerializeField] private float randomItemCooldownTime = 5f; // 次の抽選まで5秒待機
+
     [SerializeField] private float keyCooldownTime = 2f;  // 例: 10秒で再取得可能
     private bool hasClicked = false; // クリック多重防止用フラグ
 
     
-    // 除外アイテム名（追加しない）
-    private HashSet<string> excludedItemNames = new HashSet<string>()
-{
-    "何もない",        // 無名・初期値など
-    "壊れている",   // デバッグ用
-   // "CursedKey"    // 特別なアイテムなど
-};
+    [System.Serializable]
+    public class ItemIconEntry
+    {
+        public string itemName;
+        public Sprite icon;
+    }
+   
+  
+    [SerializeField] private TextMeshProUGUI itemNameText;
+    [SerializeField] private List<ItemIconEntry> itemIcons = new List<ItemIconEntry>();
+    [SerializeField] private Image uiIconImage; // ← UI上に表示するImageコンポーネント（Canvas内）
+    [SerializeField] private GameObject itemCanvas;
+
+
     void Start()
     {
         playerInventory = FindObjectOfType<PlayerInventory>();
@@ -61,6 +71,8 @@ public class ClickObject : MonoBehaviour
         if (playerSaikoro == null) Debug.LogError("PlayerSaikoro が見つかりません！");
         if (gameManager == null) Debug.LogError("GameManager が見つかりません！");
         if (keyRandomizer == null) Debug.LogError("KeyRandomizer が見つかりません！");
+
+        if (itemCanvas != null) itemCanvas.SetActive(false);
     }
 
     void Update()
@@ -110,7 +122,9 @@ public class ClickObject : MonoBehaviour
                                     if (!curse.curse1_3)
                                     {
                                         ExecuteScriptC(hit.collider.gameObject); // スクリプトBを実行（例：敵を召喚）
-                                        Destroy(hit.collider.gameObject);
+                                                                                 // クリック後にオブジェクトのタグを「Untagged」に変更
+                                        hit.collider.gameObject.tag = "Untagged";
+                                        //  Destroy(hit.collider.gameObject);
                                         //curse.curse1Turn--;
                                     }
                                 }
@@ -118,7 +132,7 @@ public class ClickObject : MonoBehaviour
                                 //{
 
                                 //}
-                               Destroy(hit.collider.gameObject);
+                              // Destroy(hit.collider.gameObject);
                                 
                             }
                             // Destroy(hit.collider.gameObject);
@@ -174,67 +188,122 @@ public class ClickObject : MonoBehaviour
             StartCoroutine(CooldownAfterAddItem());
         }
     }
-    //private IEnumerator RollForItem(string keyName)
-    //{
-    //    waitingForDice = true;
+   
+    void ExecuteScriptC(GameObject clickedItem)
+    {
+
+        if (isRandomItemCooldown)
+        {
+            Debug.Log("🎲 クールダウン中です。抽選はもう少し待ってください。");
+            return;
+        }
+
+        // タグが "Item" でなければ無視
+        if (clickedItem.tag != "Item")
+        {
+            Debug.Log($"⛔ タグが 'Item' ではないため無視します（{clickedItem.name}）");
+            return;
+        }
+
+        // 抽選候補
+        string[] randomItems = { "身代わり人形", "回復薬", "何もない" };
+        string selected = randomItems[Random.Range(0, randomItems.Length)];
+
+        if (selected == "何もない")
+        {
+            Debug.Log("🎲 ランダム結果：何もない → インベントリには追加されません。");
+            return;
+        }
+
+        else
+        {
+            // クールダウン中で既に所持していたらスキップ
+        if (isCooldown && playerInventory.HasItem(selected))
+        {
+            Debug.Log($"{selected} はすでに所持中＆クールダウン中 → スキップ");
+            return;
+        }
+            string itemID = selected + "_" + Time.time;
+            if (!isCooldown || !playerInventory.HasItem(selected))
+            {
+                playerInventory.AddItem(selected, itemID);
+                Debug.Log($"🎁 ランダムで {selected} をインベントリに追加しました！（ID: {itemID}）");
+                ShowItemUIAndPrefab(selected);
+                // ランダム抽選のクールダウン開始
+                StartCoroutine(RandomItemCooldown());
+            }
+        }
 
         
 
-    //    if (dice == 2)  // ← 成功条件
-    //    {
-    //        playerInventory.AddItem(keyName);
-    //        Debug.Log($"🎉 {keyName} を獲得しました！");
-    //    }
-    //    else
-    //    {
-    //        Debug.Log($"💥 サイコロ失敗！{keyName} は獲得できませんでした。");
-    //        // 演出追加するならここで！
-    //    }
-
-    //    waitingForDice = false;
-    //}
-    void ExecuteScriptC(GameObject clickedItem)
+        
+       
+    
+    }
+    void ShowItemUIAndPrefab(string itemName)
     {
-        if (clickedItem == null || string.IsNullOrWhiteSpace(clickedItem.name))
+
+        if (itemCanvas != null)
         {
-            Debug.LogWarning("❌ 無効なアイテムです（null または名前が未設定）");
-            return;
+            itemCanvas.SetActive(true);
+            StartCoroutine(HideCanvasAfterSeconds(itemCanvas, 3f));
         }
-        string keyName = clickedItem.name;
+        // テキスト表示
+        itemNameText.text = $"獲得アイテム: {itemName}";
+        itemNameText.gameObject.SetActive(true);
 
-        // 除外対象のチェック
-        if (excludedItemNames.Contains(keyName))
+        // 🎯アイコン画像の表示（SpriteをImageに割り当て）
+        foreach (var entry in itemIcons)
         {
-            Debug.Log($"🚫 {keyName} は除外アイテムのためインベントリに追加されません。");
-            return;
-        }
-
-        if (string.IsNullOrEmpty(keyName))
-        {
-            Debug.LogWarning("KeyNameが設定されていません！");
-            return;
-        }
-
-        // ユニークなIDを生成（例: 名前 + 現在時刻）
-        string itemID = keyName + "_" + Time.time;
-
-        // クールダウン中で、かつすでに所持しているアイテムの場合は追加しない
-        if (isCooldown && playerInventory.HasItem(keyName))
-        {
-            Debug.Log($"{keyName} はすでにインベントリにあり、クールダウン中のため追加しません。");
-            return;
+            if (entry.itemName == itemName)
+            {
+                uiIconImage.sprite = entry.icon;
+                uiIconImage.gameObject.SetActive(true); // 表示ON
+                break;
+            }
         }
 
-        // アイテムがインベントリにまだない、またはクールダウンが終わった場合
-        if (!playerInventory.HasItem(keyName) || !isCooldown)
+        StartCoroutine(HideItemUITextAfterSeconds(3f));
+    }
+    IEnumerator RandomItemCooldown()
+    {
+        isRandomItemCooldown = true;
+        yield return new WaitForSeconds(randomItemCooldownTime);
+        isRandomItemCooldown = false;
+        Debug.Log("🎲 ランダムアイテム抽選が再び可能になりました。");
+    }
+
+    IEnumerator HideItemUITextAfterSeconds(float seconds)
+    {
+        yield return new WaitForSeconds(seconds);
+
+        if (itemNameText != null)
         {
+            itemNameText.gameObject.SetActive(false); // アイテム名テキストを非表示
+        }
 
-            // アイテムをインベントリに追加
-            playerInventory.AddItem(keyName, itemID);
-            Debug.Log($"{keyName} をインベントリに追加しました。");
+        if (uiIconImage != null)
+        {
+            uiIconImage.gameObject.SetActive(false); // アイコン画像を非表示
+        }
 
-            // クールダウン後にフラグを解除
-            StartCoroutine(CooldownAfterAddItem());
+       
+    }
+    IEnumerator HideCanvasAfterSeconds(float seconds)
+    {
+        yield return new WaitForSeconds(seconds);
+
+        if (Canvas != null)
+        {
+            Canvas.SetActive(false);
+        }
+    }
+    IEnumerator HideCanvasAfterSeconds(GameObject canvas, float seconds)
+    {
+        yield return new WaitForSeconds(seconds);
+        if (canvas != null)
+        {
+            canvas.SetActive(false);
         }
     }
     // クールダウン後にフラグを解除するコルーチン
