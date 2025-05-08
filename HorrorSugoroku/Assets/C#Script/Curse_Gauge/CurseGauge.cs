@@ -83,6 +83,8 @@ public class CurseSlider : MonoBehaviour
     public GameObject curse1turnCard;
     public GameObject curse2turnCard;
     public GameObject curse3turnCard;
+
+    public TextMeshProUGUI curseText; // 呪い発動テキスト
     public Button armButton;
     public Button legButton;
     public Button headButton;
@@ -151,7 +153,7 @@ public class CurseSlider : MonoBehaviour
     public void Update()
     {
         //小さい呪い画面表示でASDキーで押せるようにする
-        /*if (isCardCanvas1)
+        if (isCardCanvas1)
         {
             if (Input.GetKeyDown(KeyCode.A) && extraButton != null && extraButton.interactable)
             {
@@ -171,56 +173,56 @@ public class CurseSlider : MonoBehaviour
                 cursegiveButton.onClick.Invoke();
                 isCardCanvas1 = false;
             }
-        }*/
+        }
 
         //大きい呪い画面表示でASDキーで押せるようにする
-        //if (isCardCanvas2)
-        //{
-        //    if (Input.GetKeyDown(KeyCode.A) && ArmButton != null)
-        //    {
-        //        ArmButton.onClick.Invoke();
-        //        isCardCanvas2 = false;
-        //    }
+        if (isCardCanvas2)
+        {
+            if (Input.GetKeyDown(KeyCode.A) && ArmButton != null)
+            {
+                ArmButton.onClick.Invoke();
+                isCardCanvas2 = false;
+            }
 
-        //    if (Input.GetKeyDown(KeyCode.S) && LegButton != null)
-        //    {
-        //        LegButton.onClick.Invoke();
-        //        isCardCanvas2 = false;
-        //    }
+            if (Input.GetKeyDown(KeyCode.S) && LegButton != null)
+            {
+                LegButton.onClick.Invoke();
+                isCardCanvas2 = false;
+            }
 
-        //    if (Input.GetKeyDown(KeyCode.D) && EyeButton != null)
-        //    {
-        //        EyeButton.onClick.Invoke();
-        //        isCardCanvas2 = false;
-        //    }
-        //}
+            if (Input.GetKeyDown(KeyCode.D) && EyeButton != null)
+            {
+                EyeButton.onClick.Invoke();
+                isCardCanvas2 = false;
+            }
+        }
 
 
-        //if (80 <= dashPoint && dashPoint >= 100 && CardSelect1 == false)
-        //{
-        //    CardSelect1 = true;
-        //    StartCoroutine(ShowCardCanvas2());
-        //}
-        //else if (80 <= dashPoint && dashPoint < 100 && CardSelect2 == false)
-        //{
-        //    CardSelect2 = true;
-        //    StartCoroutine(ShowCardCanvas1());
-        //}
-        //else if (60 <= dashPoint && dashPoint < 80 && CardSelect3 == false)
-        //{
-        //    CardSelect3 = true;
-        //    StartCoroutine(ShowCardCanvas1());
-        //}
-        //else if (40 <= dashPoint && dashPoint < 60 && CardSelect4 == false)
-        //{
-        //    CardSelect4 = true;
-        //    StartCoroutine(ShowCardCanvas1());
-        //}
-        //else if (20 <= dashPoint && dashPoint < 40 && CardSelect5 == false)
-        //{
-        //    CardSelect5 = true;
-        //    StartCoroutine(ShowCardCanvas1());
-        //}
+        if (80 <= dashPoint && dashPoint >= 100 && CardSelect1 == false)
+        {
+            CardSelect1 = true;
+            StartCoroutine(ShowCardCanvas2());
+        }
+        else if (80 <= dashPoint && dashPoint < 100 && CardSelect2 == false)
+        {
+            CardSelect2 = true;
+            StartCoroutine(ShowCardCanvas1());
+        }
+        else if (60 <= dashPoint && dashPoint < 80 && CardSelect3 == false)
+        {
+            CardSelect3 = true;
+            StartCoroutine(ShowCardCanvas1());
+        }
+        else if (40 <= dashPoint && dashPoint < 60 && CardSelect4 == false)
+        {
+            CardSelect4 = true;
+            StartCoroutine(ShowCardCanvas1());
+        }
+        else if (20 <= dashPoint && dashPoint < 40 && CardSelect5 == false)
+        {
+            CardSelect5 = true;
+            StartCoroutine(ShowCardCanvas1());
+        }
 
         DashGage.value = dashPoint;
 
@@ -587,4 +589,10 @@ public class CurseSlider : MonoBehaviour
             isCurseActivation = true;
         }
     }
+
+
+
+    
 }
+
+
