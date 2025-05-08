@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &6485455336413850709
+--- !u!1 &1166166041916159354
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8,44 +8,44 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 6488281544487183519}
-  - component: {fileID: 6595065694205881633}
-  - component: {fileID: 777387941556138984}
+  - component: {fileID: 1163237690958001364}
+  - component: {fileID: 1273189984970309034}
+  - component: {fileID: 8962168963215510371}
   m_Layer: 0
-  m_Name: Point light (2)
-  m_TagString: Untagged
+  m_Name: Point light (Fridge)
+  m_TagString: Light
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 4294967295
   m_IsActive: 1
---- !u!4 &6488281544487183519
+--- !u!4 &1163237690958001364
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6485455336413850709}
+  m_GameObject: {fileID: 1166166041916159354}
   serializedVersion: 2
-  m_LocalRotation: {x: 2.1316282e-14, y: -0.9403751, z: -0.00000007099639, w: 0.34013936}
-  m_LocalPosition: {x: 0.0009775951, y: 0.2085468, z: -0.18675442}
-  m_LocalScale: {x: 0.61337405, y: 0.61337477, z: 0.613374}
+  m_LocalRotation: {x: -1.7763568e-15, y: -0.70710576, z: 3.5527137e-15, w: 0.70710784}
+  m_LocalPosition: {x: 0.2174909, y: 0.99968034, z: -0.15263219}
+  m_LocalScale: {x: 0.8771929, y: 0.8771929, z: 0.8771929}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!108 &6595065694205881633
+--- !u!108 &1273189984970309034
 Light:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6485455336413850709}
-  m_Enabled: 0
+  m_GameObject: {fileID: 1166166041916159354}
+  m_Enabled: 1
   serializedVersion: 11
   m_Type: 2
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_Intensity: 0.62
-  m_Range: 1.6
+  m_Intensity: 0.79
+  m_Range: 1.38
   m_SpotAngle: 30
   m_InnerSpotAngle: 21.80208
   m_CookieSize: 10
@@ -54,9 +54,9 @@ Light:
     m_Resolution: -1
     m_CustomResolution: -1
     m_Strength: 1
-    m_Bias: 0.05
+    m_Bias: 0
     m_NormalBias: 0.4
-    m_NearPlane: 0.02
+    m_NearPlane: 0.024
     m_CullingMatrixOverride:
       e00: 1
       e01: 0
@@ -98,13 +98,13 @@ Light:
   m_LightUnit: 1
   m_LuxAtDistance: 1
   m_EnableSpotReflector: 1
---- !u!114 &777387941556138984
+--- !u!114 &8962168963215510371
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6485455336413850709}
+  m_GameObject: {fileID: 1166166041916159354}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 474bcb49853aa07438625e644c072ee6, type: 3}

@@ -93,6 +93,7 @@ public class PlayerSaikoro : MonoBehaviour
     int number;
     
     public bool gaugeCircle;
+    public bool diceLight;
 
     // AudioSource and AudioClip variables for dice roll sound
     private AudioSource audioSource; // AudioSource to play sound
@@ -165,6 +166,8 @@ public class PlayerSaikoro : MonoBehaviour
         ChangeSpriteSize(s4, new Vector2(200, 200));
         ChangeSpriteSize(s5, new Vector2(200, 200));
         ChangeSpriteSize(s6, new Vector2(200, 200));
+
+        if (diceUI != null) diceUI.gameObject.SetActive(false);
     }
 
     void Update()
@@ -426,10 +429,11 @@ public class PlayerSaikoro : MonoBehaviour
         if (saikoro.active == true)
         {
             if (diceUI != null) diceUI.gameObject.SetActive(true);
+            diceLight = true;
         }
         else if (saikoro.active == false)
         {
-            if (diceUI != null) diceUI.gameObject.SetActive(false);
+            //if (diceUI != null) diceUI.gameObject.SetActive(false);
         }
     }
 
@@ -441,6 +445,7 @@ public class PlayerSaikoro : MonoBehaviour
         lastaction = 0;
         lastMasu = nextDarkMasu;
         gameManager.NextTurn();
+        if (diceUI != null) diceUI.gameObject.SetActive(false);
     }
 
     void ChangeSpriteSize(Sprite sprite, Vector2 newSize)
@@ -578,6 +583,7 @@ public class PlayerSaikoro : MonoBehaviour
             if (sai == 0)
             {
                 gaugeCircle = true;
+                diceLight = false;
             }
         }
     }
