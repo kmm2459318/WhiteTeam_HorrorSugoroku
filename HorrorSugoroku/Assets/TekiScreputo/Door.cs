@@ -130,9 +130,9 @@ public class Door : MonoBehaviour
         float distance = Vector3.Distance(player.position, transform.position);
         //Debug.Log($"距離: {distance}, 相互作用範囲: {interactionRange}");
 
-        if (distance <= interactionRange && Input.GetKeyDown(KeyCode.G)) // Gキーに戻す
+        if (distance <= interactionRange && Input.GetMouseButton(0)) // マウスが押されたか判定
         {
-            Debug.Log("Gキーが押されました");
+            Debug.Log("マウスがクリックされました");
             if (!isUnlocked)
             {
                 if (!requiresKey || (playerInventory != null && playerInventory.HasItem(requiredItem)))

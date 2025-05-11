@@ -149,7 +149,6 @@ public class EnemySaikoro : MonoBehaviour
             if (idouspanTime > 2.0f)
             {
                 idouspanTime = 0f;
-                StartCoroutine(EnemyTurn());
             }
         }
         else
@@ -493,16 +492,6 @@ public class EnemySaikoro : MonoBehaviour
         return bestDirection != Vector3.zero ? bestDirection : targetDirection; // 有効な方向があればそれを返す
     }
 
-    public IEnumerator EnemyTurn()
-    {
-        if (!gameObject.activeInHierarchy)
-        {
-            Debug.LogError("Cannot start coroutine because the game object is inactive.");
-            yield break;
-        }
-
-        yield return StartCoroutine(RollEnemyDice());
-    }
 
     void LateUpdate()
     {
