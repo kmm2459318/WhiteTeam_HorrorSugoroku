@@ -61,7 +61,11 @@ MonoBehaviour:
   Canvas: {fileID: 0}
   cutInImage: {fileID: 0}
   itemCooldownDuration: 5
+  randomItemCooldownTime: 5
   keyCooldownTime: 10
+  itemNameText: {fileID: 0}
+  uiIconImage: {fileID: 0}
+  itemCanvas: {fileID: 0}
 --- !u!1 &1561701990267013035
 GameObject:
   m_ObjectHideFlags: 0
@@ -386,7 +390,7 @@ MonoBehaviour:
   detectionDistance: 2
   obstacleLayer:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 262272
   movementScript: {fileID: 4313278066094003667}
   cameraTransform: {fileID: 7820557927968048698}
 --- !u!114 &6700426803218984859
@@ -699,8 +703,7 @@ MeshRenderer:
   m_SmallMeshCulling: 1
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
-  m_Materials:
-  - {fileID: 2180264, guid: 2e498d1c8094910479dc3e1b768306a4, type: 2}
+  m_Materials: []
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -888,6 +891,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6075645106126052367}
+  - component: {fileID: 1756242953757385454}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -911,6 +915,103 @@ Transform:
   - {fileID: 7820557927968048698}
   m_Father: {fileID: 9038571558996467435}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!82 &1756242953757385454
+AudioSource:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3314516085169527202}
+  m_Enabled: 1
+  serializedVersion: 4
+  OutputAudioMixerGroup: {fileID: 0}
+  m_audioClip: {fileID: 8300000, guid: 7e0e309d7e70b5640aa84b27dda9122d, type: 3}
+  m_Resource: {fileID: 8300000, guid: 7e0e309d7e70b5640aa84b27dda9122d, type: 3}
+  m_PlayOnAwake: 0
+  m_Volume: 1
+  m_Pitch: 1
+  Loop: 0
+  Mute: 0
+  Spatialize: 0
+  SpatializePostEffects: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 500
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  reverbZoneMixCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
 --- !u!1 &4050554433934506364
 GameObject:
   m_ObjectHideFlags: 0
@@ -1647,6 +1748,7 @@ MonoBehaviour:
   diceUI: {fileID: 1900674194048599304}
   diceCamera: {fileID: 5013432101411930110}
   gaugeCircle: 0
+  diceLight: 0
   diceRangeManager: {fileID: 0}
   footstepSound: {fileID: 6657785299943076934}
 --- !u!82 &6657785299943076934
@@ -2504,9 +2606,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   targetImage: {fileID: 2066265908205227783}
-  fillSpeed: 0.5
   targetLight: {fileID: 1059076622266192413}
   playerSaikoro: {fileID: 0}
+  enemyStop: {fileID: 0}
 --- !u!1001 &8982983373028831147
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2701,6 +2803,8 @@ MonoBehaviour:
   flashlightPrefab: {fileID: 24337367851382574}
   audioSource: {fileID: 0}
   switchOffClip: {fileID: 0}
+  audioSource: {fileID: 1756242953757385454}
+  turnOffSound: {fileID: 8300000, guid: 7e0e309d7e70b5640aa84b27dda9122d, type: 3}
 --- !u!4 &800978937717779860 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 8625609145277694527, guid: e4e2d7ec9597f3f4f8c4547f23ca6538, type: 3}
