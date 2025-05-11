@@ -198,7 +198,7 @@ public class GameManager : MonoBehaviour
 
         if (isPlayerTurn)
         {
-            agent.enabled = false;
+            //agent.enabled = false;
             // プレイヤーのターンになったら足音を停止
 
             //サイコロの状態リセット
@@ -231,7 +231,6 @@ public class GameManager : MonoBehaviour
             if (enemySaikoro != null)
             {
                 Debug.Log("Starting enemy turn for new enemy.");
-                StartCoroutine(enemySaikoro.EnemyTurn());
             }
 
             // エネミーターンになったら足音を再開

@@ -2173,6 +2173,8 @@ MonoBehaviour:
   isCardCanvas2: 0
   isCurseDice1: 0
   isCurseDice2: 0
+  isCurseActivation: 0
+  curse1Number: 0
   curse1_1: 0
   curse1_2: 0
   curse1_3: 0
@@ -2181,9 +2183,19 @@ MonoBehaviour:
   curse3_3: 0
   curse1Turn: 0
   endTurn: 0
+  spriteCard1Front: {fileID: 0}
+  spriteCard2Front: {fileID: 0}
+  spriteCard3Front: {fileID: 0}
+  Curse1Canvas: {fileID: 0}
+  Curse2Canvas: {fileID: 0}
+  Curse3Canvas: {fileID: 0}
+  Curse1Card: {fileID: 0}
+  Curse2Card: {fileID: 0}
+  Curse3Card: {fileID: 0}
   curse1turnCard: {fileID: 0}
   curse2turnCard: {fileID: 0}
   curse3turnCard: {fileID: 0}
+  curseText: {fileID: 0}
   armButton: {fileID: 0}
   legButton: {fileID: 0}
   headButton: {fileID: 0}
@@ -2206,7 +2218,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 18
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &5935672774696929366
 RectTransform:
   m_ObjectHideFlags: 0
@@ -2248,7 +2260,7 @@ Canvas:
   m_AdditionalShaderChannelsFlag: 0
   m_UpdateRectTransformForStandalone: 0
   m_SortingLayerID: 0
-  m_SortingOrder: 0
+  m_SortingOrder: -3
   m_TargetDisplay: 0
 --- !u!114 &6904001610956621173
 MonoBehaviour:

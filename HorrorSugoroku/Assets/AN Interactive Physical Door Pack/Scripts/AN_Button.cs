@@ -63,7 +63,7 @@ public class AN_Button : MonoBehaviour
             else if (isValve && RampObject != null) // 3.valve
             {
                 // changing value in script
-                if (Input.GetKey(KeyCode.E) && NearView())
+                if (Input.GetMouseButton(0) && NearView())
                 {
                     if (valveBool)
                     {
