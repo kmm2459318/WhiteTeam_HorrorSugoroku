@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.Rendering;
 
 public class Nav : MonoBehaviour
 {
@@ -9,8 +10,11 @@ public class Nav : MonoBehaviour
     private Transform target;
 
     //敵の動作の種類
-    public enum EnemyType { Chase, Randommove }
+    public enum EnemyType { Chase, Randommove, KeepDistance }
     public EnemyType enemyType;
+
+    public int RandomMin = 4; //ランダム移動の最小値
+    public int RandomMax = 10; //ランダム移動の最大値
 
     private Vector3 lastPlayerPosition;
 
@@ -28,6 +32,9 @@ public class Nav : MonoBehaviour
                 break;
             case EnemyType.Randommove:
                 Randommove();
+                break;
+            case EnemyType.KeepDistance:
+                KeepDistance();
                 break;
         }
 
@@ -63,8 +70,8 @@ public class Nav : MonoBehaviour
         // ランダムな方向を選ぶ
         Vector3 chosenDir = directions[Random.Range(0, directions.Length)];
 
-        // ランダムなマス数（3～7マス）
-        int steps = Random.Range(3, 8); // 3〜7の範囲
+        // ランダムな移動数
+        int steps = Random.Range(RandomMin, RandomMax);
 
         // 進む方向と距離を計算
         Vector3 targetPos = transform.position + chosenDir * steps;
@@ -79,5 +86,58 @@ public class Nav : MonoBehaviour
             }
         }
 
+    }
+
+    //プレイヤーと一定の距離を保つ
+    void KeepDistance()
+    {
+        if(!agent.enabled || !agent.isOnNavMesh) return;
+
+        // すでに目的地に向かっている途中なら何もしない
+        if (!agent.pathPending && agent.remainingDistance > 0.1f)
+        {
+            return;
+        }
+
+        float desiredDistance = 5f; //保つ距離
+        float minDistance = 0; //最小距離
+        float maxDistance = 0; //許容距離
+
+
+        // プレイヤーとの距離を計算
+        float distance = Vector3.Distance(transform.position, target.position);
+
+
+        // プレイヤーと近かったら離れる
+        if (distance < minDistance)
+        {
+            Vector3 direction = (transform.position - target.position).normalized;
+            Vector3 newPos = transform.position + direction * (desiredDistance - distance);
+
+
+            NavMeshHit hit;
+            if (NavMesh.SamplePosition(newPos,out hit, 1.0f, NavMesh.AllAreas))
+            {
+                if (agent.enabled && agent.isOnNavMesh)
+                {
+                    agent.SetDestination(hit.position);
+                }
+            }
+        }
+        else if(distance > maxDistance) //離れていたら近づく
+        {
+            Vector3 direction = (transform.position - target.position).normalized;
+            Vector3 newPos = transform.position + direction * (desiredDistance - distance);
+
+
+            NavMeshHit hit;
+            if (NavMesh.SamplePosition(newPos, out hit, 1.0f, NavMesh.AllAreas))
+            {
+                if (agent.enabled && agent.isOnNavMesh)
+                {
+                    agent.SetDestination(hit.position);
+                }
+            }
+        }
     }
 }
