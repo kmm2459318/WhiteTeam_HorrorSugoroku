@@ -1,10 +1,11 @@
 ﻿using UnityEngine;
+using System.Collections;
 
 public class PlayerMover : MonoBehaviour
 {
     public PlayerSaikoro playerSaikoro; // サイコロスクリプト
-    private GridCell currentCell;       // プレイヤーが移動完了したセル
-    private GridCell targetCell;        // プレイヤーが次に到達するセル
+    public GridCell currentCell;       // プレイヤーが移動完了したセル
+    public GridCell targetCell;        // プレイヤーが次に到達するセル
     private bool wasMoving = false;     // 前回の移動状態
 
     public GameObject HanteiBox;    // 四角いオブジェクト（既に存在するものを使用）
@@ -38,15 +39,12 @@ public class PlayerMover : MonoBehaviour
     void Update()
     {
         // プレイヤーの移動が完了したタイミングを監視
-        if (wasMoving && !playerSaikoro.idoutyu)
+        if (wasMoving && playerSaikoro.sai < 1)
         {
             // プレイヤーが完全に止まったマスでイベントを発火
             if (targetCell != null)
             {
-                
-                Invoke(nameof(TriggerCurrentCellEvent), 1f); // ← 0.5秒後に発火
-                
-                targetCell = null; // イベント発火後にターゲットセルをリセット
+                StartCoroutine(triggerCurrentCellBefore());
             }
         }
 
@@ -54,19 +52,31 @@ public class PlayerMover : MonoBehaviour
         wasMoving = playerSaikoro.idoutyu;
     }
 
+    IEnumerator triggerCurrentCellBefore()
+    {
+        yield return new WaitForSeconds(0.5f);
+        TriggerCurrentCellEvent(); // ← 0.5秒後に発火
+
+        targetCell = null; // イベント発火後にターゲットセルをリセット
+    }
+
     private void OnTriggerEnter(Collider other)
     {
         GridCell cell = other.GetComponent<GridCell>();
-        if (cell != null)
-        {
-            // プレイヤーとの距離をチェック
-            float distanceToCell = Vector3.Distance(transform.position, cell.transform.position);
+        //if (cell != null)
+        //{
+        //    // プレイヤーとの距離をチェック
+        //    float distanceToCell = Vector3.Distance(transform.position, cell.transform.position);
 
-            if (targetCell == null || distanceToCell < Vector3.Distance(transform.position, targetCell.transform.position))
-            {
-                targetCell = cell;
-                SetGridCellVisibility(cell, true);
-            }
+        //    if (targetCell == null || distanceToCell < Vector3.Distance(transform.position, targetCell.transform.position))
+        //    {
+        //        targetCell = cell;
+        //        SetGridCellVisibility(cell, true);
+        //    }
+        //}
+        if (other.gameObject.tag == "masu")
+        {
+            targetCell = cell;
         }
         //// プレイヤーが通過したセルを記録
         //GridCell cell = other.GetComponent<GridCell>();

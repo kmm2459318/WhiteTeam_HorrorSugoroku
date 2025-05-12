@@ -278,7 +278,7 @@ public class PlayerSaikoro : MonoBehaviour
                 sai = 0;
             }
 
-            if (Input.GetKeyDown(KeyCode.W) && !idouspan)
+            if (Input.GetKeyDown(KeyCode.W) && !idouspan && sai > 0)
             {
                 idouspan = true;
                 idouspanIkidomari = true;
@@ -334,20 +334,9 @@ public class PlayerSaikoro : MonoBehaviour
                 walkCount = 0;
                 curseGauge.Update();
 
-                //呪い溜まってないか判定(ここまでには呪いの判定を済ませとく)
-                if (!curseGauge.isCardCanvas1 && !curseGauge.isCardCanvas2)
-                {
-                    idoutyu = false;
-                }
-
                 // プレイヤーの動き終了
-                // プレイヤーの移動が終了したら探索モードに入る
-                if (!idoutyu && !saikorotyu && !exploring && !curseGauge.isCardCanvas1 && !curseGauge.isCardCanvas2)
-                {
-                    exploring = true;
-                    Debug.Log("探索モードに入りました:Fを押して次に");
-                    gameManager.NextTurn();
-                }
+                //呪い溜まってないか判定(ここまでには呪いの判定を済ませとく)
+                StartCoroutine(idoutyuHantei());
             }
         }
 
@@ -446,6 +435,25 @@ public class PlayerSaikoro : MonoBehaviour
         lastMasu = nextDarkMasu;
         gameManager.NextTurn();
         if (diceUI != null) diceUI.gameObject.SetActive(false);
+    }
+
+    IEnumerator idoutyuHantei()
+    {
+        yield return new WaitForSeconds(0.6f);
+        yield return null;
+
+        if (!curseGauge.isCardCanvas1 && !curseGauge.isCardCanvas2)
+        {
+            idoutyu = false;
+        }
+
+        // プレイヤーの移動が終了したら探索モードに入る
+        if (!idoutyu && !saikorotyu && !exploring)
+        {
+            exploring = true;
+            Debug.Log("探索モードに入りました:Fを押して次に");
+            gameManager.NextTurn();
+        }
     }
 
     void ChangeSpriteSize(Sprite sprite, Vector2 newSize)
