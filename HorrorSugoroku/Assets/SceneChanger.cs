@@ -1,11 +1,15 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class SceneChanger : MonoBehaviour
+public class ClickToStart : MonoBehaviour
 {
-    // ボタンで呼び出すメソッド
-    public void GoToMap()
+    [SerializeField] private string nextSceneName = "Story";
+
+    void Update()
     {
-        SceneManager.LoadScene("Map");
+        if (Input.GetMouseButtonDown(0)) // 画面クリック or タップ
+        {
+            SceneManager.LoadScene(nextSceneName);
+        }
     }
 }
