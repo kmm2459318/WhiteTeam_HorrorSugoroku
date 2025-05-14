@@ -43,10 +43,6 @@ public class KeyManager : MonoBehaviour
         // シーン内の "Item" タグオブジェクトを取得
         GameObject[] keyObjects = GameObject.FindGameObjectsWithTag("Items");
 
-        if (itemList.Count < keyObjects.Length)
-        {
-            Debug.LogWarning("アイテムの数よりオブジェクトの方が多いです！");
-        }
         // 既存のオブジェクトをPrefabで置き換える
         for (int i = 0; i < keyObjects.Length && i < itemList.Count; i++)
         {

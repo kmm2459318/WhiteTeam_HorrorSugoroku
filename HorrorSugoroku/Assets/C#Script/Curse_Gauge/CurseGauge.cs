@@ -103,7 +103,8 @@ public class CurseSlider : MonoBehaviour
     public Button legButton;
     public Button headButton;
 
-
+    [SerializeField] private GameObject curseAuraEffect; // シーン内のエフェクト
+    [SerializeField] private Vector3 effectOffset = new Vector3(0, -0.5f, 0); // インスペクターから調整できるオフセット
 
     void Start()
     {
@@ -188,6 +189,11 @@ public class CurseSlider : MonoBehaviour
                 cursegiveButton.onClick.Invoke();
                 isCardCanvas1 = false;
             }
+            if (curseAuraEffect != null && curseAuraEffect.activeSelf)
+            {
+                curseAuraEffect.transform.position = playerTransform.position + new Vector3(0, 1, 0); // 追従させる
+            }
+
         }
 
         //大きい呪い画面表示でASDキーで押せるようにする
@@ -374,7 +380,10 @@ public class CurseSlider : MonoBehaviour
             isCardCanvas1 = true;
             isCurseDice1 = true;
 
+            // 呪いカードを表示する処理
             curse1Number = UnityEngine.Random.Range(1, 4);
+            Curse1Canvas.SetActive(true); // 呪いカード表示
+            ActivateCurseEffect(); // 呪いエフェクト発動
 
             curse1turnCard.SetActive(true);
             curse2turnCard.SetActive(true);
@@ -383,15 +392,7 @@ public class CurseSlider : MonoBehaviour
             curse2turnCard.GetComponent<TurnCard>().CardReset();
             curse3turnCard.GetComponent<TurnCard>().CardReset();
 
-            /*CardCanvas1.SetActive(true);
-            Debug.Log("CardCanvas1 をアクティブにしました");
-
-            ArmButton.interactable = !isArmButtonUsed;
-            LegButton.interactable = !isLegButtonUsed;
-            EyeButton.interactable = !isEyeButtonUsed;
-            */
             yield return new WaitForSeconds(1.0f);
-            //Time.timeScale = 0; // **ゲームを停止**
         }
         else
         {
@@ -442,6 +443,9 @@ public class CurseSlider : MonoBehaviour
             Cursor.visible = false;
             Time.timeScale = 1;
             StartCoroutine(WaitThenShowCutIn());
+
+            // 呪いエフェクトを非表示
+            DeactivateCurseEffect();
         }
     }
 
@@ -593,5 +597,28 @@ public class CurseSlider : MonoBehaviour
     public bool IsCardCanvasActive()
     {
         return CardCanvas1.activeSelf || CardCanvas2.activeSelf;
-    } 
+    }
+
+    public void ActivateCurseEffect()
+    {
+        if (curseAuraEffect != null)
+        {
+            curseAuraEffect.SetActive(true);
+        }
+    }
+
+    public void DeactivateCurseEffect()
+    {
+        if (curseAuraEffect != null)
+        {
+            curseAuraEffect.SetActive(false);
+        }
+    }
+    void LateUpdate()
+    {
+        if (curseAuraEffect != null && curseAuraEffect.activeSelf)
+        {
+            curseAuraEffect.transform.position = new Vector3(playerTransform.position.x, playerTransform.position.y - 1.5f, playerTransform.position.z);
+        }
+    }
 }
