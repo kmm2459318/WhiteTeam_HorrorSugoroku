@@ -36,13 +36,24 @@ public class GridCell : MonoBehaviour
     private float uiCloseTimer = 0f;
     public float uiCloseDelay = 2f; // UIを何秒後に自動で閉じるか
 
-    
+
     private bool isGameOver = false;
     private SubstitutedollController substitutedollController;
     private BeartrapController beartrapController;
 
     public int n = 0;
     private PlayerInventory playerInventory;
+
+    [SerializeField] private ParticleSystem debuffEffect; // インスペクターでアタッチするために追加
+    [SerializeField] private ParticleSystem normalEffect; // 通常エフェクト
+
+
+    [SerializeField] private AudioClip debuffSound; // デバフエフェクトの音
+    [SerializeField] private AudioClip normalSound; // 通常エフェクトの音
+
+    private AudioSource audioSource;
+
+
 
     void Start()
     {
@@ -54,8 +65,8 @@ public class GridCell : MonoBehaviour
         ui = GameObject.Find("UI");
         ccursePanel = ui.transform.Find("CurseCanvasUI");
 
-        // static に一度だけ代入する
-        if (cursePanel == null)
+        // static に一度だけ代入する
+        if (cursePanel == null)
         {
             cursePanel = ccursePanel.gameObject;
             Debug.Log($"cursePanel 取得成功: {cursePanel}");
@@ -82,25 +93,38 @@ public class GridCell : MonoBehaviour
         Debug.Log("アイテムを付与するかの判定:" + DebuffSheet.DebuffSheet[n].ItemGive);
         Debug.Log("アイテムが使えなくなるかの判定:" + DebuffSheet.DebuffSheet[n].ItemGive);
         Debug.Log("アイテムが使えないターン数:" + DebuffSheet.DebuffSheet[n].ItemGive);
+
+        if (debuffEffect != null)
+        {
+            debuffEffect.Stop(); // 初期状態では停止
+        }
+
+        if (normalEffect != null)
+        {
+            normalEffect.Stop(); // 初期状態では停止
+        }
+
+        audioSource = gameObject.AddComponent<AudioSource>();
     }
 
-void Update()
+
+    void Update()
     {
         SetVisibility(true);
         if (cursePanel.activeSelf)
         {
-            // 自動閉じタイマー加算
-            uiCloseTimer += Time.deltaTime;
+            // 自動閉じタイマー加算
+            uiCloseTimer += Time.deltaTime;
 
-            // 入力で閉じる
-            if (Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.H))
+            // 入力で閉じる
+            if (Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.H))
             {
                 Debug.Log("🔘 スペースまたは H キーで UI を閉じる");
                 CloseEventUI();
             }
 
-            // 一定時間経過で閉じる
-            if (uiCloseTimer >= uiCloseDelay)
+            // 一定時間経過で閉じる
+            if (uiCloseTimer >= uiCloseDelay)
             {
                 Debug.Log("⏳ UI自動閉じ");
                 CloseEventUI();
@@ -108,17 +132,10 @@ void Update()
         }
         else
         {
-            // 非表示ならタイマーリセット
-            uiCloseTimer = 0f;
+            // 非表示ならタイマーリセット
+            uiCloseTimer = 0f;
         }
-        //if (curseText != null && curseText.gameObject.activeSelf)
-        //{
-        //    if (Input.GetKeyDown(KeyCode.G))
-        //    {
-        //        HidecurseText(); // Gキーを押したらテキストを非表示
-        //        Debug.Log("🔘 Gキーを押して UI を閉じました");
-        //    }
-        //}
+
         Renderer renderer = GetComponent<Renderer>();
         if (renderer != null)
         {
@@ -126,12 +143,12 @@ void Update()
             {
                 case "Event":
                     renderer.material.color = Color.red; // 赤
-                    break;
+                    break;
                 case "Debuff":
                     renderer.material.color = Color.green; // 緑
-                    break;
-                // 他にも追加可能
-                case "Curse":
+                    break;
+                // 他にも追加可能
+                case "Curse":
                     renderer.material.color = Color.magenta;
                     break;
                 case "Item":
@@ -139,19 +156,35 @@ void Update()
                     break;
                 default:
                     renderer.material.color = Color.white; // 通常は白
-                    break;
+                    break;
             }
         }
+
+        // デバフ効果のチェック
+        if (cellEffect != "Debuff" && debuffEffect != null && debuffEffect.isPlaying)
+        {
+            debuffEffect.Stop(); // マスを離れたらエフェクトを停止
+            debuffEffect.gameObject.SetActive(false); // エフェクトを非アクティブにする
+        }
+
+        // 通常エフェクトのチェック
+        if (cellEffect != "Normal" && normalEffect != null && normalEffect.isPlaying)
+        {
+            normalEffect.Stop(); // マスを離れたらエフェクトを停止
+            normalEffect.gameObject.SetActive(false); // エフェクトを非アクティブにする
+        }
     }
+
     public void ExecuteEvent()
     {
         ShowActionText(); // マスに止まったらテキストを表示
 
+        // プレイヤーがマスに止まった時にエフェクトを発現させる
+        TriggerEffect();
 
         switch (cellEffect)
         {
             case "Event":
-
                 DisplayRandomEvent();
                 break;
             case "Blockl":
@@ -159,8 +192,8 @@ void Update()
                 break;
             case "Item":
                 Debug.Log($"{name}: アイテムマスに止まりました。");
-                //GiveRandomItem();
-                break;
+                //GiveRandomItem();
+                break;
             case "Dires":
                 Debug.Log($"{name}:演出発動！");
                 break;
@@ -169,26 +202,24 @@ void Update()
                 DeBuh();
                 break;
             case "Door":
-
                 break;
-            //case "Exit":
-            //    Debug.Log($"{name}: 出口マスに到達。");
-            //    if (gameManager.isExitDoor)
-            //    {
-            //        Debug.Log("脱出！ゲームクリア！");
-            //        SceneManager.LoadScene("Gameclear");
-            //    }
-            //    else
-            //    {
-            //        Debug.Log("鍵がかかってる");
-            //    }
-            //    break;
+            //case "Exit":
+            //    Debug.Log($"{name}: 出口マスに到達。");
+            //    if (gameManager.isExitDoor)
+            //    {
+            //        Debug.Log("脱出！ゲームクリア！");
+            //        SceneManager.LoadScene("Gameclear");
+            //    }
+            //    else
+            //    {
+            //        Debug.Log("鍵がかかってる");
+            //    }
+            //    break;
 
-            case "Curse":
-                //  Debug.Log($"{name}: 呪いゲージが増えた。");
-                Debug.Log($"{name}: 呪いマスに到達。ランダムイベントを発動します。");
+            case "Curse":
+                //  Debug.Log($"{name}: 呪いゲージが増えた。");
+                Debug.Log($"{name}: 呪いマスに到達。ランダムイベントを発動します。");
                 ExecuteCurseEvent();
-
                 break;
 
             default:
@@ -196,6 +227,48 @@ void Update()
                 break;
         }
     }
+
+    void TriggerEffect()
+    {
+        Debug.Log($"TriggerEffect called with cellEffect: {cellEffect}");
+
+        if (cellEffect == "Debuff" && debuffEffect != null)
+        {
+            debuffEffect.gameObject.SetActive(true); // エフェクトをアクティブにする
+            debuffEffect.Play(); // デバフエフェクトを発現させる
+            PlaySound(debuffSound); // デバフエフェクトの音を再生
+            Debug.Log("デバフエフェクトが発現しました！");
+        }
+        else if (cellEffect == "Normal" && normalEffect != null)
+        {
+            normalEffect.gameObject.SetActive(true); // エフェクトをアクティブにする
+            normalEffect.Play(); // 通常エフェクトを発現させる
+            PlaySound(normalSound); // 通常エフェクトの音を再生
+            Debug.Log("通常エフェクトが発現しました！");
+        }
+        else
+        {
+            Debug.Log("エフェクトが発現しませんでした。条件を確認してください。");
+        }
+    }
+
+    void PlaySound(AudioClip clip)
+    {
+        if (clip != null && audioSource != null)
+        {
+            audioSource.clip = clip;
+            audioSource.volume = volume;
+            audioSource.Play();
+        }
+    }
+
+
+
+
+
+
+
+
 
     void ShowCurseUI(string message, float delay = 1.0f)
     {
@@ -208,23 +281,23 @@ void Update()
         {
             curseText.text = message;
             cursePanel.SetActive(true);
-          //  Time.timeScale = 0; // **ゲームを一時停止**
+            // Time.timeScale = 0; // **ゲームを一時停止**
         }
     }
     //void ShowItemUI(string message, float delay = 2.0f)
     //{
-    //    StartCoroutine(DelayedShowItemUI(message, delay));
+    // StartCoroutine(DelayedShowItemUI(message, delay));
     //}
     //IEnumerator DelayedShowItemUI(string message, float delay)
     //{
-    //    yield return new WaitForSeconds(delay);
-    //    if (itemPanel != null && itemText != null)
-    //    {
-    //        itemText.text = message;
-    //        // itemLogText.text = message;
-    //        itemPanel.SetActive(true);
-    //        Time.timeScale = 0; // **ゲームを一時停止**
-    //    }
+    // yield return new WaitForSeconds(delay);
+    // if (itemPanel != null && itemText != null)
+    // {
+    // itemText.text = message;
+    // // itemLogText.text = message;
+    // itemPanel.SetActive(true);
+    // Time.timeScale = 0; // **ゲームを一時停止**
+    // }
     //}
     void CloseEventUI()
     {
@@ -232,8 +305,8 @@ void Update()
 
         //if (eventPanel != null && eventPanel.activeSelf)
         //{
-        //    eventPanel.SetActive(false);
-        //    wasPaused = true;
+        // eventPanel.SetActive(false);
+        // wasPaused = true;
         //}
         if (cursePanel != null && cursePanel.activeSelf)
         {
@@ -242,8 +315,8 @@ void Update()
         }
         //if (itemPanel != null && itemPanel.activeSelf)
         //{
-        //    itemPanel.SetActive(false);
-        //    wasPaused = true;
+        // itemPanel.SetActive(false);
+        // wasPaused = true;
         //}
 
         // UIが開いていた場合のみTime.timeScaleを戻す
@@ -258,26 +331,26 @@ void Update()
 
     //public void OpenDoor()
     //{
-    //    Debug.Log("ドアが開くイベントを実行します。");
-    //    // ドアが開く処理をここに追加
+    // Debug.Log("ドアが開くイベントを実行します。");
+    // // ドアが開く処理をここに追加
     //}
 
     //public void SecretCloset()
     //{
-    //    Debug.Log("クローゼットに隠れるイベントを実行します。");
-    //    // クローゼットに隠れる処理をここに追加
-    //    SceneChanger3D.hasSubstituteDoll = true; // 使用判定をトゥルーに設定
+    // Debug.Log("クローゼットに隠れるイベントを実行します。");
+    // // クローゼットに隠れる処理をここに追加
+    // SceneChanger3D.hasSubstituteDoll = true; // 使用判定をトゥルーに設定
     //}
 
     //public void SleepEvent()
     //{
-    //    Debug.Log("眠気イベントを実行します。");
-    //    // 眠気の処理をここに追加
+    // Debug.Log("眠気イベントを実行します。");
+    // // 眠気の処理をここに追加
     //}
 
     //public void LogCellArrival()
     //{
-    //    Debug.Log($"プレイヤーが {name} に到達しました。現在の位置: {transform.position}");
+    // Debug.Log($"プレイヤーが {name} に到達しました。現在の位置: {transform.position}");
     //}
     void DisplayRandomEvent()
     {
@@ -338,6 +411,7 @@ void Update()
         }
     }
 
+
     public void ShowActionText()
     {
         if (curseText != null)
@@ -356,4 +430,3 @@ void Update()
 
 
 }
-
