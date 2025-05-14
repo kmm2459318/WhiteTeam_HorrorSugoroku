@@ -69,6 +69,18 @@ public class PlayerInventory : MonoBehaviour
 
         Debug.Log($"{itemName} をインベントリに追加しました。現在の所持数：{items[itemName].Count}");
 
+        // ▼▼ 回復薬を獲得した場合は即使用 ▼▼
+        if (itemName == "回復薬" && curseSlider != null)
+        {
+            // 自動で回復薬を使用
+            UseItem("回復薬");
+
+            // 呪いゲージの回復（例：20回復）
+            curseSlider.IncreaseDashPoint(20);
+
+            Debug.Log("🧪 回復薬を使用し、呪いゲージを回復しました！");
+        }
+
         UpdateItemCountUI(itemName); // ← UI更新を呼ぶ！
 
         // アイテム追加後にクールダウン開始
