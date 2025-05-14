@@ -61,6 +61,9 @@ public class KeyManager : MonoBehaviour
                 GameObject newItem = Instantiate(prefab, original.transform.position, original.transform.rotation);
                 newItem.name = itemName;
 
+                // ここでタグを "Key" に変更
+                newItem.tag = "Key";
+
                 Destroy(original); // 元のオブジェクトを削除
                 Debug.Log($"{itemName} を配置しました！");
             }
