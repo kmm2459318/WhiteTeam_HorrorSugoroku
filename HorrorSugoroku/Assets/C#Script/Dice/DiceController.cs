@@ -10,6 +10,8 @@ public class DiceController : MonoBehaviour
     private bool hasBeenThrown = false;
     private float timeSinceThrown = 0f;
     public int result = 0;
+    public bool boxDice = false;
+    public int strongBoxResult = 0;
     public PlayerSaikoro player;
     [SerializeField] private Transform[] faces;
     private float stopCheckDelay = 1f;
@@ -19,6 +21,7 @@ public class DiceController : MonoBehaviour
     [SerializeField] private DiceRotation diceRotation;
     public CurseSlider curseGauge;
     public PlayerSaikoro playerSaikoro;
+    public StrongboxController strongboxController;
 
     public DiceRangeManager diceRangeManager;
     private Transform parentTransform;
@@ -120,6 +123,12 @@ public class DiceController : MonoBehaviour
             Debug.Log("diceroll2");
             DiceRoll(2);
         }
+        //
+        if (boxDice)
+        {
+            Debug.Log("diceroll3");
+            DiceRoll(3);
+        }
 
         if (rotateToFace) // 🎯 **回転処理を最優先に**
         {
@@ -158,7 +167,7 @@ public class DiceController : MonoBehaviour
         //}
     }
 
-    private void DiceRoll(int n) //nが１ならプレイヤーのさいころ、２なら呪いさいころ
+    private void DiceRoll(int n) //nが０ならプレイヤーのさいころ、１，２なら呪いさいころ、３なら宝箱さいころ
     {
         if (Input.GetKey(KeyCode.Space) && !hasBeenThrown)
         {
@@ -224,6 +233,11 @@ public class DiceController : MonoBehaviour
                             }
                             curseGauge.isCardCanvas2 = false;
                             curseGauge.isCurseDice2 = false;
+                        }
+                        else if (n == 3)
+                        {
+                            StartCoroutine(playerSaikoro.HideDiceCameraWithDelay()); // 🎯 カメラの非表示を遅延
+                            strongBoxResult = result;
                         }
                         ApplyDiceResult(result); // 🎯 **ここで即回転開始**
                     }

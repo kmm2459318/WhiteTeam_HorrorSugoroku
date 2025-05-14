@@ -45,6 +45,9 @@ public class ClickObject : MonoBehaviour
     [SerializeField] private float keyCooldownTime = 2f;  // 例: 10秒で再取得可能
     private bool hasClicked = false; // クリック多重防止用フラグ
 
+    public ElevatorIdou elevatorIdou;
+    public bool LookElevatorDoor = false;
+
     
     [System.Serializable]
     public class ItemIconEntry
@@ -85,13 +88,15 @@ public class ClickObject : MonoBehaviour
 
             if (Physics.Raycast(ray, out hit))
             {
-                if (hit.collider.CompareTag("Item") || hit.collider.CompareTag("Key") || hit.collider.CompareTag("Doll"))
+                if (hit.collider.CompareTag("Item") || hit.collider.CompareTag("Key") || hit.collider.CompareTag("Doll") || hit.collider.CompareTag("Strongbox") || hit.collider.CompareTag("ElevatorDoor"))
                 {
-                    if (!playerSaikoro.idoutyu)
+
+                    float distance = Vector3.Distance(Camera.main.transform.position, hit.collider.transform.position);
+                    if (distance <= 3f)
                     {
-                        float distance = Vector3.Distance(Camera.main.transform.position, hit.collider.transform.position);
-                        if (distance <= 3f)
+                        if (!playerSaikoro.idoutyu)
                         {
+                            Debug.Log("aaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
                             if (hit.collider.CompareTag("Key"))
                             {
                                 ExecuteScriptA(hit.collider.gameObject);
@@ -128,14 +133,26 @@ public class ClickObject : MonoBehaviour
                                         //curse.curse1Turn--;
                                     }
                                 }
+                                else if (hit.collider.CompareTag("Strongbox"))
+                                {
+                                    hit.collider.gameObject.GetComponent<StrongboxController>().StrongBoxDiceOn();// 
+                                }
                                 //else if (hit.collider.CompareTag("Other"))
                                 //{
 
                                 //}
-                              // Destroy(hit.collider.gameObject);
-                                
+                                // Destroy(hit.collider.gameObject);
+
                             }
                             // Destroy(hit.collider.gameObject);
+                        }
+                        else
+                        {
+                            if (hit.collider.CompareTag("ElevatorDoor"))
+                            {
+                                Debug.Log("aaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
+                                elevatorIdou.IdouHantei();
+                            }
                         }
                     }
                 }
@@ -242,12 +259,6 @@ public class ClickObject : MonoBehaviour
                 StartCoroutine(RandomItemCooldown());
             }
         }
-
-        
-
-        
-       
-    
     }
     void ShowItemUIAndPrefab(string itemName)
     {

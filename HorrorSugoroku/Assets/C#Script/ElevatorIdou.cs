@@ -1,9 +1,8 @@
 using SmoothigTransform;
 using TMPro;
 using UnityEngine;
-using static UnityEditor.PlayerSettings;
 using System.Collections;
-using System;
+using UnityEngine.UI;
 
 public class ElevatorIdou : MonoBehaviour
 {
@@ -19,10 +18,16 @@ public class ElevatorIdou : MonoBehaviour
     public ElevatorController elevatorController;
     public Option option;
     [SerializeField] SmoothTransform PSm;
+    public Image image2F;
+    public Image image1F;
+    public Image imageB1F;
+    public TextMeshProUGUI text2F;
+    public TextMeshProUGUI text1F;
+    public TextMeshProUGUI textB1F;
     public bool elevatorPanelOn = false;
     public bool playerOn = false;
     public bool idou = false;
-    private Vector3 ikisaki = Vector3.zero;
+    public int elevatorFloor = 1;
 
     void Update()
     {
@@ -35,6 +40,48 @@ public class ElevatorIdou : MonoBehaviour
         if (elevatorController.isMoving)
         {
             PSm.TargetPosition = masuElevator.transform.position + new Vector3(0, 1.15f, 0);
+        }
+    }
+
+    public void IdouHantei()
+    {
+        if (breakerController.breaker && playerOn && playerSaikoro.idoutyu
+            && !option.isOptionOpen && !elevatorPanelOn)
+        {
+            Debug.Log("elevatorPanelOn");
+            elevatorPanelOn = true;
+            elevatorCanvas.SetActive(true);
+            cameraController.isMouseLocked = false;
+            cameraController.SetOptionOpen(true);
+            Cursor.lockState = CursorLockMode.None;
+            Cursor.visible = true;
+
+            image2F.color = new Color(255, 255, 255, 255);
+            text2F.color = new Color(255, 255, 255, 255);
+            image1F.color = new Color(255, 255, 255, 255);
+            text1F.color = new Color(255, 255, 255, 255);
+            imageB1F.color = new Color(255, 255, 255, 255);
+            textB1F.color = new Color(255, 255, 255, 255);
+
+            if (elevatorFloor == 0)
+            {
+                Debug.Log("åªç›B1F");
+                imageB1F.color = new Color(128 / 255f, 128 / 255f, 128 / 255f, 255);
+                textB1F.color = new Color(128 / 255f, 128 / 255f, 128 / 255f, 255);
+            }
+            else if (elevatorFloor == 1)
+            {
+                Debug.Log("åªç›1F");
+                image1F.color = new Color(128 / 255f, 128 / 255f, 128 / 255f, 255);
+                text1F.color = new Color(128 / 255f, 128 / 255f, 128 / 255f, 255);
+            }
+            else
+            {
+                Debug.Log("åªç›2F");
+                image2F.color = new Color(128 / 255f, 128 / 255f, 128 / 255f, 255);
+                text2F.color = new Color(128 / 255f, 128 / 255f, 128 / 255f, 255);
+            }
+
         }
     }
 
@@ -113,7 +160,7 @@ public class ElevatorIdou : MonoBehaviour
             playerSaikoro.nextDarkMasu = masuB1F.transform;
         }
 
-        yield return new WaitForSeconds(0.2f);
+        yield return new WaitForSeconds(1f);
         Player.GetComponent<CapsuleCollider>().enabled = true;
         idou = false;
         playerOn = true;
