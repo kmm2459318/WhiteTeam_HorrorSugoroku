@@ -15,6 +15,7 @@ GameObject:
   - component: {fileID: 5940825737031208498}
   - component: {fileID: 4982679564218523044}
   - component: {fileID: 5479631405191661526}
+  - component: {fileID: 7565566738089183469}
   m_Layer: 11
   m_Name: PlayerDice
   m_TagString: Untagged
@@ -22,16 +23,15 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &4042754545622469994
-Transform:
+--- !u!224 &4042754545622469994
+RectTransform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2807100452569268620}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0.7071068, y: -0, z: -0, w: -0.7071068}
-  m_LocalPosition: {x: 0.16607833, y: 0, z: -3.3634071}
+  m_LocalRotation: {x: -0.7071068, y: 0, z: 0, w: 0.7071068}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -43,7 +43,12 @@ Transform:
   - {fileID: 2613966133108113748}
   - {fileID: 5614120720693108932}
   m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 270, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: -90, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 100, y: 100}
+  m_Pivot: {x: 0.5, y: 0.5}
 --- !u!33 &9047462339879863180
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -159,7 +164,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   result: 0
   player: {fileID: 0}
-  cameraChange: {fileID: 0}
   faces:
   - {fileID: 633170669319903285}
   - {fileID: 3118483541800592111}
@@ -167,10 +171,12 @@ MonoBehaviour:
   - {fileID: 6088257603406519875}
   - {fileID: 2613966133108113748}
   - {fileID: 5614120720693108932}
-  stopCheckDelay: 1
-  stopThreshold: 0.05
-  throwForceMultiplier: 2
   smo: {fileID: 5479631405191661526}
+  diceRotation: {fileID: 0}
+  curseGauge: {fileID: 0}
+  playerSaikoro: {fileID: 0}
+  diceRangeManager: {fileID: 0}
+  targetLocalOffset: {x: -5.47, y: 0, z: -2.54}
 --- !u!114 &5479631405191661526
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -185,6 +191,29 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   TargetPosition: {x: 0, y: 0, z: 0}
   TargetRotation: {x: 0, y: 0, z: 0, w: 0}
+--- !u!223 &7565566738089183469
+Canvas:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2807100452569268620}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_RenderMode: 2
+  m_Camera: {fileID: 0}
+  m_PlaneDistance: 100
+  m_PixelPerfect: 0
+  m_ReceivesEvents: 1
+  m_OverrideSorting: 0
+  m_OverridePixelPerfect: 0
+  m_SortingBucketNormalizedSize: 0
+  m_VertexColorAlwaysGammaSpace: 0
+  m_AdditionalShaderChannelsFlag: 0
+  m_UpdateRectTransformForStandalone: 0
+  m_SortingLayerID: 0
+  m_SortingOrder: 0
+  m_TargetDisplay: 0
 --- !u!1 &3000742149553779729
 GameObject:
   m_ObjectHideFlags: 0
