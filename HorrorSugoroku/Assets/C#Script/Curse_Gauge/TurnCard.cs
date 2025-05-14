@@ -3,9 +3,9 @@ using UnityEngine;
 
 public class TurnCard : MonoBehaviour
 {
-    private GameObject spriteCardFront;
-    private GameObject spriteCardBack;
-    private GameObject spriteCardBackcard;
+    public GameObject spriteCardFront;
+    public GameObject spriteCardBack;
+    public GameObject spriteCardBackcard;
     public CurseSlider curseGauge;
     public CurseTextManager curseTextManager; // 呪い発動テキストマネージャー
 
@@ -79,7 +79,7 @@ public class TurnCard : MonoBehaviour
 
             localScale = Vector3.Lerp(startScale, endScale, tick); // 線形補間
 
-            rectTransform.localScale = localScale;
+            spriteCardFront.transform.localScale = localScale;
 
             yield return null;
         }
@@ -95,9 +95,9 @@ public class TurnCard : MonoBehaviour
         {
             tick += Time.deltaTime * speed;
 
-            spriteCardBackcard.transform.localScale = Vector3.Lerp(endScale, startScale, tick);
+            localScale = Vector3.Lerp(endScale, startScale, tick);
 
-            rectTransform.localScale = localScale;
+            spriteCardBackcard.transform.localScale = localScale;
 
             yield return null;
         }
@@ -113,7 +113,7 @@ public class TurnCard : MonoBehaviour
 
     public void CardReset()
     {
-        rectTransform.localScale = new Vector3(1.0f, 1.0f, 1.0f);
+        spriteCardFront.transform.localScale = new Vector3(1.0f, 1.0f, 1.0f);
         spriteCardFront.SetActive(true);
 
         Debug.Log("カードがリセットされました");

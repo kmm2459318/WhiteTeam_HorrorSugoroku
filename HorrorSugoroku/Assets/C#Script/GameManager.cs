@@ -71,14 +71,14 @@ public class GameManager : MonoBehaviour
     private void Update()
     {
         // 持っている人形の数を増やす
-        if (Input.GetKeyDown(KeyCode.R))
-        {
-            if (Doll <= 5)
-            {
-                //MpPlus();
-                Doll++;
-            }
-        }
+        //if (Input.GetKeyDown(KeyCode.R))
+        //{
+        //    if (Doll <= 5)
+        //    {
+        //        //MpPlus();
+        //        Doll++;
+        //    }
+        //}
 
         if (optionCanvas != null)
         {
