@@ -6,16 +6,6 @@ public class KeyManager : MonoBehaviour
 {
     public KeyRandomizer keyRandomizer;
 
-    [System.Serializable]
-    public class ItemPrefabData
-    {
-        public string itemName;
-        public GameObject prefab;
-    }
-
-    public List<ItemPrefabData> itemPrefabs;
-    private Dictionary<string, GameObject> prefabDict = new Dictionary<string, GameObject>();
-
     void Start()
     {
         if (keyRandomizer == null)
@@ -28,59 +18,34 @@ public class KeyManager : MonoBehaviour
             Debug.LogError("KeyRandomizer が見つかりません！");
             return;
         }
-
-        // プレハブ辞書を作成
-        foreach (var item in itemPrefabs)
-        {
-            if (!prefabDict.ContainsKey(item.itemName))
-            {
-                prefabDict[item.itemName] = item.prefab;
-            }
-        }
-        // アイテム割り当てリスト取得
         List<string> itemList = keyRandomizer.GetGeneratedItems();
 
-        // シーン内の "Item" タグオブジェクトを取得
-        GameObject[] keyObjects = GameObject.FindGameObjectsWithTag("Items");
+        GameObject[] firstFloorObjects = GameObject.FindGameObjectsWithTag("Items");
+        GameObject[] secondFloorObjects = GameObject.FindGameObjectsWithTag("Items2");
 
-        if (itemList.Count < keyObjects.Length)
-        {
-            Debug.LogWarning("アイテムの数よりオブジェクトの方が多いです！");
-        }
-        // 既存のオブジェクトをPrefabで置き換える
-        for (int i = 0; i < keyObjects.Length && i < itemList.Count; i++)
-        {
-            string itemName = itemList[i];
-            GameObject original = keyObjects[i];
+        int firstIndex = 0;
+        int secondIndex = 0;
 
-            if (prefabDict.ContainsKey(itemName))
+        foreach (string itemName in itemList)
+        {
+            if (itemName.Contains("一階の鍵") && firstIndex < firstFloorObjects.Length)
             {
-                GameObject prefab = prefabDict[itemName];
-
-                // 同じ位置に置き換え
-                GameObject newItem = Instantiate(prefab, original.transform.position, original.transform.rotation);
-                newItem.name = itemName;
-
-                // ここでタグを "Key" に変更
-                newItem.tag = "Key";
-
-                Destroy(original); // 元のオブジェクトを削除
-                Debug.Log($"{itemName} を配置しました！");
+                GameObject obj = firstFloorObjects[firstIndex++];
+                obj.name = itemName;
+                obj.tag = "Key";
+                Debug.Log($"一階の鍵「{itemName}」を {obj.name} に設定");
+            }
+            else if (itemName.Contains("二階の鍵") && secondIndex < secondFloorObjects.Length)
+            {
+                GameObject obj = secondFloorObjects[secondIndex++];
+                obj.name = itemName;
+                obj.tag = "Key";
+                Debug.Log($"二階の鍵「{itemName}」を {obj.name} に設定");
             }
             else
             {
-                Debug.LogWarning($"⚠ {itemName} に対応するPrefabが見つかりません！");
+                Debug.LogWarning($"割り当て対象が見つからない、または枠が足りない: {itemName}");
             }
-        }
-        // 順番に割り当て
-        for (int i = 0; i < keyObjects.Length && i < itemList.Count; i++)
-        {
-            GameObject keyObject = keyObjects[i];
-            string itemName = itemList[i];
-
-            keyObject.name = itemName;
-
-            Debug.Log($"{keyObject.name} に名前を設定しました。");
         }
     }
 }
