@@ -43,10 +43,6 @@ public class KeyManager : MonoBehaviour
         // シーン内の "Item" タグオブジェクトを取得
         GameObject[] keyObjects = GameObject.FindGameObjectsWithTag("Items");
 
-        if (itemList.Count < keyObjects.Length)
-        {
-            Debug.LogWarning("アイテムの数よりオブジェクトの方が多いです！");
-        }
         // 既存のオブジェクトをPrefabで置き換える
         for (int i = 0; i < keyObjects.Length && i < itemList.Count; i++)
         {
@@ -60,6 +56,9 @@ public class KeyManager : MonoBehaviour
                 // 同じ位置に置き換え
                 GameObject newItem = Instantiate(prefab, original.transform.position, original.transform.rotation);
                 newItem.name = itemName;
+
+                // ここでタグを "Key" に変更
+                newItem.tag = "Key";
 
                 Destroy(original); // 元のオブジェクトを削除
                 Debug.Log($"{itemName} を配置しました！");
