@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.Rendering;
 
 public class Nav : MonoBehaviour
 {
@@ -9,10 +10,14 @@ public class Nav : MonoBehaviour
     private Transform target;
 
     //敵の動作の種類
-    public enum EnemyType { Chase, Randommove }
+    public enum EnemyType { Chase, Randommove, KeepDistance }
     public EnemyType enemyType;
 
+    public int RandomMin = 4; //ランダム移動の最小値
+    public int RandomMax = 10; //ランダム移動の最大値
+
     private Vector3 lastPlayerPosition;
+
 
     private void Start()
     {
@@ -29,6 +34,9 @@ public class Nav : MonoBehaviour
             case EnemyType.Randommove:
                 Randommove();
                 break;
+            case EnemyType.KeepDistance:
+                KeepDistance();
+                break;
         }
 
         //プレイヤーの位置の更新
@@ -40,6 +48,7 @@ public class Nav : MonoBehaviour
     {
         if (agent.enabled && agent.isOnNavMesh)
         {
+            Debug.Log("プレイヤーを追いかける");
             agent.SetDestination(target.position);
         }
     }
@@ -48,6 +57,8 @@ public class Nav : MonoBehaviour
     //ランダム移動
     void Randommove()
     {
+        Debug.Log("ランダム移動");
+
         // すでに移動中なら何もしない
         if (agent.pathPending || agent.remainingDistance > 0.1f) return;
 
@@ -63,8 +74,8 @@ public class Nav : MonoBehaviour
         // ランダムな方向を選ぶ
         Vector3 chosenDir = directions[Random.Range(0, directions.Length)];
 
-        // ランダムなマス数（3～7マス）
-        int steps = Random.Range(3, 8); // 3〜7の範囲
+        // ランダムな移動数
+        int steps = Random.Range(RandomMin, RandomMax);
 
         // 進む方向と距離を計算
         Vector3 targetPos = transform.position + chosenDir * steps;
@@ -79,5 +90,44 @@ public class Nav : MonoBehaviour
             }
         }
 
+    }
+
+    //プレイヤーと一定の距離を保つ
+    void KeepDistance()
+    {
+        Debug.Log("プレイヤーと一定の距離を保つ");
+
+        if (!agent.enabled || !agent.isOnNavMesh) return;
+
+        float desiredDistance = 5f; //保つ距離
+        float minDistance = 2; //最小距離
+        float maxDistance = 4; //許容距離
+
+        // プレイヤーとの距離を計算
+        float distance = Vector3.Distance(transform.position, target.position);
+
+        //距離が適正なら動かない
+        if (distance >= minDistance && distance <= maxDistance)
+        {
+            if (agent.hasPath)
+            {
+                agent.ResetPath(); // 目的地をリセット
+            }
+            return;
+        }
+
+        // 近すぎる or 離れすぎているときは常に再設定
+        Vector3 direction = (distance < minDistance)
+            ? (transform.position - target.position).normalized
+            : (target.position - transform.position).normalized;
+
+
+        Vector3 newPos = target.position + direction * desiredDistance;
+
+        NavMeshHit hit;
+        if (NavMesh.SamplePosition(newPos, out hit, 2.5f, NavMesh.AllAreas))
+        {
+            agent.SetDestination(hit.position);
+        }
     }
 }

@@ -272,7 +272,9 @@ MonoBehaviour:
   cutInImage: {fileID: 0}
   cutInDuration: 2
   gameOverSound: {fileID: 8300000, guid: 108a7f61328664b43ab7d149efe490cb, type: 3}
+  substitutedollController: {fileID: 0}
   volume: 1
+  curseslider: {fileID: 0}
 --- !u!114 &2839212
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -286,6 +288,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerSaikoro: {fileID: 997519011}
+  HanteiBox: {fileID: 0}
 --- !u!54 &2839213
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -1115,10 +1118,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gameManager: {fileID: 1703405977}
+  curseSlider: {fileID: 0}
   TEXT: {fileID: 1073700870}
   FadeInTime: 1
   FadeOutTime: 1
   DisplayTime: 1.5
+  Text_CutIn: {fileID: 0}
 --- !u!114 &148733840
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1671,7 +1676,27 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerSaikoro: {fileID: 997519011}
   playerInventory: {fileID: 0}
-  itemName: "\u9375"
+  gameManager: {fileID: 0}
+  keyRandomizer: {fileID: 0}
+  curse: {fileID: 0}
+  saikoroUI: {fileID: 0}
+  diceImage: {fileID: 0}
+  diceSprites: []
+  diceAnimator: {fileID: 0}
+  audioSource: {fileID: 0}
+  rollSound: {fileID: 0}
+  successSound: {fileID: 0}
+  failSound: {fileID: 0}
+  Text: {fileID: 0}
+  Canvas: {fileID: 0}
+  cutInImage: {fileID: 0}
+  itemCooldownDuration: 5
+  randomItemCooldownTime: 5
+  keyCooldownTime: 2
+  itemNameText: {fileID: 0}
+  itemIcons: []
+  uiIconImage: {fileID: 0}
+  itemCanvas: {fileID: 0}
 --- !u!1 &243809843
 GameObject:
   m_ObjectHideFlags: 0
@@ -3508,9 +3533,10 @@ MonoBehaviour:
       m_Calls: []
   m_text: "\u546A\u3044"
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 606b13638a140bd469ecba8e535d80d1, type: 2}
-  m_sharedMaterial: {fileID: -2357513657856494946, guid: 606b13638a140bd469ecba8e535d80d1, type: 2}
-  m_fontSharedMaterials: []
+  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontSharedMaterials:
+  - {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
   m_fontColor32:
@@ -4496,8 +4522,6 @@ MonoBehaviour:
   - {fileID: -2133054301, guid: 6443d0e9ca5385a44a6ae25b86e96a25, type: 3}
   - {fileID: 1558620994, guid: c5cd025ddb4a1734e9699085ebc4a31b, type: 3}
   - {fileID: -284539505, guid: 8c8926c108d1a9644beaaf2967d9b8e7, type: 3}
-  currentEnemyModel: {fileID: 182805772}
-  newEnemyModel: {fileID: 1274048014}
 --- !u!1 &791297053
 GameObject:
   m_ObjectHideFlags: 0
@@ -5402,7 +5426,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerBody: {fileID: 0}
-  sensitivitySlider: {fileID: 0}
+  mouseSensitivity: 250
+  isMouseLocked: 1
 --- !u!114 &956852545
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5885,13 +5910,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2bebd4cfa5ad5b24cb53d68abbe63d6c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  diceRotation: {fileID: 0}
   gameManager: {fileID: 1703405977}
   turnManager: {fileID: 1703405978}
-  cameraChange: {fileID: 1703405976}
   diceController: {fileID: 1099269772}
   player: {fileID: 2839217}
+  curseGauge: {fileID: 0}
+  elevatorIdou: {fileID: 0}
+  enemyStop: {fileID: 0}
+  enemyStop1: {fileID: 0}
+  enemyStop2: {fileID: 0}
+  enemyStop3: {fileID: 0}
+  enemyStop4: {fileID: 0}
+  enemyStop5: {fileID: 0}
+  sai: 1
   saikorotyu: 0
   idoutyu: 0
+  exploring: 0
+  enemyEnd: 0
   s1: {fileID: 21300000, guid: cbdcaedc33beb714ebc73f0fc34415cd, type: 3}
   s2: {fileID: 21300000, guid: f5beac8a9752d884b958781c8fb75b7e, type: 3}
   s3: {fileID: 21300000, guid: ee5f49f796f7d59468eb89bd13c59d33, type: 3}
@@ -5900,12 +5936,22 @@ MonoBehaviour:
   s6: {fileID: 21300000, guid: ab6a051d444f975488a562543f4b3a2b, type: 3}
   saikoro: {fileID: 233268686}
   Player: {fileID: 2839208}
+  Enemy: {fileID: 0}
   PNorth: {fileID: 927623040}
   PWest: {fileID: 1121970158}
   PEast: {fileID: 120671749}
+  startMasu: {fileID: 0}
+  nextDarkMasu: {fileID: 0}
+  darkMaterial: {fileID: 0}
+  neonMaterial: {fileID: 0}
   PSouth: {fileID: 1778111924}
   Camera: {fileID: 956852543}
-  diceRollSound: {fileID: 8300000, guid: 6a56dbaa8882712448b97d7b74897986, type: 3}
+  diceUI: {fileID: 0}
+  diceCamera: {fileID: 0}
+  gaugeCircle: 0
+  diceLight: 0
+  diceRangeManager: {fileID: 0}
+  footstepSound: {fileID: 0}
 --- !u!1 &1027308459
 GameObject:
   m_ObjectHideFlags: 0
@@ -6219,17 +6265,65 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1bf7e898933f1a44a8778c65d8d5a025, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  countText: {fileID: 0}
   DashGage: {fileID: 1879344143}
   sceneChanger: {fileID: 0}
-  CardCanvas: {fileID: 2018776538}
+  CardCanvas1: {fileID: 0}
+  CardCanvas2: {fileID: 0}
   extraButton: {fileID: 562331706}
   hideButton: {fileID: 305756217}
   cursegiveButton: {fileID: 0}
+  ArmButton: {fileID: 0}
+  LegButton: {fileID: 0}
+  EyeButton: {fileID: 0}
   master_Curse: {fileID: 11400000, guid: 43eba0261dc753c4da194da800dd3109, type: 2}
-  maxDashPoint: 300
-  dashIncreasePerTurn: 5
+  ImageGages: []
+  eyeButtonText: {fileID: 0}
+  CountGauge: 0
+  dashPoint: 0
   gameManager: {fileID: 1703405977}
   turnManager: {fileID: 1703405978}
+  cutIn: {fileID: 0}
+  sai: 1
+  eyeEffectController: {fileID: 0}
+  flashlightManager: {fileID: 0}
+  playerTransform: {fileID: 0}
+  diceRangeManager: {fileID: 0}
+  diceController: {fileID: 0}
+  eyeButtonCanvas: {fileID: 0}
+  diceCamera: {fileID: 0}
+  MainCamera: {fileID: 0}
+  laughAudioSource: {fileID: 0}
+  isCardCanvas1: 0
+  isCardCanvas2: 0
+  isCurseDice1: 0
+  isCurseDice2: 0
+  isCurseActivation: 0
+  curse1Number: 0
+  curse1_1: 0
+  curse1_2: 0
+  curse1_3: 0
+  curse2_1: 0
+  curse2_2: 0
+  curse3_3: 0
+  curse1Turn: 0
+  endTurn: 0
+  spriteCard1Front: {fileID: 0}
+  spriteCard2Front: {fileID: 0}
+  spriteCard3Front: {fileID: 0}
+  Curse1Canvas: {fileID: 0}
+  Curse2Canvas: {fileID: 0}
+  Curse3Canvas: {fileID: 0}
+  Curse1Card: {fileID: 0}
+  Curse2Card: {fileID: 0}
+  Curse3Card: {fileID: 0}
+  curse1turnCard: {fileID: 0}
+  curse2turnCard: {fileID: 0}
+  curse3turnCard: {fileID: 0}
+  curseText: {fileID: 0}
+  armButton: {fileID: 0}
+  legButton: {fileID: 0}
+  headButton: {fileID: 0}
 --- !u!224 &1068312275
 RectTransform:
   m_ObjectHideFlags: 0
@@ -6359,9 +6453,10 @@ MonoBehaviour:
       m_Calls: []
   m_text: "PLAYER TRUN \r"
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 606b13638a140bd469ecba8e535d80d1, type: 2}
-  m_sharedMaterial: {fileID: -2357513657856494946, guid: 606b13638a140bd469ecba8e535d80d1, type: 2}
-  m_fontSharedMaterials: []
+  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontSharedMaterials:
+  - {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
   m_fontColor32:
@@ -6529,7 +6624,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   result: 0
   player: {fileID: 997519011}
-  cameraChange: {fileID: 0}
   faces:
   - {fileID: 1791233224}
   - {fileID: 1152653161}
@@ -6537,10 +6631,12 @@ MonoBehaviour:
   - {fileID: 2141254533}
   - {fileID: 632385013}
   - {fileID: 1714289792}
-  stopCheckDelay: 1
-  stopThreshold: 0.05
-  throwForceMultiplier: 2
   smo: {fileID: 1099269771}
+  diceRotation: {fileID: 0}
+  curseGauge: {fileID: 0}
+  playerSaikoro: {fileID: 0}
+  diceRangeManager: {fileID: 0}
+  targetLocalOffset: {x: -5.47, y: 0, z: -2.54}
 --- !u!54 &1099269773
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -6793,17 +6889,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 8625609145277694527, guid: e4e2d7ec9597f3f4f8c4547f23ca6538, type: 3}
   m_PrefabInstance: {fileID: 2107635772}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &1164312799 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 9067541579640885550, guid: e4e2d7ec9597f3f4f8c4547f23ca6538, type: 3}
-  m_PrefabInstance: {fileID: 2107635772}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d56cadda7c63af049871dd2b26652c2d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &1176252844
 GameObject:
   m_ObjectHideFlags: 0
@@ -7136,11 +7221,6 @@ Transform:
   - {fileID: 2018776539}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &1274048014 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 8949150745982800165, guid: 4cc824d3abdaabc42927fc5035b211e4, type: 3}
-  m_PrefabInstance: {fileID: 120055485}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &1274048023 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 1084946449966616373, guid: 4cc824d3abdaabc42927fc5035b211e4, type: 3}
@@ -7838,7 +7918,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gameManager: {fileID: 1703405977}
-  enemySaikoro: {fileID: 1471756055}
 --- !u!114 &1471756055
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7853,6 +7932,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   enemySmooth: {fileID: 1471756052}
   enemyBodySmooth: {fileID: 0}
+  enemyBodySmoothsin: {fileID: 0}
+  footstepSound: {fileID: 8300000, guid: 0a8c2e93afaf12d4e98b344d6a3e2687, type: 3}
   player: {fileID: 0}
   ENorth: {fileID: 0}
   EWest: {fileID: 0}
@@ -7861,13 +7942,15 @@ MonoBehaviour:
   wallLayer:
     serializedVersion: 2
     m_Bits: 128
-  discoveryBGM: {fileID: 8300000, guid: ea525edcd04e7914a8c09ad451cd6016, type: 3}
-  undetectedBGM: {fileID: 8300000, guid: 57d9261537e7dd94ea2cb733b1a312af, type: 3}
-  footstepSound: {fileID: 8300000, guid: 0a8c2e93afaf12d4e98b344d6a3e2687, type: 3}
+  discovery: 0
+  enemyidoutyu: 0
+  idouspanTime: 0
   enemyController: {fileID: 0}
   gameManager: {fileID: 0}
   enemyLookAtPlayer: {fileID: 1471756053}
+  playerSaikoro: {fileID: 0}
   playerCloseMirror: {fileID: 0}
+  enemyCloseMasu: {fileID: 0}
   mokushi: 3
   idoukagen: 1
   skill1: 0
@@ -8547,7 +8630,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gameManager: {fileID: 1703405977}
-  enemySaikoro: {fileID: 182805779}
 --- !u!114 &1691938188
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8647,17 +8729,33 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   turnText: {fileID: 2039848164}
-  turnIndicatorText: {fileID: 2028858710}
   isPlayerTurn: 1
-  EnemyCopyOn: 0
+  EnemyCopyOn1: 0
+  EnemyCopyOn2: 0
+  EnemyCopyOn3: 0
+  EnemyCopyOn4: 0
+  EnemyCopyOn5: 0
   enemyTurnFinCount: 0
   mapPiece: 0
+  Doll: 0
   playerSaikoro: {fileID: 997519011}
   enemySaikoro: {fileID: 182805779}
   enemyCopySaikoro: {fileID: 182805779}
+  curseSlider: {fileID: 0}
+  agent: {fileID: 0}
+  cutIn: {fileID: 0}
+  statue: {fileID: 0}
   currentEnemyModel: {fileID: 182805772}
-  EnemyCopy: {fileID: 1274048014}
+  EnemyCopy1: {fileID: 0}
+  EnemyCopy2: {fileID: 0}
+  EnemyCopy3: {fileID: 0}
+  EnemyCopy4: {fileID: 0}
+  EnemyCopy5: {fileID: 0}
   newEnemyModelPrefab: {fileID: 182805772}
+  newEnemyModelPrefab2: {fileID: 0}
+  optionCanvas: {fileID: 0}
+  footstepSound: {fileID: 0}
+  diceController: {fileID: 0}
 --- !u!114 &1703405978
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8674,7 +8772,6 @@ MonoBehaviour:
   turnStay: 0
   playerSaikoro: {fileID: 997519011}
   curseSlider: {fileID: 1068312274}
-  flashlightController: {fileID: 1164312799}
 --- !u!4 &1703405979
 Transform:
   m_ObjectHideFlags: 0
@@ -8989,8 +9086,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: next turn
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 606b13638a140bd469ecba8e535d80d1, type: 2}
-  m_sharedMaterial: {fileID: -2357513657856494946, guid: 606b13638a140bd469ecba8e535d80d1, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_fontSharedMaterials:
   - {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_fontMaterial: {fileID: 0}
@@ -9394,7 +9491,7 @@ MonoBehaviour:
   ItemTile: {fileID: 2469074605850534854, guid: 73f89671aaa321140bb8cdc2ada4c725, type: 3}
   DirecTile: {fileID: 7448521663041143137, guid: 94f2b393423a6424fbc915338bc84201, type: 3}
   DebuffTile: {fileID: 7161172907520196943, guid: b946810fba866cc47b0383f360b65a06, type: 3}
-  BatteryTile: {fileID: 4065743863140974350, guid: f675116b5e2e7504e8273935179e34ea, type: 3}
+  CurseTile: {fileID: 0}
   DoorTile: {fileID: 0}
   MapStartPosition: {x: 18, y: 5, z: -46}
   MapName: Area1
@@ -9750,8 +9847,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: NowTurn
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 606b13638a140bd469ecba8e535d80d1, type: 2}
-  m_sharedMaterial: {fileID: -2357513657856494946, guid: 606b13638a140bd469ecba8e535d80d1, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_fontSharedMaterials:
   - {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_fontMaterial: {fileID: 0}
@@ -10281,8 +10378,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: AAAAA
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 606b13638a140bd469ecba8e535d80d1, type: 2}
-  m_sharedMaterial: {fileID: -2357513657856494946, guid: 606b13638a140bd469ecba8e535d80d1, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_fontSharedMaterials:
   - {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_fontMaterial: {fileID: 0}
@@ -10445,8 +10542,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: NowTurn
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 606b13638a140bd469ecba8e535d80d1, type: 2}
-  m_sharedMaterial: {fileID: -2357513657856494946, guid: 606b13638a140bd469ecba8e535d80d1, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_fontSharedMaterials:
   - {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_fontMaterial: {fileID: 0}

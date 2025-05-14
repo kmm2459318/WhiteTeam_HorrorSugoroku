@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 5498990715589208176}
   - component: {fileID: 5049302149752607803}
   - component: {fileID: 5275735163635335763}
-  - component: {fileID: 3992643145697733741}
+  - component: {fileID: -5809420518513221390}
   m_Layer: 0
   m_Name: Cube (3)
   m_TagString: Untagged
@@ -87,7 +87,7 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!114 &3992643145697733741
+--- !u!114 &-5809420518513221390
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -96,14 +96,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 273808980957388}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8b9a305e18de0c04dbd257a21cd47087, type: 3}
+  m_Script: {fileID: 11500000, guid: 172515602e62fb746b5d573b38a5fe58, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  sharedProfile: {fileID: 11400000, guid: b50bf4be6878f82418b6dc706c0d58f8, type: 2}
-  isGlobal: 1
+  m_IsGlobal: 1
+  priority: 0
   blendDistance: 0
   weight: 1
-  priority: 0
+  sharedProfile: {fileID: 11400000, guid: 8a4d673c55fd65c4989fcc6a82bf7238, type: 2}
 --- !u!1 &883215139838871104
 GameObject:
   m_ObjectHideFlags: 0
@@ -115,7 +115,7 @@ GameObject:
   - component: {fileID: 897307849974734875}
   - component: {fileID: 4706812723658509968}
   - component: {fileID: 1337912214777293667}
-  - component: {fileID: 7506275743571998609}
+  - component: {fileID: -5772589657385131221}
   m_Layer: 0
   m_Name: Cube (4)
   m_TagString: Untagged
@@ -191,7 +191,7 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!114 &7506275743571998609
+--- !u!114 &-5772589657385131221
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -200,14 +200,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 883215139838871104}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8b9a305e18de0c04dbd257a21cd47087, type: 3}
+  m_Script: {fileID: 11500000, guid: 172515602e62fb746b5d573b38a5fe58, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  sharedProfile: {fileID: 11400000, guid: b50bf4be6878f82418b6dc706c0d58f8, type: 2}
-  isGlobal: 1
+  m_IsGlobal: 1
+  priority: 0
   blendDistance: 0
   weight: 1
-  priority: 0
+  sharedProfile: {fileID: 11400000, guid: 8a4d673c55fd65c4989fcc6a82bf7238, type: 2}
 --- !u!1 &3017607882248800455
 GameObject:
   m_ObjectHideFlags: 0
@@ -219,7 +219,7 @@ GameObject:
   - component: {fileID: 8514873708344604878}
   - component: {fileID: 679680375586937257}
   - component: {fileID: 8243387778516091912}
-  - component: {fileID: 8967415012889816115}
+  - component: {fileID: -139555087218712485}
   m_Layer: 0
   m_Name: Cube (1)
   m_TagString: Untagged
@@ -295,7 +295,7 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!114 &8967415012889816115
+--- !u!114 &-139555087218712485
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -304,14 +304,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 3017607882248800455}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8b9a305e18de0c04dbd257a21cd47087, type: 3}
+  m_Script: {fileID: 11500000, guid: 172515602e62fb746b5d573b38a5fe58, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  sharedProfile: {fileID: 11400000, guid: b50bf4be6878f82418b6dc706c0d58f8, type: 2}
-  isGlobal: 1
+  m_IsGlobal: 1
+  priority: 0
   blendDistance: 0
   weight: 1
-  priority: 0
+  sharedProfile: {fileID: 11400000, guid: 8a4d673c55fd65c4989fcc6a82bf7238, type: 2}
 --- !u!1 &6697206057811729497
 GameObject:
   m_ObjectHideFlags: 0
@@ -418,20 +418,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cellEffect: Item
   DebuffSheet: {fileID: 11400000, guid: 11758338602bb3e498299fa102a3798e, type: 2}
-  cursePanel: {fileID: 0}
-  curseText: {fileID: 0}
-  itemPanel: {fileID: 0}
-  itemText: {fileID: 0}
-  item: {fileID: 0}
   requiredItem: "\u9375"
-  curseChance: 50
   scareChance: 30
   nothingChance: 20
   curseamout: 10
-  cutInImage: {fileID: 0}
+  hirueamout: 10
   cutInDuration: 2
   gameOverSound: {fileID: 0}
   volume: 1
+  uiCloseDelay: 2
   n: 0
 --- !u!65 &3844098710942129867
 BoxCollider:
@@ -465,7 +460,7 @@ GameObject:
   - component: {fileID: 7473487546596224354}
   - component: {fileID: 2249466252330391115}
   - component: {fileID: 3945882960690326370}
-  - component: {fileID: 7162444984279095158}
+  - component: {fileID: 4071805965613214638}
   m_Layer: 0
   m_Name: Cube (2)
   m_TagString: Untagged
@@ -541,7 +536,7 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!114 &7162444984279095158
+--- !u!114 &4071805965613214638
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -550,11 +545,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 9180031842096458207}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8b9a305e18de0c04dbd257a21cd47087, type: 3}
+  m_Script: {fileID: 11500000, guid: 172515602e62fb746b5d573b38a5fe58, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  sharedProfile: {fileID: 11400000, guid: b50bf4be6878f82418b6dc706c0d58f8, type: 2}
-  isGlobal: 1
+  m_IsGlobal: 1
+  priority: 0
   blendDistance: 0
   weight: 1
-  priority: 0
+  sharedProfile: {fileID: 11400000, guid: 8a4d673c55fd65c4989fcc6a82bf7238, type: 2}
