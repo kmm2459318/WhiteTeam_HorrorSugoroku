@@ -183,7 +183,7 @@ public class ClickObject : MonoBehaviour
             // アイテムをインベントリに追加
             playerInventory.AddItem(keyName, itemID); // itemIDを渡す
             Debug.Log($"{keyName} をインベントリに追加しました。（ID: {itemID}）");
-
+            ShowItemUIAndPrefab(keyName);
             // クールダウン後にフラグを解除
             StartCoroutine(CooldownAfterAddItem());
         }
