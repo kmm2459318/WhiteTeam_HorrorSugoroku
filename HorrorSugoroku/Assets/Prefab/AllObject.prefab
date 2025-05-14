@@ -674,6 +674,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   agent: {fileID: 1831837987040554709}
   target: {fileID: 2782727006323778748}
+  enemyType: 0
 --- !u!114 &3767638108322229887
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -687,11 +688,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gameManager: {fileID: 0}
-  stopMasu: 0
   player: {fileID: 6929518146843455364}
+  enemyWalkCounter: {fileID: 0}
+  curse: {fileID: 0}
   nuvMeshAgent: {fileID: 1831837987040554709}
+  stopMasu: 0
   targetTag: masu
   threshold: 0.1
+  walkNumber: 0
 --- !u!1 &213306712037191007
 GameObject:
   m_ObjectHideFlags: 0
@@ -4536,6 +4540,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   agent: {fileID: 1135836640238467339}
   target: {fileID: 2782727006323778748}
+  enemyType: 0
 --- !u!114 &247409753925114267
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4549,11 +4554,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gameManager: {fileID: 0}
-  stopMasu: 0
   player: {fileID: 6929518146843455364}
+  enemyWalkCounter: {fileID: 0}
+  curse: {fileID: 0}
   nuvMeshAgent: {fileID: 1135836640238467339}
+  stopMasu: 0
   targetTag: masu
   threshold: 0.1
+  walkNumber: 0
 --- !u!1 &1000872224411497510
 GameObject:
   m_ObjectHideFlags: 0
@@ -16026,6 +16034,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   agent: {fileID: 3953052091490367964}
   target: {fileID: 2782727006323778748}
+  enemyType: 0
 --- !u!114 &7252512193260369723
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -16039,11 +16048,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gameManager: {fileID: 0}
-  stopMasu: 0
   player: {fileID: 6929518146843455364}
+  enemyWalkCounter: {fileID: 0}
+  curse: {fileID: 0}
   nuvMeshAgent: {fileID: 3953052091490367964}
+  stopMasu: 0
   targetTag: masu
   threshold: 0.1
+  walkNumber: 0
 --- !u!1 &3490641945500909146
 GameObject:
   m_ObjectHideFlags: 0
@@ -21050,6 +21062,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   agent: {fileID: 4898178650644968686}
   target: {fileID: 2782727006323778748}
+  enemyType: 0
 --- !u!114 &4266668145428458654
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -21063,11 +21076,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gameManager: {fileID: 0}
-  stopMasu: 0
   player: {fileID: 6929518146843455364}
+  enemyWalkCounter: {fileID: 0}
+  curse: {fileID: 0}
   nuvMeshAgent: {fileID: 4898178650644968686}
+  stopMasu: 0
   targetTag: masu
   threshold: 0.1
+  walkNumber: 0
 --- !u!1 &4563976790940889909
 GameObject:
   m_ObjectHideFlags: 0
@@ -21310,6 +21326,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eb46db828ef621247978843cdc861892, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  targetCamera: {fileID: 0}
 --- !u!114 &8235208810605865042
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -21322,6 +21339,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eb46db828ef621247978843cdc861892, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  targetCamera: {fileID: 0}
 --- !u!1 &4595190039020601501
 GameObject:
   m_ObjectHideFlags: 0
@@ -33627,6 +33645,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   agent: {fileID: 657704213798050108}
   target: {fileID: 2782727006323778748}
+  enemyType: 0
 --- !u!114 &4687359710816409078
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -33640,11 +33659,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gameManager: {fileID: 0}
-  stopMasu: 0
   player: {fileID: 6929518146843455364}
+  enemyWalkCounter: {fileID: 0}
+  curse: {fileID: 0}
   nuvMeshAgent: {fileID: 657704213798050108}
+  stopMasu: 0
   targetTag: masu
   threshold: 0.1
+  walkNumber: 0
 --- !u!1 &7394472823854427664
 GameObject:
   m_ObjectHideFlags: 0
@@ -57188,6 +57210,7 @@ MonoBehaviour:
   interactionRange: 3
   childAnimator: {fileID: 6227565248555274379}
   rightAnimator: {fileID: 0}
+  requiresKey: 1
   playerInventory: {fileID: 0}
   requiredItem: "\u4E00\u968E\u306E\u30AB\u30AE"
   doorPanel: {fileID: 0}
@@ -57197,6 +57220,11 @@ MonoBehaviour:
   windowTransform1: {fileID: 0}
   windowTransform2: {fileID: 0}
   enemyAppearance: {fileID: 0}
+  requiredTileObject: {fileID: 0}
+  audioSource: {fileID: 0}
+  doorOpenSpund: {fileID: 0}
+  keyMissingSound: {fileID: 0}
+  scareSound: []
 --- !u!1 &1211513729646587209 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 1951498353196560232, guid: b49b9a8db2c43234c9f54eceb2d87d1a, type: 3}
@@ -57219,6 +57247,7 @@ MonoBehaviour:
   interactionRange: 3
   childAnimator: {fileID: 5331753995431399945}
   rightAnimator: {fileID: 0}
+  requiresKey: 1
   playerInventory: {fileID: 0}
   requiredItem: "\u4E8C\u968E\u306E\u30AB\u30AE"
   doorPanel: {fileID: 0}
@@ -57228,6 +57257,11 @@ MonoBehaviour:
   windowTransform1: {fileID: 0}
   windowTransform2: {fileID: 0}
   enemyAppearance: {fileID: 0}
+  requiredTileObject: {fileID: 0}
+  audioSource: {fileID: 0}
+  doorOpenSpund: {fileID: 0}
+  keyMissingSound: {fileID: 0}
+  scareSound: []
 --- !u!1 &1211587707640304689 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 1951563462085498384, guid: b49b9a8db2c43234c9f54eceb2d87d1a, type: 3}
@@ -57250,6 +57284,7 @@ MonoBehaviour:
   interactionRange: 3
   childAnimator: {fileID: 4067227877619212149}
   rightAnimator: {fileID: 4067227877619212149}
+  requiresKey: 1
   playerInventory: {fileID: 0}
   requiredItem: "\u4E8C\u968E\u306E\u30AB\u30AE"
   doorPanel: {fileID: 0}
@@ -57259,6 +57294,11 @@ MonoBehaviour:
   windowTransform1: {fileID: 0}
   windowTransform2: {fileID: 0}
   enemyAppearance: {fileID: 0}
+  requiredTileObject: {fileID: 0}
+  audioSource: {fileID: 0}
+  doorOpenSpund: {fileID: 0}
+  keyMissingSound: {fileID: 0}
+  scareSound: []
 --- !u!1 &1211696176682742619 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 1951742508107182458, guid: b49b9a8db2c43234c9f54eceb2d87d1a, type: 3}
@@ -57276,6 +57316,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eb46db828ef621247978843cdc861892, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  targetCamera: {fileID: 0}
 --- !u!1 &1211771941042526273 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 1951219792400456288, guid: b49b9a8db2c43234c9f54eceb2d87d1a, type: 3}
@@ -57298,6 +57339,7 @@ MonoBehaviour:
   interactionRange: 3
   childAnimator: {fileID: 8796887632337190658}
   rightAnimator: {fileID: 0}
+  requiresKey: 1
   playerInventory: {fileID: 0}
   requiredItem: "\u4E8C\u968E\u306E\u30AB\u30AE"
   doorPanel: {fileID: 0}
@@ -57307,6 +57349,11 @@ MonoBehaviour:
   windowTransform1: {fileID: 0}
   windowTransform2: {fileID: 0}
   enemyAppearance: {fileID: 0}
+  requiredTileObject: {fileID: 0}
+  audioSource: {fileID: 0}
+  doorOpenSpund: {fileID: 0}
+  keyMissingSound: {fileID: 0}
+  scareSound: []
 --- !u!1 &1211777843953679517 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 1951234839295409852, guid: b49b9a8db2c43234c9f54eceb2d87d1a, type: 3}
@@ -57329,6 +57376,7 @@ MonoBehaviour:
   interactionRange: 3
   childAnimator: {fileID: 2452100127694492227}
   rightAnimator: {fileID: 0}
+  requiresKey: 1
   playerInventory: {fileID: 0}
   requiredItem: "\u4E8C\u968E\u306E\u30AB\u30AE"
   doorPanel: {fileID: 0}
@@ -57338,6 +57386,11 @@ MonoBehaviour:
   windowTransform1: {fileID: 0}
   windowTransform2: {fileID: 0}
   enemyAppearance: {fileID: 0}
+  requiredTileObject: {fileID: 0}
+  audioSource: {fileID: 0}
+  doorOpenSpund: {fileID: 0}
+  keyMissingSound: {fileID: 0}
+  scareSound: []
 --- !u!1 &1211786236550239781 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 1951207704526935044, guid: b49b9a8db2c43234c9f54eceb2d87d1a, type: 3}
@@ -57360,6 +57413,7 @@ MonoBehaviour:
   interactionRange: 3
   childAnimator: {fileID: 4668106523521519645}
   rightAnimator: {fileID: 0}
+  requiresKey: 1
   playerInventory: {fileID: 0}
   requiredItem: "\u4E00\u968E\u306E\u30AB\u30AE"
   doorPanel: {fileID: 0}
@@ -57369,6 +57423,11 @@ MonoBehaviour:
   windowTransform1: {fileID: 0}
   windowTransform2: {fileID: 0}
   enemyAppearance: {fileID: 0}
+  requiredTileObject: {fileID: 0}
+  audioSource: {fileID: 0}
+  doorOpenSpund: {fileID: 0}
+  keyMissingSound: {fileID: 0}
+  scareSound: []
 --- !u!1 &1211824127594528989 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 1951316099003351804, guid: b49b9a8db2c43234c9f54eceb2d87d1a, type: 3}
@@ -57391,6 +57450,7 @@ MonoBehaviour:
   interactionRange: 3
   childAnimator: {fileID: 0}
   rightAnimator: {fileID: 0}
+  requiresKey: 1
   playerInventory: {fileID: 0}
   requiredItem: "\u5730\u4E0B\u5BA4\u306E\u30AB\u30AE\uFF11"
   doorPanel: {fileID: 0}
@@ -57400,6 +57460,11 @@ MonoBehaviour:
   windowTransform1: {fileID: 0}
   windowTransform2: {fileID: 0}
   enemyAppearance: {fileID: 6198872335924684747}
+  requiredTileObject: {fileID: 0}
+  audioSource: {fileID: 0}
+  doorOpenSpund: {fileID: 0}
+  keyMissingSound: {fileID: 0}
+  scareSound: []
 --- !u!114 &6198872335924684747
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -57436,6 +57501,7 @@ MonoBehaviour:
   interactionRange: 3
   childAnimator: {fileID: 7633599695962333840}
   rightAnimator: {fileID: 0}
+  requiresKey: 1
   playerInventory: {fileID: 0}
   requiredItem: "\u5730\u4E0B\u5BA4\u306E\u30AB\u30AE\uFF12"
   doorPanel: {fileID: 0}
@@ -57445,6 +57511,11 @@ MonoBehaviour:
   windowTransform1: {fileID: 0}
   windowTransform2: {fileID: 0}
   enemyAppearance: {fileID: 0}
+  requiredTileObject: {fileID: 0}
+  audioSource: {fileID: 0}
+  doorOpenSpund: {fileID: 0}
+  keyMissingSound: {fileID: 0}
+  scareSound: []
 --- !u!1 &1211891793561324373 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 1951383629744736628, guid: b49b9a8db2c43234c9f54eceb2d87d1a, type: 3}
@@ -57467,6 +57538,7 @@ MonoBehaviour:
   interactionRange: 3
   childAnimator: {fileID: 6163381833932472348}
   rightAnimator: {fileID: 2097085500723384663}
+  requiresKey: 1
   playerInventory: {fileID: 0}
   requiredItem: "\u30D9\u30C3\u30C9\u30EB\u30FC\u30E0\u306E\u30AB\u30AE"
   doorPanel: {fileID: 0}
@@ -57476,6 +57548,11 @@ MonoBehaviour:
   windowTransform1: {fileID: 0}
   windowTransform2: {fileID: 0}
   enemyAppearance: {fileID: 0}
+  requiredTileObject: {fileID: 0}
+  audioSource: {fileID: 0}
+  doorOpenSpund: {fileID: 0}
+  keyMissingSound: {fileID: 0}
+  scareSound: []
 --- !u!1 &1211933177146458523 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 1951346121155462074, guid: b49b9a8db2c43234c9f54eceb2d87d1a, type: 3}
@@ -57498,6 +57575,7 @@ MonoBehaviour:
   interactionRange: 3
   childAnimator: {fileID: 2961844910713519290}
   rightAnimator: {fileID: 8088503810679189811}
+  requiresKey: 1
   playerInventory: {fileID: 0}
   requiredItem: "\u30DB\u30FC\u30EB\u306E\u30AB\u30AE"
   doorPanel: {fileID: 0}
@@ -57507,6 +57585,11 @@ MonoBehaviour:
   windowTransform1: {fileID: 0}
   windowTransform2: {fileID: 0}
   enemyAppearance: {fileID: 0}
+  requiredTileObject: {fileID: 0}
+  audioSource: {fileID: 0}
+  doorOpenSpund: {fileID: 0}
+  keyMissingSound: {fileID: 0}
+  scareSound: []
 --- !u!1 &1212037327769042263 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 1952083664094527350, guid: b49b9a8db2c43234c9f54eceb2d87d1a, type: 3}
@@ -57529,6 +57612,7 @@ MonoBehaviour:
   interactionRange: 3
   childAnimator: {fileID: 4496907154962099996}
   rightAnimator: {fileID: 0}
+  requiresKey: 1
   playerInventory: {fileID: 0}
   requiredItem: "\u30A8\u30F3\u30B8\u30F3\u30EB\u30FC\u30E0\u306E\u30AB\u30AE"
   doorPanel: {fileID: 0}
@@ -57538,6 +57622,11 @@ MonoBehaviour:
   windowTransform1: {fileID: 0}
   windowTransform2: {fileID: 0}
   enemyAppearance: {fileID: 0}
+  requiredTileObject: {fileID: 0}
+  audioSource: {fileID: 0}
+  doorOpenSpund: {fileID: 0}
+  keyMissingSound: {fileID: 0}
+  scareSound: []
 --- !u!1 &1212070364826411889 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 1952054990459380048, guid: b49b9a8db2c43234c9f54eceb2d87d1a, type: 3}
@@ -57560,6 +57649,7 @@ MonoBehaviour:
   interactionRange: 3
   childAnimator: {fileID: 5498490464070475507}
   rightAnimator: {fileID: 0}
+  requiresKey: 1
   playerInventory: {fileID: 0}
   requiredItem: "\u4E00\u968E\u306E\u30AB\u30AE"
   doorPanel: {fileID: 0}
@@ -57569,6 +57659,11 @@ MonoBehaviour:
   windowTransform1: {fileID: 0}
   windowTransform2: {fileID: 0}
   enemyAppearance: {fileID: 0}
+  requiredTileObject: {fileID: 0}
+  audioSource: {fileID: 0}
+  doorOpenSpund: {fileID: 0}
+  keyMissingSound: {fileID: 0}
+  scareSound: []
 --- !u!1 &1212121954418673985 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 1952141414448909152, guid: b49b9a8db2c43234c9f54eceb2d87d1a, type: 3}
@@ -57591,6 +57686,7 @@ MonoBehaviour:
   interactionRange: 3
   childAnimator: {fileID: 141881997529873103}
   rightAnimator: {fileID: 0}
+  requiresKey: 1
   playerInventory: {fileID: 0}
   requiredItem: "\u4E00\u968E\u306E\u30AB\u30AE"
   doorPanel: {fileID: 0}
@@ -57600,6 +57696,11 @@ MonoBehaviour:
   windowTransform1: {fileID: 0}
   windowTransform2: {fileID: 0}
   enemyAppearance: {fileID: 0}
+  requiredTileObject: {fileID: 0}
+  audioSource: {fileID: 0}
+  doorOpenSpund: {fileID: 0}
+  keyMissingSound: {fileID: 0}
+  scareSound: []
 --- !u!1 &1212124963330524803 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 1952135632032531618, guid: b49b9a8db2c43234c9f54eceb2d87d1a, type: 3}
@@ -57622,6 +57723,7 @@ MonoBehaviour:
   interactionRange: 3
   childAnimator: {fileID: 3224412280102645412}
   rightAnimator: {fileID: 0}
+  requiresKey: 1
   playerInventory: {fileID: 0}
   requiredItem: "\u4E8C\u968E\u306E\u30AB\u30AE"
   doorPanel: {fileID: 0}
@@ -57631,6 +57733,11 @@ MonoBehaviour:
   windowTransform1: {fileID: 0}
   windowTransform2: {fileID: 0}
   enemyAppearance: {fileID: 0}
+  requiredTileObject: {fileID: 0}
+  audioSource: {fileID: 0}
+  doorOpenSpund: {fileID: 0}
+  keyMissingSound: {fileID: 0}
+  scareSound: []
 --- !u!1 &1212141680990892007 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 1952117298533084614, guid: b49b9a8db2c43234c9f54eceb2d87d1a, type: 3}
@@ -57662,6 +57769,10 @@ MonoBehaviour:
   - {fileID: 2538095357227003698}
   - {fileID: 8720907768727043546}
   - {fileID: 3092402518834593098}
+  Clearlight: {fileID: 0}
+  PutDoll: 0
+  WaitTime: 7
+  isExitDoor: 0
 --- !u!1 &1212231230923565121 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 1952171732811442784, guid: b49b9a8db2c43234c9f54eceb2d87d1a, type: 3}
@@ -57684,6 +57795,7 @@ MonoBehaviour:
   interactionRange: 3
   childAnimator: {fileID: 1732944522044456984}
   rightAnimator: {fileID: 1732944522044456984}
+  requiresKey: 1
   playerInventory: {fileID: 0}
   requiredItem: "\u4E8C\u968E\u306E\u30AB\u30AE"
   doorPanel: {fileID: 0}
@@ -57693,6 +57805,11 @@ MonoBehaviour:
   windowTransform1: {fileID: 0}
   windowTransform2: {fileID: 0}
   enemyAppearance: {fileID: 0}
+  requiredTileObject: {fileID: 0}
+  audioSource: {fileID: 0}
+  doorOpenSpund: {fileID: 0}
+  keyMissingSound: {fileID: 0}
+  scareSound: []
 --- !u!1 &1212277337442012509 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 1952288345444929404, guid: b49b9a8db2c43234c9f54eceb2d87d1a, type: 3}
@@ -57715,6 +57832,7 @@ MonoBehaviour:
   interactionRange: 3
   childAnimator: {fileID: 3607244870880715016}
   rightAnimator: {fileID: 0}
+  requiresKey: 1
   playerInventory: {fileID: 0}
   requiredItem: "\u4E00\u968E\u306E\u30AB\u30AE"
   doorPanel: {fileID: 0}
@@ -57724,6 +57842,11 @@ MonoBehaviour:
   windowTransform1: {fileID: 0}
   windowTransform2: {fileID: 0}
   enemyAppearance: {fileID: 0}
+  requiredTileObject: {fileID: 0}
+  audioSource: {fileID: 0}
+  doorOpenSpund: {fileID: 0}
+  keyMissingSound: {fileID: 0}
+  scareSound: []
 --- !u!114 &3976929241260209724
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -57760,6 +57883,7 @@ MonoBehaviour:
   interactionRange: 3
   childAnimator: {fileID: 8121673719154329385}
   rightAnimator: {fileID: 2891912119406928761}
+  requiresKey: 1
   playerInventory: {fileID: 0}
   requiredItem: "\u5730\u4E0B\u5BA4\u306E\u30AB\u30AE\uFF13"
   doorPanel: {fileID: 0}
@@ -57769,6 +57893,11 @@ MonoBehaviour:
   windowTransform1: {fileID: 0}
   windowTransform2: {fileID: 0}
   enemyAppearance: {fileID: 0}
+  requiredTileObject: {fileID: 0}
+  audioSource: {fileID: 0}
+  doorOpenSpund: {fileID: 0}
+  keyMissingSound: {fileID: 0}
+  scareSound: []
 --- !u!1 &1213440367666934245 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 1950680605833671620, guid: b49b9a8db2c43234c9f54eceb2d87d1a, type: 3}
@@ -57791,6 +57920,7 @@ MonoBehaviour:
   interactionRange: 3
   childAnimator: {fileID: 3777138869441201346}
   rightAnimator: {fileID: 3777138869441201346}
+  requiresKey: 1
   playerInventory: {fileID: 0}
   requiredItem: "\u4E00\u968E\u306E\u30AB\u30AE"
   doorPanel: {fileID: 0}
@@ -57800,6 +57930,11 @@ MonoBehaviour:
   windowTransform1: {fileID: 0}
   windowTransform2: {fileID: 0}
   enemyAppearance: {fileID: 0}
+  requiredTileObject: {fileID: 0}
+  audioSource: {fileID: 0}
+  doorOpenSpund: {fileID: 0}
+  keyMissingSound: {fileID: 0}
+  scareSound: []
 --- !u!1 &1213476831138923067 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 1950646359647207450, guid: b49b9a8db2c43234c9f54eceb2d87d1a, type: 3}
@@ -57822,6 +57957,7 @@ MonoBehaviour:
   interactionRange: 3
   childAnimator: {fileID: 83358762665348353}
   rightAnimator: {fileID: 0}
+  requiresKey: 1
   playerInventory: {fileID: 0}
   requiredItem: "\u4E8C\u968E\u306E\u30AB\u30AE"
   doorPanel: {fileID: 0}
@@ -57831,6 +57967,11 @@ MonoBehaviour:
   windowTransform1: {fileID: 0}
   windowTransform2: {fileID: 0}
   enemyAppearance: {fileID: 0}
+  requiredTileObject: {fileID: 0}
+  audioSource: {fileID: 0}
+  doorOpenSpund: {fileID: 0}
+  keyMissingSound: {fileID: 0}
+  scareSound: []
 --- !u!1 &1213488455195179113 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 1950649534966118984, guid: b49b9a8db2c43234c9f54eceb2d87d1a, type: 3}
@@ -57853,6 +57994,7 @@ MonoBehaviour:
   interactionRange: 3
   childAnimator: {fileID: 2000974700805072084}
   rightAnimator: {fileID: 0}
+  requiresKey: 1
   playerInventory: {fileID: 0}
   requiredItem: "\u4E00\u968E\u306E\u30AB\u30AE"
   doorPanel: {fileID: 0}
@@ -57862,6 +58004,11 @@ MonoBehaviour:
   windowTransform1: {fileID: 0}
   windowTransform2: {fileID: 0}
   enemyAppearance: {fileID: 0}
+  requiredTileObject: {fileID: 0}
+  audioSource: {fileID: 0}
+  doorOpenSpund: {fileID: 0}
+  keyMissingSound: {fileID: 0}
+  scareSound: []
 --- !u!1 &1213494248877354265 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 1950628940973207352, guid: b49b9a8db2c43234c9f54eceb2d87d1a, type: 3}
@@ -57884,6 +58031,7 @@ MonoBehaviour:
   interactionRange: 3
   childAnimator: {fileID: 8539915893102731837}
   rightAnimator: {fileID: 4434455604235522635}
+  requiresKey: 1
   playerInventory: {fileID: 0}
   requiredItem: "\u533B\u52D9\u5BA4\u306E\u30AB\u30AE"
   doorPanel: {fileID: 0}
@@ -57893,6 +58041,11 @@ MonoBehaviour:
   windowTransform1: {fileID: 0}
   windowTransform2: {fileID: 0}
   enemyAppearance: {fileID: 0}
+  requiredTileObject: {fileID: 0}
+  audioSource: {fileID: 0}
+  doorOpenSpund: {fileID: 0}
+  keyMissingSound: {fileID: 0}
+  scareSound: []
 --- !u!1 &1213507500193091855 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 1950633256073663278, guid: b49b9a8db2c43234c9f54eceb2d87d1a, type: 3}
@@ -57915,6 +58068,7 @@ MonoBehaviour:
   interactionRange: 3
   childAnimator: {fileID: 6858716019111754772}
   rightAnimator: {fileID: 0}
+  requiresKey: 1
   playerInventory: {fileID: 0}
   requiredItem: "\u5730\u4E0B\u5BA4\u306E\u30AB\u30AE"
   doorPanel: {fileID: 0}
@@ -57924,6 +58078,11 @@ MonoBehaviour:
   windowTransform1: {fileID: 0}
   windowTransform2: {fileID: 0}
   enemyAppearance: {fileID: 0}
+  requiredTileObject: {fileID: 0}
+  audioSource: {fileID: 0}
+  doorOpenSpund: {fileID: 0}
+  keyMissingSound: {fileID: 0}
+  scareSound: []
 --- !u!4 &1214347093525052715 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 1954296189575446282, guid: b49b9a8db2c43234c9f54eceb2d87d1a, type: 3}
@@ -58136,6 +58295,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eb46db828ef621247978843cdc861892, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  targetCamera: {fileID: 0}
 --- !u!4 &2945056180228325454 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2529831974005736047, guid: b49b9a8db2c43234c9f54eceb2d87d1a, type: 3}
@@ -72830,31 +72990,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 01e48e88e1e1a1e4b81a60509f366e03, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  itemCount: 3
+  useCount: 0
+  playerInventory: {fileID: 0}
   curseSlider: {fileID: 359177106449459650}
   Possessions: {fileID: 7883146325600886868}
---- !u!114 &4999652565060422161 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 8663683331702964976, guid: 94164073e6c8c9c4f9079377efebf116, type: 3}
-  m_PrefabInstance: {fileID: 4420779542355691745}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0aa595b082b787a408b8ad96d496f336, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &7045863793292250622 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 6673820455798064415, guid: 94164073e6c8c9c4f9079377efebf116, type: 3}
-  m_PrefabInstance: {fileID: 4420779542355691745}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &7883146325600886868 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 5782424298516981941, guid: 94164073e6c8c9c4f9079377efebf116, type: 3}
@@ -82128,7 +82267,7 @@ PrefabInstance:
     - target: {fileID: 4313278066094003667, guid: 43b5d38b7b5cb0a40a58a771554554ac, type: 3}
       propertyPath: diceController
       value: 
-      objectReference: {fileID: 4999652565060422161}
+      objectReference: {fileID: 0}
     - target: {fileID: 4313278066094003667, guid: 43b5d38b7b5cb0a40a58a771554554ac, type: 3}
       propertyPath: diceRangeManager
       value: 
@@ -82208,7 +82347,7 @@ PrefabInstance:
     - target: {fileID: 7776942237698028930, guid: 43b5d38b7b5cb0a40a58a771554554ac, type: 3}
       propertyPath: Text
       value: 
-      objectReference: {fileID: 7045863793292250622}
+      objectReference: {fileID: 0}
     - target: {fileID: 7803920965303236875, guid: 43b5d38b7b5cb0a40a58a771554554ac, type: 3}
       propertyPath: m_StaticEditorFlags
       value: 18
@@ -86225,7 +86364,7 @@ PrefabInstance:
     - target: {fileID: 8276875798039258901, guid: a4250938d1fd4b24ca9e7db4eac1d741, type: 3}
       propertyPath: eyeButtonText
       value: 
-      objectReference: {fileID: 7045863793292250622}
+      objectReference: {fileID: 0}
     - target: {fileID: 8276875798039258901, guid: a4250938d1fd4b24ca9e7db4eac1d741, type: 3}
       propertyPath: diceController
       value: 
