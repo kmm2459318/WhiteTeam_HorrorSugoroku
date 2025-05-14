@@ -4,12 +4,12 @@ using UnityEngine;
 
 public class KeyRandomizer : MonoBehaviour
 {
-    public int totalItemCount = 20;           // 全体の割り振り数
+    public int totalItemCount = 7;           // 全体の割り振り数
     public int fixedFirstFloorKeyCount = 7;   // 一階の鍵の数
     public Transform spawnParent;
     public List<Transform> spawnPoints;
 
-    private List<string> otherItems = new List<string> { "身代わり人形", "回復薬","何もない","壊れている" };
+   // private List<string> otherItems = new List<string> { "身代わり人形", "回復薬","何もない","壊れている" };
     private List<string> generatedItems = new List<string>();
 
     //[System.Serializable]
@@ -78,13 +78,13 @@ public class KeyRandomizer : MonoBehaviour
             generatedItems.Add("一階の鍵");
         }
 
-        // 残り枠に他アイテムをランダムに追加
-        int remaining = totalItemCount - fixedFirstFloorKeyCount;
-        for (int i = 0; i < remaining; i++)
-        {
-            int rand = Random.Range(0, otherItems.Count);
-            generatedItems.Add(otherItems[rand]);
-        }
+        //// 残り枠に他アイテムをランダムに追加
+        //int remaining = totalItemCount - fixedFirstFloorKeyCount;
+        //for (int i = 0; i < remaining; i++)
+        //{
+        //    int rand = Random.Range(0, otherItems.Count);
+        //    generatedItems.Add(otherItems[rand]);
+        //}
 
         Shuffle(generatedItems);
     }
