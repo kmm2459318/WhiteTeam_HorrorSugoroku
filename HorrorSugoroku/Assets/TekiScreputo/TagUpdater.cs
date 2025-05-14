@@ -2,9 +2,15 @@ using UnityEngine;
 
 public class TagUpdater : MonoBehaviour
 {
+   
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        Outline[] outlines = FindObjectsOfType<Outline>();
+        foreach (var outline in outlines)
+        {
+            outline.enabled = false;
+        }
         // 全ての Outline コンポーネントを持つオブジェクトを取得
         Outline[] outlineObjects = FindObjectsOfType<Outline>();
 

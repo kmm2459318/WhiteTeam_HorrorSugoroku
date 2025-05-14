@@ -111,7 +111,7 @@ public class ClickObject : MonoBehaviour
                                 if (hit.collider.CompareTag("Key"))
                                 {
                                     ExecuteScriptA(hit.collider.gameObject); // スクリプトAを実行（アイテム取得）
-                                    Destroy(hit.collider.gameObject);
+                                    //Destroy(hit.collider.gameObject);
                                 }
                                 else if (hit.collider.CompareTag("Doll"))
                                 {
@@ -183,6 +183,11 @@ public class ClickObject : MonoBehaviour
             // アイテムをインベントリに追加
             playerInventory.AddItem(keyName, itemID); // itemIDを渡す
             Debug.Log($"{keyName} をインベントリに追加しました。（ID: {itemID}）");
+
+            // ✅ タグを Untagged に変更
+            clickedItem.tag = "Untagged";
+
+
             ShowItemUIAndPrefab(keyName);
             // クールダウン後にフラグを解除
             StartCoroutine(CooldownAfterAddItem());
@@ -228,6 +233,10 @@ public class ClickObject : MonoBehaviour
             {
                 playerInventory.AddItem(selected, itemID);
                 Debug.Log($"🎁 ランダムで {selected} をインベントリに追加しました！（ID: {itemID}）");
+
+                // ✅ タグを Untagged に変更
+                clickedItem.tag = "Untagged";
+
                 ShowItemUIAndPrefab(selected);
                 // ランダム抽選のクールダウン開始
                 StartCoroutine(RandomItemCooldown());
