@@ -14,7 +14,7 @@ public class OutLineFx : MonoBehaviour
     void Start()
     {
         // シーン内のすべての "Item", "Key", "Doll"タグを持つオブジェクトのアウトラインを最初にOFFにする
-        string[] tags = { "Item", "Key", "Doll" };
+        string[] tags = { "Item", "Key", "Doll", "Strongbox" };
 
         foreach (string tag in tags)
         {
@@ -38,7 +38,7 @@ public class OutLineFx : MonoBehaviour
         if (Physics.Raycast(ray, out hit))
         {
             // タグが "Item" "Key" "Map"の場合
-            if (hit.collider.CompareTag("Item") || hit.collider.CompareTag("Key") || hit.collider.CompareTag("Doll"))
+            if (hit.collider.CompareTag("Item") || hit.collider.CompareTag("Key") || hit.collider.CompareTag("Doll") || hit.collider.CompareTag("Strongbox"))
             {
                 //プレイヤーが移動完了していたら
                 if (!playerSaikoro.idoutyu)
