@@ -31,7 +31,7 @@ public class DiceController : MonoBehaviour
     private int maxDiceValue = 6;
     private bool legButtonEffect = false;
 
-    private Vector3 targetLocalOffset = new Vector3(-5.47f, 0f, -2.54f);   //new Vector3(-5.47f, 0f, -2.54f)
+    private Vector3 targetLocalOffset = new Vector3(-5.7f, 0f, -2.6f);   //変更前 -> new Vector3(-5.47f, 0f, -2.54f)
     private bool moveToTarget = false;
     private bool moveToReset = false;
     private float moveSpeed = 30f; // 移動速度
@@ -40,15 +40,17 @@ public class DiceController : MonoBehaviour
     private bool rotateToFace = false; // 🎯 回転フラグ
     private float rotationSpeed = 5f; // 🎯 回転速度
 
+    [SerializeField] private RawImage diceRawImage; // ✅ RawImage 参照
+
     // 出目ごとの回転 (上を向く面を基準)
     private Vector3[] faceRotations = new Vector3[]
     {
-    new Vector3(-90, 0, 0),  // 1の面が上
-    new Vector3(0, 0, 0),    // 2の面が上
-    new Vector3(0, 0, -90),  // 3の面が上
-    new Vector3(0, 0, 90),   // 4の面が上
-    new Vector3(180, 180, 0),// 5の面が上
-    new Vector3(90, 0, 0)    // 6の面が上
+        new Vector3(-90, 0, 0),  // 1の面が上
+        new Vector3(0, 0, 0),    // 2の面が上
+        new Vector3(0, 0, -90),  // 3の面が上
+        new Vector3(0, 0, 90),   // 4の面が上
+        new Vector3(180, 180, 0),// 5の面が上
+        new Vector3(90, 0, 0)    // 6の面が上
     };
 
     private int dice2miss = 3; 
@@ -140,21 +142,27 @@ public class DiceController : MonoBehaviour
             }
         }
 
+        Vector3 targetLocalPosition = initialLocalPosition + targetLocalOffset;
+
         if (moveToTarget)
         {
-            Vector3 targetLocalPosition = initialLocalPosition + targetLocalOffset;
             transform.localPosition = Vector3.MoveTowards(transform.localPosition, targetLocalPosition, Time.deltaTime * moveSpeed);
-            if (Vector3.Distance(transform.localPosition, targetLocalPosition) < 0.1f)
+
+            if (Vector3.Distance(transform.localPosition, targetLocalPosition) <= Mathf.Epsilon)
             {
                 transform.localPosition = targetLocalPosition;
                 moveToTarget = false;
+
+                if (diceRawImage != null)
+                    diceRawImage.enabled = false; // ✅ 移動完了直後に非表示
             }
         }
 
         if (moveToReset)
         {
             transform.localPosition = Vector3.MoveTowards(transform.localPosition, initialLocalPosition, Time.deltaTime * moveSpeed);
-            if (Vector3.Distance(transform.localPosition, initialLocalPosition) < 0.1f)
+
+            if (Vector3.Distance(transform.localPosition, initialLocalPosition) <= Mathf.Epsilon)
             {
                 transform.localPosition = initialLocalPosition;
                 moveToReset = false;
@@ -283,9 +291,17 @@ public class DiceController : MonoBehaviour
         isHeld = false;
         isStopped = false;
         rotateToFace = false;
-        moveToReset = true; // 🎯 リセット時に親基準の初期位置に戻る
+        moveToReset = true;
+
+        // ✅ RawImage を表示する「直前」に1の面が上になるように回転をリセット
+        transform.rotation = Quaternion.Euler(faceRotations[0]); // ← 1の面が上（-90, 0, 0）
+
+        if (diceRawImage != null)
+            diceRawImage.enabled = true; // ✅ RawImage を表示
+
         Debug.Log("さいころリセットしたよん！");
     }
+
 
     public void SetDiceRollRange(int min, int max)
     {
