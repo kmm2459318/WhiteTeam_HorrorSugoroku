@@ -1,6 +1,8 @@
-﻿using UnityEngine;
+﻿using Unity.Mathematics;
+using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.Rendering;
+using Random = UnityEngine.Random;
 
 public class Nav : MonoBehaviour
 {
@@ -16,8 +18,12 @@ public class Nav : MonoBehaviour
     public int RandomMin = 4; //ランダム移動の最小値
     public int RandomMax = 10; //ランダム移動の最大値
 
-    private Vector3 lastPlayerPosition;
+    public int minDistance = 3;     // 離れる距離
+    public int desiredDistance = 5; // 理想の距離
+    public int maxDistance = 7;     // 離れすぎる距離
 
+    private Vector3 lastPlayerPosition;
+    
 
     private void Start()
     {
@@ -99,15 +105,10 @@ public class Nav : MonoBehaviour
 
         if (!agent.enabled || !agent.isOnNavMesh) return;
 
-        float desiredDistance = 5f; //保つ距離
-        float minDistance = 2; //最小距離
-        float maxDistance = 4; //許容距離
+        float currentDistance = Vector3.Distance(transform.position, target.position);
 
-        // プレイヤーとの距離を計算
-        float distance = Vector3.Distance(transform.position, target.position);
-
-        //距離が適正なら動かない
-        if (distance >= minDistance && distance <= maxDistance)
+        // 距離が適正なら動かない
+        if (currentDistance >= minDistance && currentDistance <= maxDistance)
         {
             if (agent.hasPath)
             {
@@ -116,16 +117,43 @@ public class Nav : MonoBehaviour
             return;
         }
 
-        // 近すぎる or 離れすぎているときは常に再設定
-        Vector3 direction = (distance < minDistance)
-            ? (transform.position - target.position).normalized
-            : (target.position - transform.position).normalized;
+        // 敵 → プレイヤー方向のベクトルを求める
+        Vector3 rawDirection = transform.position - target.position;
 
+        // 最も強い軸方向にスナップする（XまたはZのみ）
+        Vector3 direction;
+        if (Mathf.Abs(rawDirection.x) > Mathf.Abs(rawDirection.z))
+        {
+            direction = new Vector3(Mathf.Sign(rawDirection.x), 0, 0);
+        }
+        else
+        {
+            direction = new Vector3(0, 0, Mathf.Sign(rawDirection.z));
+        }
 
-        Vector3 newPos = target.position + direction * desiredDistance;
+        // プレイヤーの位置から、方向にdesiredDistanceだけ離れたマスを目的地にする
+        Vector3 snappedTargetPos = new Vector3(
+            Mathf.Round(target.position.x),
+            target.position.y,
+            Mathf.Round(target.position.z)
+        );
 
+        Vector3 newPos;
+
+        // 近すぎる場合 → プレイヤーから逃げる
+        if (currentDistance < minDistance)
+        {
+            newPos = transform.position + direction * desiredDistance;
+        }
+        // 遠すぎる場合 → プレイヤーに近づく（ただしdesiredDistanceまで）
+        else
+        {
+            newPos = snappedTargetPos + (-direction * desiredDistance);
+        }
+
+        // NavMesh 上の位置を確認
         NavMeshHit hit;
-        if (NavMesh.SamplePosition(newPos, out hit, 2.5f, NavMesh.AllAreas))
+        if (NavMesh.SamplePosition(newPos, out hit, 1.0f, NavMesh.AllAreas))
         {
             agent.SetDestination(hit.position);
         }

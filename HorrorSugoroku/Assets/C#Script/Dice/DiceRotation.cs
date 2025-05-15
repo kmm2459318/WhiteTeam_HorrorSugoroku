@@ -34,7 +34,7 @@ public class DiceRotation : MonoBehaviour
 
     private void RotateDice()
     {
-        if (dice < 0 || dice > 6)
+        if (dice < 1 || dice > 6)
         {
             Debug.LogWarning("不正なサイコロの出目: " + dice);
             shouldRotate = false;
