@@ -11,7 +11,18 @@ public class StrongboxController : MonoBehaviour
     public GameObject textbox;
     private bool thisBoxOn = false;
     public int OpenNumber = 0;
+    public string itemToGiveName = ""; // 開いたときに得られるアイテム名（Inspectorで設定可能）
+    private PlayerInventory playerInventory;
 
+    void Start()
+    {
+        playerInventory = FindObjectOfType<PlayerInventory>();
+
+        if (playerInventory == null)
+        {
+            Debug.LogError("PlayerInventory が見つかりません！");
+        }
+    }
     void Update()
     {
         if (thisBoxOn)
@@ -22,6 +33,13 @@ public class StrongboxController : MonoBehaviour
                 {
                     Debug.Log("————祝福のカギは開かれた。");
                     gameObject.tag = "Untagged";
+                    // アイテムを付与
+                    if (playerInventory != null && !string.IsNullOrEmpty(itemToGiveName))
+                    {
+                        string uniqueID = itemToGiveName + "_" + Time.time;
+                        playerInventory.AddItem(itemToGiveName, uniqueID);
+                        Debug.Log($"祝福箱から「{itemToGiveName}」を入手しました！");
+                    }
                 }
                 else
                 {
