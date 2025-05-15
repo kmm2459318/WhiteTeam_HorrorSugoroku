@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 1356944519680403016}
   - component: {fileID: 7776942237698028930}
   - component: {fileID: 527918220979440125}
+  - component: {fileID: 4580952613093497042}
   m_Layer: 0
   m_Name: ClickObjectController
   m_TagString: Untagged
@@ -48,7 +49,7 @@ MonoBehaviour:
   playerSaikoro: {fileID: 4313278066094003667}
   playerInventory: {fileID: 6700426803218984859}
   gameManager: {fileID: 0}
-  keyRandomizer: {fileID: 527918220979440125}
+  keyRandomizer: {fileID: 4580952613093497042}
   curse: {fileID: 0}
   Canvas: {fileID: 0}
   cutInImage: {fileID: 0}
@@ -68,6 +69,22 @@ MonoBehaviour:
   uiIconImage: {fileID: 0}
   itemCanvas: {fileID: 0}
 --- !u!114 &527918220979440125
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 153200984708539672}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 38d2d5c0b526e474d97e7568837938b4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  totalItemCount: 7
+  fixedFirstFloorKeyCount: 7
+  spawnParent: {fileID: 0}
+  spawnPoints: []
+--- !u!114 &4580952613093497042
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1526,7 +1543,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 18
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &3912092618580003014
 RectTransform:
   m_ObjectHideFlags: 0
@@ -2688,7 +2705,7 @@ Canvas:
   m_AdditionalShaderChannelsFlag: 0
   m_UpdateRectTransformForStandalone: 0
   m_SortingLayerID: 0
-  m_SortingOrder: 2
+  m_SortingOrder: 6
   m_TargetDisplay: 0
 --- !u!114 &2721247904117702313
 MonoBehaviour:
