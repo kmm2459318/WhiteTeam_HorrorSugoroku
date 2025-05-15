@@ -12,17 +12,6 @@ public class ClickObject : MonoBehaviour
     public KeyRandomizer keyRandomizer; // ←追加！
     public CurseSlider curse;
 
-
-    public GameObject saikoroUI;
-    public Image diceImage;
-    public Sprite[] diceSprites; // s1〜s6を配列に格納
-    public Animator diceAnimator; // 回転アニメーション用（任意）
-    public AudioSource audioSource;
-    public AudioClip rollSound;
-    public AudioClip successSound;
-    public AudioClip failSound;
-
-    [SerializeField] public TextMeshProUGUI Text;
     [SerializeField] public GameObject Canvas;
     [SerializeField] private Image cutInImage;
     private HashSet<string> cooldownItems = new HashSet<string>();
@@ -82,78 +71,88 @@ public class ClickObject : MonoBehaviour
     {
         if (Input.GetMouseButtonDown(0) && !hasClicked)
         {
+            Debug.Log("aaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
             hasClicked = true;
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
             RaycastHit hit;
 
             if (Physics.Raycast(ray, out hit))
             {
+                Debug.Log("aaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
                 if (hit.collider.CompareTag("Item") || hit.collider.CompareTag("Key") || hit.collider.CompareTag("Doll") || hit.collider.CompareTag("Strongbox") || hit.collider.CompareTag("ElevatorDoor"))
                 {
-
+                    Debug.Log("aaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
                     float distance = Vector3.Distance(Camera.main.transform.position, hit.collider.transform.position);
                     if (distance <= 3f)
                     {
+                        Debug.Log("aaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
                         if (!playerSaikoro.idoutyu)
                         {
-                            Debug.Log("aaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
-                            if (hit.collider.CompareTag("Key"))
-                            {
-                                ExecuteScriptA(hit.collider.gameObject);
-                            }
-                            else if (hit.collider.CompareTag("Map"))
-                            {
-                                ExecuteScriptB();
-                            }
-                            else if (hit.collider.CompareTag("Item"))
-                            {
-                                ExecuteScriptC(hit.collider.gameObject);
-                            }
-                            // 🎲 ランダムでスクリプトA または B を実行
-                            // int randomChoice = Random.Range(0, 4);
-                            if (Input.GetMouseButtonDown(0))
-                            { // 左クリック
+                            //if (!playerSaikoro.idoutyu)
+                            //{
+                                Debug.Log("aaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
                                 if (hit.collider.CompareTag("Key"))
                                 {
-                                    ExecuteScriptA(hit.collider.gameObject); // スクリプトAを実行（アイテム取得）
-                                    //Destroy(hit.collider.gameObject);
+                                    ExecuteScriptA(hit.collider.gameObject);
                                 }
                                 else if (hit.collider.CompareTag("Doll"))
                                 {
-                                    ExecuteScriptB(); // スクリプトBを実行（例：敵を召喚）
+                                    ExecuteScriptB();
                                 }
                                 else if (hit.collider.CompareTag("Item"))
                                 {
-                                    if (!curse.curse1_3)
-                                    {
-                                        ExecuteScriptC(hit.collider.gameObject); // スクリプトBを実行（例：敵を召喚）
-                                                                                 // クリック後にオブジェクトのタグを「Untagged」に変更
-                                        hit.collider.gameObject.tag = "Untagged";
-                                        //  Destroy(hit.collider.gameObject);
-                                        //curse.curse1Turn--;
-                                    }
+                                    ExecuteScriptC(hit.collider.gameObject);
                                 }
                                 else if (hit.collider.CompareTag("Strongbox"))
                                 {
                                     hit.collider.gameObject.GetComponent<StrongboxController>().StrongBoxDiceOn();// 
                                 }
-                                //else if (hit.collider.CompareTag("Other"))
-                                //{
+                                // 🎲 ランダムでスクリプトA または B を実行
+                                // int randomChoice = Random.Range(0, 4);
+                                if (Input.GetMouseButtonDown(0))
+                                { // 左クリック
+                                    if (hit.collider.CompareTag("Key"))
+                                    {
+                                        ExecuteScriptA(hit.collider.gameObject); // スクリプトAを実行（アイテム取得）
+                                                                                 //Destroy(hit.collider.gameObject);
+                                    }
+                                    else if (hit.collider.CompareTag("Doll"))
+                                    {
+                                        ExecuteScriptB(); // スクリプトBを実行（例：敵を召喚）
+                                    }
+                                    else if (hit.collider.CompareTag("Item"))
+                                    {
+                                        if (!curse.curse1_3)
+                                        {
+                                            ExecuteScriptC(hit.collider.gameObject); // スクリプトBを実行（例：敵を召喚）
+                                                                                     // クリック後にオブジェクトのタグを「Untagged」に変更
+                                            hit.collider.gameObject.tag = "Untagged";
+                                            //  Destroy(hit.collider.gameObject);
+                                            //curse.curse1Turn--;
+                                        }
+                                    }
+                                    else if (hit.collider.CompareTag("Strongbox"))
+                                    {
+                                        hit.collider.gameObject.GetComponent<StrongboxController>().StrongBoxDiceOn();// 
+                                    }
+                                    //else if (hit.collider.CompareTag("Other"))
+                                    //{
 
-                                //}
+                                    //}
+                                    // Destroy(hit.collider.gameObject);
+
+                                }
                                 // Destroy(hit.collider.gameObject);
-
-                            }
-                            // Destroy(hit.collider.gameObject);
+                            //}
                         }
-                        else
-                        {
-                            if (hit.collider.CompareTag("ElevatorDoor"))
-                            {
-                                Debug.Log("aaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
-                                elevatorIdou.IdouHantei();
-                            }
-                        }
+                        //else
+                        //{
+                        //    if (hit.collider.CompareTag("ElevatorDoor"))
+                        //    {
+                        //        Debug.Log("aaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
+                        //        elevatorIdou.IdouHantei();
+                        //    }
+                        //}
                     }
                 }
             }
