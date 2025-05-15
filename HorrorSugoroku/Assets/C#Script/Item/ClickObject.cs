@@ -12,17 +12,6 @@ public class ClickObject : MonoBehaviour
     public KeyRandomizer keyRandomizer; // ←追加！
     public CurseSlider curse;
 
-
-    public GameObject saikoroUI;
-    public Image diceImage;
-    public Sprite[] diceSprites; // s1〜s6を配列に格納
-    public Animator diceAnimator; // 回転アニメーション用（任意）
-    public AudioSource audioSource;
-    public AudioClip rollSound;
-    public AudioClip successSound;
-    public AudioClip failSound;
-
-    [SerializeField] public TextMeshProUGUI Text;
     [SerializeField] public GameObject Canvas;
     [SerializeField] private Image cutInImage;
     private HashSet<string> cooldownItems = new HashSet<string>();
