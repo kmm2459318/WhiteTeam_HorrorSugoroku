@@ -1,4 +1,4 @@
-using UnityEngine;
+ï»¿using UnityEngine;
 
 public class DiceRotation : MonoBehaviour
 {
@@ -8,18 +8,18 @@ public class DiceRotation : MonoBehaviour
     [SerializeField] private PlayerSaikoro playerSaikoro;
     private bool shouldRotate = false;
 
-    // o–Ú‚²‚Æ‚Ì‰ñ“] (ã‚ğŒü‚­–Ê‚ğŠî€)
+    // å‡ºç›®ã”ã¨ã®å›è»¢ (ä¸Šã‚’å‘ãé¢ã‚’åŸºæº–)
     private Vector3[] faceRotations = new Vector3[]
     {
-        new Vector3(-90, 0, 0),  // 1‚Ì–Ê‚ªã
-        new Vector3(0, 0, 0),    // 2‚Ì–Ê‚ªã
-        new Vector3(0, 0, -90),  // 3‚Ì–Ê‚ªã
-        new Vector3(0, 0, 90),   // 4‚Ì–Ê‚ªã
-        new Vector3(180, 180, 0),// 5‚Ì–Ê‚ªã
-        new Vector3(90, 0, 0)    // 6‚Ì–Ê‚ªã
+        new Vector3(-90, 0, 0),  // 1ã®é¢ãŒä¸Š
+        new Vector3(0, 0, 0),    // 2ã®é¢ãŒä¸Š
+        new Vector3(0, 0, -90),  // 3ã®é¢ãŒä¸Š
+        new Vector3(0, 0, 90),   // 4ã®é¢ãŒä¸Š
+        new Vector3(180, 180, 0),// 5ã®é¢ãŒä¸Š
+        new Vector3(90, 0, 0)    // 6ã®é¢ãŒä¸Š
     };
 
-    void Start() 
+    void Start()
     {
         targetRotation = transform.rotation;
     }
@@ -34,32 +34,40 @@ public class DiceRotation : MonoBehaviour
 
     private void RotateDice()
     {
-        if (dice < 0 || dice > 6)
+        if (dice < 1 || dice > 6)
         {
-            Debug.LogWarning("•s³‚ÈƒTƒCƒRƒ‚Ìo–Ú: " + dice);
+            Debug.LogWarning("ä¸æ­£ãªã‚µã‚¤ã‚³ãƒ­ã®å‡ºç›®: " + dice);
             shouldRotate = false;
             return;
         }
 
-        // o–Ú‚É‘Î‰‚·‚é‰ñ“]Šp“x‚ğæ“¾
+        // å‡ºç›®ã«å¯¾å¿œã™ã‚‹å›è»¢è§’åº¦ã‚’å–å¾—
         targetRotation = Quaternion.Euler(faceRotations[dice - 1]);
 
-        // ƒXƒ€[ƒY‚É‰ñ“]‚³‚¹‚é
+        // ã‚¹ãƒ ãƒ¼ã‚ºã«å›è»¢ã•ã›ã‚‹
         transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.deltaTime * rotationSpeed);
 
-        // –Ú•W‚ÌŠp“x‚É‚Ù‚Ú“’B‚µ‚½‚ç‰ñ“]‚ğ’â~
+        // ç›®æ¨™ã®è§’åº¦ã«ã»ã¼åˆ°é”ã—ãŸã‚‰å›è»¢ã‚’åœæ­¢
         if (Quaternion.Angle(transform.rotation, targetRotation) < 0.1f)
         {
             transform.rotation = targetRotation;
             shouldRotate = false;
-            Debug.Log("‰ñ“]Š®—¹: " + dice);
+            Debug.Log("å›è»¢å®Œäº†: " + dice);
         }
     }
 
     public void GetDiceNumber(int sai)
     {
-        shouldRotate = true;  // ‰ñ“]‚ğŠJn
+        shouldRotate = true;  // å›è»¢ã‚’é–‹å§‹
         dice = sai;
-       // Debug.Log($"ó‚¯æ‚Á‚½o–Ú: {dice}");
+    }
+
+    // âœ… ãƒªã‚»ãƒƒãƒˆç”¨ï¼šå¸¸ã«ã€Œ1ã®é¢ãŒä¸Šã€ã‚’å³æ™‚ã§å‘ã‹ã›ã‚‹
+    public void ResetRotation()
+    {
+        transform.rotation = Quaternion.Euler(faceRotations[0]); // 1ã®é¢ãŒä¸Š
+        shouldRotate = false;
+        dice = 1;
+        targetRotation = transform.rotation;
     }
 }
