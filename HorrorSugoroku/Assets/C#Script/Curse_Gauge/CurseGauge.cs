@@ -84,9 +84,9 @@ public class CurseSlider : MonoBehaviour
     public int curse1Turn = 0;
     public bool endTurn = false;
 
-    public GameObject spriteCard1Front;
-    public GameObject spriteCard2Front;
-    public GameObject spriteCard3Front;
+    public GameObject Card12;
+    public GameObject Card34;
+    public GameObject Card56;
     public GameObject Curse1Canvas;
     public GameObject Curse2Canvas;
     public GameObject Curse3Canvas;
@@ -94,9 +94,9 @@ public class CurseSlider : MonoBehaviour
     public GameObject Curse2Card;
     public GameObject Curse3Card;
 
-    public GameObject curse1turnCard;
-    public GameObject curse2turnCard;
-    public GameObject curse3turnCard;
+    public GameObject Canvas12;
+    public GameObject Canvas34;
+    public GameObject Canvas56;
 
     public TextMeshProUGUI curseText; // 呪い発動テキスト
     public Button armButton;
@@ -271,9 +271,9 @@ public class CurseSlider : MonoBehaviour
             endTurn = false;
             isCardCanvas1 = false;
 
-            curse1turnCard.SetActive(false);
-            curse2turnCard.SetActive(false);
-            curse3turnCard.SetActive(false);
+            Canvas12.SetActive(false);
+            Canvas34.SetActive(false);
+            Canvas56.SetActive(false);
             Curse1Canvas.SetActive(false);
             Curse2Canvas.SetActive(false);
             Curse3Canvas.SetActive(false);
@@ -290,21 +290,21 @@ public class CurseSlider : MonoBehaviour
         {
             //Debug.Log("呪１：敵の最低移動数が増加");
             //curse1_1 = true;
-            curse1turnCard.GetComponent<TurnCard>().StartTurn(curse1Number, 12);
+            Canvas12.GetComponent<TurnCard>().StartTurn(curse1Number, 12);
         }
 
         if (r == 3 || r == 4)
         {
             //Debug.Log("呪２：プレイヤーの歩数が減少");
             //curse1_2 = true;
-            curse2turnCard.GetComponent<TurnCard>().StartTurn(curse1Number, 34);
+            Canvas34.GetComponent<TurnCard>().StartTurn(curse1Number, 34);
         }
 
         if (r == 5 || r == 6)
         {
             //Debug.Log("呪３：回復、無敵アイテムの取得不可");
             //curse1_3 = true;
-            curse3turnCard.GetComponent<TurnCard>().StartTurn(curse1Number, 56);
+            Canvas56.GetComponent<TurnCard>().StartTurn(curse1Number, 56);
         }
 
         isCurseDice1 = false;
@@ -384,14 +384,14 @@ public class CurseSlider : MonoBehaviour
 
             // 呪いカードを表示する処理
             curse1Number = UnityEngine.Random.Range(1, 4);
-            Curse1Canvas.SetActive(true); // 呪いカード表示
+            //Curse1Canvas.SetActive(true); // 呪いカード表示
             
-            curse1turnCard.SetActive(true);
-            curse2turnCard.SetActive(true);
-            curse3turnCard.SetActive(true);
-            curse1turnCard.GetComponent<TurnCard>().CardReset();
-            curse2turnCard.GetComponent<TurnCard>().CardReset();
-            curse3turnCard.GetComponent<TurnCard>().CardReset();
+            Canvas12.SetActive(true);
+            Canvas34.SetActive(true);
+            Canvas56.SetActive(true);
+            Canvas12.GetComponent<TurnCard>().CardReset();
+            Canvas34.GetComponent<TurnCard>().CardReset();
+            Canvas56.GetComponent<TurnCard>().CardReset();
 
             yield return new WaitForSeconds(1.0f);
         }
