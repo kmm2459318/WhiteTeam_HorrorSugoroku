@@ -428,7 +428,7 @@ public class PlayerSaikoro : MonoBehaviour
         }
     }
 
-    void FinishTurn()
+    public void FinishTurn()
     {
         enemyEnd = false;
         exploring = false;
