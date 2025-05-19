@@ -46,17 +46,17 @@ public class TurnCard : MonoBehaviour
         if (m == 12)
         {
             spriteCardBack.GetComponent<RectTransform>().position = new Vector3(445f, 540);
-            spriteCardFront = curseGauge.spriteCard1Front;
+            spriteCardFront = curseGauge.Card12;
         }
         else if (m == 34)
         {
             spriteCardBack.GetComponent<RectTransform>().position = new Vector3(960, 540);
-            spriteCardFront = curseGauge.spriteCard2Front;
+            spriteCardFront = curseGauge.Card34;
         }
         else if (m == 56)
         {
             spriteCardBack.GetComponent<RectTransform>().position = new Vector3(1475f, 540);
-            spriteCardFront = curseGauge.spriteCard3Front;
+            spriteCardFront = curseGauge.Card56;
         }
 
         StartCoroutine(Turn());

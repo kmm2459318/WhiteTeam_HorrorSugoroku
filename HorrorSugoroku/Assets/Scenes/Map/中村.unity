@@ -227,7 +227,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   diceController: {fileID: 1242808344}
   playerSaikoro: {fileID: 1394873662}
-  diceCamera: {fileID: 1715941798}
+  diceCamera: {fileID: 0}
   textCanvas: {fileID: 1603030850}
   textbox: {fileID: 1153290555}
   OpenNumber: 6
@@ -1104,6 +1104,18 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2587150356313431225, guid: a67a335d1fe17c64d818e030e2b7ab3b, type: 3}
+      propertyPath: diceCamera
+      value: 
+      objectReference: {fileID: 1986359821}
+    - target: {fileID: 2587150356313431225, guid: a67a335d1fe17c64d818e030e2b7ab3b, type: 3}
+      propertyPath: playerSaikoro
+      value: 
+      objectReference: {fileID: 1394873662}
+    - target: {fileID: 2587150356313431225, guid: a67a335d1fe17c64d818e030e2b7ab3b, type: 3}
+      propertyPath: diceController
+      value: 
+      objectReference: {fileID: 1242808344}
     - target: {fileID: 4612091502711878141, guid: a67a335d1fe17c64d818e030e2b7ab3b, type: 3}
       propertyPath: playerSaikoro
       value: 
@@ -1163,11 +1175,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d0e91c2b68d5ef147844c27f3add5231, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!20 &1715941798 stripped
-Camera:
-  m_CorrespondingSourceObject: {fileID: 5013432101411930110, guid: 43b5d38b7b5cb0a40a58a771554554ac, type: 3}
-  m_PrefabInstance: {fileID: 6290932133941840481}
-  m_PrefabAsset: {fileID: 0}
 --- !u!114 &1737980899 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 2694920624086775280, guid: a67a335d1fe17c64d818e030e2b7ab3b, type: 3}
@@ -1374,7 +1381,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   diceController: {fileID: 1242808344}
   playerSaikoro: {fileID: 1394873662}
-  diceCamera: {fileID: 1715941798}
+  diceCamera: {fileID: 1986359821}
   textCanvas: {fileID: 1603030850}
   textbox: {fileID: 1153290555}
   OpenNumber: 4
@@ -1425,6 +1432,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!20 &1986359821 stripped
+Camera:
+  m_CorrespondingSourceObject: {fileID: 6980530067746792791, guid: 94164073e6c8c9c4f9079377efebf116, type: 3}
+  m_PrefabInstance: {fileID: 3595400160599029975}
+  m_PrefabAsset: {fileID: 0}
 --- !u!114 &1992071788 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 1276048504242237694, guid: a67a335d1fe17c64d818e030e2b7ab3b, type: 3}
@@ -2114,6 +2126,10 @@ PrefabInstance:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 704271956}
+    - target: {fileID: 3074148649395933641, guid: 94164073e6c8c9c4f9079377efebf116, type: 3}
+      propertyPath: m_TagString
+      value: Untagged
+      objectReference: {fileID: 0}
     - target: {fileID: 3124798426832793178, guid: 94164073e6c8c9c4f9079377efebf116, type: 3}
       propertyPath: m_IsActive
       value: 0
@@ -2125,6 +2141,10 @@ PrefabInstance:
     - target: {fileID: 4764227636412069365, guid: 94164073e6c8c9c4f9079377efebf116, type: 3}
       propertyPath: m_IsActive
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4969896418142779374, guid: 94164073e6c8c9c4f9079377efebf116, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5346065982095090067, guid: 94164073e6c8c9c4f9079377efebf116, type: 3}
       propertyPath: m_LocalPosition.x
@@ -2910,6 +2930,10 @@ PrefabInstance:
       propertyPath: obstacleLayer.m_Bits
       value: 262272
       objectReference: {fileID: 0}
+    - target: {fileID: 2559008815427313985, guid: 43b5d38b7b5cb0a40a58a771554554ac, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2875712166048101946, guid: 43b5d38b7b5cb0a40a58a771554554ac, type: 3}
       propertyPath: exploreText
       value: 
@@ -3110,6 +3134,10 @@ PrefabInstance:
       propertyPath: canvasPrefab
       value: 
       objectReference: {fileID: 1603030850}
+    - target: {fileID: 7776942237698028930, guid: 43b5d38b7b5cb0a40a58a771554554ac, type: 3}
+      propertyPath: elevatorIdou
+      value: 
+      objectReference: {fileID: 704271956}
     - target: {fileID: 7776942237698028930, guid: 43b5d38b7b5cb0a40a58a771554554ac, type: 3}
       propertyPath: itemNameText
       value: 
@@ -3372,6 +3400,30 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 408666475}
     - target: {fileID: 8276875798039258901, guid: a4250938d1fd4b24ca9e7db4eac1d741, type: 3}
+      propertyPath: Card12
+      value: 
+      objectReference: {fileID: 1166429475}
+    - target: {fileID: 8276875798039258901, guid: a4250938d1fd4b24ca9e7db4eac1d741, type: 3}
+      propertyPath: Card34
+      value: 
+      objectReference: {fileID: 1449584958}
+    - target: {fileID: 8276875798039258901, guid: a4250938d1fd4b24ca9e7db4eac1d741, type: 3}
+      propertyPath: Card56
+      value: 
+      objectReference: {fileID: 940353473}
+    - target: {fileID: 8276875798039258901, guid: a4250938d1fd4b24ca9e7db4eac1d741, type: 3}
+      propertyPath: Canvas12
+      value: 
+      objectReference: {fileID: 1462539476}
+    - target: {fileID: 8276875798039258901, guid: a4250938d1fd4b24ca9e7db4eac1d741, type: 3}
+      propertyPath: Canvas34
+      value: 
+      objectReference: {fileID: 1096151090}
+    - target: {fileID: 8276875798039258901, guid: a4250938d1fd4b24ca9e7db4eac1d741, type: 3}
+      propertyPath: Canvas56
+      value: 
+      objectReference: {fileID: 1834853929}
+    - target: {fileID: 8276875798039258901, guid: a4250938d1fd4b24ca9e7db4eac1d741, type: 3}
       propertyPath: Curse1Card
       value: 
       objectReference: {fileID: 1269016039}
@@ -3390,7 +3442,7 @@ PrefabInstance:
     - target: {fileID: 8276875798039258901, guid: a4250938d1fd4b24ca9e7db4eac1d741, type: 3}
       propertyPath: diceCamera
       value: 
-      objectReference: {fileID: 1715941798}
+      objectReference: {fileID: 1986359821}
     - target: {fileID: 8276875798039258901, guid: a4250938d1fd4b24ca9e7db4eac1d741, type: 3}
       propertyPath: gameManager
       value: 

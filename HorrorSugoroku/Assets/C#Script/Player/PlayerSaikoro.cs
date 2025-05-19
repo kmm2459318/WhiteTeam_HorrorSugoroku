@@ -168,7 +168,9 @@ public class PlayerSaikoro : MonoBehaviour
         ChangeSpriteSize(s6, new Vector2(200, 200));
 
         if (diceUI != null) diceUI.gameObject.SetActive(false);
+        diceRotation.ResetRotation();
     }
+
 
     void Update()
     {
@@ -435,6 +437,7 @@ public class PlayerSaikoro : MonoBehaviour
         lastMasu = nextDarkMasu;
         gameManager.NextTurn();
         if (diceUI != null) diceUI.gameObject.SetActive(false);
+        //diceController.ResetDiceState();
     }
 
     IEnumerator idoutyuHantei()

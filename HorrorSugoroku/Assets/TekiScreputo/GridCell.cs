@@ -94,10 +94,10 @@ public class GridCell : MonoBehaviour
         Debug.Log("アイテムが使えなくなるかの判定:" + DebuffSheet.DebuffSheet[n].ItemGive);
         Debug.Log("アイテムが使えないターン数:" + DebuffSheet.DebuffSheet[n].ItemGive);
 
-        if (debuffEffect != null)
-        {
-            debuffEffect.Stop(); // 初期状態では停止
-        }
+        //if (debuffEffect != null)
+        //{
+        //    debuffEffect.Stop(); // 初期状態では停止
+        //}
 
         if (normalEffect != null)
         {
@@ -161,18 +161,23 @@ public class GridCell : MonoBehaviour
         }
 
         // デバフ効果のチェック
-        if (cellEffect != "Debuff" && debuffEffect != null && debuffEffect.isPlaying)
+        if (cellEffect != "Event" && debuffEffect != null && debuffEffect.isPlaying)
         {
             debuffEffect.Stop(); // マスを離れたらエフェクトを停止
             debuffEffect.gameObject.SetActive(false); // エフェクトを非アクティブにする
         }
 
         // 通常エフェクトのチェック
-        if (cellEffect != "Normal" && normalEffect != null && normalEffect.isPlaying)
+        if (cellEffect != "Debuff" && normalEffect != null && normalEffect.isPlaying)
         {
             normalEffect.Stop(); // マスを離れたらエフェクトを停止
             normalEffect.gameObject.SetActive(false); // エフェクトを非アクティブにする
         }
+        //if (cellEffect == "Debuff" && normalEffect != null)
+        //{
+        //    normalEffect.gameObject.SetActive(true); // **強制アクティブ化**
+        //}
+
     }
 
     public void ExecuteEvent()
@@ -232,23 +237,34 @@ public class GridCell : MonoBehaviour
     {
         Debug.Log($"TriggerEffect called with cellEffect: {cellEffect}");
 
-        if (cellEffect == "Debuff" && debuffEffect != null)
+        if (cellEffect == "Event" && debuffEffect != null)
         {
-            debuffEffect.gameObject.SetActive(true); // エフェクトをアクティブにする
-            debuffEffect.Play(); // デバフエフェクトを発現させる
-            PlaySound(debuffSound); // デバフエフェクトの音を再生
-            Debug.Log("デバフエフェクトが発現しました！");
+            Debug.Log("🔴 発動するエフェクト: EventEffect");
+
+            if (!debuffEffect.gameObject.activeSelf)
+                debuffEffect.gameObject.SetActive(true); // **再アクティブ化**
+
+            debuffEffect.Clear(); // **履歴クリア**
+            debuffEffect.Play();
+            PlaySound(debuffSound);
+            Debug.Log("✅ debuffEffect 再生成功");
         }
-        else if (cellEffect == "Normal" && normalEffect != null)
+        else if (cellEffect == "Debuff" && normalEffect != null)
         {
-            normalEffect.gameObject.SetActive(true); // エフェクトをアクティブにする
-            normalEffect.Play(); // 通常エフェクトを発現させる
-            PlaySound(normalSound); // 通常エフェクトの音を再生
-            Debug.Log("通常エフェクトが発現しました！");
+            Debug.Log("🟢 発動するエフェクト: DebuffEffect");
+
+            if (!normalEffect.gameObject.activeSelf)
+                normalEffect.gameObject.SetActive(true); // **再アクティブ化**
+
+            normalEffect.Clear();
+            normalEffect.Play();
+            PlaySound(normalSound);
+            Debug.Log("✅ normalEffect 再生成功");
         }
         else
         {
-            Debug.Log("エフェクトが発現しませんでした。条件を確認してください。");
+            Debug.LogWarning("⚠ エフェクトが再生されませんでした！");
+            Debug.Log($"⚠ cellEffect: {cellEffect}, debuffEffect Active: {debuffEffect?.gameObject.activeSelf}, normalEffect Active: {normalEffect?.gameObject.activeSelf}");
         }
     }
 
@@ -428,5 +444,26 @@ public class GridCell : MonoBehaviour
         }
     }
 
+    void OnTriggerExit(Collider other)
+    {
+        if (other.CompareTag("Player"))
+        {
+            Debug.Log($"プレイヤーが {cellEffect} マスから離れました");
 
+            if (debuffEffect != null && debuffEffect.gameObject.activeSelf)
+            {
+                debuffEffect.Stop();
+                debuffEffect.gameObject.SetActive(false); // **非アクティブ化**
+                Debug.Log("DebuffEffect を非アクティブ化しました");
+            }
+
+            if (normalEffect != null && normalEffect.gameObject.activeSelf)
+            {
+                normalEffect.Stop();
+                normalEffect.gameObject.SetActive(false); // **非アクティブ化**
+                Debug.Log("❌ normalEffect 停止 & 非アクティブ化");
+            }
+
+        }
+    }
 }
