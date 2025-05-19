@@ -21,7 +21,7 @@ public class DiceController : MonoBehaviour
     [SerializeField] private DiceRotation diceRotation;
     public CurseSlider curseGauge;
     public PlayerSaikoro playerSaikoro;
-    public StrongboxController strongboxController;
+    public GameObject DescriptionCanvas;
 
     public DiceRangeManager diceRangeManager;
     private Transform parentTransform;
@@ -239,6 +239,7 @@ public class DiceController : MonoBehaviour
                                 dice2miss++;
                                 Debug.Log("大きい呪いダイス回避成功！失敗数が上昇→"　+ dice2miss);
                             }
+                            DescriptionCanvas.SetActive(false);
                             curseGauge.isCardCanvas2 = false;
                             curseGauge.isCurseDice2 = false;
                         }

@@ -11,6 +11,7 @@ public class ClickObject : MonoBehaviour
     public GameManager gameManager;
     public KeyRandomizer keyRandomizer; // ←追加！
     public CurseSlider curse;
+    public Camera raycastCamera;
 
     [SerializeField] public GameObject Canvas;
     [SerializeField] private Image cutInImage;
@@ -73,24 +74,24 @@ public class ClickObject : MonoBehaviour
         {
             Debug.Log("aaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
             hasClicked = true;
-            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+            Ray ray = raycastCamera.ScreenPointToRay(Input.mousePosition);
             RaycastHit hit;
 
             if (Physics.Raycast(ray, out hit))
             {
-                Debug.Log("aaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
+                Debug.Log("iiiiiiiiiiiiiiiiiiiiiiiiiiii");
                 if (hit.collider.CompareTag("Item") || hit.collider.CompareTag("Key") || hit.collider.CompareTag("Doll") || hit.collider.CompareTag("Strongbox") || hit.collider.CompareTag("ElevatorDoor"))
                 {
-                    Debug.Log("aaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
-                    float distance = Vector3.Distance(Camera.main.transform.position, hit.collider.transform.position);
+                    Debug.Log("uuuuuuuuuuuuuuuuuuuuuuuuuuuu");
+                    float distance = Vector3.Distance(raycastCamera.transform.position, hit.collider.transform.position);
                     if (distance <= 3f)
                     {
-                        Debug.Log("aaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
-                        if (!playerSaikoro.idoutyu)
+                        Debug.Log("eeeeeeeeeeeeeeeeeeeeeeeeeeee");
+                        if (playerSaikoro.exploring)
                         {
                             //if (!playerSaikoro.idoutyu)
                             //{
-                                Debug.Log("aaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
+                                Debug.Log("oooooooooooooooooooooooooooo");
                                 if (hit.collider.CompareTag("Key"))
                                 {
                                     ExecuteScriptA(hit.collider.gameObject);
@@ -145,19 +146,54 @@ public class ClickObject : MonoBehaviour
                                 // Destroy(hit.collider.gameObject);
                             //}
                         }
-                        //else
-                        //{
-                        //    if (hit.collider.CompareTag("ElevatorDoor"))
-                        //    {
-                        //        Debug.Log("aaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
-                        //        elevatorIdou.IdouHantei();
-                        //    }
-                        //}
+                        else
+                        {
+                            if (hit.collider.CompareTag("ElevatorDoor"))
+                            {
+                                Debug.Log("aaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
+                                elevatorIdou.IdouHantei();
+                            }
+                        }
                     }
                 }
             }
 
             StartCoroutine(ResetClick()); // フラグリセットコルーチン呼び出し
+        }
+
+        if (Input.GetMouseButtonDown(0))
+        {
+            Debug.Log("クリック検知");
+
+            Ray ray = raycastCamera.ScreenPointToRay(Input.mousePosition);
+            RaycastHit hit;
+
+            if (Physics.Raycast(ray, out hit))
+            {
+                GameObject hitObj = hit.collider.gameObject;
+                Debug.Log("ヒット！オブジェクト: " + hitObj.name +
+                          ", タグ: " + hitObj.tag +
+                          ", 親: " + hitObj.transform.parent?.name);
+
+                // 親のタグもチェックする
+                string tagToCheck = hitObj.tag;
+                if (tagToCheck == "Untagged" && hitObj.transform.parent != null)
+                {
+                    tagToCheck = hitObj.transform.parent.tag;
+                }
+
+                if (tagToCheck == "Item" || tagToCheck == "Key" || tagToCheck == "Doll" || tagToCheck == "Strongbox" || tagToCheck == "ElevatorDoor")
+                {
+                    Debug.Log("指定タグに一致しました: " + tagToCheck);
+                }
+            }
+            else
+            {
+                Debug.Log("Raycastヒットなし");
+            }
+
+            hasClicked = true;
+            StartCoroutine(ResetClick());
         }
 
         //if (Canvas.activeSelf && Input.GetKeyDown(KeyCode.Space))
