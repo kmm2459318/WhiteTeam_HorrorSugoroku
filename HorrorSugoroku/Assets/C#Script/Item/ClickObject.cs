@@ -79,18 +79,20 @@ public class ClickObject : MonoBehaviour
             if (Physics.Raycast(ray, out hit))
             {
                 Debug.Log("aaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
-                if (hit.collider.CompareTag("Item") || hit.collider.CompareTag("Key") || hit.collider.CompareTag("Doll") || hit.collider.CompareTag("Strongbox") || hit.collider.CompareTag("ElevatorDoor"))
+                if (hit.collider.CompareTag("Item") || hit.collider.CompareTag("Key") || hit.collider.CompareTag("Doll") || hit.collider.CompareTag("Strongbox")||hit.collider.CompareTag("ElevatorDoor")  )
                 {
-                    Debug.Log("aaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
-                    float distance = Vector3.Distance(Camera.main.transform.position, hit.collider.transform.position);
+                    if (!playerSaikoro.idoutyu)
+                    {
+                        Debug.Log("aaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
+                        float distance = Vector3.Distance(Camera.main.transform.position, hit.collider.transform.position);
                     if (distance <= 3f)
                     {
                         Debug.Log("aaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
-                        if (!playerSaikoro.idoutyu)
-                        {
-                            //if (!playerSaikoro.idoutyu)
-                            //{
-                                Debug.Log("aaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
+                        //if (!playerSaikoro.idoutyu)
+                        //{
+                        //if (!playerSaikoro.idoutyu)
+                        //{
+                            Debug.Log("aaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
                                 if (hit.collider.CompareTag("Key"))
                                 {
                                     ExecuteScriptA(hit.collider.gameObject);
@@ -144,7 +146,7 @@ public class ClickObject : MonoBehaviour
                                 }
                                 // Destroy(hit.collider.gameObject);
                             //}
-                        }
+                      //  }
                         //else
                         //{
                         //    if (hit.collider.CompareTag("ElevatorDoor"))
@@ -152,7 +154,7 @@ public class ClickObject : MonoBehaviour
                         //        Debug.Log("aaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
                         //        elevatorIdou.IdouHantei();
                         //    }
-                        //}
+                        }
                     }
                 }
             }
