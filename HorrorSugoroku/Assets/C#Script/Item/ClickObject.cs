@@ -70,21 +70,23 @@ public class ClickObject : MonoBehaviour
     void Update()
     {
         if (Input.GetMouseButtonDown(0) && !hasClicked)
-        {
+        { 
+           
             Debug.Log("aaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
             hasClicked = true;
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
             RaycastHit hit;
-
+ 
             if (Physics.Raycast(ray, out hit))
             {
+
                 Debug.Log("aaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
                 if (hit.collider.CompareTag("Item") || hit.collider.CompareTag("Key") || hit.collider.CompareTag("Doll") || hit.collider.CompareTag("Strongbox")||hit.collider.CompareTag("ElevatorDoor")  )
                 {
                     if (!playerSaikoro.idoutyu)
                     {
                         Debug.Log("aaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
-                        float distance = Vector3.Distance(Camera.main.transform.position, hit.collider.transform.position);
+                       float distance = Vector3.Distance(Camera.main.transform.position, hit.collider.transform.position);
                     if (distance <= 3f)
                     {
                         Debug.Log("aaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
