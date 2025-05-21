@@ -35,6 +35,7 @@ public class ClickObject : MonoBehaviour
     [SerializeField] private float keyCooldownTime = 2f;  // 例: 10秒で再取得可能
     private bool hasClicked = false; // クリック多重防止用フラグ
 
+    public BreakerController breakerController;
     public ElevatorIdou elevatorIdou;
     public bool LookElevatorDoor = false;
 
@@ -72,77 +73,76 @@ public class ClickObject : MonoBehaviour
     {
         if (Input.GetMouseButtonDown(0) && !hasClicked)
         {
-            Debug.Log("aaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
             hasClicked = true;
             Ray ray = raycastCamera.ScreenPointToRay(Input.mousePosition);
             RaycastHit hit;
 
             if (Physics.Raycast(ray, out hit))
             {
-                Debug.Log("iiiiiiiiiiiiiiiiiiiiiiiiiiii");
-                if (hit.collider.CompareTag("Item") || hit.collider.CompareTag("Key") || hit.collider.CompareTag("Doll") || hit.collider.CompareTag("Strongbox") || hit.collider.CompareTag("ElevatorDoor"))
+                if (hit.collider.CompareTag("Item") || hit.collider.CompareTag("Key") || hit.collider.CompareTag("Doll") || hit.collider.CompareTag("Strongbox") || hit.collider.CompareTag("ElevatorDoor") || hit.collider.CompareTag("Breaker"))
                 {
-                    Debug.Log("uuuuuuuuuuuuuuuuuuuuuuuuuuuu");
                     float distance = Vector3.Distance(raycastCamera.transform.position, hit.collider.transform.position);
                     if (distance <= 3f)
                     {
-                        Debug.Log("eeeeeeeeeeeeeeeeeeeeeeeeeeee");
                         if (playerSaikoro.exploring)
                         {
                             //if (!playerSaikoro.idoutyu)
                             //{
-                                Debug.Log("oooooooooooooooooooooooooooo");
+                            if (hit.collider.CompareTag("Key"))
+                            {
+                                ExecuteScriptA(hit.collider.gameObject);
+                            }
+                            else if (hit.collider.CompareTag("Doll"))
+                            {
+                                ExecuteScriptB();
+                            }
+                            else if (hit.collider.CompareTag("Item"))
+                            {
+                                ExecuteScriptC(hit.collider.gameObject);
+                            }
+                            else if (hit.collider.CompareTag("Strongbox"))
+                            {
+                                hit.collider.gameObject.GetComponent<StrongboxController>().StrongBoxDiceOn();// 
+                            }
+                            else if (hit.collider.CompareTag("Breaker"))
+                            {
+                                breakerController.BreakerHantei(); 
+                            }
+                            // 🎲 ランダムでスクリプトA または B を実行
+                            // int randomChoice = Random.Range(0, 4);
+                            if (Input.GetMouseButtonDown(0))
+                            { // 左クリック
                                 if (hit.collider.CompareTag("Key"))
                                 {
-                                    ExecuteScriptA(hit.collider.gameObject);
+                                    ExecuteScriptA(hit.collider.gameObject); // スクリプトAを実行（アイテム取得）
+                                                                             //Destroy(hit.collider.gameObject);
                                 }
                                 else if (hit.collider.CompareTag("Doll"))
                                 {
-                                    ExecuteScriptB();
+                                    ExecuteScriptB(); // スクリプトBを実行（例：敵を召喚）
                                 }
                                 else if (hit.collider.CompareTag("Item"))
                                 {
-                                    ExecuteScriptC(hit.collider.gameObject);
+                                    if (!curse.curse1_3)
+                                    {
+                                        ExecuteScriptC(hit.collider.gameObject); // スクリプトBを実行（例：敵を召喚）
+                                                                                 // クリック後にオブジェクトのタグを「Untagged」に変更
+                                        hit.collider.gameObject.tag = "Untagged";
+                                        //  Destroy(hit.collider.gameObject);
+                                        //curse.curse1Turn--;
+                                    }
                                 }
                                 else if (hit.collider.CompareTag("Strongbox"))
                                 {
                                     hit.collider.gameObject.GetComponent<StrongboxController>().StrongBoxDiceOn();// 
                                 }
-                                // 🎲 ランダムでスクリプトA または B を実行
-                                // int randomChoice = Random.Range(0, 4);
-                                if (Input.GetMouseButtonDown(0))
-                                { // 左クリック
-                                    if (hit.collider.CompareTag("Key"))
-                                    {
-                                        ExecuteScriptA(hit.collider.gameObject); // スクリプトAを実行（アイテム取得）
-                                                                                 //Destroy(hit.collider.gameObject);
-                                    }
-                                    else if (hit.collider.CompareTag("Doll"))
-                                    {
-                                        ExecuteScriptB(); // スクリプトBを実行（例：敵を召喚）
-                                    }
-                                    else if (hit.collider.CompareTag("Item"))
-                                    {
-                                        if (!curse.curse1_3)
-                                        {
-                                            ExecuteScriptC(hit.collider.gameObject); // スクリプトBを実行（例：敵を召喚）
-                                                                                     // クリック後にオブジェクトのタグを「Untagged」に変更
-                                            hit.collider.gameObject.tag = "Untagged";
-                                            //  Destroy(hit.collider.gameObject);
-                                            //curse.curse1Turn--;
-                                        }
-                                    }
-                                    else if (hit.collider.CompareTag("Strongbox"))
-                                    {
-                                        hit.collider.gameObject.GetComponent<StrongboxController>().StrongBoxDiceOn();// 
-                                    }
-                                    //else if (hit.collider.CompareTag("Other"))
-                                    //{
+                                //else if (hit.collider.CompareTag("Other"))
+                                //{
 
-                                    //}
-                                    // Destroy(hit.collider.gameObject);
+                                //}
+                                // Destroy(hit.collider.gameObject);
 
-                                }
+                            }
                                 // Destroy(hit.collider.gameObject);
                             //}
                         }
@@ -150,7 +150,6 @@ public class ClickObject : MonoBehaviour
                         {
                             if (hit.collider.CompareTag("ElevatorDoor"))
                             {
-                                Debug.Log("aaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
                                 elevatorIdou.IdouHantei();
                             }
                         }
@@ -161,40 +160,40 @@ public class ClickObject : MonoBehaviour
             StartCoroutine(ResetClick()); // フラグリセットコルーチン呼び出し
         }
 
-        if (Input.GetMouseButtonDown(0))
-        {
-            Debug.Log("クリック検知");
+        //if (Input.GetMouseButtonDown(0))
+        //{
+        //    Debug.Log("クリック検知");
 
-            Ray ray = raycastCamera.ScreenPointToRay(Input.mousePosition);
-            RaycastHit hit;
+        //    Ray ray = raycastCamera.ScreenPointToRay(Input.mousePosition);
+        //    RaycastHit hit;
 
-            if (Physics.Raycast(ray, out hit))
-            {
-                GameObject hitObj = hit.collider.gameObject;
-                Debug.Log("ヒット！オブジェクト: " + hitObj.name +
-                          ", タグ: " + hitObj.tag +
-                          ", 親: " + hitObj.transform.parent?.name);
+        //    if (Physics.Raycast(ray, out hit))
+        //    {
+        //        GameObject hitObj = hit.collider.gameObject;
+        //        Debug.Log("ヒット！オブジェクト: " + hitObj.name +
+        //                  ", タグ: " + hitObj.tag +
+        //                  ", 親: " + hitObj.transform.parent?.name);
 
-                // 親のタグもチェックする
-                string tagToCheck = hitObj.tag;
-                if (tagToCheck == "Untagged" && hitObj.transform.parent != null)
-                {
-                    tagToCheck = hitObj.transform.parent.tag;
-                }
+        //        // 親のタグもチェックする
+        //        string tagToCheck = hitObj.tag;
+        //        if (tagToCheck == "Untagged" && hitObj.transform.parent != null)
+        //        {
+        //            tagToCheck = hitObj.transform.parent.tag;
+        //        }
 
-                if (tagToCheck == "Item" || tagToCheck == "Key" || tagToCheck == "Doll" || tagToCheck == "Strongbox" || tagToCheck == "ElevatorDoor")
-                {
-                    Debug.Log("指定タグに一致しました: " + tagToCheck);
-                }
-            }
-            else
-            {
-                Debug.Log("Raycastヒットなし");
-            }
+        //        if (tagToCheck == "Item" || tagToCheck == "Key" || tagToCheck == "Doll" || tagToCheck == "Strongbox" || tagToCheck == "ElevatorDoor")
+        //        {
+        //            Debug.Log("指定タグに一致しました: " + tagToCheck);
+        //        }
+        //    }
+        //    else
+        //    {
+        //        Debug.Log("Raycastヒットなし");
+        //    }
 
-            hasClicked = true;
-            StartCoroutine(ResetClick());
-        }
+        //    hasClicked = true;
+        //    StartCoroutine(ResetClick());
+        //}
 
         //if (Canvas.activeSelf && Input.GetKeyDown(KeyCode.Space))
         //{
