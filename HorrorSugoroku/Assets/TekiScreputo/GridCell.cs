@@ -232,7 +232,14 @@ public class GridCell : MonoBehaviour
                 break;
         }
     }
-
+    //void OnTriggerEnter(Collider other)
+    //{
+    //    if (other.CompareTag("Player"))
+    //    {
+    //        Debug.Log($"{name}: プレイヤーがマスに入りました");
+    //        TriggerEffect(); // エフェクトを再発動
+    //    }
+    //}
     void TriggerEffect()
     {
         Debug.Log($"TriggerEffect called with cellEffect: {cellEffect}");
@@ -243,7 +250,9 @@ public class GridCell : MonoBehaviour
 
             if (!debuffEffect.gameObject.activeSelf)
                 debuffEffect.gameObject.SetActive(true); // **再アクティブ化**
-
+            //debuffEffect.Stop(true, ParticleSystemStopBehavior.StopEmittingAndClear); // 停止してクリア
+            //debuffEffect.gameObject.SetActive(false); // 強制非アクティブに
+            //debuffEffect.gameObject.SetActive(true);  // 再アクティブ化（これで再描画）
             debuffEffect.Clear(); // **履歴クリア**
             debuffEffect.Play();
             PlaySound(debuffSound);
@@ -252,7 +261,11 @@ public class GridCell : MonoBehaviour
         else if (cellEffect == "Debuff" && normalEffect != null)
         {
             Debug.Log("🟢 発動するエフェクト: DebuffEffect");
+            //normalEffect.Stop(true, ParticleSystemStopBehavior.StopEmittingAndClear); // 停止＆クリーン
+            //normalEffect.gameObject.SetActive(false);
+            //normalEffect.gameObject.SetActive(true);
 
+            normalEffect.Stop(); // 明示的に停止
             if (!normalEffect.gameObject.activeSelf)
                 normalEffect.gameObject.SetActive(true); // **再アクティブ化**
 
@@ -444,26 +457,26 @@ public class GridCell : MonoBehaviour
         }
     }
 
-    void OnTriggerExit(Collider other)
-    {
-        if (other.CompareTag("Player"))
-        {
-            Debug.Log($"プレイヤーが {cellEffect} マスから離れました");
+    //void OnTriggerExit(Collider other)
+    //{
+    //    if (other.CompareTag("Player"))
+    //    {
+    //        Debug.Log($"プレイヤーが {cellEffect} マスから離れました");
 
-            if (debuffEffect != null && debuffEffect.gameObject.activeSelf)
-            {
-                debuffEffect.Stop();
-                debuffEffect.gameObject.SetActive(false); // **非アクティブ化**
-                Debug.Log("DebuffEffect を非アクティブ化しました");
-            }
+    //        if (debuffEffect != null && debuffEffect.gameObject.activeSelf)
+    //        {
+    //            debuffEffect.Stop();
+    //            debuffEffect.gameObject.SetActive(false); // **非アクティブ化**
+    //            Debug.Log("DebuffEffect を非アクティブ化しました");
+    //        }
 
-            if (normalEffect != null && normalEffect.gameObject.activeSelf)
-            {
-                normalEffect.Stop();
-                normalEffect.gameObject.SetActive(false); // **非アクティブ化**
-                Debug.Log("❌ normalEffect 停止 & 非アクティブ化");
-            }
+    //        if (normalEffect != null && normalEffect.gameObject.activeSelf)
+    //        {
+    //            normalEffect.Stop();
+    //            normalEffect.gameObject.SetActive(false); // **非アクティブ化**
+    //            Debug.Log("❌ normalEffect 停止 & 非アクティブ化");
+    //        }
 
-        }
-    }
+    //    }
+    //}
 }
