@@ -23,10 +23,7 @@ public class BreakerController : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.B))
         {
-            if (breaker)
-                BreakerOff();
-            else
-                BreakerOn();
+            BreakerHantei();
         }
     }
 

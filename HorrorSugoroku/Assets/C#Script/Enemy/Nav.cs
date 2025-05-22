@@ -11,6 +11,8 @@ public class Nav : MonoBehaviour
     [SerializeField]
     private Transform target;
 
+    public PlayerSaikoro playerSaikoro; 
+
     //敵の動作の種類
     public enum EnemyType { Chase, Randommove, KeepDistance }
     public EnemyType enemyType;
@@ -22,8 +24,10 @@ public class Nav : MonoBehaviour
     public int desiredDistance = 5; // 理想の距離
     public int maxDistance = 7;     // 離れすぎる距離
 
+    private bool isMovingForKeepDistance = false;// KeepDistanceの実行中フラグ
+
     private Vector3 lastPlayerPosition;
-    
+
 
     private void Start()
     {
@@ -43,6 +47,20 @@ public class Nav : MonoBehaviour
             case EnemyType.KeepDistance:
                 KeepDistance();
                 break;
+        }
+
+        // 目的地に到着したかチェックしてターン終了
+        if (enemyType == EnemyType.KeepDistance && isMovingForKeepDistance)
+        {
+            if (!agent.pathPending && agent.remainingDistance <= 0.1f)
+            {
+                if (playerSaikoro != null)
+                {
+                    Debug.Log("KeepDistance の移動完了 → FinishTurn()");
+                    playerSaikoro.FinishTurn();
+                }
+                isMovingForKeepDistance = false; // 移動完了フラグをリセット
+            }
         }
 
         //プレイヤーの位置の更新
@@ -107,20 +125,17 @@ public class Nav : MonoBehaviour
 
         float currentDistance = Vector3.Distance(transform.position, target.position);
 
-        // 距離が適正なら動かない
         if (currentDistance >= minDistance && currentDistance <= maxDistance)
         {
             if (agent.hasPath)
             {
-                agent.ResetPath(); // 目的地をリセット
+                agent.ResetPath();
             }
             return;
         }
 
-        // 敵 → プレイヤー方向のベクトルを求める
         Vector3 rawDirection = transform.position - target.position;
 
-        // 最も強い軸方向にスナップする（XまたはZのみ）
         Vector3 direction;
         if (Mathf.Abs(rawDirection.x) > Mathf.Abs(rawDirection.z))
         {
@@ -131,7 +146,6 @@ public class Nav : MonoBehaviour
             direction = new Vector3(0, 0, Mathf.Sign(rawDirection.z));
         }
 
-        // プレイヤーの位置から、方向にdesiredDistanceだけ離れたマスを目的地にする
         Vector3 snappedTargetPos = new Vector3(
             Mathf.Round(target.position.x),
             target.position.y,
@@ -140,22 +154,20 @@ public class Nav : MonoBehaviour
 
         Vector3 newPos;
 
-        // 近すぎる場合 → プレイヤーから逃げる
         if (currentDistance < minDistance)
         {
             newPos = transform.position + direction * desiredDistance;
         }
-        // 遠すぎる場合 → プレイヤーに近づく（ただしdesiredDistanceまで）
         else
         {
             newPos = snappedTargetPos + (-direction * desiredDistance);
         }
 
-        // NavMesh 上の位置を確認
         NavMeshHit hit;
         if (NavMesh.SamplePosition(newPos, out hit, 1.0f, NavMesh.AllAreas))
         {
             agent.SetDestination(hit.position);
+            isMovingForKeepDistance = true; // 移動中フラグをON
         }
     }
 }

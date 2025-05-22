@@ -12,11 +12,13 @@ public class ElevatorIdou : MonoBehaviour
     public GameObject masuB1F;
     public GameObject masuElevator;
     public GameObject elevatorCanvas;
+    public GameObject rollDiceRawImage;
     public PlayerSaikoro playerSaikoro;
     public BreakerController breakerController;
     public CameraController cameraController;
     public ElevatorController elevatorController;
     public Option option;
+    public ClickObject clickObject;
     [SerializeField] SmoothTransform PSm;
     public Image image2F;
     public Image image1F;
@@ -51,10 +53,12 @@ public class ElevatorIdou : MonoBehaviour
             Debug.Log("elevatorPanelOn");
             elevatorPanelOn = true;
             elevatorCanvas.SetActive(true);
-            cameraController.isMouseLocked = false;
-            cameraController.SetOptionOpen(true);
             Cursor.lockState = CursorLockMode.None;
             Cursor.visible = true;
+            cameraController.isMouseLocked = false;
+            cameraController.SetOptionOpen(true);
+            clickObject.enabled = false;
+            rollDiceRawImage.SetActive(false);
 
             image2F.color = new Color(255, 255, 255, 255);
             text2F.color = new Color(255, 255, 255, 255);
@@ -92,6 +96,8 @@ public class ElevatorIdou : MonoBehaviour
         cameraController.isMouseLocked = true;
         cameraController.SetOptionOpen(false);
         Cursor.lockState = CursorLockMode.Locked;
+        clickObject.enabled = true;
+        rollDiceRawImage.SetActive(true);
     }
 
     public void Idou2F()
@@ -160,7 +166,7 @@ public class ElevatorIdou : MonoBehaviour
             playerSaikoro.nextDarkMasu = masuB1F.transform;
         }
 
-        yield return new WaitForSeconds(1f);
+        yield return new WaitForSeconds(1.2f);
         Player.GetComponent<CapsuleCollider>().enabled = true;
         idou = false;
         playerOn = true;
@@ -176,6 +182,8 @@ public class ElevatorIdou : MonoBehaviour
         cameraController.isMouseLocked = true;
         cameraController.SetOptionOpen(false);
         Cursor.lockState = CursorLockMode.Locked;
+        clickObject.enabled = true;
+        rollDiceRawImage.SetActive(true);
         //Invoke(nameof(option.HideCursor), 0.02f);  // 0.02秒遅延して確実にカーソルを非表示
     }
 }
