@@ -21,7 +21,7 @@ public class ElevatorController : MonoBehaviour
     private float doorOpenDistance = 0.6f;
     private float doorSpeed = 1.0f;
     private bool isDoorOpen = false;
-    private int currentFloor = 1;
+    public int currentFloor = 1;
     private float moveSpeed = 2.0f;
     public bool isMoving = false;
     private bool isDoorMoving = false;
