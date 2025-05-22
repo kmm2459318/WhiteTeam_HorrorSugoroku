@@ -8,6 +8,7 @@ public class Key
 {
     public string keyName; // 鍵の名前
     public string keyID;   // 鍵のユニークなID
+    public int count = 2;  // 所持数（初期値1）
 }
 
 public class PlayerInventory : MonoBehaviour
@@ -122,7 +123,7 @@ public class PlayerInventory : MonoBehaviour
             kill2Text.text = $" {GetItemCount("二階の鍵")}";
 
         if (tikaText != null)
-            tikaText.text = $" {GetItemCount("地下の鍵")}";
+            tikaText.text = $" {GetItemCount("地下室の鍵")}";
     }
 
     public int GetItemCount(string itemName)
@@ -162,10 +163,12 @@ public class PlayerInventory : MonoBehaviour
 
     void Start()
     {
-        // インスペクターで設定された鍵をインベントリに追加
         foreach (var key in keys)
         {
-            AddItem(key.keyName, key.keyID);
+            for (int i = 0; i < key.count; i++)
+            {
+                AddItem(key.keyName, key.keyID + "_" + i); // IDをユニークに（重複防止）
+            }
         }
     }
 }

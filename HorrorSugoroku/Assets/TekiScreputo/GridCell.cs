@@ -236,7 +236,14 @@ public class GridCell : MonoBehaviour
                 break;
         }
     }
-
+    //void OnTriggerEnter(Collider other)
+    //{
+    //    if (other.CompareTag("Player"))
+    //    {
+    //        Debug.Log($"{name}: プレイヤーがマスに入りました");
+    //        TriggerEffect(); // エフェクトを再発動
+    //    }
+    //}
     void TriggerEffect()
     {
         Debug.Log($"TriggerEffect called with cellEffect: {cellEffect}");
@@ -261,6 +268,7 @@ public class GridCell : MonoBehaviour
         {
             Debug.Log("🟢 発動するエフェクト: DebuffCell → NormalEffect");
 
+            normalEffect.Stop(); // 明示的に停止
             if (!normalEffect.gameObject.activeSelf)
             {
                 normalEffect.gameObject.SetActive(true); // **オブジェクトを再アクティブ化**
@@ -458,26 +466,26 @@ public class GridCell : MonoBehaviour
         }
     }
 
-    void OnTriggerExit(Collider other)
-    {
-        if (other.CompareTag("Player"))
-        {
-            Debug.Log($"プレイヤーが {cellEffect} マスから離れました");
+    //void OnTriggerExit(Collider other)
+    //{
+    //    if (other.CompareTag("Player"))
+    //    {
+    //        Debug.Log($"プレイヤーが {cellEffect} マスから離れました");
 
-            if (debuffEffect != null && debuffEffect.gameObject.activeSelf)
-            {
-                debuffEffect.Stop();
-                debuffEffect.gameObject.SetActive(false); // **非アクティブ化**
-                Debug.Log("DebuffEffect を非アクティブ化しました");
-            }
+    //        if (debuffEffect != null && debuffEffect.gameObject.activeSelf)
+    //        {
+    //            debuffEffect.Stop();
+    //            debuffEffect.gameObject.SetActive(false); // **非アクティブ化**
+    //            Debug.Log("DebuffEffect を非アクティブ化しました");
+    //        }
 
-            if (normalEffect != null && normalEffect.gameObject.activeSelf)
-            {
-                normalEffect.Stop();
-                normalEffect.gameObject.SetActive(false); // **非アクティブ化**
-                Debug.Log("❌ normalEffect 停止 & 非アクティブ化");
-            }
+    //        if (normalEffect != null && normalEffect.gameObject.activeSelf)
+    //        {
+    //            normalEffect.Stop();
+    //            normalEffect.gameObject.SetActive(false); // **非アクティブ化**
+    //            Debug.Log("❌ normalEffect 停止 & 非アクティブ化");
+    //        }
 
-        }
-    }
+    //    }
+    //}
 }
