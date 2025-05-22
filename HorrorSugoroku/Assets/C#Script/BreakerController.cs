@@ -30,6 +30,14 @@ public class BreakerController : MonoBehaviour
         }
     }
 
+    public void BreakerHantei()
+    {
+        if (breaker)
+            BreakerOff();
+        else
+            BreakerOn();
+    }
+
     void BreakerOn()
     {
         breaker = true;
