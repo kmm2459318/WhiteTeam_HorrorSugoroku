@@ -98,6 +98,8 @@ public class CurseSlider : MonoBehaviour
     public GameObject Canvas34;
     public GameObject Canvas56;
 
+    public GameObject DescriptionCanvas;
+
     public TextMeshProUGUI curseText; // 呪い発動テキスト
     public Button armButton;
     public Button legButton;
@@ -284,7 +286,7 @@ public class CurseSlider : MonoBehaviour
     {
         curse1Turn = UnityEngine.Random.Range(3, 6);
         Debug.Log("呪ターン：" + curse1Turn);
-
+        DescriptionCanvas.SetActive(false);
 
         if (r == 1 || r == 2)
         {
@@ -386,6 +388,7 @@ public class CurseSlider : MonoBehaviour
             curse1Number = UnityEngine.Random.Range(1, 4);
             //Curse1Canvas.SetActive(true); // 呪いカード表示
             
+            DescriptionCanvas.SetActive(true);
             Canvas12.SetActive(true);
             Canvas34.SetActive(true);
             Canvas56.SetActive(true);
@@ -408,6 +411,7 @@ public class CurseSlider : MonoBehaviour
         {
             isCardCanvas2 = true;
             CardCanvas2.SetActive(true);
+            DescriptionCanvas.SetActive(true);
             Debug.Log("CardCanvas2 をアクティブにしました");
 
             ArmButton.interactable = !isArmButtonUsed;
