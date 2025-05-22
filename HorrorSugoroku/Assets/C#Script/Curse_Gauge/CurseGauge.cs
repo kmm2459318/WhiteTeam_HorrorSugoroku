@@ -678,7 +678,7 @@ public class CurseSlider : MonoBehaviour
         }
         if (curseAuraEffect2.activeSelf)
         {
-            curseAuraEffect2.transform.position = playerTransform.position + new Vector3(0, -0.0f, -0.3f); // 後方へ移動
+           curseAuraEffect2.transform.position = playerTransform.position + new Vector3(0, -0.7f, -0.3f); // 後方へ移動
         }
     }
     void ActivateEffect()
