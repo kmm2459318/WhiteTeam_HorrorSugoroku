@@ -13,7 +13,7 @@ public class StrongboxController : MonoBehaviour
     public int OpenNumber = 0;
     public string itemToGiveName = ""; // 開いたときに得られるアイテム名（Inspectorで設定可能）
     private PlayerInventory playerInventory;
-
+    public Animator boxAnimator; // 箱のアニメーター
     void Start()
     {
         playerInventory = FindObjectOfType<PlayerInventory>();
@@ -33,6 +33,11 @@ public class StrongboxController : MonoBehaviour
                 {
                     Debug.Log("————祝福のカギは開かれた。");
                     gameObject.tag = "Untagged";
+                    // ✅ アニメーション再生
+                    if (boxAnimator != null)
+                    {
+                        boxAnimator.SetTrigger("OrenTrigger");
+                    }
                     // アイテムを付与
                     if (playerInventory != null && !string.IsNullOrEmpty(itemToGiveName))
                     {
