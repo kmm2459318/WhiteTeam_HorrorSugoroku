@@ -663,9 +663,9 @@ public class CurseSlider : MonoBehaviour
 
         }
         Debug.Log($"現在のダッシュポイント: {dashPoint}");
-        Debug.Log($"curseAuraEffect1の位置: {curseAuraEffect1.transform.position}");
-        Debug.Log($"curseAuraEffect2の位置: {curseAuraEffect2.transform.position}");
-        Debug.Log($"プレイヤーの位置: {playerTransform.position}");
+        //Debug.Log($"curseAuraEffect1の位置: {curseAuraEffect1.transform.position}");
+        //Debug.Log($"curseAuraEffect2の位置: {curseAuraEffect2.transform.position}");
+        //Debug.Log($"プレイヤーの位置: {playerTransform.position}");
 
     }
     void LateUpdate()
@@ -678,7 +678,7 @@ public class CurseSlider : MonoBehaviour
         }
         if (curseAuraEffect2.activeSelf)
         {
-           curseAuraEffect2.transform.position = playerTransform.position + new Vector3(0, -0.7f, -0.3f); // 後方へ移動
+           curseAuraEffect2.transform.position = playerTransform.position + new Vector3(0, -0.8f, -0.3f); // 後方へ移動
         }
     }
     void ActivateEffect()
