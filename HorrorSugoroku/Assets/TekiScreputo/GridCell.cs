@@ -97,12 +97,15 @@ public class GridCell : MonoBehaviour
         //if (debuffEffect != null)
         //{
         //    debuffEffect.Stop(); // 初期状態では停止
-        //}
+        //}
 
-        if (normalEffect != null)
+        if (cellEffect != "Debuff" && normalEffect != null && normalEffect.isPlaying)
         {
-            normalEffect.Stop(); // 初期状態では停止
-        }
+            normalEffect.Stop();
+            normalEffect.Clear(); // 履歴をクリア
+        }
+
+
 
         audioSource = gameObject.AddComponent<AudioSource>();
     }
@@ -170,9 +173,10 @@ public class GridCell : MonoBehaviour
         // 通常エフェクトのチェック
         if (cellEffect != "Debuff" && normalEffect != null && normalEffect.isPlaying)
         {
-            normalEffect.Stop(); // マスを離れたらエフェクトを停止
-            normalEffect.gameObject.SetActive(false); // エフェクトを非アクティブにする
-        }
+            normalEffect.Stop();
+            // **オブジェクトを消さずに停止する**
+        }
+
         //if (cellEffect == "Debuff" && normalEffect != null)
         //{
         //    normalEffect.gameObject.SetActive(true); // **強制アクティブ化**
@@ -246,40 +250,43 @@ public class GridCell : MonoBehaviour
 
         if (cellEffect == "Event" && debuffEffect != null)
         {
-            Debug.Log("🔴 発動するエフェクト: EventEffect");
+            Debug.Log("🔴 発動するエフェクト: EventCell → DebuffEffect");
 
             if (!debuffEffect.gameObject.activeSelf)
-                debuffEffect.gameObject.SetActive(true); // **再アクティブ化**
-            //debuffEffect.Stop(true, ParticleSystemStopBehavior.StopEmittingAndClear); // 停止してクリア
-            //debuffEffect.gameObject.SetActive(false); // 強制非アクティブに
-            //debuffEffect.gameObject.SetActive(true);  // 再アクティブ化（これで再描画）
+            {
+                debuffEffect.gameObject.SetActive(true); // **オブジェクトを再アクティブ化**
+            }
+
+            debuffEffect.Stop(); // **一度停止**
             debuffEffect.Clear(); // **履歴クリア**
-            debuffEffect.Play();
+            debuffEffect.Play(); // **再生**
             PlaySound(debuffSound);
-            Debug.Log("✅ debuffEffect 再生成功");
+
+            Debug.Log($"✅ debuffEffect 状態: Active={debuffEffect.gameObject.activeSelf}, Playing={debuffEffect.isPlaying}");
         }
         else if (cellEffect == "Debuff" && normalEffect != null)
         {
-            Debug.Log("🟢 発動するエフェクト: DebuffEffect");
-            //normalEffect.Stop(true, ParticleSystemStopBehavior.StopEmittingAndClear); // 停止＆クリーン
-            //normalEffect.gameObject.SetActive(false);
-            //normalEffect.gameObject.SetActive(true);
+            Debug.Log("🟢 発動するエフェクト: DebuffCell → NormalEffect");
 
             normalEffect.Stop(); // 明示的に停止
             if (!normalEffect.gameObject.activeSelf)
-                normalEffect.gameObject.SetActive(true); // **再アクティブ化**
+            {
+                normalEffect.gameObject.SetActive(true); // **オブジェクトを再アクティブ化**
+            }
 
-            normalEffect.Clear();
-            normalEffect.Play();
+            normalEffect.Stop(); // **一度停止**
+            normalEffect.Clear(); // **履歴クリア**
+            normalEffect.Play(); // **再生**
             PlaySound(normalSound);
-            Debug.Log("✅ normalEffect 再生成功");
+
+            Debug.Log($"✅ normalEffect 状態: Active={normalEffect.gameObject.activeSelf}, Playing={normalEffect.isPlaying}");
         }
         else
         {
-            Debug.LogWarning("⚠ エフェクトが再生されませんでした！");
-            Debug.Log($"⚠ cellEffect: {cellEffect}, debuffEffect Active: {debuffEffect?.gameObject.activeSelf}, normalEffect Active: {normalEffect?.gameObject.activeSelf}");
+            Debug.LogWarning("⚠ 適切なエフェクトが再生されませんでした！");
         }
     }
+
 
     void PlaySound(AudioClip clip)
     {
@@ -291,6 +298,8 @@ public class GridCell : MonoBehaviour
         }
     }
 
+
+   
 
 
 
