@@ -39,15 +39,15 @@ public class ClickObject : MonoBehaviour
     public ElevatorIdou elevatorIdou;
     public bool LookElevatorDoor = false;
 
-    
+
     [System.Serializable]
     public class ItemIconEntry
     {
         public string itemName;
         public Sprite icon;
     }
-   
-  
+
+
     [SerializeField] private TextMeshProUGUI itemNameText;
     [SerializeField] private List<ItemIconEntry> itemIcons = new List<ItemIconEntry>();
     [SerializeField] private Image uiIconImage; // ← UI上に表示するImageコンポーネント（Canvas内）
@@ -106,7 +106,7 @@ public class ClickObject : MonoBehaviour
                             }
                             else if (hit.collider.CompareTag("Breaker"))
                             {
-                                breakerController.BreakerHantei(); 
+                                breakerController.BreakerHantei();
                             }
                             // 🎲 ランダムでスクリプトA または B を実行
                             // int randomChoice = Random.Range(0, 4);
@@ -143,7 +143,7 @@ public class ClickObject : MonoBehaviour
                                 // Destroy(hit.collider.gameObject);
 
                             }
-                                // Destroy(hit.collider.gameObject);
+                            // Destroy(hit.collider.gameObject);
                             //}
                         }
                         else
@@ -207,7 +207,7 @@ public class ClickObject : MonoBehaviour
         yield return new WaitForSeconds(0.1f); // 多重クリック防止時間
         hasClicked = false;
     }
-   
+
     void ExecuteScriptA(GameObject clickedItem)
     {
         string keyName = clickedItem.name;
@@ -244,7 +244,7 @@ public class ClickObject : MonoBehaviour
             StartCoroutine(CooldownAfterAddItem());
         }
     }
-   
+
     void ExecuteScriptC(GameObject clickedItem)
     {
 
@@ -274,11 +274,11 @@ public class ClickObject : MonoBehaviour
         else
         {
             // クールダウン中で既に所持していたらスキップ
-        if (isCooldown && playerInventory.HasItem(selected))
-        {
-            Debug.Log($"{selected} はすでに所持中＆クールダウン中 → スキップ");
-            return;
-        }
+            if (isCooldown && playerInventory.HasItem(selected))
+            {
+                Debug.Log($"{selected} はすでに所持中＆クールダウン中 → スキップ");
+                return;
+            }
             string itemID = selected + "_" + Time.time;
             if (!isCooldown || !playerInventory.HasItem(selected))
             {
@@ -341,7 +341,7 @@ public class ClickObject : MonoBehaviour
             uiIconImage.gameObject.SetActive(false); // アイコン画像を非表示
         }
 
-       
+
     }
     IEnumerator HideCanvasAfterSeconds(float seconds)
     {
@@ -380,7 +380,7 @@ public class ClickObject : MonoBehaviour
         else
         {
 
-           Debug.Log("人形はもう持てません。");
+            Debug.Log("人形はもう持てません。");
         }
     }
 
@@ -409,8 +409,8 @@ public class ClickObject : MonoBehaviour
     }
     void OtherScript()
     {
-        int randomChoice = Random.Range(0,4);
-        if(randomChoice == 0 || randomChoice == 1)
+        int randomChoice = Random.Range(0, 4);
+        if (randomChoice == 0 || randomChoice == 1)
         {
             cutInImage.gameObject.SetActive(true); // 画像を表示
         }
