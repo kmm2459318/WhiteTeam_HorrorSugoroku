@@ -6,7 +6,9 @@ public class Option : MonoBehaviour
     public GameManager gameManager;
     public CameraController cameraController;
     public ElevatorIdou elevatorIdou;
+    public ClickObject clickObject;
 
+    public GameObject rollDiceRawImage;
     public GameObject OptionCanvas; // オプション画面
 
     public Slider VolumeSlider; // 音量バー
@@ -74,6 +76,8 @@ public class Option : MonoBehaviour
             Cursor.visible = true;
             cameraController.isMouseLocked = false;
             cameraController.SetOptionOpen(true);
+            clickObject.enabled = false;
+            rollDiceRawImage.SetActive(false);
             Time.timeScale = 0;
         }
         else
@@ -89,6 +93,9 @@ public class Option : MonoBehaviour
 
                 // マウスをロックし、確実にカーソルを非表示にする
                 Cursor.lockState = CursorLockMode.Locked;
+
+                clickObject.enabled = true;
+                rollDiceRawImage.SetActive(true);
                 Invoke(nameof(HideCursor), 0.02f);  // 0.02秒遅延して確実にカーソルを非表示
             }
                 Time.timeScale = 1;
