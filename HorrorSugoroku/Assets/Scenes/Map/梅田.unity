@@ -882,11 +882,13 @@ MonoBehaviour:
   gameManager: {fileID: 506767965}
   keyRandomizer: {fileID: 0}
   curse: {fileID: 654290322}
+  raycastCamera: {fileID: 0}
   Canvas: {fileID: 3595400160599029979}
   cutInImage: {fileID: 0}
   itemCooldownDuration: 5
   randomItemCooldownTime: 5
   keyCooldownTime: 10
+  breakerController: {fileID: 0}
   elevatorIdou: {fileID: 0}
   LookElevatorDoor: 0
   itemNameText: {fileID: 0}
@@ -1386,14 +1388,6 @@ PrefabInstance:
       propertyPath: playerSaikoro
       value: 
       objectReference: {fileID: 1394873662}
-    - target: {fileID: 1847097321965816600, guid: b49b9a8db2c43234c9f54eceb2d87d1a, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1847097321965816600, guid: b49b9a8db2c43234c9f54eceb2d87d1a, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 2717785593860141569, guid: b49b9a8db2c43234c9f54eceb2d87d1a, type: 3}
       propertyPath: Camera
       value: 
@@ -1434,38 +1428,6 @@ PrefabInstance:
       propertyPath: smoothTransform
       value: 
       objectReference: {fileID: 6290932133941840485}
-    - target: {fileID: 3680005859544456489, guid: b49b9a8db2c43234c9f54eceb2d87d1a, type: 3}
-      propertyPath: m_BoxSize.x
-      value: 1.97
-      objectReference: {fileID: 0}
-    - target: {fileID: 3680005859544456489, guid: b49b9a8db2c43234c9f54eceb2d87d1a, type: 3}
-      propertyPath: m_BoxSize.y
-      value: 2.25
-      objectReference: {fileID: 0}
-    - target: {fileID: 3680005859544456489, guid: b49b9a8db2c43234c9f54eceb2d87d1a, type: 3}
-      propertyPath: m_BoxSize.z
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3680005859544456489, guid: b49b9a8db2c43234c9f54eceb2d87d1a, type: 3}
-      propertyPath: m_Importance
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3680005859544456489, guid: b49b9a8db2c43234c9f54eceb2d87d1a, type: 3}
-      propertyPath: m_BoxOffset.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3680005859544456489, guid: b49b9a8db2c43234c9f54eceb2d87d1a, type: 3}
-      propertyPath: m_BoxOffset.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3680005859544456489, guid: b49b9a8db2c43234c9f54eceb2d87d1a, type: 3}
-      propertyPath: m_TimeSlicingMode
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3680005859544456489, guid: b49b9a8db2c43234c9f54eceb2d87d1a, type: 3}
-      propertyPath: m_IntensityMultiplier
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 3766404014780778645, guid: b49b9a8db2c43234c9f54eceb2d87d1a, type: 3}
       propertyPath: playerSaikoro
       value: 
@@ -1582,18 +1544,10 @@ PrefabInstance:
       propertyPath: targetCamera
       value: 
       objectReference: {fileID: 1048280282}
-    - target: {fileID: 8305689686068219545, guid: b49b9a8db2c43234c9f54eceb2d87d1a, type: 3}
-      propertyPath: m_Name
-      value: Reflection Probe
-      objectReference: {fileID: 0}
     - target: {fileID: 8324456572723921254, guid: b49b9a8db2c43234c9f54eceb2d87d1a, type: 3}
       propertyPath: playerSaikoro
       value: 
       objectReference: {fileID: 1394873662}
-    - target: {fileID: 8436889819421683674, guid: b49b9a8db2c43234c9f54eceb2d87d1a, type: 3}
-      propertyPath: requiredItem
-      value: "\u5730\u4E0B\u306E\u9375"
-      objectReference: {fileID: 0}
     - target: {fileID: 8552952589719890789, guid: b49b9a8db2c43234c9f54eceb2d87d1a, type: 3}
       propertyPath: playerSaikoro
       value: 
