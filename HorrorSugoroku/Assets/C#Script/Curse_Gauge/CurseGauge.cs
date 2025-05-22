@@ -98,6 +98,8 @@ public class CurseSlider : MonoBehaviour
     public GameObject Canvas34;
     public GameObject Canvas56;
 
+    public GameObject DescriptionCanvas;
+
     public TextMeshProUGUI curseText; // 呪い発動テキスト
     public Button armButton;
     public Button legButton;
@@ -105,7 +107,8 @@ public class CurseSlider : MonoBehaviour
 
     public GameObject curseAuraEffect1;
     public GameObject curseAuraEffect2;
-    [SerializeField] private Vector3 effectOffset = new Vector3(0, -0.5f, 0); // インスペクターから調整できるオフセット
+    [SerializeField] private Vector3 effectOffset = new Vector3(0, -1.5f, -0.5f);
+
 
     void Start()
     {
@@ -155,7 +158,9 @@ public class CurseSlider : MonoBehaviour
         if (curseAuraEffect1 != null) curseAuraEffect1.SetActive(false);
         if (curseAuraEffect2 != null) curseAuraEffect2.SetActive(false);
 
+
     }
+
 
     private void ExtraButtonAction()
     {
@@ -193,7 +198,23 @@ public class CurseSlider : MonoBehaviour
                 cursegiveButton.onClick.Invoke();
                 isCardCanvas1 = false;
             }
-            
+
+            if (curseAuraEffect1.activeSelf)
+            {
+                Vector3 currentPosition = curseAuraEffect1.transform.position;
+                currentPosition.y -= 1.0f; // y座標を強制的に低く設定
+                curseAuraEffect1.transform.position = currentPosition;
+
+                Debug.Log($"curseAuraEffect1 の位置: {curseAuraEffect1.transform.position}");
+            }
+
+            if (curseAuraEffect2.activeSelf)
+            {
+                Vector3 currentPosition = curseAuraEffect2.transform.position;
+                currentPosition.y -= 1.0f; // y座標を強制的に低く設定
+                curseAuraEffect2.transform.position = currentPosition;
+            }
+
 
 
         }
@@ -278,13 +299,28 @@ public class CurseSlider : MonoBehaviour
             Curse2Canvas.SetActive(false);
             Curse3Canvas.SetActive(false);
         }
-    }
+        if (curseAuraEffect1.activeSelf)
+        {
+            curseAuraEffect1.transform.position = effectOffset;
+        }
 
+    }
+    void FixedUpdate()
+    {
+        if (curseAuraEffect1.activeSelf)
+        {
+            curseAuraEffect1.transform.position = playerTransform.position + effectOffset;
+        }
+        if (curseAuraEffect2.activeSelf)
+        {
+            curseAuraEffect2.transform.position = playerTransform.position + effectOffset;
+        }
+    }
     public void Curse1(int r)
     {
         curse1Turn = UnityEngine.Random.Range(3, 6);
         Debug.Log("呪ターン：" + curse1Turn);
-
+        DescriptionCanvas.SetActive(false);
 
         if (r == 1 || r == 2)
         {
@@ -386,6 +422,7 @@ public class CurseSlider : MonoBehaviour
             curse1Number = UnityEngine.Random.Range(1, 4);
             //Curse1Canvas.SetActive(true); // 呪いカード表示
             
+            DescriptionCanvas.SetActive(true);
             Canvas12.SetActive(true);
             Canvas34.SetActive(true);
             Canvas56.SetActive(true);
@@ -408,6 +445,7 @@ public class CurseSlider : MonoBehaviour
         {
             isCardCanvas2 = true;
             CardCanvas2.SetActive(true);
+            DescriptionCanvas.SetActive(true);
             Debug.Log("CardCanvas2 をアクティブにしました");
 
             ArmButton.interactable = !isArmButtonUsed;
@@ -601,24 +639,33 @@ public class CurseSlider : MonoBehaviour
     private void UpdateCurseEffect()
     {
         // ダッシュポイントが 100 ～ 199 の間なら `curseAuraEffect1` を表示
-        if (dashPoint >= 100 && dashPoint <= 199)
+        if (dashPoint >= 1 && dashPoint <= 19)
         {
             curseAuraEffect1.SetActive(true);
             curseAuraEffect2.SetActive(false); // もう片方を非表示
+            Debug.Log("curseAuraEffect1が流れました。");
+
         }
         // ダッシュポイントが 200 以上なら `curseAuraEffect2` を表示
-        else if (dashPoint >= 200)
+        else if (dashPoint >= 20)
         {
             curseAuraEffect1.SetActive(false); // もう片方を非表示
             curseAuraEffect2.SetActive(true);
+            Debug.Log("curseAuraEffect2が流れました。");
+
         }
         // それ以外の時は両方非表示
         else
         {
             curseAuraEffect1.SetActive(false);
             curseAuraEffect2.SetActive(false);
+            Debug.Log("呪いエフェクトは非表示状態です。");
+
         }
         Debug.Log($"現在のダッシュポイント: {dashPoint}");
+        Debug.Log($"curseAuraEffect1の位置: {curseAuraEffect1.transform.position}");
+        Debug.Log($"curseAuraEffect2の位置: {curseAuraEffect2.transform.position}");
+        Debug.Log($"プレイヤーの位置: {playerTransform.position}");
 
     }
     void LateUpdate()
@@ -631,7 +678,20 @@ public class CurseSlider : MonoBehaviour
         }
         if (curseAuraEffect2.activeSelf)
         {
-            curseAuraEffect2.transform.position = playerTransform.position + new Vector3(0, -0.0f, -0.3f); // 後方へ移動
+           curseAuraEffect2.transform.position = playerTransform.position + new Vector3(0, -0.7f, -0.3f); // 後方へ移動
+        }
+    }
+    void ActivateEffect()
+    {
+        if (curseAuraEffect1 != null)
+        {
+            curseAuraEffect1.SetActive(true);
+            curseAuraEffect1.GetComponent<ParticleSystem>().Play();
+            Debug.Log("curseAuraEffect1 が再生されました");
+        }
+        else
+        {
+            Debug.LogError("curseAuraEffect1 がアタッチされていません！");
         }
     }
 }
