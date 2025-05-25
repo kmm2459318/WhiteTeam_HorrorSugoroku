@@ -299,6 +299,10 @@ public class CurseSlider : MonoBehaviour
             Curse2Canvas.SetActive(false);
             Curse3Canvas.SetActive(false);
         }
+        //if (curseAuraEffect1.activeSelf)
+        //{
+        //    curseAuraEffect1.transform.position = effectOffset;
+        //}
 
     }
     void FixedUpdate()
