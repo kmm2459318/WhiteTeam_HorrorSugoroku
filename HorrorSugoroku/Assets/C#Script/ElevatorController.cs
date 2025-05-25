@@ -21,7 +21,7 @@ public class ElevatorController : MonoBehaviour
     private float doorOpenDistance = 0.6f;
     private float doorSpeed = 1.0f;
     private bool isDoorOpen = false;
-    private int currentFloor = 1;
+    public int currentFloor = 1;
     private float moveSpeed = 2.0f;
     public bool isMoving = false;
     private bool isDoorMoving = false;
@@ -43,14 +43,14 @@ public class ElevatorController : MonoBehaviour
     {
         if (isMoving || isDoorMoving) return;
 
-        //if (Input.GetKeyDown(KeyCode.O))
-        //{
-        //    StartCoroutine(ToggleDoors());
-        //}
+        if (Input.GetKeyDown(KeyCode.O))
+        {
+            StartCoroutine(ToggleDoors());
+        }
 
-        //if (Input.GetKeyDown(KeyCode.Alpha1)) StartCoroutine(MoveToFloor(0));
-        //if (Input.GetKeyDown(KeyCode.Alpha2)) StartCoroutine(MoveToFloor(1));
-        //if (Input.GetKeyDown(KeyCode.Alpha3)) StartCoroutine(MoveToFloor(2));
+        if (Input.GetKeyDown(KeyCode.Alpha1)) StartCoroutine(MoveToFloor(0));
+        if (Input.GetKeyDown(KeyCode.Alpha2)) StartCoroutine(MoveToFloor(1));
+        if (Input.GetKeyDown(KeyCode.Alpha3)) StartCoroutine(MoveToFloor(2));
     }
 
     private float maxSensorOffset = 0.02f; // 扉との最大ずれを小さく
