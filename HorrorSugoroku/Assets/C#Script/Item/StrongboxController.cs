@@ -14,6 +14,8 @@ public class StrongboxController : MonoBehaviour
     public string itemToGiveName = ""; // 開いたときに得られるアイテム名（Inspectorで設定可能）
     private PlayerInventory playerInventory;
     public Animator boxAnimator; // 箱のアニメーター
+    public TextMeshProUGUI messageText;
+
     void Start()
     {
         playerInventory = FindObjectOfType<PlayerInventory>();
@@ -29,33 +31,38 @@ public class StrongboxController : MonoBehaviour
         {
             if (diceController.strongBoxResult != 0)
             {
+                textCanvas.SetActive(true);
+
                 if (OpenNumber <= diceController.strongBoxResult)
                 {
                     Debug.Log("————祝福のカギは開かれた。");
+                    messageText.text = "————祝福のカギは開かれた。"; // ← 追加
                     gameObject.tag = "Untagged";
-                    // ✅ アニメーション再生
+
                     if (boxAnimator != null)
                     {
                         boxAnimator.SetTrigger("OrenTrigger");
                     }
-                    // アイテムを付与
+
                     if (playerInventory != null && !string.IsNullOrEmpty(itemToGiveName))
                     {
                         string uniqueID = itemToGiveName + "_" + Time.time;
                         playerInventory.AddItem(itemToGiveName, uniqueID);
                         Debug.Log($"祝福箱から「{itemToGiveName}」を入手しました！");
+                        messageText.text = $"祝福箱から「{itemToGiveName}」を入手しました！"; // ← 追加
                     }
                 }
                 else
                 {
                     Debug.Log("残念無念、また来世ー！");
+                    messageText.text = "残念無念、また来世ー！"; // ← 追加
                     OpenNumber--;
                 }
 
                 diceController.strongBoxResult = 0;
                 diceController.boxDice = false;
                 thisBoxOn = false;
-                textCanvas.SetActive(false);
+                //textCanvas.SetActive(false);
             }
         }
     }
@@ -71,5 +78,10 @@ public class StrongboxController : MonoBehaviour
             textCanvas.SetActive(true);
             textbox.GetComponent<TextMeshProUGUI>().text = "サイコロを振り、" + OpenNumber + "以上で開錠。";
         }
+    }
+
+    public void FalseCanvas()
+    {
+        textCanvas.SetActive(false);
     }
 }
