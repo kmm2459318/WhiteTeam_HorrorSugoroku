@@ -23,6 +23,7 @@ public class Door : MonoBehaviour
     public float messageDisplayTime = 2f; // メッセージを表示する時間（秒）
 
     public GameObject hiddenArea; // 表示したいマス（ドアが開くと表示）
+    public GameObject targetObject; // 消したい対象
     public Transform windowTransform1; // 窓1のTransform
     public Transform windowTransform2; // 窓2のTransform
 
@@ -236,6 +237,11 @@ public class Door : MonoBehaviour
         OpenDoor(); // ドアを開く
         playerInventory.UseItem(requiredItem); // 鍵をインベントリから削除
         isUnlocked = true; // ドアが開いたことを記録
+        if (targetObject != null)
+        {
+            targetObject.SetActive(false);
+        }
+
     }
 
     void OpenDoor()
