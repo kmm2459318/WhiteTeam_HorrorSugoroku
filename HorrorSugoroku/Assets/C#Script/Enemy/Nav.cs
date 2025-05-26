@@ -25,11 +25,22 @@ public class Nav : MonoBehaviour
 
     private void Start()
     {
+        agent.obstacleAvoidanceType = ObstacleAvoidanceType.NoObstacleAvoidance;
+        agent.avoidancePriority = 50;
         lastPlayerPosition = target.position;
+
+        // NavMeshAgentの自動移動・回転制御を無効にする
+        agent.updatePosition = false;
+
+        agent.avoidancePriority = 0;
+        agent.radius = 0.1f;
     }
 
     private void Update()
     {
+        // 自分で位置を更新（他エージェントを完全に無視してすり抜ける）
+        transform.position = Vector3.MoveTowards(transform.position, agent.nextPosition, agent.speed * Time.deltaTime);
+
         switch (enemyType)
         {
             case EnemyType.Chase:
