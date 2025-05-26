@@ -267,6 +267,7 @@ public class ClickObject : MonoBehaviour
 
         if (selected == "何もない")
         {
+            ShowItemUIAndPrefab(selected);
             Debug.Log("🎲 ランダム結果：何もない → インベントリには追加されません。");
             return;
         }
