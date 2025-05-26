@@ -25,6 +25,10 @@ public class SceneChanger3D : MonoBehaviour
 
     public CurseSlider curseslider;
 
+    [SerializeField] private GameObject substituteEffect; // 身代わり人形のエフェクトオブジェクト
+
+    [SerializeField] private AudioClip substituteSound; // 身代わり人形のエフェクト音
+    private AudioSource effectAudioSource;
     private void Start()
     {
         // AudioSourceの初期化
@@ -39,9 +43,15 @@ public class SceneChanger3D : MonoBehaviour
 
         // 最初に音が鳴らないように、音を再生しない
         audioSource.Stop();
+        effectAudioSource = GetComponent<AudioSource>();
+        if (effectAudioSource == null)
+        {
+            effectAudioSource = gameObject.AddComponent<AudioSource>(); // AudioSourceを追加
+        }
+
     }
 
-  
+
     //private void OnCollisionEnter(Collision collision)
     //{
     //    Debug.Log("AAAAAAAAAAAAAA");
@@ -66,47 +76,62 @@ public class SceneChanger3D : MonoBehaviour
             CurseGaugeUP();
         }
     }
-   
+
 
     // ゲームオーバー処理を判定するメソッド
     public void HandleGameOver()
     {
         if (substitutedollController.useCount > 0)
         {
-            // 身代わり人形がある場合は回避
-            hasSubstituteDoll = false; // 身代わり人形を消費
+            hasSubstituteDoll = false;
             Debug.Log("身代わり人形が発動！ゲームオーバーを回避！");
             substitutedollController.useCount--;
+
+            // **メソッドが存在するか確認しつつ呼び出し**
+            StartCoroutine(PlaySubstituteEffect());
+
             atackEnemy.transform.position = new Vector3(0f, 0f, 0.1016667f);
         }
-        else              
+        else
         {
-            StartCoroutine(ShowCutInAndGoToGameover()); // ゲームオーバー処理を実行
-        }                                              
+            StartCoroutine(ShowCutInAndGoToGameover());
+        }
     }
 
     // カットイン画像を表示してからゲームオーバーシーンに遷移する処理
     private IEnumerator ShowCutInAndGoToGameover()
     {
-        isGameOver = true;
+        isGameOver = true; // 重複処理防止用フラグ
 
         SceneManager.LoadScene("Jump Scare");
 
-        HideAllUI();
+        //jumpScareAnimation.StartAnimation();
+        // 他のUI要素（テキストなど）を非表示にする
+        HideAllUI(); // UI非表示処理を実行
 
-        if (gameOverSound != null && audioSource != null)
-        {
-            audioSource.clip = gameOverSound;
-            audioSource.Play();
-        }
-
-        yield return new WaitForSeconds(cutInDuration);
-
+        // カットイン画像を表示
         if (cutInImage != null)
         {
-            // cutInImage.gameObject.SetActive(false);
+            cutInImage.gameObject.SetActive(true); // 画像を表示
+        }
+                                                                 
+        // ゲームオーバーサウンドを再生
+        if (gameOverSound != null && audioSource != null)
+        {
+            audioSource.clip = gameOverSound; // サウンドを設定
+            audioSource.Play(); // 音を鳴らす
+        }
+                                                                 
+        // 指定された時間だけ待機
+        yield return new WaitForSeconds(cutInDuration);
+
+        // カットイン画像を非表示にする
+        if (cutInImage != null)
+        {
+            // cutInImage.gameObject.SetActive(false); // 画像を非表示
         }
 
+        // ゲームオーバーシーンへ遷移
         SceneManager.LoadScene("Gameover");
     }
 
@@ -141,5 +166,23 @@ public class SceneChanger3D : MonoBehaviour
         // 例:
         // if (someText != null) someText.gameObject.SetActive(false);
         // if (someButton != null) someButton.gameObject.SetActive(false);
+    }
+    private IEnumerator PlaySubstituteEffect()
+    {
+        if (substituteEffect != null)
+        {
+            substituteEffect.SetActive(true); // エフェクト表示
+
+            // **音を再生**
+            if (substituteSound != null && effectAudioSource != null)
+            {
+                effectAudioSource.clip = substituteSound;
+                effectAudioSource.Play();
+            }
+
+            yield return new WaitForSeconds(2.0f); // 2秒待機
+
+            substituteEffect.SetActive(false); // エフェクト非表示
+        }
     }
 }
