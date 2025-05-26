@@ -656,11 +656,6 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 7020568264991563336, guid: 94164073e6c8c9c4f9079377efebf116, type: 3}
   m_PrefabInstance: {fileID: 3595400160599029975}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &1146833780 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 4086078510626038120, guid: 43b5d38b7b5cb0a40a58a771554554ac, type: 3}
-  m_PrefabInstance: {fileID: 6290932133941840481}
-  m_PrefabAsset: {fileID: 0}
 --- !u!224 &1169236043 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 3422772427370473922, guid: 94164073e6c8c9c4f9079377efebf116, type: 3}
@@ -675,6 +670,11 @@ GameObject:
 GameObject:
   m_CorrespondingSourceObject: {fileID: 5227217235030043101, guid: 2d67a601cc3509b468abd068b5a6dda3, type: 3}
   m_PrefabInstance: {fileID: 951618888303309364}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &1232372792 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5265199450140952936, guid: 1aeb8873dee6ae442a8fd4e64f5037ad, type: 3}
+  m_PrefabInstance: {fileID: 4366062781637540006}
   m_PrefabAsset: {fileID: 0}
 --- !u!114 &1242808344 stripped
 MonoBehaviour:
@@ -808,6 +808,11 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: -90, y: 0, z: 0}
+--- !u!1 &1387663298 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3599315327172423407, guid: 1aeb8873dee6ae442a8fd4e64f5037ad, type: 3}
+  m_PrefabInstance: {fileID: 4366062781637540006}
+  m_PrefabAsset: {fileID: 0}
 --- !u!114 &1394873662 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 4313278066094003667, guid: 43b5d38b7b5cb0a40a58a771554554ac, type: 3}
@@ -882,11 +887,13 @@ MonoBehaviour:
   gameManager: {fileID: 506767965}
   keyRandomizer: {fileID: 0}
   curse: {fileID: 654290322}
+  raycastCamera: {fileID: 0}
   Canvas: {fileID: 3595400160599029979}
   cutInImage: {fileID: 0}
   itemCooldownDuration: 5
   randomItemCooldownTime: 5
   keyCooldownTime: 10
+  breakerController: {fileID: 0}
   elevatorIdou: {fileID: 0}
   LookElevatorDoor: 0
   itemNameText: {fileID: 0}
@@ -1143,6 +1150,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d0e91c2b68d5ef147844c27f3add5231, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &1694664958 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2343484115396658107, guid: 1aeb8873dee6ae442a8fd4e64f5037ad, type: 3}
+  m_PrefabInstance: {fileID: 4366062781637540006}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &1721388022 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8602840148094389001, guid: 1aeb8873dee6ae442a8fd4e64f5037ad, type: 3}
+  m_PrefabInstance: {fileID: 4366062781637540006}
+  m_PrefabAsset: {fileID: 0}
 --- !u!114 &1737980899 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 2694920624086775280, guid: a67a335d1fe17c64d818e030e2b7ab3b, type: 3}
@@ -1179,11 +1196,6 @@ GameObject:
 GameObject:
   m_CorrespondingSourceObject: {fileID: 4764227636412069365, guid: 94164073e6c8c9c4f9079377efebf116, type: 3}
   m_PrefabInstance: {fileID: 3595400160599029975}
-  m_PrefabAsset: {fileID: 0}
---- !u!1 &1860496495 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 665727665946656225, guid: 43b5d38b7b5cb0a40a58a771554554ac, type: 3}
-  m_PrefabInstance: {fileID: 6290932133941840481}
   m_PrefabAsset: {fileID: 0}
 --- !u!114 &1863148273 stripped
 MonoBehaviour:
@@ -2317,6 +2329,14 @@ PrefabInstance:
       propertyPath: target
       value: 
       objectReference: {fileID: 6290932133941840486}
+    - target: {fileID: 517605660747435636, guid: 1aeb8873dee6ae442a8fd4e64f5037ad, type: 3}
+      propertyPath: enemyType
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 517605660747435636, guid: 1aeb8873dee6ae442a8fd4e64f5037ad, type: 3}
+      propertyPath: playerSaikoro
+      value: 
+      objectReference: {fileID: 1394873662}
     - target: {fileID: 762465158098217774, guid: 1aeb8873dee6ae442a8fd4e64f5037ad, type: 3}
       propertyPath: curse
       value: 
@@ -2417,6 +2437,10 @@ PrefabInstance:
       propertyPath: playerCloseMirror
       value: 
       objectReference: {fileID: 6290932133941840483}
+    - target: {fileID: 2343484115396658107, guid: 1aeb8873dee6ae442a8fd4e64f5037ad, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2372853929537274613, guid: 1aeb8873dee6ae442a8fd4e64f5037ad, type: 3}
       propertyPath: gameManager
       value: 
@@ -2489,6 +2513,22 @@ PrefabInstance:
       propertyPath: player
       value: 
       objectReference: {fileID: 6290932133941840484}
+    - target: {fileID: 3593785475656932288, guid: 1aeb8873dee6ae442a8fd4e64f5037ad, type: 3}
+      propertyPath: curse
+      value: 
+      objectReference: {fileID: 654290322}
+    - target: {fileID: 3593785475656932288, guid: 1aeb8873dee6ae442a8fd4e64f5037ad, type: 3}
+      propertyPath: player
+      value: 
+      objectReference: {fileID: 1394873662}
+    - target: {fileID: 3593785475656932288, guid: 1aeb8873dee6ae442a8fd4e64f5037ad, type: 3}
+      propertyPath: gameManager
+      value: 
+      objectReference: {fileID: 506767965}
+    - target: {fileID: 3599315327172423407, guid: 1aeb8873dee6ae442a8fd4e64f5037ad, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3867531231903243299, guid: 1aeb8873dee6ae442a8fd4e64f5037ad, type: 3}
       propertyPath: curse
       value: 
@@ -2501,6 +2541,10 @@ PrefabInstance:
       propertyPath: gameManager
       value: 
       objectReference: {fileID: 506767965}
+    - target: {fileID: 4005312916382846208, guid: 1aeb8873dee6ae442a8fd4e64f5037ad, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4006067528229827549, guid: 1aeb8873dee6ae442a8fd4e64f5037ad, type: 3}
       propertyPath: gameManager
       value: 
@@ -2509,10 +2553,30 @@ PrefabInstance:
       propertyPath: gameManager
       value: 
       objectReference: {fileID: 506767965}
+    - target: {fileID: 4160681064247673471, guid: 1aeb8873dee6ae442a8fd4e64f5037ad, type: 3}
+      propertyPath: target
+      value: 
+      objectReference: {fileID: 6290932133941840486}
+    - target: {fileID: 4160681064247673471, guid: 1aeb8873dee6ae442a8fd4e64f5037ad, type: 3}
+      propertyPath: enemyType
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4160681064247673471, guid: 1aeb8873dee6ae442a8fd4e64f5037ad, type: 3}
+      propertyPath: playerSaikoro
+      value: 
+      objectReference: {fileID: 1394873662}
     - target: {fileID: 4214699859676111110, guid: 1aeb8873dee6ae442a8fd4e64f5037ad, type: 3}
       propertyPath: target
       value: 
       objectReference: {fileID: 6290932133941840486}
+    - target: {fileID: 4214699859676111110, guid: 1aeb8873dee6ae442a8fd4e64f5037ad, type: 3}
+      propertyPath: enemyType
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4214699859676111110, guid: 1aeb8873dee6ae442a8fd4e64f5037ad, type: 3}
+      propertyPath: playerSaikoro
+      value: 
+      objectReference: {fileID: 1394873662}
     - target: {fileID: 4321377886757895109, guid: 1aeb8873dee6ae442a8fd4e64f5037ad, type: 3}
       propertyPath: target
       value: 
@@ -2549,6 +2613,10 @@ PrefabInstance:
       propertyPath: player
       value: 
       objectReference: {fileID: 6290932133941840484}
+    - target: {fileID: 5265199450140952936, guid: 1aeb8873dee6ae442a8fd4e64f5037ad, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5383969261496957241, guid: 1aeb8873dee6ae442a8fd4e64f5037ad, type: 3}
       propertyPath: gameManager
       value: 
@@ -2581,10 +2649,26 @@ PrefabInstance:
       propertyPath: target
       value: 
       objectReference: {fileID: 6290932133941840486}
+    - target: {fileID: 6295437793175586838, guid: 1aeb8873dee6ae442a8fd4e64f5037ad, type: 3}
+      propertyPath: enemyType
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6295437793175586838, guid: 1aeb8873dee6ae442a8fd4e64f5037ad, type: 3}
+      propertyPath: playerSaikoro
+      value: 
+      objectReference: {fileID: 1394873662}
     - target: {fileID: 6745212111255759622, guid: 1aeb8873dee6ae442a8fd4e64f5037ad, type: 3}
       propertyPath: target
       value: 
       objectReference: {fileID: 6290932133941840486}
+    - target: {fileID: 6745212111255759622, guid: 1aeb8873dee6ae442a8fd4e64f5037ad, type: 3}
+      propertyPath: enemyType
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6745212111255759622, guid: 1aeb8873dee6ae442a8fd4e64f5037ad, type: 3}
+      propertyPath: playerSaikoro
+      value: 
+      objectReference: {fileID: 1394873662}
     - target: {fileID: 6851524814588107832, guid: 1aeb8873dee6ae442a8fd4e64f5037ad, type: 3}
       propertyPath: gameManager
       value: 
@@ -2641,6 +2725,10 @@ PrefabInstance:
       propertyPath: player
       value: 
       objectReference: {fileID: 6290932133941840484}
+    - target: {fileID: 8602840148094389001, guid: 1aeb8873dee6ae442a8fd4e64f5037ad, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8846006290376633345, guid: 1aeb8873dee6ae442a8fd4e64f5037ad, type: 3}
       propertyPath: curse
       value: 
@@ -2889,6 +2977,22 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 917800803606982711}
     - target: {fileID: 6909762398967604565, guid: 43b5d38b7b5cb0a40a58a771554554ac, type: 3}
+      propertyPath: 'enemies.Array.data[1]'
+      value: 
+      objectReference: {fileID: 1721388022}
+    - target: {fileID: 6909762398967604565, guid: 43b5d38b7b5cb0a40a58a771554554ac, type: 3}
+      propertyPath: 'enemies.Array.data[2]'
+      value: 
+      objectReference: {fileID: 1694664958}
+    - target: {fileID: 6909762398967604565, guid: 43b5d38b7b5cb0a40a58a771554554ac, type: 3}
+      propertyPath: 'enemies.Array.data[3]'
+      value: 
+      objectReference: {fileID: 1387663298}
+    - target: {fileID: 6909762398967604565, guid: 43b5d38b7b5cb0a40a58a771554554ac, type: 3}
+      propertyPath: 'enemies.Array.data[4]'
+      value: 
+      objectReference: {fileID: 1232372792}
+    - target: {fileID: 6909762398967604565, guid: 43b5d38b7b5cb0a40a58a771554554ac, type: 3}
       propertyPath: substitutedollController
       value: 
       objectReference: {fileID: 7570070664202001924}
@@ -2932,6 +3036,10 @@ PrefabInstance:
       propertyPath: itemNameText
       value: 
       objectReference: {fileID: 1992071788}
+    - target: {fileID: 7776942237698028930, guid: 43b5d38b7b5cb0a40a58a771554554ac, type: 3}
+      propertyPath: itemIcons.Array.data[2].icon
+      value: 
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -3216,7 +3324,7 @@ PrefabInstance:
     - target: {fileID: 8276875798039258901, guid: a4250938d1fd4b24ca9e7db4eac1d741, type: 3}
       propertyPath: curseAuraEffect
       value: 
-      objectReference: {fileID: 1146833780}
+      objectReference: {fileID: 0}
     - target: {fileID: 8276875798039258901, guid: a4250938d1fd4b24ca9e7db4eac1d741, type: 3}
       propertyPath: playerTransform
       value: 
@@ -3224,11 +3332,11 @@ PrefabInstance:
     - target: {fileID: 8276875798039258901, guid: a4250938d1fd4b24ca9e7db4eac1d741, type: 3}
       propertyPath: curseAuraEffect1
       value: 
-      objectReference: {fileID: 1860496495}
+      objectReference: {fileID: 0}
     - target: {fileID: 8276875798039258901, guid: a4250938d1fd4b24ca9e7db4eac1d741, type: 3}
       propertyPath: curseAuraEffect2
       value: 
-      objectReference: {fileID: 1146833780}
+      objectReference: {fileID: 0}
     - target: {fileID: 8276875798039258901, guid: a4250938d1fd4b24ca9e7db4eac1d741, type: 3}
       propertyPath: flashlightManager
       value: 
