@@ -640,22 +640,22 @@ public class CurseSlider : MonoBehaviour
 
     private void UpdateCurseEffect()
     {
-        // ダッシュポイントが 100 ～ 199 の間なら `curseAuraEffect1` を表示
-        //if (dashPoint >= 1 && dashPoint <= 19)
-        //{
-        //    curseAuraEffect1.SetActive(true);
-        //    curseAuraEffect2.SetActive(false); // もう片方を非表示
-        //    Debug.Log("curseAuraEffect1が流れました。");
+        //ダッシュポイントが 100 ～ 199 の間なら `curseAuraEffect1` を表示
+        if (dashPoint >= 100 && dashPoint <= 199)
+        {
+            curseAuraEffect1.SetActive(true);
+            curseAuraEffect2.SetActive(false); // もう片方を非表示
+            Debug.Log("curseAuraEffect1が流れました。");
 
-        //}
-        //// ダッシュポイントが 200 以上なら `curseAuraEffect2` を表示
-        //else if (dashPoint >= 20)
-        //{
-        //    curseAuraEffect1.SetActive(false); // もう片方を非表示
-        //    curseAuraEffect2.SetActive(true);
-        //    Debug.Log("curseAuraEffect2が流れました。");
+        }
+        // ダッシュポイントが 200 以上なら `curseAuraEffect2` を表示
+        else if (dashPoint >= 200)
+        {
+            curseAuraEffect1.SetActive(false); // もう片方を非表示
+            curseAuraEffect2.SetActive(true);
+            Debug.Log("curseAuraEffect2が流れました。");
 
-        //}
+        }
         //// それ以外の時は両方非表示
         //else
         //{
@@ -667,21 +667,21 @@ public class CurseSlider : MonoBehaviour
         Debug.Log($"現在のダッシュポイント: {dashPoint}");
         //Debug.Log($"curseAuraEffect1の位置: {curseAuraEffect1.transform.position}");
         //Debug.Log($"curseAuraEffect2の位置: {curseAuraEffect2.transform.position}");
-        Debug.Log($"プレイヤーの位置: {playerTransform.position}");
+        //Debug.Log($"プレイヤーの位置: {playerTransform.position}");
 
     }
     void LateUpdate()
     {
         UpdateCurseEffect();
 
-        //if (curseAuraEffect1.activeSelf)
-        //{
-        //    curseAuraEffect1.transform.position = playerTransform.position + new Vector3(0, -1.0f, -0.5f); // 後方へ移動
-        //}
-        //if (curseAuraEffect2.activeSelf)
-        //{
-        //   curseAuraEffect2.transform.position = playerTransform.position + new Vector3(0, -0.7f, -0.3f); // 後方へ移動
-        //}
+        if (curseAuraEffect1.activeSelf)
+        {
+            curseAuraEffect1.transform.position = playerTransform.position + new Vector3(0, -1.0f, -0.5f); // 後方へ移動
+        }
+        if (curseAuraEffect2.activeSelf)
+        {
+            curseAuraEffect2.transform.position = playerTransform.position + new Vector3(0, -0.7f, -0.3f); // 後方へ移動
+        }
     }
     void ActivateEffect()
     {
