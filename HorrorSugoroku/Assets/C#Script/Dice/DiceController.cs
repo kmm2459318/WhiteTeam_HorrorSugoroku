@@ -31,7 +31,7 @@ public class DiceController : MonoBehaviour
     private int maxDiceValue = 6;
     private bool legButtonEffect = false;
 
-    private Vector3 targetLocalOffset = new Vector3(-5.7f, 0f, -2.6f);   //変更前 -> new Vector3(-5.47f, 0f, -2.54f)
+    public Vector3 targetLocalOffset = new Vector3(-5.7f, 0f, -2.6f);   //変更前 -> new Vector3(-5.47f, 0f, -2.54f)
     private bool moveToTarget = false;
     private bool moveToReset = false;
     private float moveSpeed = 30f; // 移動速度

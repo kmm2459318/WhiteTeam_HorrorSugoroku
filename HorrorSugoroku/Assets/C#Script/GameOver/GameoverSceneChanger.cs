@@ -24,6 +24,7 @@ public class SceneChanger3D : MonoBehaviour
     public static bool hasSubstituteDoll = false; // 身代わり人形の使用フラグ
 
     public CurseSlider curseslider;
+
     private void Start()
     {
         // AudioSourceの初期化
@@ -82,42 +83,30 @@ public class SceneChanger3D : MonoBehaviour
         {
             StartCoroutine(ShowCutInAndGoToGameover()); // ゲームオーバー処理を実行
         }                                              
-    }        
-                
+    }
+
     // カットイン画像を表示してからゲームオーバーシーンに遷移する処理
     private IEnumerator ShowCutInAndGoToGameover()
     {
-        isGameOver = true; // 重複処理防止用フラグ
+        isGameOver = true;
 
         SceneManager.LoadScene("Jump Scare");
 
-        //jumpScareAnimation.StartAnimation();
-        // 他のUI要素（テキストなど）を非表示にする
-        HideAllUI(); // UI非表示処理を実行
+        HideAllUI();
 
-        // カットイン画像を表示
-        if (cutInImage != null)
-        {
-            cutInImage.gameObject.SetActive(true); // 画像を表示
-        }
-                                                                 
-        // ゲームオーバーサウンドを再生
         if (gameOverSound != null && audioSource != null)
         {
-            audioSource.clip = gameOverSound; // サウンドを設定
-            audioSource.Play(); // 音を鳴らす
+            audioSource.clip = gameOverSound;
+            audioSource.Play();
         }
-                                                                 
-        // 指定された時間だけ待機
+
         yield return new WaitForSeconds(cutInDuration);
 
-        // カットイン画像を非表示にする
         if (cutInImage != null)
         {
-            // cutInImage.gameObject.SetActive(false); // 画像を非表示
+            // cutInImage.gameObject.SetActive(false);
         }
 
-        // ゲームオーバーシーンへ遷移
         SceneManager.LoadScene("Gameover");
     }
 
