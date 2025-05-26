@@ -39,6 +39,8 @@ public class GameManager : MonoBehaviour
     public GameObject newEnemyModelPrefab2; // 6つ目のピースで変更する新しいエネミーモデルのプレハブ
     public GameObject optionCanvas; // OptionCanvasを追加
 
+    public GameObject textCanvas;
+
     //public GameObject MiniMapObj; // マップキャンバス
 
     private int playerTurnCount = 0; // プレイヤーのターン数をカウントする変数
@@ -195,6 +197,8 @@ public class GameManager : MonoBehaviour
     {
         isPlayerTurn = !isPlayerTurn; // ターンを切り替える
         UpdateTurnText(); // UIのテキストを更新
+
+        textCanvas.SetActive(false);
 
         if (isPlayerTurn)
         {

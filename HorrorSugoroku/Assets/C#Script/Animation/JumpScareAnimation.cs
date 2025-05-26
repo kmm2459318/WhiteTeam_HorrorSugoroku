@@ -2,6 +2,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;  // シーン管理用
 using System.Collections;
+using UnityEngine.Audio;
 
 public class JumpScareAnimation : MonoBehaviour
 {
@@ -13,11 +14,20 @@ public class JumpScareAnimation : MonoBehaviour
     private Vector3 initialPosition; // 最初の位置
     private float timeReset = 2f;
     public JumpScareAnimation jumpScareAnimation; // JumpScareAnimation クラスのインスタンス
+    private AudioSource audioSource; // 音声再生用のAudioSource
+    [SerializeField] private AudioClip screamSound; // 悲鳴サウンド
 
     void Start()
     {
         // 最初の位置を記録
         initialPosition = transform.position;
+
+        // AudioSourceの初期化（ここを追加！）
+        audioSource = GetComponent<AudioSource>();
+        if (audioSource == null)
+        {
+            audioSource = gameObject.AddComponent<AudioSource>();
+        }
 
         // シーン遷移後にアニメーションを開始するためのリスナーを追加
         SceneManager.sceneLoaded += OnSceneLoaded;
@@ -69,6 +79,12 @@ public class JumpScareAnimation : MonoBehaviour
         {
             animator.enabled = true; // アニメーターを有効にする
             animator.SetTrigger(triggerName); // トリガーを発火してアニメーションを再生
+            // ここに悲鳴サウンドを入れる
+            if (screamSound != null && audioSource != null)
+            {
+                audioSource.clip = screamSound;
+                audioSource.Play();
+            }
         }
 
         // アニメーション開始後2秒後にResetObject()を呼び出す
