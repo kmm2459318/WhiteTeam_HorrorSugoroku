@@ -13,10 +13,19 @@ public class SubstitutedollController : MonoBehaviour
 
     private void Start()
     {
+        
         if (playerInventory == null)
         {
             playerInventory = FindObjectOfType<PlayerInventory>();
         }
+        // **初期値として1つ追加**
+        if (playerInventory.GetItemCount("身代わり人形") == 0)
+        {
+            playerInventory.AddItem("身代わり人形", "初期アイテム");
+           
+        }
+
+
         UpdateItemCountUI();
         Debug.Log($"🎭 所持している身代わり人形: {playerInventory.GetItemCount("身代わり人形")}");
         //Possessions.text = itemCount.ToString();
