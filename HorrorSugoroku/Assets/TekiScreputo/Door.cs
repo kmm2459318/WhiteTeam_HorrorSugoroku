@@ -33,7 +33,7 @@ public class Door : MonoBehaviour
     public AudioClip doorOpenSpund; //ドアが開く音
     public AudioClip keyMissingSound; //カギがないときの音
     public AudioClip[] scareSound; //脅かしの音
-
+    Coroutine messageCoroutine;
     void Start()
     {
         player = GameObject.FindGameObjectWithTag("Player").transform;
@@ -153,8 +153,11 @@ public class Door : MonoBehaviour
                             }
                             else
                             {
-                                Debug.Log("鍵がありません");
+                                string itemName = string.IsNullOrEmpty(requiredItem) ? "鍵" : requiredItem;
+                                string message = $"「{itemName}」がありません";
+                                Debug.Log(message);
                                 PlayKeyMissingSound(); //音を再生
+                                ShowMessage(message); // ← UIで表示
                                 return;
                             }
                         }
@@ -243,6 +246,26 @@ public class Door : MonoBehaviour
         }
 
     }
+
+    void ShowMessage(string message)
+    {
+        if (messageCoroutine != null)
+        {
+            StopCoroutine(messageCoroutine);
+        }
+        messageCoroutine = StartCoroutine(ShowMessageRoutine(message));
+    }
+    IEnumerator ShowMessageRoutine(string message)
+    {
+        if (doorPanel != null && doorText != null)
+        {
+            doorPanel.SetActive(true);
+            doorText.text = message;
+            yield return new WaitForSeconds(messageDisplayTime);
+            doorPanel.SetActive(false);
+        }
+    }
+
 
     void OpenDoor()
     {

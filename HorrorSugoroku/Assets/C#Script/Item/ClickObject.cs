@@ -27,12 +27,12 @@ public class ClickObject : MonoBehaviour
 
     // ClickObject.cs に追加
     private Dictionary<string, float> itemAddCooldowns = new Dictionary<string, float>();
-    public float itemCooldownDuration = 5f; // ← クールダウン時間（秒）
+    public float itemCooldownDuration = 0.2f; // ← クールダウン時間（秒）
 
     private bool isRandomItemCooldown = false;
-    [SerializeField] private float randomItemCooldownTime = 5f; // 次の抽選まで5秒待機
+    [SerializeField] private float randomItemCooldownTime = 0.2f; // 次の抽選まで5秒待機
 
-    [SerializeField] private float keyCooldownTime = 2f;  // 例: 10秒で再取得可能
+    [SerializeField] private float keyCooldownTime = 0.2f;  // 例: 10秒で再取得可能
     private bool hasClicked = false; // クリック多重防止用フラグ
 
     public BreakerController breakerController;
