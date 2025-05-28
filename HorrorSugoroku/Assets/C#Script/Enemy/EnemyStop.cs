@@ -32,7 +32,7 @@ public class EnemyStop : MonoBehaviour
             && walkNumber <= enemyWalkCounter.walkMasu)
         {
             exploringCoolTime = 0f;
-            nuvMeshAgent.speed = 0;
+            nuvMeshAgent.speed = 0f;
             stopMasu = true;
         }
 

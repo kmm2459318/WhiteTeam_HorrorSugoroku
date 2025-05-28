@@ -110,6 +110,12 @@ public class Statue : MonoBehaviour
                 SceneManager.LoadScene("Ending");
             }
         }
+
+        //デバッグ用
+        if (Input.GetKeyDown(KeyCode.D))
+        {
+            PutDoll++;
+        }
     }
 
     IEnumerator ResetClick()
