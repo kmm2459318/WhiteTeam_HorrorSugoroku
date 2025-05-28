@@ -11,6 +11,7 @@ public class ElevatorIdou : MonoBehaviour
     public GameObject masu2F;
     public GameObject masuB1F;
     public GameObject masuElevator;
+    public GameObject Elevator;
     public GameObject elevatorCanvas;
     public GameObject rollDiceRawImage;
     public PlayerSaikoro playerSaikoro;
@@ -72,18 +73,24 @@ public class ElevatorIdou : MonoBehaviour
                 Debug.Log("åªç›B1F");
                 imageB1F.color = new Color(128 / 255f, 128 / 255f, 128 / 255f, 255);
                 textB1F.color = new Color(128 / 255f, 128 / 255f, 128 / 255f, 255);
+                Elevator.transform.position = new Vector3(18.15924f, -3.85f, 0.8772856f);
+                elevatorController.currentFloor = 0;
             }
             else if (elevatorFloor == 1)
             {
                 Debug.Log("åªç›1F");
                 image1F.color = new Color(128 / 255f, 128 / 255f, 128 / 255f, 255);
                 text1F.color = new Color(128 / 255f, 128 / 255f, 128 / 255f, 255);
+                Elevator.transform.position = new Vector3(18.15924f, 0f, 0.8772856f);
+                elevatorController.currentFloor = 1;
             }
             else
             {
                 Debug.Log("åªç›2F");
                 image2F.color = new Color(128 / 255f, 128 / 255f, 128 / 255f, 255);
                 text2F.color = new Color(128 / 255f, 128 / 255f, 128 / 255f, 255);
+                Elevator.transform.position = new Vector3(18.15924f, 3.81f, 0.8772856f);
+                elevatorController.currentFloor = 2;
             }
 
         }
@@ -138,7 +145,6 @@ public class ElevatorIdou : MonoBehaviour
 
     IEnumerator ElevatorMove(int n)
     {
-        //Debug.Log("llllll");
         StartCoroutine(elevatorController.ToggleDoors());
         yield return new WaitForSeconds(0.7f);
         PSm.TargetPosition = masuElevator.transform.position + new Vector3(0, 1.15f, 0);
@@ -166,11 +172,12 @@ public class ElevatorIdou : MonoBehaviour
             playerSaikoro.nextDarkMasu = masuB1F.transform;
         }
 
-        yield return new WaitForSeconds(1.2f);
+        yield return new WaitForSeconds(0.8f);
+        StartCoroutine(elevatorController.ToggleDoors());
+        yield return new WaitForSeconds(0.8f);
         Player.GetComponent<CapsuleCollider>().enabled = true;
         idou = false;
         playerOn = true;
-        StartCoroutine(elevatorController.ToggleDoors());
     }
 
     void IdouSystem()
