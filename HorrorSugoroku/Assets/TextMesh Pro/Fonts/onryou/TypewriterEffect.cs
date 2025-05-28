@@ -4,7 +4,7 @@ using UnityEngine.UI;
 
 public class TypewriterEffectUI : MonoBehaviour
 {
-    public enum GameResult { Clear, Over } // ゲーム結果のEnum
+    enum GameResult { Clear, Over } // ゲーム結果のEnum
     [SerializeField] private GameResult gameResult; // インスペクターで設定
 
     [SerializeField] private Text uiText;
@@ -39,6 +39,15 @@ public class TypewriterEffectUI : MonoBehaviour
 
     void Start()
     {
+        if (GameState.IsGameClear)
+        {
+            gameResult = GameResult.Clear;
+        }
+        else
+        {
+            gameResult = GameResult.Over;
+        }
+
         gameResultText.gameObject.SetActive(false); // 最初は非表示
         StartCoroutine(DisplayMessages());
     }
@@ -89,5 +98,11 @@ public class TypewriterEffectUI : MonoBehaviour
             audioSource.PlayOneShot(typingSound); // 文字表示時のタイプ音
             yield return new WaitForSeconds(delay);
         }
+    }
+
+    public void SetResult(bool isClear)
+    {
+        gameResult = isClear ? GameResult.Clear : GameResult.Over;
+        StartCoroutine(DisplayMessages());
     }
 }

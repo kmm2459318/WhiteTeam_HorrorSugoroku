@@ -4,6 +4,7 @@ using UnityEngine.UI;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.SceneManagement;
+using UnityEngineInternal;
 
 public class Statue : MonoBehaviour
 {
@@ -105,7 +106,8 @@ public class Statue : MonoBehaviour
             if (Timer >= WaitTime)
             {
                 sceneLoaded = true; // “ñd“Ç‚İ‚İ–h~
-                SceneManager.LoadScene("Gameclear");
+                GameState.IsGameClear = true;
+                SceneManager.LoadScene("Ending");
             }
         }
     }
