@@ -111,6 +111,9 @@ public class CurseSlider : MonoBehaviour
     public GameObject curseAuraEffect1;
     public GameObject curseAuraEffect2;
     [SerializeField] private Vector3 effectOffset = new Vector3(0, -1.5f, -0.5f);
+    [SerializeField] private GameObject curseEffect1; // インスペクターから設定可能
+    [SerializeField] private GameObject curseEffect2; // インスペクターから設定可能
+
 
 
     void Start()
@@ -455,6 +458,9 @@ public class CurseSlider : MonoBehaviour
             LegButton.interactable = !isLegButtonUsed;
             EyeButton.interactable = !isEyeButtonUsed;
 
+            // インスペクターで指定したエフェクトを4秒間流す
+            StartCoroutine(PlayEffectForDuration(curseEffect1, 7.0f));
+
             yield return new WaitForSeconds(1.0f);
         }
         else
@@ -462,6 +468,35 @@ public class CurseSlider : MonoBehaviour
             Debug.LogError("CardCanvas2 が null です");
         }
     }
+    private IEnumerator PlayEffectForDuration(GameObject effect, float duration)
+    {
+        if (effect != null)
+        {
+            effect.SetActive(true);
+
+            ParticleSystem particle = effect.GetComponent<ParticleSystem>();
+            if (particle != null)
+            {
+                particle.Play();
+            }
+
+            Debug.Log(effect.name + " が再生されました");
+        }
+        else
+        {
+            Debug.LogError("エフェクトが指定されていません！");
+        }
+
+        yield return new WaitForSeconds(duration);
+
+        if (effect != null)
+        {
+            effect.SetActive(false);
+            Debug.Log(effect.name + " が停止しました");
+        }
+    }
+
+
 
     //public void HideCardCanvas2()
     //{
@@ -641,7 +676,7 @@ public class CurseSlider : MonoBehaviour
     private void UpdateCurseEffect()
     {
         //ダッシュポイントが 100 ～ 199 の間なら `curseAuraEffect1` を表示
-        if (dashPoint >= 100 && dashPoint <= 199)
+        if (dashPoint >= 10 && dashPoint <= 19)
         {
             curseAuraEffect1.SetActive(true);
             curseAuraEffect2.SetActive(false); // もう片方を非表示
@@ -649,13 +684,32 @@ public class CurseSlider : MonoBehaviour
 
         }
         // ダッシュポイントが 200 以上なら `curseAuraEffect2` を表示
-        else if (dashPoint >= 200)
+        else if (dashPoint >= 20)
         {
             curseAuraEffect1.SetActive(false); // もう片方を非表示
             curseAuraEffect2.SetActive(true);
             Debug.Log("curseAuraEffect2が流れました。");
 
         }
+        if (dashPoint >= 100 && dashPoint < 200)
+        {
+            curseEffect1.SetActive(true);  // 呪いゲージが100以上で表示
+            curseEffect2.SetActive(false); // 200未満なら2は非表示
+            Debug.Log("curseEffect1 が流れました (呪いゲージ: 100以上)");
+        }
+        else if (dashPoint >= 200)
+        {
+            curseEffect1.SetActive(false); // 200以上になったら1を非表示
+            curseEffect2.SetActive(true);  // 200以上で2を表示
+            Debug.Log("curseEffect2 が流れました (呪いゲージ: 200以上)");
+        }
+        else
+        {
+            curseEffect1.SetActive(false);
+            curseEffect2.SetActive(false);
+            Debug.Log("呪いエフェクトなし (呪いゲージ: 100未満)");
+        }
+
         //// それ以外の時は両方非表示
         //else
         //{
