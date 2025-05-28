@@ -105,7 +105,8 @@ public class JumpScareAnimation : MonoBehaviour
     private void ResetObject()
     {
         transform.position = initialPosition;
-        SceneManager.LoadScene("GameOver");
+        GameState.IsGameClear = false; // ゲームオーバー判定にする
+        SceneManager.LoadScene("Ending");
     }
 
     public void StartAnimation()

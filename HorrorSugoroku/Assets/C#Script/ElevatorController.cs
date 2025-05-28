@@ -43,14 +43,14 @@ public class ElevatorController : MonoBehaviour
     {
         if (isMoving || isDoorMoving) return;
 
-        if (Input.GetKeyDown(KeyCode.O))
-        {
-            StartCoroutine(ToggleDoors());
-        }
+        //if (Input.GetKeyDown(KeyCode.O))
+        //{
+        //    StartCoroutine(ToggleDoors());
+        //}
 
-        if (Input.GetKeyDown(KeyCode.Alpha1)) StartCoroutine(MoveToFloor(0));
-        if (Input.GetKeyDown(KeyCode.Alpha2)) StartCoroutine(MoveToFloor(1));
-        if (Input.GetKeyDown(KeyCode.Alpha3)) StartCoroutine(MoveToFloor(2));
+        //if (Input.GetKeyDown(KeyCode.Alpha1)) StartCoroutine(MoveToFloor(0));
+        //if (Input.GetKeyDown(KeyCode.Alpha2)) StartCoroutine(MoveToFloor(1));
+        //if (Input.GetKeyDown(KeyCode.Alpha3)) StartCoroutine(MoveToFloor(2));
     }
 
     private float maxSensorOffset = 0.02f; // 扉との最大ずれを小さく
