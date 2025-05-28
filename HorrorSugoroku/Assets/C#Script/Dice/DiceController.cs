@@ -1,7 +1,6 @@
 using UnityEngine;
 using UnityEngine.UI;
 using SmoothigTransform;
-using TMPro;
 
 public class DiceController : MonoBehaviour
 {
@@ -11,7 +10,6 @@ public class DiceController : MonoBehaviour
     private bool hasBeenThrown = false;
     private float timeSinceThrown = 0f;
     public int result = 0;
-    public int dice2miss = 3;
     public bool boxDice = false;
     public int strongBoxResult = 0;
     public PlayerSaikoro player;
@@ -24,7 +22,6 @@ public class DiceController : MonoBehaviour
     public CurseSlider curseGauge;
     public PlayerSaikoro playerSaikoro;
     public GameObject DescriptionCanvas;
-    public GameObject HanteiCanvas;
 
     public DiceRangeManager diceRangeManager;
     private Transform parentTransform;
@@ -56,6 +53,7 @@ public class DiceController : MonoBehaviour
         new Vector3(90, 0, 0)    // 6の面が上
     };
 
+    private int dice2miss = 3; 
 
     // 🎯 出目が決まったら回転と移動を開始
     void ApplyDiceResult(int result)
@@ -188,11 +186,6 @@ public class DiceController : MonoBehaviour
             hasBeenThrown = false;
             rb.isKinematic = true;
             transform.localPosition = new Vector3(0, 5f, 0);
-            if (n == 2)
-            {
-                DescriptionCanvas.SetActive(false);
-                HanteiCanvas.SetActive(false);
-            }
         }
 
         if (Input.GetKeyUp(KeyCode.Space) && isHeld)
@@ -236,7 +229,7 @@ public class DiceController : MonoBehaviour
                         else if (n == 2)
                         {
                             StartCoroutine(playerSaikoro.HideDiceCameraWithDelay());
-                            if (result >= 1 && result < dice2miss)
+                            if (result >= 1 && result <= dice2miss)
                             {
                                 dice2miss = 3;
                                 curseGauge.Curse2();
@@ -246,6 +239,7 @@ public class DiceController : MonoBehaviour
                                 dice2miss++;
                                 Debug.Log("大きい呪いダイス回避成功！失敗数が上昇→"　+ dice2miss);
                             }
+                            DescriptionCanvas.SetActive(false);
                             curseGauge.isCardCanvas2 = false;
                             curseGauge.isCurseDice2 = false;
                         }

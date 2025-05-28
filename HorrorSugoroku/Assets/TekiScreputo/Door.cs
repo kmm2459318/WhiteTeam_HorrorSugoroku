@@ -127,53 +127,49 @@ public class Door : MonoBehaviour
 
     void Update()
     {
-        // 左クリックされたかチェック
-        if (Input.GetMouseButtonDown(0))
+        float distance = Vector3.Distance(player.position, transform.position);
+        //Debug.Log($"距離: {distance}, 相互作用範囲: {interactionRange}");
+
+        if (distance <= interactionRange && Input.GetMouseButton(0)) // マウスが押されたか判定
         {
-            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-            RaycastHit hit;
-
-            // Raycast して何かに当たったか確認
-            if (Physics.Raycast(ray, out hit))
+            Debug.Log("マウスがクリックされました");
+            if (!isUnlocked)
             {
-                // 当たったオブジェクトがこのドアか？
-                if (hit.transform == this.transform || hit.transform.IsChildOf(this.transform))
+                if (!requiresKey || (playerInventory != null && playerInventory.HasItem(requiredItem)))
                 {
-                    float distance = Vector3.Distance(player.position, transform.position);
-                    if (distance <= interactionRange)
-                    {
-                        Debug.Log("ドアがクリックされました");
-
-                        if (!isUnlocked)
-                        {
-                            if (!requiresKey || (playerInventory != null && playerInventory.HasItem(requiredItem)))
-                            {
-                                OpenDoorConfirmed(); // 鍵を使ってドアを開く
-                            }
-                            else
-                            {
-                                Debug.Log("鍵がありません");
-                                PlayKeyMissingSound(); //音を再生
-                                return;
-                            }
-                        }
-
-                        if (childAnimator != null)
-                        {
-                            Debug.Log("LeftOpenTriggerを設定");
-                            childAnimator.SetTrigger("LeftOpenTrigger");
-                            StartCoroutine(TransitionLeftAnimation());
-                        }
-
-                        if (rightAnimator != null)
-                        {
-                            Debug.Log("RightOpenTriggerを設定");
-                            rightAnimator.SetTrigger("RightOpenTrigger");
-                            StartCoroutine(TransitionRightAnimation());
-                        }
-                    }
+                    OpenDoorConfirmed(); // 鍵を使ってドアを開く
+                }
+                else
+                {
+                    Debug.Log("鍵がありません"); // 鍵がなければ開けられない
+                    PlayKeyMissingSound(); //音を再生する
+                    return; // 鍵がない場合はここで終了
                 }
             }
+
+            // LeftOpenTriggerを設定して左側のドアのアニメーションを再生
+            if (childAnimator != null)
+            {
+                Debug.Log("LeftOpenTriggerを設定");
+                childAnimator.SetTrigger("LeftOpenTrigger");
+                StartCoroutine(TransitionLeftAnimation());
+            }
+            //else
+            //{
+            //    Debug.Log("左側のアニメーターがnullです");
+            //}
+
+            // RightOpenTriggerを設定して右側のドアのアニメーションを再生
+            if (rightAnimator != null)
+            {
+                Debug.Log("RightOpenTriggerを設定");
+                rightAnimator.SetTrigger("RightOpenTrigger");
+                StartCoroutine(TransitionRightAnimation());
+            }
+            //else
+            //{
+            //    Debug.Log("右側のアニメーターがnullです");
+            //}
         }
     }
 
