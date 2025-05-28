@@ -108,6 +108,12 @@ public class Statue : MonoBehaviour
                 SceneManager.LoadScene("Gameclear");
             }
         }
+
+        //デバッグ用
+        if (Input.GetKeyDown(KeyCode.D))
+        {
+            PutDoll++;
+        }
     }
 
     IEnumerator ResetClick()

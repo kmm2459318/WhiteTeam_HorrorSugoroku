@@ -351,7 +351,8 @@ public class PlayerSaikoro : MonoBehaviour
         if ((exploring && Input.GetKeyDown(KeyCode.F)) || enemyEnd)
         {
             enemyEnd = true;
-            if (enemyStop.stopMasu)
+            if (enemyStop.stopMasu && (enemyStop1.stopMasu || !gameManager.EnemyCopyOn1) && (enemyStop2.stopMasu || !gameManager.EnemyCopyOn2) &&
+                (enemyStop3.stopMasu || !gameManager.EnemyCopyOn3) && (enemyStop4.stopMasu || !gameManager.EnemyCopyOn4) && (enemyStop5.stopMasu || !gameManager.EnemyCopyOn5))
             {
                 FinishTurn();
             }
