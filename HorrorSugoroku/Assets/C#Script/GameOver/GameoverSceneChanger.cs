@@ -4,6 +4,7 @@ using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using System.Collections.Generic;
 using Unity.VisualScripting;
+using UnityEngine.AI;
 
 public class SceneChanger3D : MonoBehaviour
 {
@@ -16,6 +17,7 @@ public class SceneChanger3D : MonoBehaviour
     public SubstitutedollController substitutedollController;
     private AudioSource audioSource; // 音声再生用のAudioSource
     private GameObject atackEnemy;
+    private Vector3 ResetPos = new Vector3(0f, 0f, 0.1016667f);
 
     [SerializeField] private float volume = 1.0f; // 音量 (デフォルトは最大)
 
@@ -81,6 +83,7 @@ public class SceneChanger3D : MonoBehaviour
     // ゲームオーバー処理を判定するメソッド
     public void HandleGameOver()
     {
+
         if (substitutedollController.useCount > 0)
         {
             hasSubstituteDoll = false;
@@ -90,7 +93,8 @@ public class SceneChanger3D : MonoBehaviour
             // **メソッドが存在するか確認しつつ呼び出し**
             StartCoroutine(PlaySubstituteEffect());
 
-            atackEnemy.transform.position = new Vector3(0f, 0f, 0.1016667f);
+            atackEnemy.GetComponent<NavMeshAgent>().Warp(ResetPos);
+            atackEnemy.transform.rotation = Quaternion.Euler(0, 180, 0);
         }
         else
         {

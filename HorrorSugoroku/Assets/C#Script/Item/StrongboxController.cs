@@ -15,14 +15,19 @@ public class StrongboxController : MonoBehaviour
     private PlayerInventory playerInventory;
     public Animator boxAnimator; // 箱のアニメーター
     public TextMeshProUGUI messageText;
-
+    public GameManager gameManager; // ← GameManager 参照を追加
     void Start()
     {
         playerInventory = FindObjectOfType<PlayerInventory>();
+        gameManager = FindObjectOfType<GameManager>(); // ← GameManagerを探す
 
         if (playerInventory == null)
         {
             Debug.LogError("PlayerInventory が見つかりません！");
+        }
+        if (gameManager == null)
+        {
+            Debug.LogError("GameManager が見つかりません！");
         }
     }
     void Update()
@@ -50,6 +55,12 @@ public class StrongboxController : MonoBehaviour
                         playerInventory.AddItem(itemToGiveName, uniqueID);
                         Debug.Log($"祝福箱から「{itemToGiveName}」を入手しました！");
                         messageText.text = $"祝福箱から「{itemToGiveName}」を入手しました！"; // ← 追加
+                                                                               // 人形のときだけ GameManager に登録
+                        if (itemToGiveName == "人形" && gameManager != null)
+                        {
+                            gameManager.Doll++; // ← 人形を1つ追加
+                            Debug.Log("人形が GameManager に追加されました。現在の数: " + gameManager.Doll);
+                        }
                     }
                 }
                 else
