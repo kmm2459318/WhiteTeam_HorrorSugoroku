@@ -30,6 +30,9 @@ public class SceneChanger3D : MonoBehaviour
     [SerializeField] private GameObject substituteEffect; // 身代わり人形のエフェクトオブジェクト
 
     [SerializeField] private AudioClip substituteSound; // 身代わり人形のエフェクト音
+
+    private float waitBeforeTitleScene = 2.0f; // タイトル遷移前の待機時間（秒）
+
     private AudioSource effectAudioSource;
     private void Start()
     {
@@ -137,6 +140,10 @@ public class SceneChanger3D : MonoBehaviour
 
         // ゲームオーバーシーンへ遷移
         SceneManager.LoadScene("Gameover");
+
+        // タイトルに遷移するまでの待機
+        yield return new WaitForSeconds(waitBeforeTitleScene);
+        SceneManager.LoadScene("Title");
     }
 
     public void CurseGaugeUP()
