@@ -62,29 +62,29 @@ public class GridCell : MonoBehaviour
         substitutedollController = FindObjectOfType<SubstitutedollController>();
         beartrapController = FindObjectOfType<BeartrapController>();
 
-        ui = GameObject.Find("UI");
-        ccursePanel = ui.transform.Find("CurseCanvasUI");
+        //ui = GameObject.Find("UI");
+        //ccursePanel = ui.transform.Find("CurseCanvasUI");
 
-        // static に一度だけ代入する
-        if (cursePanel == null)
-        {
-            cursePanel = ccursePanel.gameObject;
-            Debug.Log($"cursePanel 取得成功: {cursePanel}");
-        }
+        //// static に一度だけ代入する
+        //if (cursePanel == null)
+        //{
+        //    cursePanel = ccursePanel.gameObject;
+        //    Debug.Log($"cursePanel 取得成功: {cursePanel}");
+        //}
 
-        if (curseText == null)
-        {
-            curseText = GameObject.Find("CurseText").GetComponent<TextMeshProUGUI>();
-            Debug.Log($"curseText 取得成功: {curseText}");
-        }
+        //if (curseText == null)
+        //{
+        //    curseText = GameObject.Find("CurseText").GetComponent<TextMeshProUGUI>();
+        //    Debug.Log($"curseText 取得成功: {curseText}");
+        //}
 
-        if (cursePanel == null) Debug.LogWarning("CursePanel が見つかりません");
-        if (curseText == null) Debug.LogWarning("CurseText が見つかりません");
+        //if (cursePanel == null) Debug.LogWarning("CursePanel が見つかりません");
+        //if (curseText == null) Debug.LogWarning("CurseText が見つかりません");
 
-        if (cursePanel != null)
-        {
-            cursePanel.SetActive(false);
-        }
+        //if (cursePanel != null)
+        //{
+        //    cursePanel.SetActive(false);
+        //}
 
         Debug.Log("ID:" + DebuffSheet.DebuffSheet[n].ID);
         Debug.Log("イベント名:" + DebuffSheet.DebuffSheet[n].Name);
@@ -395,7 +395,7 @@ public class GridCell : MonoBehaviour
         // **呪い発動**
         Debug.Log($"{name}: 呪いが発動！");
         curseSlider.DecreaseDashPoint(curseamout); // 呪いゲージ増加
-        ShowCurseUI($"{curseamout}呪いが発動した！");
+       // ShowCurseUI($"{curseamout}呪いが発動した！");
     }
 
 
@@ -404,7 +404,7 @@ public class GridCell : MonoBehaviour
         // **呪い発動**
         Debug.Log($"{name}: 呪いが浄化された");
         curseSlider.IncreaseDashPoint(hirueamout); // 呪いゲージ減少
-        ShowCurseUI($"{hirueamout}呪いが減った！");
+      //  ShowCurseUI($"{hirueamout}呪いが減った！");
     }
     private void ExecuteCurseEvent()
     {
