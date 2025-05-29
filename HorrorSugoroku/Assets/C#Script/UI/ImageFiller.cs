@@ -47,6 +47,10 @@ public class ImageFillerWithLight : MonoBehaviour
         if (playerSaikoro.diceLight)
         {
             targetLight.enabled = true;
+
+            targetLight.enabled = true;
+            targetImage.gameObject.SetActive(false);
+            lightTurnedOn = true;
         }
 
         if (playerSaikoro.gaugeCircle)
