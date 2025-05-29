@@ -8,6 +8,7 @@ using UnityEngine;
 public class OutLineFx : MonoBehaviour
 {
     public PlayerSaikoro playerSaikoro;
+    public CurseSlider curseSlider;
     public Camera raycastCamera;
 
     private GameObject lastHighlightedObject = null;
@@ -42,7 +43,7 @@ public class OutLineFx : MonoBehaviour
             if (hit.collider.CompareTag("Item") || hit.collider.CompareTag("Key") || hit.collider.CompareTag("Doll") || hit.collider.CompareTag("Strongbox") || hit.collider.CompareTag("Breaker"))
             {
                 //プレイヤーが移動完了していたら
-                if (playerSaikoro.exploring)
+                if (playerSaikoro.exploring && !curseSlider.isCardCanvas1 && !curseSlider.isCardCanvas2)
                 {
                     Debug.Log("移動完了＆触れている");
                     if (IsLookingAtObject(hit.collider.gameObject)) // **視線の方向にあるか確認**

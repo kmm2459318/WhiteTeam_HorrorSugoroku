@@ -1,6 +1,7 @@
 ﻿using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using System.Collections;
 
 public class StrongboxController : MonoBehaviour
 {
@@ -16,6 +17,7 @@ public class StrongboxController : MonoBehaviour
     public Animator boxAnimator; // 箱のアニメーター
     public TextMeshProUGUI messageText;
     public GameManager gameManager; // ← GameManager 参照を追加
+    [SerializeField] private CurseSlider curseSlider;
     void Start()
     {
         playerInventory = FindObjectOfType<PlayerInventory>();
@@ -34,6 +36,8 @@ public class StrongboxController : MonoBehaviour
     {
         if (thisBoxOn)
         {
+            gameObject.tag = "Untagged";
+
             if (diceController.strongBoxResult != 0)
             {
                 textCanvas.SetActive(true);
@@ -42,7 +46,6 @@ public class StrongboxController : MonoBehaviour
                 {
                     Debug.Log("————祝福のカギは開かれた。");
                     messageText.text = "————祝福のカギは開かれた。"; // ← 追加
-                    gameObject.tag = "Untagged";
 
                     if (boxAnimator != null)
                     {
@@ -62,24 +65,47 @@ public class StrongboxController : MonoBehaviour
                             Debug.Log("人形が GameManager に追加されました。現在の数: " + gameManager.Doll);
                         }
                     }
+
+                    diceController.boxDice = false;
                 }
                 else
                 {
                     Debug.Log("残念無念、また来世ー！");
                     messageText.text = "残念無念、また来世ー！"; // ← 追加
                     OpenNumber--;
+                    gameObject.tag = "Strongbox";
+
+                    StartCoroutine(DashPoint());
                 }
 
                 diceController.strongBoxResult = 0;
-                diceController.boxDice = false;
                 thisBoxOn = false;
                 //textCanvas.SetActive(false);
             }
         }
     }
 
+    private IEnumerator DashPoint()
+    {
+        if ((curseSlider.dashPoint + 10) % 20 == 0)
+        {
+            yield return new WaitForSeconds(0.51f);
+        }
+
+        curseSlider.DecreaseDashPoint(10);
+
+        diceController.boxDice = false;
+    }
+
     public void StrongBoxDiceOn()
     {
+        if (!diceController.boxDice)
+        {
+            diceController.boxDice = true;
+            diceCamera.enabled = true; // 🎲 カメラ表示
+                                                      // playerSaikoro.ResetDiceState(); ← ここで即リセットは NG
+        }
+
         if (!thisBoxOn)
         {
             diceCamera.enabled = true;

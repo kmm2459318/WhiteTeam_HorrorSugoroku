@@ -111,11 +111,7 @@ public class Statue : MonoBehaviour
             }
         }
 
-        //デバッグ用
-        if (Input.GetKeyDown(KeyCode.D))
-        {
-            PutDoll++;
-        }
+        
     }
 
     IEnumerator ResetClick()
