@@ -348,7 +348,7 @@ public class PlayerSaikoro : MonoBehaviour
         }
 
         // Fキーを押したら探索を終了し、次のターンへ
-        if ((exploring && Input.GetKeyDown(KeyCode.F)) || enemyEnd)
+        if ((exploring && Input.GetKeyDown(KeyCode.F) && !diceController.boxDice && !curseGauge.isCardCanvas1 && !curseGauge.isCardCanvas2) || enemyEnd)
         {
             enemyEnd = true;
             if (enemyStop.stopMasu && (enemyStop1.stopMasu || !gameManager.EnemyCopyOn1) && (enemyStop2.stopMasu || !gameManager.EnemyCopyOn2) &&

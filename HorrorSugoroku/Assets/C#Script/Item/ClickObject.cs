@@ -71,7 +71,7 @@ public class ClickObject : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetMouseButtonDown(0) && !hasClicked)
+        if (Input.GetMouseButtonDown(0) && !hasClicked && !curse.isCardCanvas1 && !curse.isCardCanvas2)
         {
             hasClicked = true;
             Ray ray = raycastCamera.ScreenPointToRay(Input.mousePosition);
@@ -373,7 +373,7 @@ public class ClickObject : MonoBehaviour
     //人形を拾うと人形の所持カウントを増やす
     void ExecuteScriptB()
     {
-        if (gameManager.Doll <= 5)
+        if (gameManager.Doll < 5)
         {
             Debug.Log("人形を拾った。");
             gameManager.Doll++;
