@@ -30,6 +30,7 @@ public class GameManager : MonoBehaviour
 
     //public GameObject ExitDoorLight; //脱出ドアであることがわかる光
     public GameObject currentEnemyModel; // 現在のエネミーモデル
+    public GameObject EnemyCopy1Demo;
     public GameObject EnemyCopy1; // コピーエネミーモデル
     public GameObject EnemyCopy2;
     public GameObject EnemyCopy3;
@@ -64,6 +65,8 @@ public class GameManager : MonoBehaviour
 
         miniMap = FindObjectOfType<MiniMap>(); // MiniMap クラスのインスタンスを取得
 
+        EnemyCopy1Demo.SetActive(true);
+        EnemyCopy1.SetActive(false);
         EnemyCopy2.SetActive(false);
         EnemyCopy3.SetActive(false);
         EnemyCopy4.SetActive(false);
@@ -129,18 +132,23 @@ public class GameManager : MonoBehaviour
         switch (statue.PutDoll)
         {
             case 1:
+                EnemyCopy1Demo.SetActive(false);
+                EnemyCopy1.SetActive(true);
+                EnemyCopyOn1 = true;
+                break;
+            case 2:
                 EnemyCopy2.SetActive(true);
                 EnemyCopyOn2 = true;
                 break;
-            case 2:
+            case 3:
                 EnemyCopy3.SetActive(true);
                 EnemyCopyOn3 = true;
                 break;
-            case 3:
+            case 4:
                 EnemyCopy4.SetActive(true);
                 EnemyCopyOn4 = true;
                 break;
-            case 4:
+            case 5:
                 EnemyCopy5.SetActive(true);
                 EnemyCopyOn5 = true;
                 break;
@@ -227,10 +235,13 @@ public class GameManager : MonoBehaviour
             Debug.Log("Player Turn Count: " + playerTurnCount); // デバッグログ
 
             playerSaikoro.StartRolling();
+
+            NavSpeedControll(0f);
         }
         else
         {
             agent.enabled = true;
+            NavSpeedControll(1.62f);
             // エネミーのターン
             if (enemySaikoro != null)
             {
@@ -243,6 +254,16 @@ public class GameManager : MonoBehaviour
                 footstepSound.Play(); // 足音を再開
             }
         }
+    }
+
+    private void NavSpeedControll(float n)
+    {
+        currentEnemyModel.GetComponent<NavMeshAgent>().speed = n;
+        EnemyCopy1.GetComponent<NavMeshAgent>().speed = n;
+        EnemyCopy2.GetComponent<NavMeshAgent>().speed = n;
+        EnemyCopy3.GetComponent<NavMeshAgent>().speed = n;
+        EnemyCopy4.GetComponent<NavMeshAgent>().speed = n;
+        EnemyCopy5.GetComponent<NavMeshAgent>().speed = n;
     }
 
     public void MpPlus()
