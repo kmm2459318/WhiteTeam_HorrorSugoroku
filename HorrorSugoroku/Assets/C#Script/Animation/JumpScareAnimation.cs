@@ -106,7 +106,7 @@ public class JumpScareAnimation : MonoBehaviour
     {
         transform.position = initialPosition;
         GameState.IsGameClear = false; // ゲームオーバー判定にする
-        SceneManager.LoadScene("Ending");
+        SceneManager.LoadScene("Gameover");
     }
 
     public void StartAnimation()
