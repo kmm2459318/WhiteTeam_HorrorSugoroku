@@ -23,7 +23,7 @@ RenderSettings:
   m_AmbientSkyColor: {r: 0, g: 0, b: 0, a: 1}
   m_AmbientEquatorColor: {r: 0.114, g: 0.125, b: 0.133, a: 1}
   m_AmbientGroundColor: {r: 0.047, g: 0.043, b: 0.035, a: 1}
-  m_AmbientIntensity: 0
+  m_AmbientIntensity: 1
   m_AmbientMode: 0
   m_SubtractiveShadowColor: {r: 0, g: 0, b: 0, a: 1}
   m_SkyboxMaterial: {fileID: 10304, guid: 0000000000000000f000000000000000, type: 0}
@@ -35,7 +35,7 @@ RenderSettings:
   m_DefaultReflectionMode: 0
   m_DefaultReflectionResolution: 128
   m_ReflectionBounces: 1
-  m_ReflectionIntensity: 0
+  m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 1265641515}
   m_UseRadianceAmbientProbe: 0
@@ -489,11 +489,6 @@ MonoBehaviour:
 --- !u!1 &754729516 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 2660927142203797584, guid: 94164073e6c8c9c4f9079377efebf116, type: 3}
-  m_PrefabInstance: {fileID: 3595400160599029975}
-  m_PrefabAsset: {fileID: 0}
---- !u!20 &778680543 stripped
-Camera:
-  m_CorrespondingSourceObject: {fileID: 6648256369143919044, guid: 94164073e6c8c9c4f9079377efebf116, type: 3}
   m_PrefabInstance: {fileID: 3595400160599029975}
   m_PrefabAsset: {fileID: 0}
 --- !u!1 &779844382 stripped
@@ -1933,6 +1928,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: UI
       objectReference: {fileID: 0}
+    - target: {fileID: 1065245349229081325, guid: 94164073e6c8c9c4f9079377efebf116, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 1938056455997784668, guid: 94164073e6c8c9c4f9079377efebf116, type: 3}
       propertyPath: m_IsActive
       value: 0
@@ -1985,6 +1984,10 @@ PrefabInstance:
       propertyPath: curseTextManager
       value: 
       objectReference: {fileID: 506767967}
+    - target: {fileID: 2660927142203797584, guid: 94164073e6c8c9c4f9079377efebf116, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2869055236264316112, guid: 94164073e6c8c9c4f9079377efebf116, type: 3}
       propertyPath: playerSaikoro
       value: 
@@ -1993,6 +1996,10 @@ PrefabInstance:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 704271956}
+    - target: {fileID: 4764227636412069365, guid: 94164073e6c8c9c4f9079377efebf116, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 5346065982095090067, guid: 94164073e6c8c9c4f9079377efebf116, type: 3}
       propertyPath: m_LocalPosition.x
       value: 9.511991
@@ -2335,6 +2342,10 @@ PrefabInstance:
       propertyPath: playerCloseMirror
       value: 
       objectReference: {fileID: 6290932133941840483}
+    - target: {fileID: 2343484115396658107, guid: 1aeb8873dee6ae442a8fd4e64f5037ad, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2372853929537274613, guid: 1aeb8873dee6ae442a8fd4e64f5037ad, type: 3}
       propertyPath: gameManager
       value: 
@@ -2419,6 +2430,10 @@ PrefabInstance:
       propertyPath: gameManager
       value: 
       objectReference: {fileID: 506767965}
+    - target: {fileID: 3599315327172423407, guid: 1aeb8873dee6ae442a8fd4e64f5037ad, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3867531231903243299, guid: 1aeb8873dee6ae442a8fd4e64f5037ad, type: 3}
       propertyPath: curse
       value: 
@@ -2483,6 +2498,10 @@ PrefabInstance:
       propertyPath: player
       value: 
       objectReference: {fileID: 6290932133941840484}
+    - target: {fileID: 4872678708676369737, guid: 1aeb8873dee6ae442a8fd4e64f5037ad, type: 3}
+      propertyPath: m_NavMeshData
+      value: 
+      objectReference: {fileID: 23800000, guid: 6903935db3bfec940bcee81661f74834, type: 2}
     - target: {fileID: 4981872246308491077, guid: 1aeb8873dee6ae442a8fd4e64f5037ad, type: 3}
       propertyPath: target
       value: 
@@ -2495,6 +2514,10 @@ PrefabInstance:
       propertyPath: player
       value: 
       objectReference: {fileID: 6290932133941840484}
+    - target: {fileID: 5265199450140952936, guid: 1aeb8873dee6ae442a8fd4e64f5037ad, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5383969261496957241, guid: 1aeb8873dee6ae442a8fd4e64f5037ad, type: 3}
       propertyPath: gameManager
       value: 
@@ -2603,6 +2626,10 @@ PrefabInstance:
       propertyPath: player
       value: 
       objectReference: {fileID: 6290932133941840484}
+    - target: {fileID: 8602840148094389001, guid: 1aeb8873dee6ae442a8fd4e64f5037ad, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8846006290376633345, guid: 1aeb8873dee6ae442a8fd4e64f5037ad, type: 3}
       propertyPath: curse
       value: 
@@ -3182,7 +3209,7 @@ PrefabInstance:
     - target: {fileID: 8276875798039258901, guid: a4250938d1fd4b24ca9e7db4eac1d741, type: 3}
       propertyPath: diceCamera
       value: 
-      objectReference: {fileID: 778680543}
+      objectReference: {fileID: 2065954135}
     - target: {fileID: 8276875798039258901, guid: a4250938d1fd4b24ca9e7db4eac1d741, type: 3}
       propertyPath: gameManager
       value: 
