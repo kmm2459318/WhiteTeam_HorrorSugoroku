@@ -23,15 +23,15 @@ public class GlobalLightController : MonoBehaviour
         allLights = FindObjectsOfType<Light>();
 
         // タグで常に明るいライトを取得
-        alwaysBrightLights = allLights.Where(light => light.CompareTag(alwaysBrightTag)).ToList();
+        //alwaysBrightLights = allLights.Where(light => light.CompareTag(alwaysBrightTag)).ToList();
 
         // タグ付きライトを明るく設定（変更せず、明るさを維持）
-        foreach (Light light in alwaysBrightLights)
-        {
-            light.enabled = true;
-            light.intensity = maxIntensity;
-            Debug.Log($"ライト '{light.name}' はタグ '{alwaysBrightTag}' に基づき常に明るい状態に設定されました");
-        }
+        //foreach (Light light in alwaysBrightLights)
+        //{
+        //    light.enabled = true;
+        //    light.intensity = maxIntensity;
+        //    Debug.Log($"ライト '{light.name}' はタグ '{alwaysBrightTag}' に基づき常に明るい状態に設定されました");
+        //}
     }
 
     public void SetPlayerInZone(bool state)
