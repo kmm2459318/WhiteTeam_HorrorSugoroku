@@ -20,6 +20,8 @@ public class Nav : MonoBehaviour
     public int RandomMin = 4; //ランダム移動の最小移動数
     public int RandomMax = 10; //ランダム移動の最大移動数
 
+    public float chaseDistance = 3f; //ランダム移動で指定した値に近づいたら追いかける
+
     private Vector3 lastPlayerPosition;
 
 
@@ -69,7 +71,17 @@ public class Nav : MonoBehaviour
     //ランダム移動
     void Randommove()
     {
-        Debug.Log("ランダム移動");
+
+        float dist = Vector3.Distance(transform.position, target.position);
+        if(dist <= chaseDistance)
+        {
+            Debug.Log("範囲内のためChasePlayerに移行");
+            if (agent.enabled && agent.isOnNavMesh)
+            {
+                agent.SetDestination(target.position);
+            }
+            return;
+        }
 
         // すでに移動中なら何もしない
         if (agent.pathPending || agent.remainingDistance > 0.1f) return;
@@ -88,6 +100,7 @@ public class Nav : MonoBehaviour
 
         // ランダムな移動数
         int steps = Random.Range(RandomMin, RandomMax);
+        Debug.Log("ランダム移動　移動数:" + steps);
 
         // 進む方向と距離を計算
         Vector3 targetPos = transform.position + chosenDir * steps;
