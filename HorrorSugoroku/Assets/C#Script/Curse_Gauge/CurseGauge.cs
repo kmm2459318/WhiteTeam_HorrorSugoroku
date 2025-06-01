@@ -83,7 +83,9 @@ public class CurseSlider : MonoBehaviour
     public bool curse2_1 = false;
     public bool curse2_2 = false;
     public bool curse3_3 = false;
-    public int curse1Turn = 0;
+    public int curse1_1Turn = 0;
+    public int curse1_2Turn = 0;
+    public int curse1_3Turn = 0;
     public bool endTurn = false;
 
     public GameObject Card12;
@@ -104,7 +106,7 @@ public class CurseSlider : MonoBehaviour
     public GameObject HanteiCanvas;
     public TextMeshProUGUI HanteiText;
 
-    public TextMeshProUGUI curseText; // 呪い発動テキスト
+    //public TextMeshProUGUI curseText; // 呪い発動テキスト
     public Button armButton;
     public Button legButton;
     public Button headButton;
@@ -304,15 +306,7 @@ public class CurseSlider : MonoBehaviour
 
         if (endTurn && Input.GetMouseButtonDown(0))
         {
-            endTurn = false;
-            isCardCanvas1 = false;
-
-            Canvas12.SetActive(false);
-            Canvas34.SetActive(false);
-            Canvas56.SetActive(false);
-            Curse1Canvas.SetActive(false);
-            Curse2Canvas.SetActive(false);
-            Curse3Canvas.SetActive(false);
+            StartCoroutine(cardCanvas1End());
         }
         //if (curseAuraEffect1.activeSelf)
         //{
@@ -320,6 +314,22 @@ public class CurseSlider : MonoBehaviour
         //}
 
     }
+
+    IEnumerator cardCanvas1End()
+    {
+        yield return null;
+
+        endTurn = false;
+        isCardCanvas1 = false;
+
+        Canvas12.SetActive(false);
+        Canvas34.SetActive(false);
+        Canvas56.SetActive(false);
+        Curse1Canvas.SetActive(false);
+        Curse2Canvas.SetActive(false);
+        Curse3Canvas.SetActive(false);
+    }
+
     void FixedUpdate()
     {
         if (curseAuraEffect1.activeSelf)
@@ -333,9 +343,24 @@ public class CurseSlider : MonoBehaviour
     }
     public void Curse1(int r)
     {
-        curse1Turn = UnityEngine.Random.Range(3, 6);
-        Debug.Log("呪ターン：" + curse1Turn);
         DescriptionCanvas.SetActive(false);
+
+        int ct = UnityEngine.Random.Range(3, 6);
+        if (curse1Number == 1)
+        {
+            curse1_1Turn = ct;
+            Debug.Log("1呪ターン：" + curse1_1Turn);
+        }
+        else if (curse1Number == 2)
+        {
+            curse1_2Turn = ct;
+            Debug.Log("2呪ターン：" + curse1_2Turn);
+        }
+        else if (curse1Number == 3)
+        {
+            curse1_3Turn = ct;
+            Debug.Log("3呪ターン：" + curse1_3Turn);
+        }
 
         if (r == 1 || r == 2)
         {
@@ -445,7 +470,7 @@ public class CurseSlider : MonoBehaviour
             Canvas34.GetComponent<TurnCard>().CardReset();
             Canvas56.GetComponent<TurnCard>().CardReset();
 
-            yield return new WaitForSeconds(1.0f);
+            yield return null;
         }
         else
         {
