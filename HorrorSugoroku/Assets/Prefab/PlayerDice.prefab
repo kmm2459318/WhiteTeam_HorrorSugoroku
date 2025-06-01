@@ -163,6 +163,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   result: 0
+  dice2miss: 3
+  boxDice: 0
+  strongBoxResult: 0
   player: {fileID: 0}
   faces:
   - {fileID: 633170669319903285}
@@ -175,8 +178,11 @@ MonoBehaviour:
   diceRotation: {fileID: 0}
   curseGauge: {fileID: 0}
   playerSaikoro: {fileID: 0}
+  DescriptionCanvas: {fileID: 0}
+  HanteiCanvas: {fileID: 0}
   diceRangeManager: {fileID: 0}
   targetLocalOffset: {x: -5.47, y: 0, z: -2.54}
+  diceRawImage: {fileID: 0}
 --- !u!114 &5479631405191661526
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -444,7 +450,7 @@ Light:
   serializedVersion: 11
   m_Type: 2
   m_Color: {r: 0.03529412, g: 0.2901961, b: 0.6392157, a: 1}
-  m_Intensity: 20
+  m_Intensity: 50
   m_Range: 10
   m_SpotAngle: 30
   m_InnerSpotAngle: 21.80208

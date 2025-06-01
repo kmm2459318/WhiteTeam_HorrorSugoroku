@@ -131,7 +131,6 @@ public class GameManager : MonoBehaviour
         switch (Doll)
         {
             case 1:
-                EnemyCopy1Demo.SetActive(false);
                 EnemyCopy1.SetActive(true);
                 EnemyCopyOn1 = true;
                 break;
