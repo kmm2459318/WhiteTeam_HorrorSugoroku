@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
+using Unity.VisualScripting.Antlr3.Runtime;
 using UnityEngine;
 
 /*　Outline.csを同じオブジェクトにアタッチしてないと動かない　*/
@@ -17,6 +18,8 @@ public class OutLineFx : MonoBehaviour
     {
         // シーン内のすべての "Item", "Key", "Doll"タグを持つオブジェクトのアウトラインを最初にOFFにする
         string[] tags = { "Item", "Key", "Doll", "Strongbox", "Breaker" };
+
+        curseSlider = FindObjectOfType<CurseSlider>();
 
         foreach (string tag in tags)
         {

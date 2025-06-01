@@ -7,7 +7,6 @@ public class CameraExplore : MonoBehaviour
 {
     public List<Transform> exploreTargets = new List<Transform>();
     public Transform playerCamera;
-    public TextMeshProUGUI exploreText;
     public float moveSpeed = 3f;
     public float exploreRadius = 2f;
     public float returnDuration = 0.5f; // Œ³‚ÌˆÊ’uEŒü‚«‚É–ß‚éŠÔ
@@ -20,7 +19,6 @@ public class CameraExplore : MonoBehaviour
 
     void Start()
     {
-        exploreText.gameObject.SetActive(false);
 
         // ƒJƒƒ‰‚Ì‰ŠúŒü‚«‚ğ•Û‘¶
         originalCameraRotation = playerCamera.rotation;
@@ -74,17 +72,6 @@ public class CameraExplore : MonoBehaviour
             }
         }
 
-        if (closestTarget != null)
-        {
-            exploreText.gameObject.SetActive(true);
-            currentExploreTarget = closestTarget;
-            exploreText.text = "[Q‚Å’Tõ]";
-        }
-        else
-        {
-            exploreText.gameObject.SetActive(false);
-            currentExploreTarget = null;
-        }
     }
 
     void MoveCameraToTarget()
@@ -101,7 +88,6 @@ public class CameraExplore : MonoBehaviour
         if (isExploring)
         {
             isExploring = false;
-            exploreText.gameObject.SetActive(false);
 
             // ‚à‚µ•âŠÔ‚ª“®‚¢‚Ä‚¢‚½‚ç’â~
             if (returnCoroutine != null)
@@ -120,8 +106,6 @@ public class CameraExplore : MonoBehaviour
                 originalCameraPosition = playerCamera.position;
                 originalCameraRotation = playerCamera.rotation;
 
-                exploreText.gameObject.SetActive(true);
-                exploreText.text = "[Q‚Å’Tõ‚ğ‚â‚ß‚é]";
             }
         }
     }
