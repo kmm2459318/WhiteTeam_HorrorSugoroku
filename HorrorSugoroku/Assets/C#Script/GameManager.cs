@@ -1,9 +1,6 @@
 using UnityEngine;
 using TMPro;
-using System.Collections;
-using SmoothigTransform;
 using UnityEngine.AI;
-using JetBrains.Annotations;
 
 public class GameManager : MonoBehaviour
 {

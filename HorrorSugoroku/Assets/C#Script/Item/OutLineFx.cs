@@ -1,7 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
-using Unity.VisualScripting;
-using Unity.VisualScripting.Antlr3.Runtime;
 using UnityEngine;
 
 /*　Outline.csを同じオブジェクトにアタッチしてないと動かない　*/
@@ -46,7 +42,7 @@ public class OutLineFx : MonoBehaviour
             if (hit.collider.CompareTag("Item") || hit.collider.CompareTag("Key") || hit.collider.CompareTag("Doll") || hit.collider.CompareTag("Strongbox") || hit.collider.CompareTag("Breaker"))
             {
                 //プレイヤーが移動完了していたら
-                if (playerSaikoro.exploring && !curseSlider.isCardCanvas1 && !curseSlider.isCardCanvas2)
+                if (playerSaikoro.exploring && !curseSlider.isCardCanvas1 && !curseSlider.isCardCanvas2 && !playerSaikoro.enemyEnd)
                 {
                     Debug.Log("移動完了＆触れている");
                     if (IsLookingAtObject(hit.collider.gameObject)) // **視線の方向にあるか確認**

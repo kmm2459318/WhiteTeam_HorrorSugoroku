@@ -37,7 +37,6 @@ public class CurseSlider : MonoBehaviour
     public TurnManager turnManager;
     public DiceController DiceController;
     public CutIn cutIn;
-    private bool saikorotyu;
     private bool CardSelect1 = false;
     private bool CardSelect2 = false;
     private bool CardSelect3 = false;
@@ -63,8 +62,6 @@ public class CurseSlider : MonoBehaviour
     // 笑い声の AudioSource を事前に設定しておく
     [SerializeField] private AudioSource laughAudioSource;
 
-
-    private int nextShowCardThreshold = 20;
     // カード表示の閾値（20,40,60,80,100）
 
     //小さい呪い、大きい呪いどちらを表示しているかの判定
@@ -120,13 +117,8 @@ public class CurseSlider : MonoBehaviour
     [SerializeField] private AudioSource curseAuraAudioSource2;
     [SerializeField] private AudioSource curseAuraAudioSource3;
     [SerializeField] private AudioSource curseAuraAudioSource4;
-    private GameObject activeEffect = null; // 現在流れているエフェクトを記録
 
-
-
-    [SerializeField] private Vector3 effectOffset = new Vector3(0, -1.5f, -0.5f);
-
-
+    [SerializeField] private Vector3 effectOffset = new Vector3(0, -1.5f, 0f);
 
     void Start()
     {
@@ -574,7 +566,6 @@ public class CurseSlider : MonoBehaviour
 
         // サイコロの出目を1から3に設定
         diceRangeManager.SetDiceRollRange(1, 3);
-        diceController.SetDiceRollRange(1, 3); // DiceControllerにも範囲を設定
         diceRangeManager.EnableTransformRoll(); // 出目の変換を有効にする
         diceController.SetLegButtonEffect(true); // DiceControllerの効果を有効にする
         playerSaikoro.SetLegButtonEffect(true); // PlayerSaikoroの効果を有効にする
@@ -660,6 +651,8 @@ public class CurseSlider : MonoBehaviour
         dashPoint = Mathf.Min(dashPoint + amount + curseincrease, maxDashPoint);
         DashGage.value = dashPoint;
         Debug.Log("[CurseSlider] 呪いゲージ増加: " + amount + " 現在の値: " + dashPoint);
+
+        UpdateCurseEffect();
     }
     private void DivideDiceRoll()
     {
@@ -750,23 +743,17 @@ public class CurseSlider : MonoBehaviour
 
     }
 
-
-
     private HashSet<AudioSource> playedSounds = new HashSet<AudioSource>();
-
-
 
     void LateUpdate()
     {
-        UpdateCurseEffect();
-
         if (curseAuraEffect1.activeSelf)
         {
-            curseAuraEffect1.transform.position = playerTransform.position + new Vector3(0, -1.0f, -0.5f); // 後方へ移動
+            curseAuraEffect1.transform.position = playerTransform.position + new Vector3(0, -1.0f, 0f);
         }
         if (curseAuraEffect2.activeSelf)
         {
-            curseAuraEffect2.transform.position = playerTransform.position + new Vector3(0, -1.0f, -0.3f); // 後方へ移動
+            curseAuraEffect2.transform.position = playerTransform.position + new Vector3(0, -1.0f, 0f);
         }
     }
     void ActivateEffect()

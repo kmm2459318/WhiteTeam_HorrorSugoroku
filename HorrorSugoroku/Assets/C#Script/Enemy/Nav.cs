@@ -22,14 +22,10 @@ public class Nav : MonoBehaviour
 
     public float chaseDistance = 3f; //ランダム移動で指定した値に近づいたら追いかける
 
-    private Vector3 lastPlayerPosition;
-
-
     private void Start()
     {
         agent.obstacleAvoidanceType = ObstacleAvoidanceType.NoObstacleAvoidance;
         agent.avoidancePriority = 50;
-        lastPlayerPosition = target.position;
 
         // NavMeshAgentの自動移動・回転制御を無効にする
         agent.updatePosition = false;
@@ -52,9 +48,6 @@ public class Nav : MonoBehaviour
                 Randommove();
                 break;
         }
-
-        //プレイヤーの位置の更新
-        lastPlayerPosition = target.position;
     }
 
     //プレイヤーを追いかける動作

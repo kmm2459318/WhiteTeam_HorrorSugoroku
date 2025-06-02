@@ -1,7 +1,6 @@
 using System.Collections;  // Åö í«â¡
 using SmoothigTransform;
 using UnityEngine;
-using UnityEngine.UI;
 
 public class ElevatorTile : MonoBehaviour
 {
