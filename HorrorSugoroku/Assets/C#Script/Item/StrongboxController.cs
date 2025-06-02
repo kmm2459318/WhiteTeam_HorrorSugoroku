@@ -5,23 +5,26 @@ using System.Collections;
 
 public class StrongboxController : MonoBehaviour
 {
-    public DiceController diceController; // DiceControllerへの参照
+    public DiceController diceController;
     public PlayerSaikoro playerSaikoro;
     [SerializeField] private Camera diceCamera;
     public GameObject textCanvas;
     public GameObject textbox;
     private bool thisBoxOn = false;
     public int OpenNumber = 0;
-    public string itemToGiveName = ""; // 開いたときに得られるアイテム名（Inspectorで設定可能）
+    public string itemToGiveName = "";
     private PlayerInventory playerInventory;
-    public Animator boxAnimator; // 箱のアニメーター
+    public Animator boxAnimator;
     public TextMeshProUGUI messageText;
-    public GameManager gameManager; // ← GameManager 参照を追加
+    public GameManager gameManager;
     [SerializeField] private CurseSlider curseSlider;
+
+    private float messageDisplayDuration = 3f; // ← Inspectorで調整可能な表示時間
+
     void Start()
     {
         playerInventory = FindObjectOfType<PlayerInventory>();
-        gameManager = FindObjectOfType<GameManager>(); // ← GameManagerを探す
+        gameManager = FindObjectOfType<GameManager>();
 
         if (playerInventory == null)
         {
@@ -32,6 +35,7 @@ public class StrongboxController : MonoBehaviour
             Debug.LogError("GameManager が見つかりません！");
         }
     }
+
     void Update()
     {
         if (thisBoxOn)
@@ -45,7 +49,8 @@ public class StrongboxController : MonoBehaviour
                 if (OpenNumber <= diceController.strongBoxResult)
                 {
                     Debug.Log("————祝福のカギは開かれた。");
-                    messageText.text = "————祝福のカギは開かれた。"; // ← 追加
+                    messageText.text = "————祝福のカギは開かれた。";
+                    StartCoroutine(HideTextCanvasAfterDelay());
 
                     if (boxAnimator != null)
                     {
@@ -57,11 +62,12 @@ public class StrongboxController : MonoBehaviour
                         string uniqueID = itemToGiveName + "_" + Time.time;
                         playerInventory.AddItem(itemToGiveName, uniqueID);
                         Debug.Log($"祝福箱から「{itemToGiveName}」を入手しました！");
-                        messageText.text = $"祝福箱から「{itemToGiveName}」を入手しました！"; // ← 追加
-                                                                               // 人形のときだけ GameManager に登録
+                        messageText.text = $"祝福箱から「{itemToGiveName}」を入手しました！";
+                        StartCoroutine(HideTextCanvasAfterDelay());
+
                         if (itemToGiveName == "人形" && gameManager != null)
                         {
-                            gameManager.Doll++; // ← 人形を1つ追加
+                            gameManager.Doll++;
                             Debug.Log("人形が GameManager に追加されました。現在の数: " + gameManager.Doll);
                         }
                     }
@@ -71,16 +77,16 @@ public class StrongboxController : MonoBehaviour
                 else
                 {
                     Debug.Log("残念無念、また来世ー！");
-                    messageText.text = "残念無念、また来世ー！"; // ← 追加
+                    messageText.text = "残念無念、また来世ー！";
+                    StartCoroutine(HideTextCanvasAfterDelay());
+
                     OpenNumber--;
                     gameObject.tag = "Strongbox";
-
                     StartCoroutine(DashPoint());
                 }
 
                 diceController.strongBoxResult = 0;
                 thisBoxOn = false;
-                //textCanvas.SetActive(false);
             }
         }
     }
@@ -93,7 +99,6 @@ public class StrongboxController : MonoBehaviour
         }
 
         curseSlider.DecreaseDashPoint(10);
-
         diceController.boxDice = false;
     }
 
@@ -102,8 +107,7 @@ public class StrongboxController : MonoBehaviour
         if (!diceController.boxDice)
         {
             diceController.boxDice = true;
-            diceCamera.enabled = true; // 🎲 カメラ表示
-                                                      // playerSaikoro.ResetDiceState(); ← ここで即リセットは NG
+            diceCamera.enabled = true;
         }
 
         if (!thisBoxOn)
@@ -119,6 +123,12 @@ public class StrongboxController : MonoBehaviour
 
     public void FalseCanvas()
     {
+        textCanvas.SetActive(false);
+    }
+
+    private IEnumerator HideTextCanvasAfterDelay()
+    {
+        yield return new WaitForSeconds(messageDisplayDuration);
         textCanvas.SetActive(false);
     }
 }
