@@ -17,7 +17,7 @@ public class SceneChanger3D : MonoBehaviour
     public SubstitutedollController substitutedollController;
     private AudioSource audioSource; // 音声再生用のAudioSource
     private GameObject atackEnemy;
-    private Vector3 ResetPos = new Vector3(0f, 0f, 0.1016667f);
+    private Vector3 ResetPos = new Vector3(1.001f, 0f, 11.742f);
 
     [SerializeField] private float volume = 1.0f; // 音量 (デフォルトは最大)
 
