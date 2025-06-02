@@ -304,7 +304,7 @@ public class CurseSlider : MonoBehaviour
 
         UpdateImageGauges();
 
-        if (endTurn && Input.GetMouseButtonDown(0))
+        if (endTurn && Input.GetKeyDown(KeyCode.Space))
         {
             StartCoroutine(cardCanvas1End());
         }
