@@ -54,7 +54,7 @@ public class StrongboxController : MonoBehaviour
 
                     if (boxAnimator != null)
                     {
-                        boxAnimator.SetTrigger("OrenTrigger");
+                        boxAnimator.SetBool("Door", true);
                     }
 
                     if (playerInventory != null && !string.IsNullOrEmpty(itemToGiveName))
