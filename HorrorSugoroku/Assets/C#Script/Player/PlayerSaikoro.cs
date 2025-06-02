@@ -347,8 +347,8 @@ public class PlayerSaikoro : MonoBehaviour
             this.exploringCoolTime += Time.deltaTime;
         }
 
-        // Fキーを押したら探索を終了し、次のターンへ
-        if ((exploring && Input.GetKeyDown(KeyCode.F) && !diceController.boxDice && !curseGauge.isCardCanvas1 && !curseGauge.isCardCanvas2) || enemyEnd)
+        // Spaceキーを押したら探索を終了し、次のターンへ
+        if ((exploring && Input.GetKeyDown(KeyCode.Space) && !diceController.boxDice && !curseGauge.isCardCanvas1 && !curseGauge.isCardCanvas2) || enemyEnd)
         {
             enemyEnd = true;
             if (enemyStop.stopMasu && (enemyStop1.stopMasu || !gameManager.EnemyCopyOn1) && (enemyStop2.stopMasu || !gameManager.EnemyCopyOn2) &&
