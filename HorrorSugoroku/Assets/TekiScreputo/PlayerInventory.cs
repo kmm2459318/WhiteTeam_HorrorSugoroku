@@ -123,7 +123,7 @@ public class PlayerInventory : MonoBehaviour
             kill2Text.text = $" {GetItemCount("二階の鍵")}";
 
         if (tikaText != null)
-            tikaText.text = $" {GetItemCount("地下室の鍵")}";
+            tikaText.text = $" {GetItemCount("地下の鍵")}";
     }
 
     public int GetItemCount(string itemName)
