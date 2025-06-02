@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections;
+using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -82,7 +83,9 @@ public class CurseSlider : MonoBehaviour
     public bool curse2_1 = false;
     public bool curse2_2 = false;
     public bool curse3_3 = false;
-    public int curse1Turn = 0;
+    public int curse1_1Turn = 0;
+    public int curse1_2Turn = 0;
+    public int curse1_3Turn = 0;
     public bool endTurn = false;
 
     public GameObject Card12;
@@ -103,16 +106,25 @@ public class CurseSlider : MonoBehaviour
     public GameObject HanteiCanvas;
     public TextMeshProUGUI HanteiText;
 
-    public TextMeshProUGUI curseText; // 呪い発動テキスト
+    //public TextMeshProUGUI curseText; // 呪い発動テキスト
     public Button armButton;
     public Button legButton;
     public Button headButton;
 
     public GameObject curseAuraEffect1;
     public GameObject curseAuraEffect2;
+    public GameObject curseAuraEffect3;
+    public GameObject curseAuraEffect4;
+
+    [SerializeField] private AudioSource curseAuraAudioSource1;
+    [SerializeField] private AudioSource curseAuraAudioSource2;
+    [SerializeField] private AudioSource curseAuraAudioSource3;
+    [SerializeField] private AudioSource curseAuraAudioSource4;
+    private GameObject activeEffect = null; // 現在流れているエフェクトを記録
+
+
+
     [SerializeField] private Vector3 effectOffset = new Vector3(0, -1.5f, -0.5f);
-    [SerializeField] private GameObject curseEffect1; // インスペクターから設定可能
-    [SerializeField] private GameObject curseEffect2; // インスペクターから設定可能
 
 
 
@@ -294,15 +306,7 @@ public class CurseSlider : MonoBehaviour
 
         if (endTurn && Input.GetMouseButtonDown(0))
         {
-            endTurn = false;
-            isCardCanvas1 = false;
-
-            Canvas12.SetActive(false);
-            Canvas34.SetActive(false);
-            Canvas56.SetActive(false);
-            Curse1Canvas.SetActive(false);
-            Curse2Canvas.SetActive(false);
-            Curse3Canvas.SetActive(false);
+            StartCoroutine(cardCanvas1End());
         }
         //if (curseAuraEffect1.activeSelf)
         //{
@@ -310,6 +314,22 @@ public class CurseSlider : MonoBehaviour
         //}
 
     }
+
+    IEnumerator cardCanvas1End()
+    {
+        yield return null;
+
+        endTurn = false;
+        isCardCanvas1 = false;
+
+        Canvas12.SetActive(false);
+        Canvas34.SetActive(false);
+        Canvas56.SetActive(false);
+        Curse1Canvas.SetActive(false);
+        Curse2Canvas.SetActive(false);
+        Curse3Canvas.SetActive(false);
+    }
+
     void FixedUpdate()
     {
         if (curseAuraEffect1.activeSelf)
@@ -323,9 +343,24 @@ public class CurseSlider : MonoBehaviour
     }
     public void Curse1(int r)
     {
-        curse1Turn = UnityEngine.Random.Range(3, 6);
-        Debug.Log("呪ターン：" + curse1Turn);
         DescriptionCanvas.SetActive(false);
+
+        int ct = UnityEngine.Random.Range(3, 6);
+        if (curse1Number == 1)
+        {
+            curse1_1Turn = ct;
+            Debug.Log("1呪ターン：" + curse1_1Turn);
+        }
+        else if (curse1Number == 2)
+        {
+            curse1_2Turn = ct;
+            Debug.Log("2呪ターン：" + curse1_2Turn);
+        }
+        else if (curse1Number == 3)
+        {
+            curse1_3Turn = ct;
+            Debug.Log("3呪ターン：" + curse1_3Turn);
+        }
 
         if (r == 1 || r == 2)
         {
@@ -426,7 +461,7 @@ public class CurseSlider : MonoBehaviour
             // 呪いカードを表示する処理
             curse1Number = UnityEngine.Random.Range(1, 4);
             //Curse1Canvas.SetActive(true); // 呪いカード表示
-            
+
             DescriptionCanvas.SetActive(true);
             Canvas12.SetActive(true);
             Canvas34.SetActive(true);
@@ -435,7 +470,7 @@ public class CurseSlider : MonoBehaviour
             Canvas34.GetComponent<TurnCard>().CardReset();
             Canvas56.GetComponent<TurnCard>().CardReset();
 
-            yield return new WaitForSeconds(1.0f);
+            yield return null;
         }
         else
         {
@@ -459,40 +494,13 @@ public class CurseSlider : MonoBehaviour
             EyeButton.interactable = !isEyeButtonUsed;
 
             // インスペクターで指定したエフェクトを4秒間流す
-            StartCoroutine(PlayEffectForDuration(curseEffect1, 7.0f));
+            StartCoroutine(PlayEffectForDuration(curseAuraEffect3, 7.0f));
 
             yield return new WaitForSeconds(1.0f);
         }
         else
         {
             Debug.LogError("CardCanvas2 が null です");
-        }
-    }
-    private IEnumerator PlayEffectForDuration(GameObject effect, float duration)
-    {
-        if (effect != null)
-        {
-            effect.SetActive(true);
-
-            ParticleSystem particle = effect.GetComponent<ParticleSystem>();
-            if (particle != null)
-            {
-                particle.Play();
-            }
-
-            Debug.Log(effect.name + " が再生されました");
-        }
-        else
-        {
-            Debug.LogError("エフェクトが指定されていません！");
-        }
-
-        yield return new WaitForSeconds(duration);
-
-        if (effect != null)
-        {
-            effect.SetActive(false);
-            Debug.Log(effect.name + " が停止しました");
         }
     }
 
@@ -520,7 +528,7 @@ public class CurseSlider : MonoBehaviour
             Time.timeScale = 1;
             StartCoroutine(WaitThenShowCutIn());
 
-         }
+        }
     }
 
     private IEnumerator WaitThenShowCutIn()
@@ -673,57 +681,81 @@ public class CurseSlider : MonoBehaviour
         return CardCanvas1.activeSelf || CardCanvas2.activeSelf;
     }
 
+    private void PlayCurseSoundForDuration(AudioSource source, float duration)
+    {
+        if (source != null && !source.isPlaying)
+        {
+            source.Play();
+            StartCoroutine(StopSoundAfterDuration(source, duration));
+        }
+    }
+
+
+    private IEnumerator StopSoundAfterDuration(AudioSource source, float duration)
+    {
+        yield return new WaitForSeconds(duration);
+
+        if (source != null && source.isPlaying)
+        {
+            source.Stop();
+            source.loop = false;
+            Debug.Log(source.clip.name + " の再生を停止しました");
+        }
+    }
     private void UpdateCurseEffect()
     {
-        //ダッシュポイントが 100 ～ 199 の間なら `curseAuraEffect1` を表示
+        Debug.Log($"現在の dashPoint 値: {dashPoint}");
+
         if (dashPoint >= 10 && dashPoint <= 19)
         {
             curseAuraEffect1.SetActive(true);
-            curseAuraEffect2.SetActive(false); // もう片方を非表示
-            Debug.Log("curseAuraEffect1が流れました。");
+            curseAuraEffect2.SetActive(false);
+            curseAuraEffect3.SetActive(false);
+            curseAuraEffect4.SetActive(false);
 
+            StartCoroutine(PlayEffectForDuration(curseAuraEffect1, 5.0f));
+            StartCoroutine(PlaySoundForDuration(curseAuraAudioSource1, 3.0f));
         }
-        // ダッシュポイントが 200 以上なら `curseAuraEffect2` を表示
-        else if (dashPoint >= 20)
+        else if (dashPoint >= 20 && dashPoint <= 99)
         {
-            curseAuraEffect1.SetActive(false); // もう片方を非表示
+            curseAuraEffect1.SetActive(false);
             curseAuraEffect2.SetActive(true);
-            Debug.Log("curseAuraEffect2が流れました。");
+            curseAuraEffect3.SetActive(false);
+            curseAuraEffect4.SetActive(false);
 
+            StartCoroutine(PlayEffectForDuration(curseAuraEffect2, 5.0f));
+            StartCoroutine(PlaySoundForDuration(curseAuraAudioSource2, 3.0f));
         }
-        if (dashPoint >= 100 && dashPoint < 200)
+        else if (dashPoint >= 100 && dashPoint <= 199)
         {
-            curseEffect1.SetActive(true);  // 呪いゲージが100以上で表示
-            curseEffect2.SetActive(false); // 200未満なら2は非表示
-            Debug.Log("curseEffect1 が流れました (呪いゲージ: 100以上)");
+            curseAuraEffect1.SetActive(false);
+            curseAuraEffect2.SetActive(false);
+            curseAuraEffect4.SetActive(false);
+            curseAuraEffect3.SetActive(true);
+
+            StartCoroutine(PlayEffectForDuration(curseAuraEffect3, 7.0f));
+            StartCoroutine(PlaySoundForDuration(curseAuraAudioSource3, 3.0f));
         }
         else if (dashPoint >= 200)
         {
-            curseEffect1.SetActive(false); // 200以上になったら1を非表示
-            curseEffect2.SetActive(true);  // 200以上で2を表示
-            Debug.Log("curseEffect2 が流れました (呪いゲージ: 200以上)");
-        }
-        else
-        {
-            curseEffect1.SetActive(false);
-            curseEffect2.SetActive(false);
-            Debug.Log("呪いエフェクトなし (呪いゲージ: 100未満)");
+            curseAuraEffect1.SetActive(false);
+            curseAuraEffect2.SetActive(false);
+            curseAuraEffect3.SetActive(false);
+            curseAuraEffect4.SetActive(true);
+
+            StartCoroutine(PlayEffectForDuration(curseAuraEffect4, 7.0f));
+            StartCoroutine(PlaySoundForDuration(curseAuraAudioSource4, 3.0f));
         }
 
-        //// それ以外の時は両方非表示
-        //else
-        //{
-        //    curseAuraEffect1.SetActive(false);
-        //    curseAuraEffect2.SetActive(false);
-        //    Debug.Log("呪いエフェクトは非表示状態です。");
-
-        //}
-        Debug.Log($"現在のダッシュポイント: {dashPoint}");
-        //Debug.Log($"curseAuraEffect1の位置: {curseAuraEffect1.transform.position}");
-        //Debug.Log($"curseAuraEffect2の位置: {curseAuraEffect2.transform.position}");
-        //Debug.Log($"プレイヤーの位置: {playerTransform.position}");
 
     }
+
+
+
+    private HashSet<AudioSource> playedSounds = new HashSet<AudioSource>();
+
+
+
     void LateUpdate()
     {
         UpdateCurseEffect();
@@ -734,7 +766,7 @@ public class CurseSlider : MonoBehaviour
         }
         if (curseAuraEffect2.activeSelf)
         {
-            curseAuraEffect2.transform.position = playerTransform.position + new Vector3(0, -0.7f, -0.3f); // 後方へ移動
+            curseAuraEffect2.transform.position = playerTransform.position + new Vector3(0, -1.0f, -0.3f); // 後方へ移動
         }
     }
     void ActivateEffect()
@@ -750,4 +782,31 @@ public class CurseSlider : MonoBehaviour
             Debug.LogError("curseAuraEffect1 がアタッチされていません！");
         }
     }
+    private IEnumerator PlayEffectForDuration(GameObject effect, float duration)
+    {
+        if (effect != null)
+        {
+            effect.SetActive(true);
+            Debug.Log(effect.name + " が開始しました");
+
+            yield return new WaitForSeconds(duration);
+
+            effect.SetActive(false);
+            Debug.Log(effect.name + " を停止しました");
+        }
+    }
+
+
+
+    // 3秒後に音声を停止
+    private IEnumerator PlaySoundForDuration(AudioSource source, float duration)
+    {
+        if (source != null && !source.isPlaying)
+        {
+            source.Play();
+            yield return new WaitForSeconds(duration);
+            source.Stop();
+        }
+    }
+
 }

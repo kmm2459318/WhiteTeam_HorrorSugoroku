@@ -71,7 +71,7 @@ public class ClickObject : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetMouseButtonDown(0) && !hasClicked)
+        if (Input.GetMouseButtonDown(0) && !hasClicked && !curse.isCardCanvas1 && !curse.isCardCanvas2)
         {
             hasClicked = true;
             Ray ray = raycastCamera.ScreenPointToRay(Input.mousePosition);
@@ -261,9 +261,14 @@ public class ClickObject : MonoBehaviour
             return;
         }
 
-        // 抽選候補
-        string[] randomItems = { "身代わり人形", "回復薬", "何もない" };
-        string selected = randomItems[Random.Range(0, randomItems.Length)];
+        // 各アイテムとその出現確率（重み）
+        Dictionary<string, float> itemChances = new Dictionary<string, float>()
+    {
+        { "身代わり人形", 20f },  // 10%
+        { "回復薬", 20f },        // 60%
+        { "何もない", 30f }       // 30%
+    };
+        string selected = GetWeightedRandomItem(itemChances);
 
         if (selected == "何もない")
         {
@@ -272,8 +277,8 @@ public class ClickObject : MonoBehaviour
             return;
         }
 
-        else
-        {
+      
+        
             // クールダウン中で既に所持していたらスキップ
             if (isCooldown && playerInventory.HasItem(selected))
             {
@@ -293,7 +298,26 @@ public class ClickObject : MonoBehaviour
                 // ランダム抽選のクールダウン開始
                 StartCoroutine(RandomItemCooldown());
             }
+        
+    }
+    string GetWeightedRandomItem(Dictionary<string, float> items)
+    {
+        float totalWeight = 0f;
+
+        foreach (var pair in items)
+            totalWeight += pair.Value;
+
+        float randomValue = Random.Range(0f, totalWeight);
+        float cumulativeWeight = 0f;
+
+        foreach (var pair in items)
+        {
+            cumulativeWeight += pair.Value;
+            if (randomValue <= cumulativeWeight)
+                return pair.Key;
         }
+
+        return "何もない"; // フォールバック（理論上起こらない）
     }
     void ShowItemUIAndPrefab(string itemName)
     {
@@ -373,7 +397,7 @@ public class ClickObject : MonoBehaviour
     //人形を拾うと人形の所持カウントを増やす
     void ExecuteScriptB()
     {
-        if (gameManager.Doll <= 5)
+        if (gameManager.Doll < 5)
         {
             Debug.Log("人形を拾った。");
             gameManager.Doll++;

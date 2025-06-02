@@ -58,14 +58,16 @@ public class DiceController : MonoBehaviour
 
 
     // 🎯 出目が決まったら回転と移動を開始
-    void ApplyDiceResult(int result)
+    void ApplyDiceResult(int resul)
     {
-        if (result >= 1 && result <= 6)
+        if (resul >= 1 && resul <= 6)
         {
-            targetRotation = Quaternion.Euler(faceRotations[result - 1]); // 🎯 目標の回転を設定
+            targetRotation = Quaternion.Euler(faceRotations[resul - 1]); // 🎯 目標の回転を設定
             rotateToFace = true;
             moveToTarget = true;
         }
+
+        result = -1;
     }
 
     void Start()
@@ -253,6 +255,9 @@ public class DiceController : MonoBehaviour
                         {
                             StartCoroutine(playerSaikoro.HideDiceCameraWithDelay()); // 🎯 カメラの非表示を遅延
                             strongBoxResult = result;
+                            // 🎯 処理完了後に状態をリセット
+                            ResetDiceState();
+                            boxDice = false; // フラグもリセット
                         }
                         ApplyDiceResult(result); // 🎯 **ここで即回転開始**
                     }
@@ -292,23 +297,48 @@ public class DiceController : MonoBehaviour
         isStopped = false;
     }
 
+    //public void ResetDiceState()
+    //{
+    //    hasBeenThrown = false;
+    //    isHeld = false;
+    //    isStopped = false;
+    //    rotateToFace = false;
+    //    moveToReset = true;
+
+    //    // ✅ RawImage を表示する「直前」に1の面が上になるように回転をリセット
+    //    transform.rotation = Quaternion.Euler(faceRotations[0]); // ← 1の面が上（-90, 0, 0）
+
+    //    if (diceRawImage != null)
+    //        diceRawImage.enabled = true; // ✅ RawImage を表示
+
+    //    Debug.Log("さいころリセットしたよん！");
+    //}
+
     public void ResetDiceState()
     {
+        // 状態フラグリセット
         hasBeenThrown = false;
         isHeld = false;
         isStopped = false;
         rotateToFace = false;
-        moveToReset = true;
+        moveToReset = false;
+        moveToTarget = false;
 
-        // ✅ RawImage を表示する「直前」に1の面が上になるように回転をリセット
-        transform.rotation = Quaternion.Euler(faceRotations[0]); // ← 1の面が上（-90, 0, 0）
+        // Rigidbody を完全リセット
+        rb.isKinematic = true;
+        rb.linearVelocity = Vector3.zero;
+        rb.angularVelocity = Vector3.zero;
 
+        // 位置と回転を初期状態に戻す
+        transform.localPosition = initialLocalPosition;
+        transform.rotation = Quaternion.Euler(faceRotations[0]); // 1の面が上（例: -90, 0, 0）
+
+        // RawImage 表示
         if (diceRawImage != null)
-            diceRawImage.enabled = true; // ✅ RawImage を表示
+            diceRawImage.enabled = true;
 
-        Debug.Log("さいころリセットしたよん！");
+        Debug.Log("サイコロを完全リセットしました！");
     }
-
 
     public void SetDiceRollRange(int min, int max)
     {

@@ -75,15 +75,14 @@ public class GameManager : MonoBehaviour
 
     private void Update()
     {
-        // 持っている人形の数を増やす
-        //if (Input.GetKeyDown(KeyCode.R))
-        //{
-        //    if (Doll <= 5)
-        //    {
-        //        //MpPlus();
-        //        Doll++;
-        //    }
-        //}
+        //デバッグ用
+        if (Input.GetKeyDown(KeyCode.D))
+        {
+            if (Doll < 5)
+            {
+                Doll++;
+            }
+        }
 
         if (optionCanvas != null)
         {
@@ -129,10 +128,9 @@ public class GameManager : MonoBehaviour
         //}
 
         //人形を置くごとに鬼が増える処理
-        switch (statue.PutDoll)
+        switch (Doll)
         {
             case 1:
-                EnemyCopy1Demo.SetActive(false);
                 EnemyCopy1.SetActive(true);
                 EnemyCopyOn1 = true;
                 break;
@@ -219,9 +217,13 @@ public class GameManager : MonoBehaviour
             Debug.Log("ttttt");
                 footstepSound.Stop(); // 足音を完全に停止
 
-            curseSlider.curse1Turn--;
+            //呪いターン減少
+            curseSlider.curse1_1Turn--;
+            curseSlider.curse1_2Turn--;
+            curseSlider.curse1_3Turn--;
+
             //呪解除
-            if (curseSlider.curse1Turn == 0)
+            if (curseSlider.curse1_1Turn == 0)
             {
                 curseSlider.curse1_1 = false;
                 curseSlider.curse1_2 = false;
