@@ -15,6 +15,8 @@ public class JumpScareAnimation : MonoBehaviour
     private float timeReset = 2f;
     public JumpScareAnimation jumpScareAnimation; // JumpScareAnimation クラスのインスタンス
     private AudioSource audioSource; // 音声再生用のAudioSource
+    public AudioClip Ahh;
+    public AudioClip ME;
     [SerializeField] private AudioClip screamSound; // 悲鳴サウンド
 
     void Start()
@@ -82,7 +84,20 @@ public class JumpScareAnimation : MonoBehaviour
             // ここに悲鳴サウンドを入れる
             if (screamSound != null && audioSource != null)
             {
-                audioSource.clip = screamSound;
+                int rnd = Random.Range(1, 500);
+                if (rnd == 4)
+                {
+                    audioSource.clip = Ahh;
+                }
+                else if (rnd == 100)
+                {
+                    audioSource.clip = ME;
+                }
+                else
+                {
+                    audioSource.clip = screamSound;
+                }
+                Debug.Log(rnd);
                 audioSource.Play();
             }
         }
