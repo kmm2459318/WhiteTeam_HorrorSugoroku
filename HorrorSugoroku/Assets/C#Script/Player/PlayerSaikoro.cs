@@ -27,17 +27,12 @@ public class PlayerSaikoro : MonoBehaviour
     public bool saikorotyu = true; // サイコロを振っているか
     public bool idoutyu = false;
     public bool exploring = false; // 探索中の判定（追加）
-    private bool magarityu = false;
     private bool idouspan = false;
     private bool idouspanIkidomari = false;
     public bool enemyEnd = false;
     private float posFactZ = 0.6f;
-    private float saikoroTime = 0; // サイコロの時間の計測
-    private float magariTime = 0; // 曲がりの時間の計測
     private float idouspanTime = 0;
     private float idouspanIkidomariTime = 0;
-    private float exploringCoolTime = 0;
-    private float enemyendTime = 0;
     private int ii = 0; // 繰り返し回数
     private int detame = 0; //出た値（ストッパー）
     private bool PN = false; // プレイヤーの東西南北
@@ -46,8 +41,6 @@ public class PlayerSaikoro : MonoBehaviour
     private bool PS = false;
     private int[] lastAction = new int[7]; // 前の行動の記録【北：１、西：２、東：３、南：４】
     private int lastaction;
-    private int mesen = 1; //目線【北：１、西：２、東：３、南：４】
-    private float Pkakudo = 0; //プレイヤーのＹ軸角度
     public Sprite s1;
     public Sprite s2;
     public Sprite s3;
@@ -74,12 +67,9 @@ public class PlayerSaikoro : MonoBehaviour
     public Material neonMaterial;
     public GameObject PSouth;
     public GameObject Camera;
-    Vector3 lastPos = new Vector3(0, 0, 0);
     private int minDiceValue = 1;
     private int maxDiceValue = 6;
-    Vector3 nnn = new Vector3(0, 0, 0);
     //Vector3 Pos;
-    Vector3 Rotation;
     Vector3 Rot;
     int i;
     Image image;
@@ -87,10 +77,6 @@ public class PlayerSaikoro : MonoBehaviour
     [SerializeField] private RawImage diceUI; // UI参照
     [SerializeField] private Camera diceCamera; // カメラ参照
     private float diceCameraHideDelay = 0.5f; // 🎯 非表示にするまでの遅延時間（秒）
-
-    int movesum;
-
-    int number;
     
     public bool gaugeCircle;
     public bool diceLight;
@@ -340,11 +326,6 @@ public class PlayerSaikoro : MonoBehaviour
                 //呪い溜まってないか判定(ここまでには呪いの判定を済ませとく)
                 StartCoroutine(idoutyuHantei());
             }
-        }
-
-        if (exploring)
-        {
-            this.exploringCoolTime += Time.deltaTime;
         }
 
         // Spaceキーを押したら探索を終了し、次のターンへ
