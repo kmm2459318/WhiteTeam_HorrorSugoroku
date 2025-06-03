@@ -125,6 +125,7 @@ public class CurseSlider : MonoBehaviour
 
 
     [SerializeField] private Vector3 effectOffset = new Vector3(0, -1.5f, -0.5f);
+    private float previousDashPoint = 0; // 前回の呪いゲージ値を記録
 
 
 
@@ -705,51 +706,56 @@ public class CurseSlider : MonoBehaviour
     private void UpdateCurseEffect()
     {
         Debug.Log($"現在の dashPoint 値: {dashPoint}");
-
-        if (dashPoint >= 10 && dashPoint <= 19)
+        // **呪いゲージが増加した場合のみ発動**
+        if (dashPoint > previousDashPoint)
         {
-            curseAuraEffect1.SetActive(true);
-            curseAuraEffect2.SetActive(false);
-            curseAuraEffect3.SetActive(false);
-            curseAuraEffect4.SetActive(false);
 
-            StartCoroutine(PlayEffectForDuration(curseAuraEffect1, 5.0f));
-            StartCoroutine(PlaySoundForDuration(curseAuraAudioSource1, 3.0f));
+            if (dashPoint >= 10 && dashPoint <= 19)
+            {
+                curseAuraEffect1.SetActive(true);
+                curseAuraEffect2.SetActive(false);
+                curseAuraEffect3.SetActive(false);
+                curseAuraEffect4.SetActive(false);
+
+                StartCoroutine(PlayEffectForDuration(curseAuraEffect1, 5.0f));
+                StartCoroutine(PlaySoundForDuration(curseAuraAudioSource1, 3.0f));
+            }
+            else if (dashPoint >= 20 && dashPoint <= 99)
+            {
+                curseAuraEffect1.SetActive(false);
+                curseAuraEffect2.SetActive(true);
+                curseAuraEffect3.SetActive(false);
+                curseAuraEffect4.SetActive(false);
+
+                StartCoroutine(PlayEffectForDuration(curseAuraEffect2, 5.0f));
+                StartCoroutine(PlaySoundForDuration(curseAuraAudioSource2, 3.0f));
+            }
+            else if (dashPoint >= 100 && dashPoint <= 199)
+            {
+                curseAuraEffect1.SetActive(false);
+                curseAuraEffect2.SetActive(false);
+                curseAuraEffect4.SetActive(false);
+                curseAuraEffect3.SetActive(true);
+
+                StartCoroutine(PlayEffectForDuration(curseAuraEffect3, 7.0f));
+                StartCoroutine(PlaySoundForDuration(curseAuraAudioSource3, 3.0f));
+            }
+            else if (dashPoint >= 200)
+            {
+                curseAuraEffect1.SetActive(false);
+                curseAuraEffect2.SetActive(false);
+                curseAuraEffect3.SetActive(false);
+                curseAuraEffect4.SetActive(true);
+
+                StartCoroutine(PlayEffectForDuration(curseAuraEffect4, 7.0f));
+                StartCoroutine(PlaySoundForDuration(curseAuraAudioSource4, 3.0f));
+            }
+
+
         }
-        else if (dashPoint >= 20 && dashPoint <= 99)
-        {
-            curseAuraEffect1.SetActive(false);
-            curseAuraEffect2.SetActive(true);
-            curseAuraEffect3.SetActive(false);
-            curseAuraEffect4.SetActive(false);
-
-            StartCoroutine(PlayEffectForDuration(curseAuraEffect2, 5.0f));
-            StartCoroutine(PlaySoundForDuration(curseAuraAudioSource2, 3.0f));
-        }
-        else if (dashPoint >= 100 && dashPoint <= 199)
-        {
-            curseAuraEffect1.SetActive(false);
-            curseAuraEffect2.SetActive(false);
-            curseAuraEffect4.SetActive(false);
-            curseAuraEffect3.SetActive(true);
-
-            StartCoroutine(PlayEffectForDuration(curseAuraEffect3, 7.0f));
-            StartCoroutine(PlaySoundForDuration(curseAuraAudioSource3, 3.0f));
-        }
-        else if (dashPoint >= 200)
-        {
-            curseAuraEffect1.SetActive(false);
-            curseAuraEffect2.SetActive(false);
-            curseAuraEffect3.SetActive(false);
-            curseAuraEffect4.SetActive(true);
-
-            StartCoroutine(PlayEffectForDuration(curseAuraEffect4, 7.0f));
-            StartCoroutine(PlaySoundForDuration(curseAuraAudioSource4, 3.0f));
-        }
-
+        previousDashPoint = dashPoint;
 
     }
-
 
 
     private HashSet<AudioSource> playedSounds = new HashSet<AudioSource>();

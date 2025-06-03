@@ -134,6 +134,16 @@ Light:
   m_CorrespondingSourceObject: {fileID: 5836956426564218358, guid: 94164073e6c8c9c4f9079377efebf116, type: 3}
   m_PrefabInstance: {fileID: 3595400160599029975}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &34926947 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5121339533355842022, guid: 43b5d38b7b5cb0a40a58a771554554ac, type: 3}
+  m_PrefabInstance: {fileID: 6290932133941840481}
+  m_PrefabAsset: {fileID: 0}
+--- !u!82 &34926949 stripped
+AudioSource:
+  m_CorrespondingSourceObject: {fileID: 4899282318974031028, guid: 43b5d38b7b5cb0a40a58a771554554ac, type: 3}
+  m_PrefabInstance: {fileID: 6290932133941840481}
+  m_PrefabAsset: {fileID: 0}
 --- !u!114 &35263654 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 3323727070512664014, guid: 94164073e6c8c9c4f9079377efebf116, type: 3}
@@ -198,9 +208,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0092fc97b829d6a448cd944b08bb6925, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!1 &294477235 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 4072250003070089649, guid: 43b5d38b7b5cb0a40a58a771554554ac, type: 3}
+--- !u!82 &294477236 stripped
+AudioSource:
+  m_CorrespondingSourceObject: {fileID: 7826170699154296255, guid: 43b5d38b7b5cb0a40a58a771554554ac, type: 3}
   m_PrefabInstance: {fileID: 6290932133941840481}
   m_PrefabAsset: {fileID: 0}
 --- !u!195 &307191064 stripped
@@ -603,11 +613,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!1 &1092074761 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 4407404763869931258, guid: 43b5d38b7b5cb0a40a58a771554554ac, type: 3}
-  m_PrefabInstance: {fileID: 6290932133941840481}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1096151090 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 7020568264991563336, guid: 94164073e6c8c9c4f9079377efebf116, type: 3}
@@ -837,9 +842,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   keyRandomizer: {fileID: 1291566830}
---- !u!1 &1386922887 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 7739502200181836497, guid: 43b5d38b7b5cb0a40a58a771554554ac, type: 3}
+--- !u!82 &1386922888 stripped
+AudioSource:
+  m_CorrespondingSourceObject: {fileID: 4515123322981063953, guid: 43b5d38b7b5cb0a40a58a771554554ac, type: 3}
   m_PrefabInstance: {fileID: 6290932133941840481}
   m_PrefabAsset: {fileID: 0}
 --- !u!114 &1394873662 stripped
@@ -1803,11 +1808,6 @@ MonoBehaviour:
 Camera:
   m_CorrespondingSourceObject: {fileID: 6980530067746792791, guid: 94164073e6c8c9c4f9079377efebf116, type: 3}
   m_PrefabInstance: {fileID: 3595400160599029975}
-  m_PrefabAsset: {fileID: 0}
---- !u!1 &2119486119 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 4993723626620859732, guid: 43b5d38b7b5cb0a40a58a771554554ac, type: 3}
-  m_PrefabInstance: {fileID: 6290932133941840481}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &538631844490539543
 PrefabInstance:
@@ -3464,6 +3464,10 @@ PrefabInstance:
       propertyPath: diceRangeManager
       value: 
       objectReference: {fileID: 8835497271487954658}
+    - target: {fileID: 5121339533355842022, guid: 43b5d38b7b5cb0a40a58a771554554ac, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5128310764776103738, guid: 43b5d38b7b5cb0a40a58a771554554ac, type: 3}
       propertyPath: enemyStop
       value: 
@@ -3502,15 +3506,31 @@ PrefabInstance:
       objectReference: {fileID: 654290322}
     - target: {fileID: 6700426803218984859, guid: 43b5d38b7b5cb0a40a58a771554554ac, type: 3}
       propertyPath: keys.Array.size
-      value: 1
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 6700426803218984859, guid: 43b5d38b7b5cb0a40a58a771554554ac, type: 3}
       propertyPath: keys.Array.data[0].count
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6700426803218984859, guid: 43b5d38b7b5cb0a40a58a771554554ac, type: 3}
+      propertyPath: keys.Array.data[1].count
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6700426803218984859, guid: 43b5d38b7b5cb0a40a58a771554554ac, type: 3}
+      propertyPath: keys.Array.data[2].count
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6700426803218984859, guid: 43b5d38b7b5cb0a40a58a771554554ac, type: 3}
       propertyPath: keys.Array.data[0].keyName
       value: "\u4E00\u968E\u306E\u9375"
+      objectReference: {fileID: 0}
+    - target: {fileID: 6700426803218984859, guid: 43b5d38b7b5cb0a40a58a771554554ac, type: 3}
+      propertyPath: keys.Array.data[1].keyName
+      value: "\u5730\u4E0B\u306E\u9375"
+      objectReference: {fileID: 0}
+    - target: {fileID: 6700426803218984859, guid: 43b5d38b7b5cb0a40a58a771554554ac, type: 3}
+      propertyPath: keys.Array.data[2].keyName
+      value: "\u4E8C\u968E\u306E\u9375"
       objectReference: {fileID: 0}
     - target: {fileID: 6909762398967604565, guid: 43b5d38b7b5cb0a40a58a771554554ac, type: 3}
       propertyPath: cutInImage
@@ -3881,19 +3901,19 @@ PrefabInstance:
     - target: {fileID: 8276875798039258901, guid: a4250938d1fd4b24ca9e7db4eac1d741, type: 3}
       propertyPath: curseAuraEffect1
       value: 
-      objectReference: {fileID: 2119486119}
+      objectReference: {fileID: 0}
     - target: {fileID: 8276875798039258901, guid: a4250938d1fd4b24ca9e7db4eac1d741, type: 3}
       propertyPath: curseAuraEffect2
       value: 
-      objectReference: {fileID: 1386922887}
+      objectReference: {fileID: 0}
     - target: {fileID: 8276875798039258901, guid: a4250938d1fd4b24ca9e7db4eac1d741, type: 3}
       propertyPath: curseAuraEffect3
       value: 
-      objectReference: {fileID: 1092074761}
+      objectReference: {fileID: 34926947}
     - target: {fileID: 8276875798039258901, guid: a4250938d1fd4b24ca9e7db4eac1d741, type: 3}
       propertyPath: curseAuraEffect4
       value: 
-      objectReference: {fileID: 294477235}
+      objectReference: {fileID: 34926947}
     - target: {fileID: 8276875798039258901, guid: a4250938d1fd4b24ca9e7db4eac1d741, type: 3}
       propertyPath: laughAudioSource
       value: 
@@ -3906,6 +3926,22 @@ PrefabInstance:
       propertyPath: flashlightManager
       value: 
       objectReference: {fileID: 6290932133941840487}
+    - target: {fileID: 8276875798039258901, guid: a4250938d1fd4b24ca9e7db4eac1d741, type: 3}
+      propertyPath: curseAuraAudioSource1
+      value: 
+      objectReference: {fileID: 294477236}
+    - target: {fileID: 8276875798039258901, guid: a4250938d1fd4b24ca9e7db4eac1d741, type: 3}
+      propertyPath: curseAuraAudioSource2
+      value: 
+      objectReference: {fileID: 1386922888}
+    - target: {fileID: 8276875798039258901, guid: a4250938d1fd4b24ca9e7db4eac1d741, type: 3}
+      propertyPath: curseAuraAudioSource3
+      value: 
+      objectReference: {fileID: 34926949}
+    - target: {fileID: 8276875798039258901, guid: a4250938d1fd4b24ca9e7db4eac1d741, type: 3}
+      propertyPath: curseAuraAudioSource4
+      value: 
+      objectReference: {fileID: 34926949}
     - target: {fileID: 8812592993577720762, guid: a4250938d1fd4b24ca9e7db4eac1d741, type: 3}
       propertyPath: m_fontAsset
       value: 
