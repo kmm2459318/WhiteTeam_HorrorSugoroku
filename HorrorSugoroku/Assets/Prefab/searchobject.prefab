@@ -350,7 +350,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   totalItemCount: 7
-  fixedFirstFloorKeyCount: 7
+  fixedFirstFloorKeyCount: 3
   spawnParent: {fileID: 0}
   spawnPoints: []
 --- !u!1 &7968225418860951136
@@ -613,7 +613,7 @@ MonoBehaviour:
   textCanvas: {fileID: 6225042335815123283}
   textbox: {fileID: 3221546399891654965}
   OpenNumber: 4
-  itemToGiveName: 
+  itemToGiveName: "\u4EBA\u5F62"
   boxAnimator: {fileID: 8282438767446660800}
   messageText: {fileID: 1276048504242237694}
   gameManager: {fileID: 0}
@@ -921,7 +921,7 @@ MonoBehaviour:
   textCanvas: {fileID: 6225042335815123283}
   textbox: {fileID: 3221546399891654965}
   OpenNumber: 4
-  itemToGiveName: 
+  itemToGiveName: "\u4EBA\u5F62"
   boxAnimator: {fileID: 5569867058288333128}
   messageText: {fileID: 1276048504242237694}
   gameManager: {fileID: 0}
@@ -988,7 +988,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1434739175797604580, guid: 6855e73145401fa48905ac9ed61c7d64, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -9.096
+      value: -8.404
       objectReference: {fileID: 0}
     - target: {fileID: 1434739175797604580, guid: 6855e73145401fa48905ac9ed61c7d64, type: 3}
       propertyPath: m_LocalRotation.w
@@ -1039,6 +1039,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 1775235196169263710, guid: 6855e73145401fa48905ac9ed61c7d64, type: 3}
       insertIndex: -1
       addedObject: {fileID: 6224660946376500256}
+    - targetCorrespondingSourceObject: {fileID: 1775235196169263710, guid: 6855e73145401fa48905ac9ed61c7d64, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 2585581562582091841}
   m_SourcePrefab: {fileID: 100100000, guid: 6855e73145401fa48905ac9ed61c7d64, type: 3}
 --- !u!95 &3002088363057119890 stripped
 Animator:
@@ -1073,7 +1076,7 @@ MonoBehaviour:
   textCanvas: {fileID: 6225042335815123283}
   textbox: {fileID: 3221546399891654965}
   OpenNumber: 4
-  itemToGiveName: 
+  itemToGiveName: "\u30DB\u30FC\u30EB\u306E\u9375"
   boxAnimator: {fileID: 3002088363057119890}
   messageText: {fileID: 1276048504242237694}
   gameManager: {fileID: 0}
@@ -1117,6 +1120,29 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1.06, y: 0.61, z: 0.55}
   m_Center: {x: 0, y: 0.31, z: 0}
+--- !u!114 &2585581562582091841
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6499818055954848567}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f70cec43e6e8f9b48b69e6125b0f0c2b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  diceController: {fileID: 0}
+  playerSaikoro: {fileID: 0}
+  diceCamera: {fileID: 0}
+  textCanvas: {fileID: 0}
+  textbox: {fileID: 0}
+  OpenNumber: 0
+  itemToGiveName: "\u30EB\u30FC\u30E0\u306E\u9375"
+  boxAnimator: {fileID: 0}
+  messageText: {fileID: 0}
+  gameManager: {fileID: 0}
+  curseSlider: {fileID: 0}
 --- !u!1001 &5071841726622592338
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1127,7 +1153,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1434739175797604580, guid: 6855e73145401fa48905ac9ed61c7d64, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 30.419
+      value: 29.407
       objectReference: {fileID: 0}
     - target: {fileID: 1434739175797604580, guid: 6855e73145401fa48905ac9ed61c7d64, type: 3}
       propertyPath: m_LocalPosition.y
@@ -1220,7 +1246,7 @@ MonoBehaviour:
   textCanvas: {fileID: 6225042335815123283}
   textbox: {fileID: 3221546399891654965}
   OpenNumber: 4
-  itemToGiveName: 
+  itemToGiveName: "\u533B\u52D9\u5BA4\u306E\u9375"
   boxAnimator: {fileID: 3268024864231272105}
   messageText: {fileID: 1276048504242237694}
   gameManager: {fileID: 0}
@@ -1282,7 +1308,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1434739175797604580, guid: 6855e73145401fa48905ac9ed61c7d64, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 3.155
+      value: 4.267
       objectReference: {fileID: 0}
     - target: {fileID: 1434739175797604580, guid: 6855e73145401fa48905ac9ed61c7d64, type: 3}
       propertyPath: m_LocalRotation.w
@@ -1367,7 +1393,7 @@ MonoBehaviour:
   textCanvas: {fileID: 6225042335815123283}
   textbox: {fileID: 3221546399891654965}
   OpenNumber: 4
-  itemToGiveName: 
+  itemToGiveName: "\u5730\u4E0B\u306E\u9375"
   boxAnimator: {fileID: 4309388008175743939}
   messageText: {fileID: 1276048504242237694}
   gameManager: {fileID: 0}
@@ -1480,6 +1506,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 1775235196169263710, guid: 6855e73145401fa48905ac9ed61c7d64, type: 3}
       insertIndex: -1
       addedObject: {fileID: 556097116471703959}
+    - targetCorrespondingSourceObject: {fileID: 1775235196169263710, guid: 6855e73145401fa48905ac9ed61c7d64, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 225706422225939479}
   m_SourcePrefab: {fileID: 100100000, guid: 6855e73145401fa48905ac9ed61c7d64, type: 3}
 --- !u!95 &4075639537491972073 stripped
 Animator:
@@ -1514,7 +1543,7 @@ MonoBehaviour:
   textCanvas: {fileID: 6225042335815123283}
   textbox: {fileID: 3221546399891654965}
   OpenNumber: 4
-  itemToGiveName: 
+  itemToGiveName: "\u4EBA\u5F62"
   boxAnimator: {fileID: 4075639537491972073}
   messageText: {fileID: 1276048504242237694}
   gameManager: {fileID: 0}
@@ -1558,6 +1587,29 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1.06, y: 0.61, z: 0.55}
   m_Center: {x: 0, y: 0.31, z: 0}
+--- !u!114 &225706422225939479
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5410483349149865548}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f70cec43e6e8f9b48b69e6125b0f0c2b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  diceController: {fileID: 0}
+  playerSaikoro: {fileID: 0}
+  diceCamera: {fileID: 0}
+  textCanvas: {fileID: 0}
+  textbox: {fileID: 0}
+  OpenNumber: 0
+  itemToGiveName: "\u4EBA\u5F62"
+  boxAnimator: {fileID: 0}
+  messageText: {fileID: 0}
+  gameManager: {fileID: 0}
+  curseSlider: {fileID: 0}
 --- !u!1001 &6592202062209685241
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1627,6 +1679,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 1775235196169263710, guid: 6855e73145401fa48905ac9ed61c7d64, type: 3}
       insertIndex: -1
       addedObject: {fileID: 5674346526585867681}
+    - targetCorrespondingSourceObject: {fileID: 1775235196169263710, guid: 6855e73145401fa48905ac9ed61c7d64, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 3817704326639826213}
   m_SourcePrefab: {fileID: 100100000, guid: 6855e73145401fa48905ac9ed61c7d64, type: 3}
 --- !u!95 &3478083723804202242 stripped
 Animator:
@@ -1656,7 +1711,7 @@ MonoBehaviour:
   textCanvas: {fileID: 6225042335815123283}
   textbox: {fileID: 3221546399891654965}
   OpenNumber: 4
-  itemToGiveName: 
+  itemToGiveName: "\u98DF\u5802\u306E\u9375"
   boxAnimator: {fileID: 3478083723804202242}
   messageText: {fileID: 1276048504242237694}
   gameManager: {fileID: 0}
@@ -1700,6 +1755,29 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1.06, y: 0.61, z: 0.55}
   m_Center: {x: 0, y: 0.31, z: 0}
+--- !u!114 &3817704326639826213
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4890579171680160935}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f70cec43e6e8f9b48b69e6125b0f0c2b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  diceController: {fileID: 0}
+  playerSaikoro: {fileID: 0}
+  diceCamera: {fileID: 0}
+  textCanvas: {fileID: 0}
+  textbox: {fileID: 0}
+  OpenNumber: 0
+  itemToGiveName: "\u98DF\u5802\u306E\u9375"
+  boxAnimator: {fileID: 0}
+  messageText: {fileID: 0}
+  gameManager: {fileID: 0}
+  curseSlider: {fileID: 0}
 --- !u!4 &5230090343228888605 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 1434739175797604580, guid: 6855e73145401fa48905ac9ed61c7d64, type: 3}
@@ -1774,6 +1852,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 1775235196169263710, guid: 6855e73145401fa48905ac9ed61c7d64, type: 3}
       insertIndex: -1
       addedObject: {fileID: 755332405927318717}
+    - targetCorrespondingSourceObject: {fileID: 1775235196169263710, guid: 6855e73145401fa48905ac9ed61c7d64, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 846651754410507070}
   m_SourcePrefab: {fileID: 100100000, guid: 6855e73145401fa48905ac9ed61c7d64, type: 3}
 --- !u!95 &3926598045932254028 stripped
 Animator:
@@ -1803,7 +1884,7 @@ MonoBehaviour:
   textCanvas: {fileID: 6225042335815123283}
   textbox: {fileID: 3221546399891654965}
   OpenNumber: 4
-  itemToGiveName: 
+  itemToGiveName: "\u4EBA\u5F62"
   boxAnimator: {fileID: 3926598045932254028}
   messageText: {fileID: 1276048504242237694}
   gameManager: {fileID: 0}
@@ -1847,6 +1928,29 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1.06, y: 0.61, z: 0.55}
   m_Center: {x: 0, y: 0.31, z: 0}
+--- !u!114 &846651754410507070
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5036261875651291881}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f70cec43e6e8f9b48b69e6125b0f0c2b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  diceController: {fileID: 0}
+  playerSaikoro: {fileID: 0}
+  diceCamera: {fileID: 0}
+  textCanvas: {fileID: 0}
+  textbox: {fileID: 0}
+  OpenNumber: 0
+  itemToGiveName: "\u4EBA\u5F62"
+  boxAnimator: {fileID: 0}
+  messageText: {fileID: 0}
+  gameManager: {fileID: 0}
+  curseSlider: {fileID: 0}
 --- !u!4 &5669950371657281619 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 1434739175797604580, guid: 6855e73145401fa48905ac9ed61c7d64, type: 3}
@@ -1925,10 +2029,21 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 1775235196169263710, guid: 6855e73145401fa48905ac9ed61c7d64, type: 3}
       insertIndex: -1
       addedObject: {fileID: 6182371918572694786}
+    - targetCorrespondingSourceObject: {fileID: 1775235196169263710, guid: 6855e73145401fa48905ac9ed61c7d64, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 7263289149638653395}
+    - targetCorrespondingSourceObject: {fileID: 1775235196169263710, guid: 6855e73145401fa48905ac9ed61c7d64, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 5508883914852650166}
   m_SourcePrefab: {fileID: 100100000, guid: 6855e73145401fa48905ac9ed61c7d64, type: 3}
 --- !u!95 &152058832902991931 stripped
 Animator:
   m_CorrespondingSourceObject: {fileID: 7726090504746681339, guid: 6855e73145401fa48905ac9ed61c7d64, type: 3}
+  m_PrefabInstance: {fileID: 7576372693697917888}
+  m_PrefabAsset: {fileID: 0}
+--- !u!95 &6046974476501607701 stripped
+Animator:
+  m_CorrespondingSourceObject: {fileID: 4237753028682061525, guid: 6855e73145401fa48905ac9ed61c7d64, type: 3}
   m_PrefabInstance: {fileID: 7576372693697917888}
   m_PrefabAsset: {fileID: 0}
 --- !u!1 &8180306946061363614 stripped
@@ -1954,7 +2069,7 @@ MonoBehaviour:
   textCanvas: {fileID: 6225042335815123283}
   textbox: {fileID: 3221546399891654965}
   OpenNumber: 4
-  itemToGiveName: 
+  itemToGiveName: "\u4EBA\u5F62"
   boxAnimator: {fileID: 152058832902991931}
   messageText: {fileID: 1276048504242237694}
   gameManager: {fileID: 0}
@@ -1998,6 +2113,50 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1.06, y: 0.61, z: 0.55}
   m_Center: {x: 0, y: 0.31, z: 0}
+--- !u!65 &7263289149638653395
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8180306946061363614}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 1, y: 1, z: 1}
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &5508883914852650166
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8180306946061363614}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f70cec43e6e8f9b48b69e6125b0f0c2b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  diceController: {fileID: 0}
+  playerSaikoro: {fileID: 0}
+  diceCamera: {fileID: 0}
+  textCanvas: {fileID: 0}
+  textbox: {fileID: 0}
+  OpenNumber: 3
+  itemToGiveName: "\u4EBA\u5F62"
+  boxAnimator: {fileID: 6046974476501607701}
+  messageText: {fileID: 0}
+  gameManager: {fileID: 0}
+  curseSlider: {fileID: 0}
 --- !u!4 &8848897613912978212 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 1434739175797604580, guid: 6855e73145401fa48905ac9ed61c7d64, type: 3}
@@ -2126,7 +2285,7 @@ MonoBehaviour:
   textCanvas: {fileID: 6225042335815123283}
   textbox: {fileID: 3221546399891654965}
   OpenNumber: 4
-  itemToGiveName: 
+  itemToGiveName: "\u4EBA\u5F62"
   boxAnimator: {fileID: 4870978348272588249}
   messageText: {fileID: 1276048504242237694}
   gameManager: {fileID: 0}
@@ -2445,7 +2604,7 @@ MonoBehaviour:
   textCanvas: {fileID: 6225042335815123283}
   textbox: {fileID: 3221546399891654965}
   OpenNumber: 4
-  itemToGiveName: 
+  itemToGiveName: "\u5BDD\u5E8A\u306E\u9375"
   boxAnimator: {fileID: 1613859667786298926}
   messageText: {fileID: 1276048504242237694}
   gameManager: {fileID: 0}

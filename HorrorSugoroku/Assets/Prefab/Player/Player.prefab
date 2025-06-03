@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 1356944519680403016}
   - component: {fileID: 7776942237698028930}
   - component: {fileID: 527918220979440125}
-  - component: {fileID: 4580952613093497042}
+  - component: {fileID: 7373511485025438496}
   m_Layer: 0
   m_Name: ClickObjectController
   m_TagString: Untagged
@@ -54,9 +54,9 @@ MonoBehaviour:
   raycastCamera: {fileID: 8868403364922517945}
   Canvas: {fileID: 0}
   cutInImage: {fileID: 0}
-  itemCooldownDuration: 5
-  randomItemCooldownTime: 5
-  keyCooldownTime: 10
+  itemCooldownDuration: 1
+  randomItemCooldownTime: 1
+  keyCooldownTime: 1
   breakerController: {fileID: 0}
   elevatorIdou: {fileID: 0}
   LookElevatorDoor: 0
@@ -84,9 +84,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   totalItemCount: 7
   fixedFirstFloorKeyCount: 7
-  spawnParent: {fileID: 0}
+  spawnParent: {fileID: 1356944519680403016}
   spawnPoints: []
---- !u!114 &4580952613093497042
+--- !u!114 &7373511485025438496
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -95,13 +95,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 153200984708539672}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 38d2d5c0b526e474d97e7568837938b4, type: 3}
+  m_Script: {fileID: 11500000, guid: 083d14ae52319134d891d6f31107475c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  totalItemCount: 7
-  fixedFirstFloorKeyCount: 7
-  spawnParent: {fileID: 0}
-  spawnPoints: []
+  keyRandomizer: {fileID: 527918220979440125}
 --- !u!1 &738656255620818222
 GameObject:
   m_ObjectHideFlags: 0
@@ -260,7 +257,7 @@ Transform:
   m_GameObject: {fileID: 1561701990267013035}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 1.183563, z: -12.25}
+  m_LocalPosition: {x: 0, y: 1.13, z: -12.3}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 1
   m_Children:
@@ -576,7 +573,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   curseSlider: {fileID: 0}
-  keys: []
+  keys:
+  - keyName: "\u4E00\u968E\u306E\u9375"
+    keyID: 
+    count: 1
+  - keyName: "\u5730\u4E0B\u306E\u9375"
+    keyID: 
+    count: 1
+  - keyName: "\u4E8C\u968E\u306E\u9375"
+    keyID: 
+    count: 1
   dollText: {fileID: 0}
   potionText: {fileID: 0}
   kill2Text: {fileID: 0}
@@ -976,7 +982,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   exploreTargets: []
   playerCamera: {fileID: 8370550370701129389}
-  exploreText: {fileID: 0}
   moveSpeed: 3
   exploreRadius: 2
   returnDuration: 0.5
@@ -2647,7 +2652,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   exploreTargets: []
   playerCamera: {fileID: 7820557927968048698}
-  exploreText: {fileID: 0}
   moveSpeed: 3
   exploreRadius: 2
   returnDuration: 0.5
@@ -2771,7 +2775,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   targetImage: {fileID: 2066265908205227783}
-  targetLights: []
+  targetLights:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
   playerSaikoro: {fileID: 4313278066094003667}
   enemyStop: {fileID: 0}
 --- !u!1001 &2125895271289763356
