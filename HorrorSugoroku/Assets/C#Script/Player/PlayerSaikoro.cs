@@ -347,8 +347,8 @@ public class PlayerSaikoro : MonoBehaviour
             this.exploringCoolTime += Time.deltaTime;
         }
 
-        // Fキーを押したら探索を終了し、次のターンへ
-        if ((exploring && Input.GetKeyDown(KeyCode.F) && !diceController.boxDice && !curseGauge.isCardCanvas1 && !curseGauge.isCardCanvas2) || enemyEnd)
+        // Spaceキーを押したら探索を終了し、次のターンへ
+        if ((exploring && Input.GetKeyDown(KeyCode.Space) && !diceController.boxDice && !curseGauge.isCardCanvas1 && !curseGauge.isCardCanvas2) || enemyEnd)
         {
             enemyEnd = true;
             if (enemyStop.stopMasu && (enemyStop1.stopMasu || !gameManager.EnemyCopyOn1) && (enemyStop2.stopMasu || !gameManager.EnemyCopyOn2) &&
@@ -543,35 +543,35 @@ public class PlayerSaikoro : MonoBehaviour
             {
                 case 1:
                     //MasuColorChange(neonMaterial);
+                    player.TargetPosition = Nmasu.transform.position + new Vector3(0, 1.15f, 0);
                     parentTransform.Add(nextDarkMasu);
                     parentTransformlast.Add(nextDarkMasu.GetChild(1).GetComponent<Renderer>().material);
                     lastMasu = nextDarkMasu;
-                    nextDarkMasu = Nmasu;
-                    player.TargetPosition = Nmasu.transform.position + new Vector3(0, 1.15f, 0); break; // 北に移動
+                    nextDarkMasu = Nmasu; break; // 北に移動
                 case 2:
                     //MasuColorChange(neonMaterial);
                     //parentTransform = nextDarkMasu;
+                    player.TargetPosition = Wmasu.transform.position + new Vector3(0, 1.15f, 0);
                     parentTransform.Add(nextDarkMasu);
                     parentTransformlast.Add(nextDarkMasu.GetChild(1).GetComponent<Renderer>().material);
                     lastMasu = nextDarkMasu;
-                    nextDarkMasu = Wmasu;
-                    player.TargetPosition = Wmasu.transform.position + new Vector3(0, 1.15f, 0); break; // 西に移動
+                    nextDarkMasu = Wmasu; break; // 西に移動
                 case 3:
                     //MasuColorChange(neonMaterial);
                     //parentTransform = nextDarkMasu;
+                    player.TargetPosition = Emasu.transform.position + new Vector3(0, 1.15f, 0);
                     parentTransform.Add(nextDarkMasu);
                     parentTransformlast.Add(nextDarkMasu.GetChild(1).GetComponent<Renderer>().material);
                     lastMasu = nextDarkMasu;
-                    nextDarkMasu = Emasu;
-                    player.TargetPosition = Emasu.transform.position + new Vector3(0, 1.15f, 0); break; // 東に移動
+                    nextDarkMasu = Emasu; break; // 東に移動
                 case 4:
                     //MasuColorChange(neonMaterial);
                     //parentTransform = nextDarkMasu;
+                    player.TargetPosition = Smasu.transform.position + new Vector3(0, 1.15f, 0);
                     parentTransform.Add(nextDarkMasu);
                     parentTransformlast.Add(nextDarkMasu.GetChild(1).GetComponent<Renderer>().material);
                     lastMasu = nextDarkMasu;
-                    nextDarkMasu = Smasu;
-                    player.TargetPosition = Smasu.transform.position + new Vector3(0, 1.15f, 0); break; // 南に移動
+                    nextDarkMasu = Smasu; break; // 南に移動
             }
 
             // 足音を鳴らす

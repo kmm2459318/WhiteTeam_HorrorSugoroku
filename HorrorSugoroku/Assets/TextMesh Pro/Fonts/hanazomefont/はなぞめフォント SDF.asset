@@ -17,24 +17,24 @@ MonoBehaviour:
     m_FaceIndex: 0
     m_FamilyName: HanazomeFont
     m_StyleName: Regular
-    m_PointSize: 90
+    m_PointSize: 49
     m_Scale: 1
     m_UnitsPerEM: 1024
-    m_LineHeight: 90
-    m_AscentLine: 77.34375
-    m_CapLine: 61
-    m_MeanLine: 47
+    m_LineHeight: 49
+    m_AscentLine: 42.109375
+    m_CapLine: 33
+    m_MeanLine: 26
     m_Baseline: 0
-    m_DescentLine: -12.65625
-    m_SuperscriptOffset: 77.34375
+    m_DescentLine: -6.890625
+    m_SuperscriptOffset: 42.109375
     m_SuperscriptSize: 0.5
-    m_SubscriptOffset: -12.65625
+    m_SubscriptOffset: -6.890625
     m_SubscriptSize: 0.5
-    m_UnderlineOffset: -10.546875
-    m_UnderlineThickness: 4.21875
-    m_StrikethroughOffset: 18.8
-    m_StrikethroughThickness: 4.21875
-    m_TabWidth: 45
+    m_UnderlineOffset: -5.7421875
+    m_UnderlineThickness: 2.296875
+    m_StrikethroughOffset: 10.4
+    m_StrikethroughThickness: 2.296875
+    m_TabWidth: 25
   m_Material: {fileID: 7511886405717286468}
   m_SourceFontFileGUID: 6eb98ccb864d5de4ebdaae1bd9056ebf
   m_CreationSettings:
@@ -42,15 +42,15 @@ MonoBehaviour:
     sourceFontFileGUID: 6eb98ccb864d5de4ebdaae1bd9056ebf
     faceIndex: 0
     pointSizeSamplingMode: 0
-    pointSize: 90
-    padding: 9
-    paddingMode: 2
+    pointSize: 49
+    padding: 0
+    paddingMode: 1
     packingMode: 0
-    atlasWidth: 1024
-    atlasHeight: 1024
+    atlasWidth: 512
+    atlasHeight: 512
     characterSetSelectionMode: 7
-    characterSequence: 
-    referencedFontAssetGUID: 
+    characterSequence: " 123456:ACDEHINOPQRSTU_aceps\u2014\u2026\u203C\u25A1\u3000\u3001\u3002\u300C\u300D\u300E\u300F\u3042\u3044\u304C\u304F\u305B\u3067\u3068\u306A\u306B\u306E\u306F\u3080\u3082\u308A\u308B\u308F\u3092\u3057\u307E\u3057\u305F\u304B\u3089\u30A2\u30A4\u30A6\u30AF\u30B3\u30B5\u30B9\u30BF\u30C1\u30C3\u30C6\u30D7\u30DE\u30E0\u30E4\u30EA\u30EC\u30ED\u30F3\u30AB\u30AE\u30FB\u30FC\u4E00\u4E0B\u4E86\u4EBA\u4EE3\u4EE5\u4F55\u51FA\u52D5\u5408\u546A\u56DE\u5834\u5C11\u5DE6\u5F62\u5F97\u5FA9\u629E\u632F\u63A2\u6570\u6B69\u6E1B\u7372\u767A\u76EE\u79FB\u7D22\u7D42\u8005\u85AC\u8DE1\u8EAB\u8FFD\u9032\u9078\u9375\u9593\u968E\u4E0A\u958B\u9320\u795D\u798F\u7BB1\u5165\u624B\u6B8B\u5FF5\u7121\u6765\u4E16\uFF01\uFF08\uFF09\uFF12\uFF13\uFF14\uFF15\uFF16\uFF1A\uFF37\uFF5E"
+    referencedFontAssetGUID: 523cb3c5f19d3a04d999ff9ce44f1261
     referencedTextAssetGUID: 
     fontStyle: 0
     fontStyleModifier: 0
@@ -68,16 +68,16 @@ MonoBehaviour:
   m_IsMultiAtlasTexturesEnabled: 0
   m_GetFontFeatures: 1
   m_ClearDynamicDataOnBuild: 1
-  m_AtlasWidth: 1024
-  m_AtlasHeight: 1024
-  m_AtlasPadding: 9
+  m_AtlasWidth: 512
+  m_AtlasHeight: 512
+  m_AtlasPadding: 0
   m_AtlasRenderMode: 4165
   m_UsedGlyphRects: []
   m_FreeGlyphRects:
   - m_X: 0
     m_Y: 0
-    m_Width: 1023
-    m_Height: 1023
+    m_Width: 511
+    m_Height: 511
   m_FontFeatureTable:
     m_MultipleSubstitutionRecords: []
     m_LigatureSubstitutionRecords: []
@@ -147,7 +147,7 @@ Texture2D:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: "\u306F\u306A\u305E\u3081\u30D5\u30A9\u30F3\u30C8 Atlas"
+  m_Name: "\u306F\u306A\u305E\u3081\u30D5\u30A9\u30F3\u30C8 SDF Atlas"
   m_ImageContentsHash:
     serializedVersion: 2
     Hash: 00000000000000000000000000000000
@@ -250,7 +250,7 @@ Material:
     - _GlowOffset: 0
     - _GlowOuter: 0.05
     - _GlowPower: 0.75
-    - _GradientScale: 10
+    - _GradientScale: 1
     - _LightAngle: 3.1416
     - _MaskSoftnessX: 0
     - _MaskSoftnessY: 0
@@ -260,9 +260,9 @@ Material:
     - _OutlineWidth: 0
     - _PerspectiveFilter: 0.875
     - _Reflectivity: 10
-    - _ScaleRatioA: 0.9
-    - _ScaleRatioB: 0.73125
-    - _ScaleRatioC: 0.73125
+    - _ScaleRatioA: 0
+    - _ScaleRatioB: 0
+    - _ScaleRatioC: 0
     - _ScaleX: 1
     - _ScaleY: 1
     - _ShaderFlags: 0
@@ -273,8 +273,8 @@ Material:
     - _StencilOp: 0
     - _StencilReadMask: 255
     - _StencilWriteMask: 255
-    - _TextureHeight: 1024
-    - _TextureWidth: 1024
+    - _TextureHeight: 512
+    - _TextureWidth: 512
     - _UnderlayDilate: 0
     - _UnderlayOffsetX: 0
     - _UnderlayOffsetY: 0
