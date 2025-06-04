@@ -273,6 +273,10 @@ public class Door : MonoBehaviour
         {
             doorAnimator.SetTrigger("LeftOpenTrigger");
         }
+        if (doorAnimator != null)
+        {
+            doorAnimator.SetTrigger("RightOpenTrigger");
+        }
         //ドアが開く音を再生する
         if (audioSource != null && doorOpenSpund != null)
         {
