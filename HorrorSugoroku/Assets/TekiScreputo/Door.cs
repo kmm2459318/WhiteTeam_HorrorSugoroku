@@ -34,8 +34,12 @@ public class Door : MonoBehaviour
     public AudioClip keyMissingSound; //カギがないときの音
     public AudioClip[] scareSound; //脅かしの音
     Coroutine messageCoroutine;
+
+    public GameObject NextMas;
     void Start()
     {
+        NextMas.SetActive(false);
+
         player = GameObject.FindGameObjectWithTag("Player").transform;
         if (player != null)
         {
@@ -150,6 +154,7 @@ public class Door : MonoBehaviour
                             if (!requiresKey || (playerInventory != null && playerInventory.HasItem(requiredItem)))
                             {
                                 OpenDoorConfirmed(); // 鍵を使ってドアを開く
+                                NextMas.SetActive(true);
                             }
                             else
                             {
