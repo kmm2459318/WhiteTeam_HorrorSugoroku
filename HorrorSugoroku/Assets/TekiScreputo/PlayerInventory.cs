@@ -124,6 +124,12 @@ public class PlayerInventory : MonoBehaviour
 
         if (tikaText != null)
             tikaText.text = $" {GetItemCount("地下の鍵")}";
+        
+        if (tikaText != null)
+            tikaText.text = $" {GetItemCount("食堂の鍵")}";
+
+        if (tikaText != null)
+            tikaText.text = $" {GetItemCount("エンジンルームの鍵")}";
     }
 
     public int GetItemCount(string itemName)
