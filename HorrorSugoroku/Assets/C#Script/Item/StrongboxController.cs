@@ -64,6 +64,7 @@ public class StrongboxController : MonoBehaviour
                         Debug.Log($"祝福箱から「{itemToGiveName}」を入手しました！");
                         messageText.text = $"祝福箱から「{itemToGiveName}」を入手しました！";
                         StartCoroutine(HideTextCanvasAfterDelay());
+                        textCanvas.SetActive(true);
 
                         if (itemToGiveName == "人形" && gameManager != null)
                         {
@@ -79,6 +80,7 @@ public class StrongboxController : MonoBehaviour
                     Debug.Log("残念無念、また来世ー！");
                     messageText.text = "残念無念、また来世ー！";
                     StartCoroutine(HideTextCanvasAfterDelay());
+                    textCanvas.SetActive(true);
 
                     OpenNumber--;
                     gameObject.tag = "Strongbox";
@@ -117,6 +119,7 @@ public class StrongboxController : MonoBehaviour
             diceController.boxDice = true;
             thisBoxOn = true;
             textCanvas.SetActive(true);
+            Debug.Log("textCanvas表示");
             textbox.GetComponent<TextMeshProUGUI>().text = "サイコロを振り、" + OpenNumber + "以上で開錠。";
         }
     }
