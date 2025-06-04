@@ -329,7 +329,7 @@ public class ClickObject : MonoBehaviour
         // 🎯アイコン画像の表示（SpriteをImageに割り当て）
         foreach (var entry in itemIcons)
         {
-            if (entry.itemName == itemName)
+            if (entry.itemName == itemName && entry.itemName != "何もない")
             {
                 uiIconImage.sprite = entry.icon;
                 uiIconImage.gameObject.SetActive(true); // 表示ON

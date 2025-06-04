@@ -34,6 +34,8 @@ public class StrongboxController : MonoBehaviour
         {
             Debug.LogError("GameManager が見つかりません！");
         }
+
+        textCanvas.SetActive(false);
     }
 
     void Update()
