@@ -15,18 +15,13 @@ public class ClickObject : MonoBehaviour
 
     [SerializeField] public GameObject Canvas;
     [SerializeField] private Image cutInImage;
-    private HashSet<string> cooldownItems = new HashSet<string>();
     // 名前ごとに「取得済みの時間」を記録する辞書
     private Dictionary<string, float> keyObtainedTime = new Dictionary<string, float>();
     //private HashSet<string> obtainedKeys = new HashSet<string>();
-    private bool keyCooldownActive = false;
     // 鍵取得制限時間（秒）
-    private bool canAddItem = true;  // アイテム追加の制限フラグ
     private bool isCooldown = false; // クールダウン中かどうかのフラグ
-    private bool waitingForDice = false;
 
     // ClickObject.cs に追加
-    private Dictionary<string, float> itemAddCooldowns = new Dictionary<string, float>();
     public float itemCooldownDuration = 0.2f; // ← クールダウン時間（秒）
 
     private bool isRandomItemCooldown = false;
@@ -71,7 +66,7 @@ public class ClickObject : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetMouseButtonDown(0) && !hasClicked && !curse.isCardCanvas1 && !curse.isCardCanvas2)
+        if (Input.GetMouseButtonDown(0) && !hasClicked && !curse.isCardCanvas1 && !curse.isCardCanvas2 && !playerSaikoro.enemyEnd)
         {
             hasClicked = true;
             Ray ray = raycastCamera.ScreenPointToRay(Input.mousePosition);

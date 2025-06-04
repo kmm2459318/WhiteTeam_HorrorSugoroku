@@ -6,6 +6,7 @@ using TMPro;
 public class DiceController : MonoBehaviour
 {
     private Rigidbody rb;
+    private bool SpaceKeyReset = false;
     private bool isHeld = false;
     private bool isStopped = false;
     private bool hasBeenThrown = false;
@@ -30,8 +31,6 @@ public class DiceController : MonoBehaviour
     private Transform parentTransform;
     private Vector3 initialLocalPosition; // ✅ 親基準の初期位置
 
-    private int minDiceValue = 1;
-    private int maxDiceValue = 6;
     private bool legButtonEffect = false;
 
     public Vector3 targetLocalOffset = new Vector3(-5.7f, 0f, -2.6f);   //変更前 -> new Vector3(-5.47f, 0f, -2.54f)
@@ -129,7 +128,7 @@ public class DiceController : MonoBehaviour
             Debug.Log("diceroll2");
             DiceRoll(2);
         }
-        //
+        //宝箱用さいころ
         if (boxDice)
         {
             Debug.Log("diceroll3");
@@ -181,27 +180,31 @@ public class DiceController : MonoBehaviour
 
     private void DiceRoll(int n) //nが０ならプレイヤーのさいころ、１，２なら呪いさいころ、３なら宝箱さいころ
     {
-        if (Input.GetKey(KeyCode.Space) && !hasBeenThrown)
+        if (Input.GetKeyDown(KeyCode.Space) || SpaceKeyReset)
         {
-            smo.enabled = true;
-            smo.PosFact = 0.1f;
-            isHeld = true;
-            isStopped = false;
-            hasBeenThrown = false;
-            rb.isKinematic = true;
-            transform.localPosition = new Vector3(0, 5f, 0);
-            if (n == 2)
+            SpaceKeyReset = true;
+            if (Input.GetKey(KeyCode.Space) && !hasBeenThrown)
             {
-                DescriptionCanvas.SetActive(false);
-                HanteiCanvas.SetActive(false);
+                smo.enabled = true;
+                smo.PosFact = 0.1f;
+                isHeld = true;
+                isStopped = false;
+                hasBeenThrown = false;
+                rb.isKinematic = true;
+                transform.localPosition = new Vector3(0, 5f, 0);
+                if (n == 2)
+                {
+                    DescriptionCanvas.SetActive(false);
+                    HanteiCanvas.SetActive(false);
+                }
             }
         }
-
         if (Input.GetKeyUp(KeyCode.Space) && isHeld)
         {
             isHeld = false;
             hasBeenThrown = true;
             isStopped = false;
+            SpaceKeyReset = false;
             timeSinceThrown = 0f;
 
             rb.isKinematic = false;
@@ -354,12 +357,6 @@ public class DiceController : MonoBehaviour
             diceRawImage.enabled = true;
 
         Debug.Log("サイコロを完全リセットしました！");
-    }
-
-    public void SetDiceRollRange(int min, int max)
-    {
-        minDiceValue = min;
-        maxDiceValue = max;
     }
 
     public void SetLegButtonEffect(bool isActive)

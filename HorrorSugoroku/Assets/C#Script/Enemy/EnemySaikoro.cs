@@ -31,7 +31,6 @@ public class EnemySaikoro : MonoBehaviour
     private bool dis = false;
     private bool dis2 = false;
     public bool enemyidoutyu = false;
-    Image image;
     //public AudioClip discoveryBGM; // 発見時のBGM
     //public AudioClip undetectedBGM; // 未発見時のBGM
     private AudioSource audioSource; // 音声再生用のAudioSource
@@ -49,7 +48,6 @@ public class EnemySaikoro : MonoBehaviour
     public bool skill1 = false;
     public bool skill2 = false;
     public bool isTrapped = false; // トラバサミにかかっているかどうかを示すフラグ
-    private bool isMoving = false; // エネミーが移動中かどうかを示すフラグ
 
     public float footstepVolume = 1.0f;
     public Animator animator;
@@ -264,7 +262,6 @@ public class EnemySaikoro : MonoBehaviour
     private IEnumerator MoveTowardsPlayer(bool s1, bool s2)
     {
         Debug.Log("MoveTowardsPlayer called");
-        isMoving = true;
         enemyLookAtPlayer.SetIsMoving(true);
         enemyController.SetMovement(true);
 
