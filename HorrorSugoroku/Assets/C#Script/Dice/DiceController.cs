@@ -210,9 +210,25 @@ public class DiceController : MonoBehaviour
             rb.isKinematic = false;
             smo.enabled = false;
 
-            Vector3 throwForce = new Vector3(Random.Range(-2f, 2f), 10f, Random.Range(-2f, 2f)) * throwForceMultiplier;
+            // ✅ ランダムな方向に強さを乗せて投げる
+            Vector3 throwDirection = new Vector3(
+                Random.Range(-1f, 1f),
+                1f,
+                Random.Range(-1f, 1f)
+            ).normalized;
+
+            float forceMagnitude = Random.Range(8f, 15f); // ランダムな強さ
+            Vector3 throwForce = throwDirection * forceMagnitude;
+
             rb.AddForce(throwForce, ForceMode.Impulse);
-            rb.AddTorque(Random.insideUnitSphere * 500f);
+
+            // ✅ 大きくばらついたランダムなトルクを加える
+            Vector3 randomTorque = new Vector3(
+                Random.Range(-1000f, 1000f),
+                Random.Range(-1000f, 1000f),
+                Random.Range(-1000f, 1000f)
+            );
+            rb.AddTorque(randomTorque);
         }
 
         if (hasBeenThrown)
