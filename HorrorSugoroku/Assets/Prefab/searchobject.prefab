@@ -130,7 +130,7 @@ MonoBehaviour:
   textbox: {fileID: 3221546399891654965}
   OpenNumber: 4
   itemToGiveName: 
-  boxAnimator: {fileID: 4976934851323118665}
+  boxAnimator: {fileID: 0}
   messageText: {fileID: 1276048504242237694}
   gameManager: {fileID: 0}
   curseSlider: {fileID: 0}
@@ -197,18 +197,17 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1769348152559207039}
-  - {fileID: 9127851106083422355}
+  - {fileID: 7079984237483974299}
+  - {fileID: 5230090343228888605}
+  - {fileID: 4638203336356400374}
+  - {fileID: 5870493486438646157}
+  - {fileID: 5669950371657281619}
   - {fileID: 7977059242216158513}
-  - {fileID: 729728145726641631}
   - {fileID: 3863390672054391383}
   - {fileID: 6164295944773250486}
-  - {fileID: 5870493486438646157}
+  - {fileID: 9127851106083422355}
   - {fileID: 4836765133857730780}
-  - {fileID: 5230090343228888605}
-  - {fileID: 5669950371657281619}
-  - {fileID: 4638203336356400374}
-  - {fileID: 8848897613912978212}
-  - {fileID: 8997199139783336058}
+  - {fileID: 729728145726641631}
   - {fileID: 52639239791510681}
   - {fileID: 3794956616415833055}
   - {fileID: 6080089120324406235}
@@ -304,6 +303,142 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7e6c4f14dcd24284eaa96b77e7ee567f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &4578750782636100586
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4062835123833469446}
+  - component: {fileID: 1845604837710950736}
+  - component: {fileID: 7165813128546357681}
+  m_Layer: 5
+  m_Name: MessageText (TMP) (1)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &4062835123833469446
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4578750782636100586}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 2531778636577974523}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0.001297, y: 0}
+  m_SizeDelta: {x: 972.07, y: 124.74}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!222 &1845604837710950736
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4578750782636100586}
+  m_CullTransparentMesh: 1
+--- !u!114 &7165813128546357681
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4578750782636100586}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_text: "\u3042\u3042\u3042\u3042"
+  m_isRightToLeft: 0
+  m_fontAsset: {fileID: 11400000, guid: 523cb3c5f19d3a04d999ff9ce44f1261, type: 2}
+  m_sharedMaterial: {fileID: 8821492066629359742, guid: 523cb3c5f19d3a04d999ff9ce44f1261, type: 2}
+  m_fontSharedMaterials: []
+  m_fontMaterial: {fileID: 0}
+  m_fontMaterials: []
+  m_fontColor32:
+    serializedVersion: 2
+    rgba: 4294967295
+  m_fontColor: {r: 1, g: 1, b: 1, a: 1}
+  m_enableVertexGradient: 0
+  m_colorMode: 3
+  m_fontColorGradient:
+    topLeft: {r: 1, g: 1, b: 1, a: 1}
+    topRight: {r: 1, g: 1, b: 1, a: 1}
+    bottomLeft: {r: 1, g: 1, b: 1, a: 1}
+    bottomRight: {r: 1, g: 1, b: 1, a: 1}
+  m_fontColorGradientPreset: {fileID: 0}
+  m_spriteAsset: {fileID: 0}
+  m_tintAllSprites: 0
+  m_StyleSheet: {fileID: 0}
+  m_TextStyleHashCode: -1183493901
+  m_overrideHtmlColors: 0
+  m_faceColor:
+    serializedVersion: 2
+    rgba: 4294967295
+  m_fontSize: 55
+  m_fontSizeBase: 55
+  m_fontWeight: 400
+  m_enableAutoSizing: 0
+  m_fontSizeMin: 18
+  m_fontSizeMax: 72
+  m_fontStyle: 0
+  m_HorizontalAlignment: 2
+  m_VerticalAlignment: 512
+  m_textAlignment: 65535
+  m_characterSpacing: 0
+  m_wordSpacing: 0
+  m_lineSpacing: 0
+  m_lineSpacingMax: 0
+  m_paragraphSpacing: 0
+  m_charWidthMaxAdj: 0
+  m_TextWrappingMode: 1
+  m_wordWrappingRatios: 0.4
+  m_overflowMode: 0
+  m_linkedTextComponent: {fileID: 0}
+  parentLinkedComponent: {fileID: 0}
+  m_enableKerning: 0
+  m_ActiveFontFeatures: 6e72656b
+  m_enableExtraPadding: 0
+  checkPaddingRequired: 0
+  m_isRichText: 1
+  m_EmojiFallbackSupport: 1
+  m_parseCtrlCharacters: 1
+  m_isOrthographic: 1
+  m_isCullingEnabled: 0
+  m_horizontalMapping: 0
+  m_verticalMapping: 0
+  m_uvLineOffset: 0
+  m_geometrySortingOrder: 0
+  m_IsTextObjectScaleStatic: 0
+  m_VertexBufferAutoSizeReduction: 0
+  m_useMaxVisibleDescender: 1
+  m_pageToDisplay: 1
+  m_margin: {x: 0, y: 0, z: 0, w: 0}
+  m_isUsingLegacyAnimationComponent: 0
+  m_isVolumetricText: 0
+  m_hasFontAssetChanged: 0
+  m_baseMaterial: {fileID: 0}
+  m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
 --- !u!1 &4740235178265329846
 GameObject:
   m_ObjectHideFlags: 0
@@ -353,6 +488,81 @@ MonoBehaviour:
   fixedFirstFloorKeyCount: 3
   spawnParent: {fileID: 0}
   spawnPoints: []
+--- !u!1 &6612005422695470297
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7646933668786880101}
+  - component: {fileID: 6518466352292997015}
+  - component: {fileID: 6962642242400140125}
+  m_Layer: 5
+  m_Name: Image
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &7646933668786880101
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6612005422695470297}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 9052685742024488756}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 19.000061, y: 214}
+  m_SizeDelta: {x: 530.8934, y: 262.6656}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!222 &6518466352292997015
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6612005422695470297}
+  m_CullTransparentMesh: 1
+--- !u!114 &6962642242400140125
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6612005422695470297}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Sprite: {fileID: 0}
+  m_Type: 0
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
 --- !u!1 &7968225418860951136
 GameObject:
   m_ObjectHideFlags: 0
@@ -570,7 +780,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1775235196169263710, guid: 6855e73145401fa48905ac9ed61c7d64, type: 3}
       propertyPath: m_Name
-      value: Takarabako
+      value: "Takarabako\u3000\u5730\u4E0B"
       objectReference: {fileID: 0}
     - target: {fileID: 1775235196169263710, guid: 6855e73145401fa48905ac9ed61c7d64, type: 3}
       propertyPath: m_TagString
@@ -610,12 +820,12 @@ MonoBehaviour:
   diceController: {fileID: 0}
   playerSaikoro: {fileID: 0}
   diceCamera: {fileID: 0}
-  textCanvas: {fileID: 6225042335815123283}
-  textbox: {fileID: 3221546399891654965}
+  textCanvas: {fileID: 3219827339715583415}
+  textbox: {fileID: 4578750782636100586}
   OpenNumber: 4
   itemToGiveName: "\u4EBA\u5F62"
   boxAnimator: {fileID: 8282438767446660800}
-  messageText: {fileID: 1276048504242237694}
+  messageText: {fileID: 7165813128546357681}
   gameManager: {fileID: 0}
   curseSlider: {fileID: 0}
 --- !u!114 &2771377646818001789
@@ -698,7 +908,7 @@ PrefabInstance:
     - target: {fileID: 3810269601851073164, guid: eb0efe86a65739745aaa1a9fc692b999, type: 3}
       propertyPath: m_sharedMaterial
       value: 
-      objectReference: {fileID: 7511886405717286468, guid: 523cb3c5f19d3a04d999ff9ce44f1261, type: 2}
+      objectReference: {fileID: 8821492066629359742, guid: 523cb3c5f19d3a04d999ff9ce44f1261, type: 2}
     - target: {fileID: 3810269601851073164, guid: eb0efe86a65739745aaa1a9fc692b999, type: 3}
       propertyPath: m_VerticalAlignment
       value: 512
@@ -794,7 +1004,11 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects:
     - {fileID: 8821504741389828931, guid: eb0efe86a65739745aaa1a9fc692b999, type: 3}
-    m_AddedGameObjects: []
+    - {fileID: 1362274847475360906, guid: eb0efe86a65739745aaa1a9fc692b999, type: 3}
+    m_AddedGameObjects:
+    - targetCorrespondingSourceObject: {fileID: 6409812909506389318, guid: eb0efe86a65739745aaa1a9fc692b999, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 7646933668786880101}
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: eb0efe86a65739745aaa1a9fc692b999, type: 3}
 --- !u!114 &1276048504242237694 stripped
@@ -821,6 +1035,11 @@ GameObject:
 --- !u!1 &6225042335815123283 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 8301937710223643425, guid: eb0efe86a65739745aaa1a9fc692b999, type: 3}
+  m_PrefabInstance: {fileID: 2690235957072597618}
+  m_PrefabAsset: {fileID: 0}
+--- !u!224 &9052685742024488756 stripped
+RectTransform:
+  m_CorrespondingSourceObject: {fileID: 6409812909506389318, guid: eb0efe86a65739745aaa1a9fc692b999, type: 3}
   m_PrefabInstance: {fileID: 2690235957072597618}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &2771036436522914483
@@ -873,7 +1092,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1775235196169263710, guid: 6855e73145401fa48905ac9ed61c7d64, type: 3}
       propertyPath: m_Name
-      value: Takarabako
+      value: "Takarabako\u3000\u5BDD\u5BA4"
       objectReference: {fileID: 0}
     - target: {fileID: 1775235196169263710, guid: 6855e73145401fa48905ac9ed61c7d64, type: 3}
       propertyPath: m_TagString
@@ -918,12 +1137,12 @@ MonoBehaviour:
   diceController: {fileID: 0}
   playerSaikoro: {fileID: 0}
   diceCamera: {fileID: 0}
-  textCanvas: {fileID: 6225042335815123283}
-  textbox: {fileID: 3221546399891654965}
+  textCanvas: {fileID: 3219827339715583415}
+  textbox: {fileID: 4578750782636100586}
   OpenNumber: 4
   itemToGiveName: "\u4EBA\u5F62"
   boxAnimator: {fileID: 5569867058288333128}
-  messageText: {fileID: 1276048504242237694}
+  messageText: {fileID: 7165813128546357681}
   gameManager: {fileID: 0}
   curseSlider: {fileID: 0}
 --- !u!114 &8643596591360676607
@@ -1020,7 +1239,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1775235196169263710, guid: 6855e73145401fa48905ac9ed61c7d64, type: 3}
       propertyPath: m_Name
-      value: Takarabako
+      value: "Takarabako\u3000\u30DB\u30FC\u30EB\u306E\u30AB\u30AE"
       objectReference: {fileID: 0}
     - target: {fileID: 1775235196169263710, guid: 6855e73145401fa48905ac9ed61c7d64, type: 3}
       propertyPath: m_TagString
@@ -1070,12 +1289,12 @@ MonoBehaviour:
   diceController: {fileID: 0}
   playerSaikoro: {fileID: 0}
   diceCamera: {fileID: 0}
-  textCanvas: {fileID: 6225042335815123283}
-  textbox: {fileID: 3221546399891654965}
+  textCanvas: {fileID: 3219827339715583415}
+  textbox: {fileID: 4578750782636100586}
   OpenNumber: 4
   itemToGiveName: "\u30DB\u30FC\u30EB\u306E\u9375"
   boxAnimator: {fileID: 3002088363057119890}
-  messageText: {fileID: 1276048504242237694}
+  messageText: {fileID: 7165813128546357681}
   gameManager: {fileID: 0}
   curseSlider: {fileID: 0}
 --- !u!114 &9219763169890391657
@@ -1127,7 +1346,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1434739175797604580, guid: 6855e73145401fa48905ac9ed61c7d64, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 29.407
+      value: 5.03
       objectReference: {fileID: 0}
     - target: {fileID: 1434739175797604580, guid: 6855e73145401fa48905ac9ed61c7d64, type: 3}
       propertyPath: m_LocalPosition.y
@@ -1135,7 +1354,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1434739175797604580, guid: 6855e73145401fa48905ac9ed61c7d64, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 4.13
+      value: -9.484
       objectReference: {fileID: 0}
     - target: {fileID: 1434739175797604580, guid: 6855e73145401fa48905ac9ed61c7d64, type: 3}
       propertyPath: m_LocalRotation.w
@@ -1167,7 +1386,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1775235196169263710, guid: 6855e73145401fa48905ac9ed61c7d64, type: 3}
       propertyPath: m_Name
-      value: Takarabako
+      value: "Takarabako\u3000\u533B\u52D9\u5BA4\u306E\u30AB\u30AE"
       objectReference: {fileID: 0}
     - target: {fileID: 1775235196169263710, guid: 6855e73145401fa48905ac9ed61c7d64, type: 3}
       propertyPath: m_TagString
@@ -1217,12 +1436,12 @@ MonoBehaviour:
   diceController: {fileID: 0}
   playerSaikoro: {fileID: 0}
   diceCamera: {fileID: 0}
-  textCanvas: {fileID: 6225042335815123283}
-  textbox: {fileID: 3221546399891654965}
+  textCanvas: {fileID: 3219827339715583415}
+  textbox: {fileID: 4578750782636100586}
   OpenNumber: 4
   itemToGiveName: "\u533B\u52D9\u5BA4\u306E\u9375"
   boxAnimator: {fileID: 3268024864231272105}
-  messageText: {fileID: 1276048504242237694}
+  messageText: {fileID: 7165813128546357681}
   gameManager: {fileID: 0}
   curseSlider: {fileID: 0}
 --- !u!114 &3319634963805417427
@@ -1274,19 +1493,19 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1434739175797604580, guid: 6855e73145401fa48905ac9ed61c7d64, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 28.010002
+      value: -18.335155
       objectReference: {fileID: 0}
     - target: {fileID: 1434739175797604580, guid: 6855e73145401fa48905ac9ed61c7d64, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.034
+      value: 3.81
       objectReference: {fileID: 0}
     - target: {fileID: 1434739175797604580, guid: 6855e73145401fa48905ac9ed61c7d64, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 4.267
+      value: -26.53578
       objectReference: {fileID: 0}
     - target: {fileID: 1434739175797604580, guid: 6855e73145401fa48905ac9ed61c7d64, type: 3}
       propertyPath: m_LocalRotation.w
-      value: 1
+      value: 0.90979964
       objectReference: {fileID: 0}
     - target: {fileID: 1434739175797604580, guid: 6855e73145401fa48905ac9ed61c7d64, type: 3}
       propertyPath: m_LocalRotation.x
@@ -1294,7 +1513,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1434739175797604580, guid: 6855e73145401fa48905ac9ed61c7d64, type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0
+      value: -0.41504782
       objectReference: {fileID: 0}
     - target: {fileID: 1434739175797604580, guid: 6855e73145401fa48905ac9ed61c7d64, type: 3}
       propertyPath: m_LocalRotation.z
@@ -1306,7 +1525,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1434739175797604580, guid: 6855e73145401fa48905ac9ed61c7d64, type: 3}
       propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
+      value: -49.045
       objectReference: {fileID: 0}
     - target: {fileID: 1434739175797604580, guid: 6855e73145401fa48905ac9ed61c7d64, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
@@ -1314,7 +1533,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1775235196169263710, guid: 6855e73145401fa48905ac9ed61c7d64, type: 3}
       propertyPath: m_Name
-      value: Takarabako
+      value: "Takarabako\u3000\u5730\u4FA1\u306E\u30AB\u30AE"
       objectReference: {fileID: 0}
     - target: {fileID: 1775235196169263710, guid: 6855e73145401fa48905ac9ed61c7d64, type: 3}
       propertyPath: m_TagString
@@ -1364,12 +1583,12 @@ MonoBehaviour:
   diceController: {fileID: 0}
   playerSaikoro: {fileID: 0}
   diceCamera: {fileID: 0}
-  textCanvas: {fileID: 6225042335815123283}
-  textbox: {fileID: 3221546399891654965}
+  textCanvas: {fileID: 3219827339715583415}
+  textbox: {fileID: 4578750782636100586}
   OpenNumber: 4
   itemToGiveName: "\u5730\u4E0B\u306E\u9375"
   boxAnimator: {fileID: 4309388008175743939}
-  messageText: {fileID: 1276048504242237694}
+  messageText: {fileID: 7165813128546357681}
   gameManager: {fileID: 0}
   curseSlider: {fileID: 0}
 --- !u!114 &9192131462487182506
@@ -1461,7 +1680,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1775235196169263710, guid: 6855e73145401fa48905ac9ed61c7d64, type: 3}
       propertyPath: m_Name
-      value: Takarabako
+      value: "Takarabako\u3000\u98DF\u5802"
       objectReference: {fileID: 0}
     - target: {fileID: 1775235196169263710, guid: 6855e73145401fa48905ac9ed61c7d64, type: 3}
       propertyPath: m_TagString
@@ -1511,12 +1730,12 @@ MonoBehaviour:
   diceController: {fileID: 0}
   playerSaikoro: {fileID: 0}
   diceCamera: {fileID: 0}
-  textCanvas: {fileID: 6225042335815123283}
-  textbox: {fileID: 3221546399891654965}
+  textCanvas: {fileID: 3219827339715583415}
+  textbox: {fileID: 4578750782636100586}
   OpenNumber: 4
   itemToGiveName: "\u4EBA\u5F62"
   boxAnimator: {fileID: 4075639537491972073}
-  messageText: {fileID: 1276048504242237694}
+  messageText: {fileID: 7165813128546357681}
   gameManager: {fileID: 0}
   curseSlider: {fileID: 0}
 --- !u!114 &87625487422268429
@@ -1568,19 +1787,19 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1434739175797604580, guid: 6855e73145401fa48905ac9ed61c7d64, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -11.316
+      value: -14.721
       objectReference: {fileID: 0}
     - target: {fileID: 1434739175797604580, guid: 6855e73145401fa48905ac9ed61c7d64, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.033
+      value: 0.032999992
       objectReference: {fileID: 0}
     - target: {fileID: 1434739175797604580, guid: 6855e73145401fa48905ac9ed61c7d64, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -6.69
+      value: -9.379
       objectReference: {fileID: 0}
     - target: {fileID: 1434739175797604580, guid: 6855e73145401fa48905ac9ed61c7d64, type: 3}
       propertyPath: m_LocalRotation.w
-      value: 1
+      value: 0.9826319
       objectReference: {fileID: 0}
     - target: {fileID: 1434739175797604580, guid: 6855e73145401fa48905ac9ed61c7d64, type: 3}
       propertyPath: m_LocalRotation.x
@@ -1588,7 +1807,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1434739175797604580, guid: 6855e73145401fa48905ac9ed61c7d64, type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0
+      value: -0.1855658
       objectReference: {fileID: 0}
     - target: {fileID: 1434739175797604580, guid: 6855e73145401fa48905ac9ed61c7d64, type: 3}
       propertyPath: m_LocalRotation.z
@@ -1600,7 +1819,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1434739175797604580, guid: 6855e73145401fa48905ac9ed61c7d64, type: 3}
       propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
+      value: -21.388
       objectReference: {fileID: 0}
     - target: {fileID: 1434739175797604580, guid: 6855e73145401fa48905ac9ed61c7d64, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
@@ -1608,7 +1827,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1775235196169263710, guid: 6855e73145401fa48905ac9ed61c7d64, type: 3}
       propertyPath: m_Name
-      value: Takarabako
+      value: "Takarabako\u3000\u98DF\u5802\u306E\u30AB\u30AE"
       objectReference: {fileID: 0}
     - target: {fileID: 1775235196169263710, guid: 6855e73145401fa48905ac9ed61c7d64, type: 3}
       propertyPath: m_TagString
@@ -1653,12 +1872,12 @@ MonoBehaviour:
   diceController: {fileID: 0}
   playerSaikoro: {fileID: 0}
   diceCamera: {fileID: 0}
-  textCanvas: {fileID: 6225042335815123283}
-  textbox: {fileID: 3221546399891654965}
+  textCanvas: {fileID: 3219827339715583415}
+  textbox: {fileID: 4578750782636100586}
   OpenNumber: 4
   itemToGiveName: "\u98DF\u5802\u306E\u9375"
   boxAnimator: {fileID: 3478083723804202242}
-  messageText: {fileID: 1276048504242237694}
+  messageText: {fileID: 7165813128546357681}
   gameManager: {fileID: 0}
   curseSlider: {fileID: 0}
 --- !u!114 &4202420114198686107
@@ -1755,7 +1974,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1775235196169263710, guid: 6855e73145401fa48905ac9ed61c7d64, type: 3}
       propertyPath: m_Name
-      value: Takarabako
+      value: "Takarabako\u3000\u30DB\u30FC\u30EB"
       objectReference: {fileID: 0}
     - target: {fileID: 1775235196169263710, guid: 6855e73145401fa48905ac9ed61c7d64, type: 3}
       propertyPath: m_TagString
@@ -1800,12 +2019,12 @@ MonoBehaviour:
   diceController: {fileID: 0}
   playerSaikoro: {fileID: 0}
   diceCamera: {fileID: 0}
-  textCanvas: {fileID: 6225042335815123283}
-  textbox: {fileID: 3221546399891654965}
+  textCanvas: {fileID: 3219827339715583415}
+  textbox: {fileID: 4578750782636100586}
   OpenNumber: 4
   itemToGiveName: "\u4EBA\u5F62"
   boxAnimator: {fileID: 3926598045932254028}
-  messageText: {fileID: 1276048504242237694}
+  messageText: {fileID: 7165813128546357681}
   gameManager: {fileID: 0}
   curseSlider: {fileID: 0}
 --- !u!114 &2926938692864909772
@@ -1852,7 +2071,7 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 1434739175797604580, guid: 6855e73145401fa48905ac9ed61c7d64, type: 3}
   m_PrefabInstance: {fileID: 6721202976984740023}
   m_PrefabAsset: {fileID: 0}
---- !u!1001 &7576372693697917888
+--- !u!1001 &6888668751434763926
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
@@ -1860,148 +2079,149 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 2541616131654853557}
     m_Modifications:
-    - target: {fileID: 1434739175797604580, guid: 6855e73145401fa48905ac9ed61c7d64, type: 3}
+    - target: {fileID: 711736110357715783, guid: eb0efe86a65739745aaa1a9fc692b999, type: 3}
+      propertyPath: m_Name
+      value: MessageText (TMP)
+      objectReference: {fileID: 0}
+    - target: {fileID: 3810269601851073164, guid: eb0efe86a65739745aaa1a9fc692b999, type: 3}
+      propertyPath: m_text
+      value: "\u3042\u3042\u3042\u3042"
+      objectReference: {fileID: 0}
+    - target: {fileID: 3810269601851073164, guid: eb0efe86a65739745aaa1a9fc692b999, type: 3}
+      propertyPath: m_fontSize
+      value: 55
+      objectReference: {fileID: 0}
+    - target: {fileID: 3810269601851073164, guid: eb0efe86a65739745aaa1a9fc692b999, type: 3}
+      propertyPath: m_fontSizeBase
+      value: 55
+      objectReference: {fileID: 0}
+    - target: {fileID: 3810269601851073164, guid: eb0efe86a65739745aaa1a9fc692b999, type: 3}
+      propertyPath: m_VerticalAlignment
+      value: 512
+      objectReference: {fileID: 0}
+    - target: {fileID: 3810269601851073164, guid: eb0efe86a65739745aaa1a9fc692b999, type: 3}
+      propertyPath: m_HorizontalAlignment
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4456416956010106893, guid: eb0efe86a65739745aaa1a9fc692b999, type: 3}
+      propertyPath: m_Pivot.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4456416956010106893, guid: eb0efe86a65739745aaa1a9fc692b999, type: 3}
+      propertyPath: m_Pivot.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4456416956010106893, guid: eb0efe86a65739745aaa1a9fc692b999, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4456416956010106893, guid: eb0efe86a65739745aaa1a9fc692b999, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4456416956010106893, guid: eb0efe86a65739745aaa1a9fc692b999, type: 3}
+      propertyPath: m_AnchorMin.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4456416956010106893, guid: eb0efe86a65739745aaa1a9fc692b999, type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4456416956010106893, guid: eb0efe86a65739745aaa1a9fc692b999, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4456416956010106893, guid: eb0efe86a65739745aaa1a9fc692b999, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4456416956010106893, guid: eb0efe86a65739745aaa1a9fc692b999, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4456416956010106893, guid: eb0efe86a65739745aaa1a9fc692b999, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4456416956010106893, guid: eb0efe86a65739745aaa1a9fc692b999, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4456416956010106893, guid: eb0efe86a65739745aaa1a9fc692b999, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -2.070055
+      value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 1434739175797604580, guid: 6855e73145401fa48905ac9ed61c7d64, type: 3}
+    - target: {fileID: 4456416956010106893, guid: eb0efe86a65739745aaa1a9fc692b999, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.0149281025
+      value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 1434739175797604580, guid: 6855e73145401fa48905ac9ed61c7d64, type: 3}
+    - target: {fileID: 4456416956010106893, guid: eb0efe86a65739745aaa1a9fc692b999, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -5.3845034
+      value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 1434739175797604580, guid: 6855e73145401fa48905ac9ed61c7d64, type: 3}
+    - target: {fileID: 4456416956010106893, guid: eb0efe86a65739745aaa1a9fc692b999, type: 3}
       propertyPath: m_LocalRotation.w
-      value: 0.7071068
+      value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: 1434739175797604580, guid: 6855e73145401fa48905ac9ed61c7d64, type: 3}
+    - target: {fileID: 4456416956010106893, guid: eb0efe86a65739745aaa1a9fc692b999, type: 3}
       propertyPath: m_LocalRotation.x
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 1434739175797604580, guid: 6855e73145401fa48905ac9ed61c7d64, type: 3}
+    - target: {fileID: 4456416956010106893, guid: eb0efe86a65739745aaa1a9fc692b999, type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0.7071068
+      value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 1434739175797604580, guid: 6855e73145401fa48905ac9ed61c7d64, type: 3}
+    - target: {fileID: 4456416956010106893, guid: eb0efe86a65739745aaa1a9fc692b999, type: 3}
       propertyPath: m_LocalRotation.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 1434739175797604580, guid: 6855e73145401fa48905ac9ed61c7d64, type: 3}
+    - target: {fileID: 4456416956010106893, guid: eb0efe86a65739745aaa1a9fc692b999, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4456416956010106893, guid: eb0efe86a65739745aaa1a9fc692b999, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4456416956010106893, guid: eb0efe86a65739745aaa1a9fc692b999, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 1434739175797604580, guid: 6855e73145401fa48905ac9ed61c7d64, type: 3}
+    - target: {fileID: 4456416956010106893, guid: eb0efe86a65739745aaa1a9fc692b999, type: 3}
       propertyPath: m_LocalEulerAnglesHint.y
-      value: 90
+      value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 1434739175797604580, guid: 6855e73145401fa48905ac9ed61c7d64, type: 3}
+    - target: {fileID: 4456416956010106893, guid: eb0efe86a65739745aaa1a9fc692b999, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 1775235196169263710, guid: 6855e73145401fa48905ac9ed61c7d64, type: 3}
+    - target: {fileID: 8301937710223643425, guid: eb0efe86a65739745aaa1a9fc692b999, type: 3}
       propertyPath: m_Name
-      value: Takarabako
-      objectReference: {fileID: 0}
-    - target: {fileID: 1775235196169263710, guid: 6855e73145401fa48905ac9ed61c7d64, type: 3}
-      propertyPath: m_TagString
-      value: Strongbox
-      objectReference: {fileID: 0}
-    - target: {fileID: 5757587607236751178, guid: 6855e73145401fa48905ac9ed61c7d64, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0.3
+      value: Canvas (1)
       objectReference: {fileID: 0}
     m_RemovedComponents: []
-    m_RemovedGameObjects: []
-    m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 1775235196169263710, guid: 6855e73145401fa48905ac9ed61c7d64, type: 3}
+    m_RemovedGameObjects:
+    - {fileID: 711736110357715783, guid: eb0efe86a65739745aaa1a9fc692b999, type: 3}
+    m_AddedGameObjects:
+    - targetCorrespondingSourceObject: {fileID: 8988016053288003181, guid: eb0efe86a65739745aaa1a9fc692b999, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 3787939184964542285}
-    - targetCorrespondingSourceObject: {fileID: 1775235196169263710, guid: 6855e73145401fa48905ac9ed61c7d64, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 3759992562314026179}
-    - targetCorrespondingSourceObject: {fileID: 1775235196169263710, guid: 6855e73145401fa48905ac9ed61c7d64, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 6182371918572694786}
-  m_SourcePrefab: {fileID: 100100000, guid: 6855e73145401fa48905ac9ed61c7d64, type: 3}
---- !u!95 &152058832902991931 stripped
-Animator:
-  m_CorrespondingSourceObject: {fileID: 7726090504746681339, guid: 6855e73145401fa48905ac9ed61c7d64, type: 3}
-  m_PrefabInstance: {fileID: 7576372693697917888}
+      addedObject: {fileID: 4062835123833469446}
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: eb0efe86a65739745aaa1a9fc692b999, type: 3}
+--- !u!224 &2531778636577974523 stripped
+RectTransform:
+  m_CorrespondingSourceObject: {fileID: 8988016053288003181, guid: eb0efe86a65739745aaa1a9fc692b999, type: 3}
+  m_PrefabInstance: {fileID: 6888668751434763926}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &8180306946061363614 stripped
+--- !u!1 &3219827339715583415 stripped
 GameObject:
-  m_CorrespondingSourceObject: {fileID: 1775235196169263710, guid: 6855e73145401fa48905ac9ed61c7d64, type: 3}
-  m_PrefabInstance: {fileID: 7576372693697917888}
+  m_CorrespondingSourceObject: {fileID: 8301937710223643425, guid: eb0efe86a65739745aaa1a9fc692b999, type: 3}
+  m_PrefabInstance: {fileID: 6888668751434763926}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &3787939184964542285
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8180306946061363614}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f70cec43e6e8f9b48b69e6125b0f0c2b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  diceController: {fileID: 0}
-  playerSaikoro: {fileID: 0}
-  diceCamera: {fileID: 0}
-  textCanvas: {fileID: 6225042335815123283}
-  textbox: {fileID: 3221546399891654965}
-  OpenNumber: 4
-  itemToGiveName: "\u4EBA\u5F62"
-  boxAnimator: {fileID: 152058832902991931}
-  messageText: {fileID: 1276048504242237694}
-  gameManager: {fileID: 0}
-  curseSlider: {fileID: 0}
---- !u!114 &3759992562314026179
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8180306946061363614}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5fea29bb7c508c244a1f805a5fd3fc4d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  outlineMode: 0
-  outlineColor: {r: 1, g: 1, b: 1, a: 1}
-  outlineWidth: 2
-  precomputeOutline: 0
-  bakeKeys: []
-  bakeValues: []
---- !u!65 &6182371918572694786
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8180306946061363614}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Size: {x: 1.06, y: 0.61, z: 0.55}
-  m_Center: {x: 0, y: 0.31, z: 0}
---- !u!4 &8848897613912978212 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 1434739175797604580, guid: 6855e73145401fa48905ac9ed61c7d64, type: 3}
-  m_PrefabInstance: {fileID: 7576372693697917888}
+--- !u!224 &7079984237483974299 stripped
+RectTransform:
+  m_CorrespondingSourceObject: {fileID: 4456416956010106893, guid: eb0efe86a65739745aaa1a9fc692b999, type: 3}
+  m_PrefabInstance: {fileID: 6888668751434763926}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &7873861795746840695
 PrefabInstance:
@@ -2053,7 +2273,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1775235196169263710, guid: 6855e73145401fa48905ac9ed61c7d64, type: 3}
       propertyPath: m_Name
-      value: Takarabako
+      value: "Takarabako\u3000\u533B\u52D9\u5BA4"
       objectReference: {fileID: 0}
     - target: {fileID: 1775235196169263710, guid: 6855e73145401fa48905ac9ed61c7d64, type: 3}
       propertyPath: m_TagString
@@ -2123,12 +2343,12 @@ MonoBehaviour:
   diceController: {fileID: 0}
   playerSaikoro: {fileID: 0}
   diceCamera: {fileID: 0}
-  textCanvas: {fileID: 6225042335815123283}
-  textbox: {fileID: 3221546399891654965}
+  textCanvas: {fileID: 3219827339715583415}
+  textbox: {fileID: 4578750782636100586}
   OpenNumber: 4
   itemToGiveName: "\u4EBA\u5F62"
   boxAnimator: {fileID: 4870978348272588249}
-  messageText: {fileID: 1276048504242237694}
+  messageText: {fileID: 7165813128546357681}
   gameManager: {fileID: 0}
   curseSlider: {fileID: 0}
 --- !u!114 &1443544545889492358
@@ -2174,178 +2394,6 @@ BoxCollider:
 Transform:
   m_CorrespondingSourceObject: {fileID: 1434739175797604580, guid: 6855e73145401fa48905ac9ed61c7d64, type: 3}
   m_PrefabInstance: {fileID: 7873861795746840695}
-  m_PrefabAsset: {fileID: 0}
---- !u!1001 &8013398381600481438
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    serializedVersion: 3
-    m_TransformParent: {fileID: 2541616131654853557}
-    m_Modifications:
-    - target: {fileID: 1434739175797604580, guid: 6855e73145401fa48905ac9ed61c7d64, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: -2.070055
-      objectReference: {fileID: 0}
-    - target: {fileID: 1434739175797604580, guid: 6855e73145401fa48905ac9ed61c7d64, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0.0149281025
-      objectReference: {fileID: 0}
-    - target: {fileID: 1434739175797604580, guid: 6855e73145401fa48905ac9ed61c7d64, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: -4.331
-      objectReference: {fileID: 0}
-    - target: {fileID: 1434739175797604580, guid: 6855e73145401fa48905ac9ed61c7d64, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 0.7071068
-      objectReference: {fileID: 0}
-    - target: {fileID: 1434739175797604580, guid: 6855e73145401fa48905ac9ed61c7d64, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1434739175797604580, guid: 6855e73145401fa48905ac9ed61c7d64, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0.7071068
-      objectReference: {fileID: 0}
-    - target: {fileID: 1434739175797604580, guid: 6855e73145401fa48905ac9ed61c7d64, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1434739175797604580, guid: 6855e73145401fa48905ac9ed61c7d64, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1434739175797604580, guid: 6855e73145401fa48905ac9ed61c7d64, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 90
-      objectReference: {fileID: 0}
-    - target: {fileID: 1434739175797604580, guid: 6855e73145401fa48905ac9ed61c7d64, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1775235196169263710, guid: 6855e73145401fa48905ac9ed61c7d64, type: 3}
-      propertyPath: m_Name
-      value: Takarabako
-      objectReference: {fileID: 0}
-    - target: {fileID: 1775235196169263710, guid: 6855e73145401fa48905ac9ed61c7d64, type: 3}
-      propertyPath: m_TagString
-      value: Strongbox
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-    m_RemovedGameObjects: []
-    m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 1775235196169263710, guid: 6855e73145401fa48905ac9ed61c7d64, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 6800936277770201096}
-    - targetCorrespondingSourceObject: {fileID: 1775235196169263710, guid: 6855e73145401fa48905ac9ed61c7d64, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 3810901401365756161}
-    - targetCorrespondingSourceObject: {fileID: 1775235196169263710, guid: 6855e73145401fa48905ac9ed61c7d64, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 9150257346227258988}
-    - targetCorrespondingSourceObject: {fileID: 7562851743983658425, guid: 6855e73145401fa48905ac9ed61c7d64, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 4976934851323118665}
-  m_SourcePrefab: {fileID: 100100000, guid: 6855e73145401fa48905ac9ed61c7d64, type: 3}
---- !u!1 &558985975161308455 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 7562851743983658425, guid: 6855e73145401fa48905ac9ed61c7d64, type: 3}
-  m_PrefabInstance: {fileID: 8013398381600481438}
-  m_PrefabAsset: {fileID: 0}
---- !u!95 &4976934851323118665
-Animator:
-  serializedVersion: 7
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 558985975161308455}
-  m_Enabled: 1
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 43daf2e520be3c64ba199aea78c2dfa8, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_StabilizeFeet: 0
-  m_AnimatePhysics: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorStateOnDisable: 0
-  m_WriteDefaultValuesOnDisable: 0
---- !u!1 &8617541535129156288 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 1775235196169263710, guid: 6855e73145401fa48905ac9ed61c7d64, type: 3}
-  m_PrefabInstance: {fileID: 8013398381600481438}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &6800936277770201096
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8617541535129156288}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f70cec43e6e8f9b48b69e6125b0f0c2b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  diceController: {fileID: 0}
-  playerSaikoro: {fileID: 0}
-  diceCamera: {fileID: 0}
-  textCanvas: {fileID: 6225042335815123283}
-  textbox: {fileID: 3221546399891654965}
-  OpenNumber: 4
-  itemToGiveName: 
-  boxAnimator: {fileID: 4976934851323118665}
-  messageText: {fileID: 1276048504242237694}
-  gameManager: {fileID: 0}
-  curseSlider: {fileID: 0}
---- !u!114 &3810901401365756161
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8617541535129156288}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5fea29bb7c508c244a1f805a5fd3fc4d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  outlineMode: 0
-  outlineColor: {r: 1, g: 1, b: 1, a: 1}
-  outlineWidth: 2
-  precomputeOutline: 0
-  bakeKeys: []
-  bakeValues: []
---- !u!65 &9150257346227258988
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8617541535129156288}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Size: {x: 1.06, y: 0.61, z: 0.55}
-  m_Center: {x: 0, y: 0.31, z: 0}
---- !u!4 &8997199139783336058 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 1434739175797604580, guid: 6855e73145401fa48905ac9ed61c7d64, type: 3}
-  m_PrefabInstance: {fileID: 8013398381600481438}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &9033379382819468757
 PrefabInstance:
@@ -2397,7 +2445,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1775235196169263710, guid: 6855e73145401fa48905ac9ed61c7d64, type: 3}
       propertyPath: m_Name
-      value: Takarabako
+      value: "Takarabako\u3000\u5BDD\u5E8A\u306E\u30AB\u30AE"
       objectReference: {fileID: 0}
     - target: {fileID: 1775235196169263710, guid: 6855e73145401fa48905ac9ed61c7d64, type: 3}
       propertyPath: m_TagString
@@ -2442,12 +2490,12 @@ MonoBehaviour:
   diceController: {fileID: 0}
   playerSaikoro: {fileID: 0}
   diceCamera: {fileID: 0}
-  textCanvas: {fileID: 6225042335815123283}
-  textbox: {fileID: 3221546399891654965}
+  textCanvas: {fileID: 3219827339715583415}
+  textbox: {fileID: 4578750782636100586}
   OpenNumber: 4
   itemToGiveName: "\u5BDD\u5E8A\u306E\u9375"
   boxAnimator: {fileID: 1613859667786298926}
-  messageText: {fileID: 1276048504242237694}
+  messageText: {fileID: 7165813128546357681}
   gameManager: {fileID: 0}
   curseSlider: {fileID: 0}
 --- !u!114 &2717247729828056044

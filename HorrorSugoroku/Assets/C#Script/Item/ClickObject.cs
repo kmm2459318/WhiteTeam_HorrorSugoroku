@@ -34,6 +34,7 @@ public class ClickObject : MonoBehaviour
     public ElevatorIdou elevatorIdou;
     public bool LookElevatorDoor = false;
 
+    public Sprite InvisibleImg;
 
     [System.Serializable]
     public class ItemIconEntry
@@ -329,9 +330,13 @@ public class ClickObject : MonoBehaviour
         // 🎯アイコン画像の表示（SpriteをImageに割り当て）
         foreach (var entry in itemIcons)
         {
-            if (entry.itemName == itemName && entry.itemName != "何もない")
+            if (entry.itemName == itemName)
             {
                 uiIconImage.sprite = entry.icon;
+                if(uiIconImage.sprite == null)
+                {
+                    uiIconImage.sprite = InvisibleImg;
+                }
                 uiIconImage.gameObject.SetActive(true); // 表示ON
                 break;
             }
@@ -354,11 +359,13 @@ public class ClickObject : MonoBehaviour
         if (itemNameText != null)
         {
             itemNameText.gameObject.SetActive(false); // アイテム名テキストを非表示
+            uiIconImage.sprite = null;
         }
 
         if (uiIconImage != null)
         {
             uiIconImage.gameObject.SetActive(false); // アイコン画像を非表示
+            uiIconImage.sprite = null;
         }
 
 
