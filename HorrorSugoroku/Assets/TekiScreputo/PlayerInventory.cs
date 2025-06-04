@@ -33,34 +33,30 @@ public class PlayerInventory : MonoBehaviour
 
     public void AddItem(string itemName, string itemID)
     {
-        //// 🎲 抽選対象なら確率でスキップ
-        //if (itemAddProbabilities.TryGetValue(itemName, out float probability))
-        //{
-        //    float rand = Random.Range(0f, 1f);
-        //    if (rand > probability)
-        //    {
-        //        Debug.Log($"🚫 {itemName} は確率 {probability * 100}% による抽選失敗（出目：{rand:F2}）");
-        //        return;
-        //    }
-        //    else
-        //    {
-        //        Debug.Log($"🎯 {itemName} は抽選成功で追加！（出目：{rand:F2}）");
-        //    }
-        //}
-
         if (isAddingItem)
         {
             Debug.Log("現在アイテム追加中です。");
-            return;  // アイテム追加中は追加をスキップ
+            return;
         }
 
         if (isCooldown)
         {
             Debug.Log($"{itemName} はクールダウン中です。");
-            return;  // クールダウン中はアイテムを追加できない
+            return;
         }
 
-        isAddingItem = true;  // アイテム追加中フラグを立てる
+        isAddingItem = true;
+
+        // ★ keyName が一致する場合に count を +1
+        foreach (var key in keys)
+        {
+            if (key.keyName == itemName)
+            {
+                key.count += 1;
+                Debug.Log($"🔑 {itemName} の Key.count を増加：{key.count}");
+                break; // 同名キーは一つだけと仮定
+            }
+        }
 
         if (!items.ContainsKey(itemName))
         {
@@ -70,23 +66,17 @@ public class PlayerInventory : MonoBehaviour
 
         Debug.Log($"{itemName} をインベントリに追加しました。現在の所持数：{items[itemName].Count}");
 
-        // ▼▼ 回復薬を獲得した場合は即使用 ▼▼
         if (itemName == "回復薬" && curseSlider != null)
         {
-            // 自動で回復薬を使用
             UseItem("回復薬");
-
-            // 呪いゲージの回復（例：20回復）
             curseSlider.IncreaseDashPoint(20);
-
             Debug.Log("🧪 回復薬を使用し、呪いゲージを回復しました！");
         }
 
-        UpdateItemCountUI(itemName); // ← UI更新を呼ぶ！
-
-        // アイテム追加後にクールダウン開始
+        UpdateItemCountUI(itemName);
         StartCoroutine(CooldownCoroutine());
     }
+
 
     public bool UseItem(string itemName)
     {
@@ -97,11 +87,17 @@ public class PlayerInventory : MonoBehaviour
             items[itemName].RemoveAt(0);
             Debug.Log($"{itemName} を使用しました（ID: {removedID}）。残り：{items[itemName].Count}");
 
-            // リストが空になったらエントリを削除
-            if (items[itemName].Count == 0)
+            // 🔽 keyName が一致する Key の count を -1
+            foreach (var key in keys)
             {
-                items.Remove(itemName);
+                if (key.keyName == itemName)
+                {
+                    key.count = Mathf.Max(0, key.count - 1); // 負の数にならないように
+                    Debug.Log($"🔑 {itemName} の Key.count を減少：{key.count}");
+                    break;
+                }
             }
+
             return true;
         }
         else
@@ -110,6 +106,7 @@ public class PlayerInventory : MonoBehaviour
             return false;
         }
     }
+
 
     public void UpdateItemCountUI(string itemName)
     {

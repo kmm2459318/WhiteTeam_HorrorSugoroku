@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 7776942237698028930}
   - component: {fileID: 527918220979440125}
   - component: {fileID: 7373511485025438496}
+  - component: {fileID: 5755319902104226698}
   m_Layer: 0
   m_Name: ClickObjectController
   m_TagString: Untagged
@@ -60,6 +61,7 @@ MonoBehaviour:
   breakerController: {fileID: 0}
   elevatorIdou: {fileID: 0}
   LookElevatorDoor: 0
+  InvisibleImg: {fileID: 21300000, guid: d6a3ee2bc62e6744ebb4ffd0aa9e9ada, type: 3}
   itemNameText: {fileID: 0}
   itemIcons:
   - itemName: "\u8EAB\u4EE3\u308F\u308A\u4EBA\u5F62"
@@ -67,7 +69,7 @@ MonoBehaviour:
   - itemName: "\u56DE\u5FA9\u85AC"
     icon: {fileID: 21300000, guid: cc1d47cf07758074986de39fa1d4ad70, type: 3}
   - itemName: "\u4F55\u3082\u306A\u3044"
-    icon: {fileID: 0}
+    icon: {fileID: 21300000, guid: d6a3ee2bc62e6744ebb4ffd0aa9e9ada, type: 3}
   uiIconImage: {fileID: 0}
   itemCanvas: {fileID: 0}
 --- !u!114 &527918220979440125
@@ -87,6 +89,19 @@ MonoBehaviour:
   spawnParent: {fileID: 1356944519680403016}
   spawnPoints: []
 --- !u!114 &7373511485025438496
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 153200984708539672}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 083d14ae52319134d891d6f31107475c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  keyRandomizer: {fileID: 527918220979440125}
+--- !u!114 &5755319902104226698
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -425,6 +440,7 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
+  - {fileID: 0}
   cutInImage: {fileID: 0}
   cutInDuration: 2
   gameOverSound: {fileID: 8300000, guid: 108a7f61328664b43ab7d149efe490cb, type: 3}
@@ -576,13 +592,13 @@ MonoBehaviour:
   keys:
   - keyName: "\u4E00\u968E\u306E\u9375"
     keyID: 
-    count: 1
+    count: 0
   - keyName: "\u5730\u4E0B\u306E\u9375"
     keyID: 
-    count: 1
+    count: 0
   - keyName: "\u4E8C\u968E\u306E\u9375"
     keyID: 
-    count: 1
+    count: 0
   dollText: {fileID: 0}
   potionText: {fileID: 0}
   kill2Text: {fileID: 0}
