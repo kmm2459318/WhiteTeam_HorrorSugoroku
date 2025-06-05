@@ -19,13 +19,13 @@ public class BreakerController : MonoBehaviour
         BreakerOff(); // 初期状態はオフ
     }
 
-    private void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.B))
-        {
-            BreakerHantei();
-        }
-    }
+    //private void Update()
+    //{
+    //    if (Input.GetKeyDown(KeyCode.B))
+    //    {
+    //        BreakerHantei();
+    //    }
+    //}
 
     public void BreakerHantei()
     {
