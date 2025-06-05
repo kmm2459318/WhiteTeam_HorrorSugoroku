@@ -73,13 +73,13 @@ public class GameManager : MonoBehaviour
     private void Update()
     {
         //デバッグ用
-        if (Input.GetKeyDown(KeyCode.D))
-        {
-            if (Doll < 5)
-            {
-                Doll++;
-            }
-        }
+        //if (Input.GetKeyDown(KeyCode.D))
+        //{
+        //    if (Doll < 5)
+        //    {
+        //        Doll++;
+        //    }
+        //}
 
         if (optionCanvas != null)
         {
