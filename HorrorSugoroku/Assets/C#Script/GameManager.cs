@@ -223,9 +223,16 @@ public class GameManager : MonoBehaviour
             if (curseSlider.curse1_1Turn == 0)
             {
                 curseSlider.curse1_1 = false;
+            }
+            if (curseSlider.curse1_2Turn == 0)
+            {
                 curseSlider.curse1_2 = false;
+            }
+            if (curseSlider.curse1_3Turn == 0)
+            {
                 curseSlider.curse1_3 = false;
             }
+
 
             // サイコロを振る
             playerSaikoro.DiceRoll();
