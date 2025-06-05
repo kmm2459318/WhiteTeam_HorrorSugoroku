@@ -22,7 +22,9 @@ public class StorySceneController : MonoBehaviour
         "少し気味が悪かったが両親が買ってきてくれたものなので、\nいらないとは言えなかった。",
         "夜、両親が笑いながら部屋をのぞいてくるのが、\n気味悪かったが、気づいたら寝てしまっていた。",
         "",
-        "目が覚めるとそこは知らない屋敷の中だった。"
+        "目が覚めるとそこは知らない屋敷の中だった。",
+        "どこからともなく声が聞こえる\n「人形を集めろ」...だって？",
+        "よくわからないけど今はやるしかない。"
     };
 
     private void Start()
@@ -47,7 +49,7 @@ public class StorySceneController : MonoBehaviour
             yield return new WaitForSeconds(1f);
         }
 
-        yield return new WaitForSeconds(2f);
+        yield return new WaitForSeconds(0.5f);
         SceneManager.LoadScene(nextSceneName);
     }
 

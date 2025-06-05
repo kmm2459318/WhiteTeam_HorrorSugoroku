@@ -73,13 +73,13 @@ public class GameManager : MonoBehaviour
     private void Update()
     {
         //デバッグ用
-        if (Input.GetKeyDown(KeyCode.D))
-        {
-            if (Doll < 5)
-            {
-                Doll++;
-            }
-        }
+        //if (Input.GetKeyDown(KeyCode.D))
+        //{
+        //    if (Doll < 5)
+        //    {
+        //        Doll++;
+        //    }
+        //}
 
         if (optionCanvas != null)
         {
@@ -223,9 +223,16 @@ public class GameManager : MonoBehaviour
             if (curseSlider.curse1_1Turn == 0)
             {
                 curseSlider.curse1_1 = false;
+            }
+            if (curseSlider.curse1_2Turn == 0)
+            {
                 curseSlider.curse1_2 = false;
+            }
+            if (curseSlider.curse1_3Turn == 0)
+            {
                 curseSlider.curse1_3 = false;
             }
+
 
             // サイコロを振る
             playerSaikoro.DiceRoll();

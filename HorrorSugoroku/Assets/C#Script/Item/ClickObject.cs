@@ -94,7 +94,10 @@ public class ClickObject : MonoBehaviour
                             }
                             else if (hit.collider.CompareTag("Item"))
                             {
-                                ExecuteScriptC(hit.collider.gameObject);
+                                if (!curse.curse1_3)
+                                {
+                                    ExecuteScriptC(hit.collider.gameObject);
+                                }
                             }
                             else if (hit.collider.CompareTag("Strongbox"))
                             {
