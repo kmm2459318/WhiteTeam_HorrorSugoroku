@@ -64,7 +64,7 @@ public class StrongboxController : MonoBehaviour
                         string uniqueID = itemToGiveName + "_" + Time.time;
                         playerInventory.AddItem(itemToGiveName, uniqueID);
                         Debug.Log($"祝福箱から「{itemToGiveName}」を入手しました！");
-                        messageText.text = $"祝福箱から「{itemToGiveName}」を入手しました！";
+                        messageText.text = $"宝箱から「{itemToGiveName}」を入手した";
                         StartCoroutine(HideTextCanvasAfterDelay());
                         textCanvas.SetActive(true);
 
@@ -80,7 +80,7 @@ public class StrongboxController : MonoBehaviour
                 else
                 {
                     Debug.Log("残念無念、また来世ー！");
-                    messageText.text = "残念無念、また来世ー！";
+                    messageText.text = "開錠失敗、呪いが増えた";
                     StartCoroutine(HideTextCanvasAfterDelay());
                     textCanvas.SetActive(true);
 
